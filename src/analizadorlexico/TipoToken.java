@@ -4,6 +4,7 @@ public class TipoToken {
 
     public static final int IDENTIFICADOR = 0;
     public static final int CTE_ENTERO_SINSIGNO = 0;
+    public static final int CTE_FLOAT = 0;
     public static final int IF = 0;
     public static final int ELSE = 0;
     public static final int ENDIF = 0;

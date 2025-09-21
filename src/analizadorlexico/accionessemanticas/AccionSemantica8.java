@@ -1,11 +1,68 @@
 package analizadorlexico.accionessemanticas;
 
+import analizadorlexico.AtributosToken;
+import analizadorlexico.TipoToken;
 import analizadorlexico.Token;
 
-public class AccionSemantica8 extends AccionSemantica{
+public class AccionSemantica8 extends AccionSemantica {
     @Override
     public void ejecutar(Token token, char c) {
+        AnalizadorLexico.indice_caracter_leer--;
 
+        AtributosToken atributosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
+        if (atributosToken != null) {
+            token.setId(atributosToken.getToken());
+            atributosToken.incrementarCantidad();
+        } else {
+            try {
+                int posicion_F = token.getLexema().indexOf('F');
+                Double numero_punto_flotante = null;
+
+                if (posicion_F != -1) {
+                    // Con exponente
+                    String base = token.getLexema().substring(0, posicion_F);
+                    String exponente_str = token.getLexema().substring(posicion_F + 1);
+
+                    numero_punto_flotante = Double.parseDouble(base);
+                    Double exponente = Double.parseDouble(exponente_str);
+
+                    // La fórmula correcta es: base * 10^exponente
+                    numero_punto_flotante = numero_punto_flotante * Math.pow(10, exponente);
+                } else {
+                    // Sin exponente
+                    numero_punto_flotante = Double.parseDouble(token.getLexema());
+                }
+
+                Boolean numero_valido = true;
+                Double abs_numero = Math.abs(numero_punto_flotante);
+
+                // Verificar rangos para float de 32 bits
+                if (numero_punto_flotante != 0.0) {
+                    if (!(abs_numero > 1.17549435E-38F && abs_numero < 3.40282347E+38F)) {
+                        AnalizadorLexico.errores_y_warnings.add("Linea " + AnalizadorLexico.numero_linea +
+                                " / Posicion " + (AnalizadorLexico.indice_caracter_leer - token.getLexema().length()) +
+                                " - ERROR: Constante de punto flotante fuera de rango");
+                        numero_valido = false;
+                    }
+                }
+
+                if (numero_valido) {
+                    atributosToken = new AtributosToken(1, TipoToken.CTE_FLOAT);
+                    atributosToken.setUso(TiposDeUso.constantFloat);
+                    atributosToken.setValor(numero_punto_flotante); // Usar el valor ya calculado
+                    atributosToken.setNombre_var("cte_" + AnalizadorLexico.cant_constantes);
+                    AnalizadorLexico.cant_constantes++;
+                    AnalizadorLexico.tablaSimbolos.put(token.getLexema(), atributosToken);
+                    token.setId(atributosToken.getToken());
+                }
+
+            } catch (NumberFormatException e) {
+                // Si el formato del número no es válido
+                AnalizadorLexico.errores_y_warnings.add("Linea " + AnalizadorLexico.numero_linea +
+                        " / Posicion " + (AnalizadorLexico.indice_caracter_leer - token.getLexema().length()) +
+                        " - ERROR: Formato inválido para constante de punto flotante");
+            }
+        }
     }
 
     @Override

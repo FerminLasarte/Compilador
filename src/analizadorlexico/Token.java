@@ -25,10 +25,8 @@ public class Token {
         this.lexema = lexema;
     }
 
-    /*
     @Override
     public String toString() {
     return lexema + '[' + id + ']';
     }
-    */
 }
