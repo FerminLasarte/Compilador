@@ -1,5 +1,5 @@
 package analizadorlexico.accionessemanticas;
-import analizadorlexico.AtributosToken;
+import analizadorlexico.ParametrosToken;
 import analizadorlexico.TipoToken;
 import analizadorlexico.Token;
 import analizadorlexico.AnalizadorLexico;
@@ -9,10 +9,10 @@ public class AccionSemantica4 extends AccionSemantica {
     public void ejecutar(Token token, char c) {
         AnalizadorLexico.indice_caracter_leer--;
 
-        AtributosToken atributosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
-        if (atributosToken != null) { //Esta en la TS
-            token.setId(atributosToken.getToken());
-            atributosToken.incrementarCantidad();
+        ParametrosToken parametrosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
+        if (parametrosToken != null) { //Esta en la TS
+            token.setId(parametrosToken.getToken());
+            parametrosToken.incrementarCantidadTokens();
         } else {
             try {
                 int numero_entero = Integer.parseInt(token.getLexema());
@@ -23,15 +23,15 @@ public class AccionSemantica4 extends AccionSemantica {
                             " / Posicion " + (AnalizadorLexico.indice_caracter_leer - token.getLexema().length()) +
                             " - ERROR: Constante entera sin signo fuera de rango (0 a 65535)");
                 } else { //Se agrega a la TS
-                    atributosToken = new AtributosToken(1, TipoToken.CTE_ENTERO_SINSIGNO);
+                    parametrosToken = new ParametrosToken(1, TipoToken.CTE_ENTERO_SINSIGNO);
                     /*
                     atributosToken.setUso(TiposDeUso.constantUint);
                     atributosToken.setValor((double) numero_entero);
                     atributosToken.setNombre_var("cte_" + AnalizadorLexico.cant_constantes);
                     */
                     AnalizadorLexico.cant_constantes++;
-                    AnalizadorLexico.tablaSimbolos.put(token.getLexema(), atributosToken);
-                    token.setId(atributosToken.getToken());
+                    AnalizadorLexico.tablaSimbolos.put(token.getLexema(), parametrosToken);
+                    token.setId(parametrosToken.getToken());
                 }
             } catch (NumberFormatException e) {
                 // Si el número es demasiado grande para int, definitivamente está fuera del rango uint16

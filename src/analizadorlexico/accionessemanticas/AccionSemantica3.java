@@ -1,6 +1,6 @@
 package analizadorlexico.accionessemanticas;
 import analizadorlexico.AnalizadorLexico;
-import analizadorlexico.AtributosToken;
+import analizadorlexico.ParametrosToken;
 import analizadorlexico.TipoToken;
 import analizadorlexico.Token;
 
@@ -9,12 +9,12 @@ public class AccionSemantica3 extends AccionSemantica{
     public void ejecutar(Token token, char c) {
         AnalizadorLexico.indice_caracter_leer--;
 
-        AtributosToken atributosToken;
+        ParametrosToken parametrosToken;
         if(TipoToken.esReservada(token.getLexema())) {
             //Si es palabra reservada (sólo minuscula) aumenta uno la cantidad
-            atributosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
-            atributosToken.incrementarCantidad();
-            token.setId(atributosToken.getToken());
+            parametrosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
+            parametrosToken.incrementarCantidadTokens();
+            token.setId(parametrosToken.getToken());
         } else { //Es identificador
             if (token.getLexema().length() > 20) { //Se recorta si excede los 20 caracteres
                 String identificador_cortado = token.getLexema().substring(0, 20);
@@ -23,15 +23,15 @@ public class AccionSemantica3 extends AccionSemantica{
                         " - WARNING: identificador muy largo, se considera solo: " + identificador_cortado);
                 token.setLexema(identificador_cortado);
             }
-            atributosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
-            if (atributosToken != null) { //Esta en la TS
-                token.setId(atributosToken.getToken());
-                atributosToken.incrementarCantidad();
+            parametrosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
+            if (parametrosToken != null) { //Esta en la TS
+                token.setId(parametrosToken.getToken());
+                parametrosToken.incrementarCantidadTokens();
             } else {
-                atributosToken = new AtributosToken(1, TipoToken.IDENTIFICADOR);
-                AnalizadorLexico.tablaSimbolos.put(token.getLexema(), atributosToken);
+                parametrosToken = new ParametrosToken(1, TipoToken.IDENTIFICADOR);
+                AnalizadorLexico.tablaSimbolos.put(token.getLexema(), parametrosToken);
             }
-            token.setId(atributosToken.getToken());
+            token.setId(parametrosToken.getToken());
         }
 
     }

@@ -1,20 +1,21 @@
 package analizadorlexico.accionessemanticas;
 
-import analizadorlexico.AtributosToken;
+import analizadorlexico.ParametrosToken;
 import analizadorlexico.Token;
+import analizadorlexico.TipoToken;
 
 public class AccionSemantica9 extends AccionSemantica {
     @Override
     public void ejecutar(Token token, char c) {
-        AtributosToken atributosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
-        if (atributosToken != null) {
-            atributosToken.incrementarCantidad();
-            token.setId(atributosToken.getCantidad());
+        ParametrosToken parametrosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
+        if (parametrosToken != null) {
+            parametrosToken.incrementarCantidadTokens();
+            token.setId(parametrosToken.getCantidadTokens());
         } else {
-            atributosToken = new AtributosToken(1, TipoToken.CADENAS);
-            atributosToken.setUso(TiposDeUso.cadena);
-            token.setId(atributosToken.getToken());
-            AnalizadorLexico.tablaSimbolos.put(token.getLexema(), atributosToken);
+            parametrosToken = new ParametrosToken(1, TipoToken.CADENA_MULTILINEA);
+            parametrosToken.setUso(TiposDeUso.cadena);
+            token.setId(parametrosToken.getToken());
+            AnalizadorLexico.tablaSimbolos.put(token.getLexema(), parametrosToken);
         }
     }
 

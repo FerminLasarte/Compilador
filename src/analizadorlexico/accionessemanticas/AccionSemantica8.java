@@ -1,6 +1,6 @@
 package analizadorlexico.accionessemanticas;
 
-import analizadorlexico.AtributosToken;
+import analizadorlexico.ParametrosToken;
 import analizadorlexico.TipoToken;
 import analizadorlexico.Token;
 
@@ -9,10 +9,10 @@ public class AccionSemantica8 extends AccionSemantica {
     public void ejecutar(Token token, char c) {
         AnalizadorLexico.indice_caracter_leer--;
 
-        AtributosToken atributosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
-        if (atributosToken != null) {
-            token.setId(atributosToken.getToken());
-            atributosToken.incrementarCantidad();
+        ParametrosToken parametrosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
+        if (parametrosToken != null) {
+            token.setId(parametrosToken.getToken());
+            parametrosToken.incrementarCantidadTokens();
         } else {
             try {
                 int posicion_F = token.getLexema().indexOf('F');
@@ -47,13 +47,13 @@ public class AccionSemantica8 extends AccionSemantica {
                 }
 
                 if (numero_valido) {
-                    atributosToken = new AtributosToken(1, TipoToken.CTE_FLOAT);
-                    atributosToken.setUso(TiposDeUso.constantFloat);
-                    atributosToken.setValor(numero_punto_flotante); // Usar el valor ya calculado
-                    atributosToken.setNombre_var("cte_" + AnalizadorLexico.cant_constantes);
+                    parametrosToken = new ParametrosToken(1, TipoToken.CTE_FLOAT);
+                    parametrosToken.setUso(TiposDeUso.constantFloat);
+                    parametrosToken.setValor(numero_punto_flotante); // Usar el valor ya calculado
+                    parametrosToken.setNombre_var("cte_" + AnalizadorLexico.cant_constantes);
                     AnalizadorLexico.cant_constantes++;
-                    AnalizadorLexico.tablaSimbolos.put(token.getLexema(), atributosToken);
-                    token.setId(atributosToken.getToken());
+                    AnalizadorLexico.tablaSimbolos.put(token.getLexema(), parametrosToken);
+                    token.setId(parametrosToken.getToken());
                 }
 
             } catch (NumberFormatException e) {
