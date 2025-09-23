@@ -3,6 +3,7 @@ package analizadorlexico.accionessemanticas;
 import analizadorlexico.ParametrosToken;
 import analizadorlexico.Token;
 import analizadorlexico.TipoToken;
+import analizadorlexico.AnalizadorLexico;
 
 public class AccionSemantica9 extends AccionSemantica {
     @Override

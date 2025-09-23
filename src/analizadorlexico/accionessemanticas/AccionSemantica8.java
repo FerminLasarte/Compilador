@@ -3,11 +3,12 @@ package analizadorlexico.accionessemanticas;
 import analizadorlexico.ParametrosToken;
 import analizadorlexico.TipoToken;
 import analizadorlexico.Token;
+import analizadorlexico.AnalizadorLexico;
 
 public class AccionSemantica8 extends AccionSemantica {
     @Override
     public void ejecutar(Token token, char c) {
-        AnalizadorLexico.indice_caracter_leer--;
+        AnalizadorLexico.indiceCaracter--;
 
         ParametrosToken parametrosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
         if (parametrosToken != null) {
@@ -39,8 +40,8 @@ public class AccionSemantica8 extends AccionSemantica {
                 // Verificar rangos para float de 32 bits
                 if (numero_punto_flotante != 0.0) {
                     if (!(abs_numero > 1.17549435E-38F && abs_numero < 3.40282347E+38F)) {
-                        AnalizadorLexico.errores_y_warnings.add("Linea " + AnalizadorLexico.numero_linea +
-                                " / Posicion " + (AnalizadorLexico.indice_caracter_leer - token.getLexema().length()) +
+                        AnalizadorLexico.erroresWarnings.add("Linea " + AnalizadorLexico.nroLinea +
+                                " / Posicion " + (AnalizadorLexico.indiceCaracter - token.getLexema().length()) +
                                 " - ERROR: Constante de punto flotante fuera de rango");
                         numero_valido = false;
                     }
@@ -50,16 +51,16 @@ public class AccionSemantica8 extends AccionSemantica {
                     parametrosToken = new ParametrosToken(1, TipoToken.CTE_FLOAT);
                     parametrosToken.setUso(TiposDeUso.constantFloat);
                     parametrosToken.setValor(numero_punto_flotante); // Usar el valor ya calculado
-                    parametrosToken.setNombre_var("cte_" + AnalizadorLexico.cant_constantes);
-                    AnalizadorLexico.cant_constantes++;
+                    parametrosToken.setNombre_var("cte_" + AnalizadorLexico.cantidadConstantes);
+                    AnalizadorLexico.cantidadConstantes++;
                     AnalizadorLexico.tablaSimbolos.put(token.getLexema(), parametrosToken);
                     token.setId(parametrosToken.getToken());
                 }
 
             } catch (NumberFormatException e) {
                 // Si el formato del número no es válido
-                AnalizadorLexico.errores_y_warnings.add("Linea " + AnalizadorLexico.numero_linea +
-                        " / Posicion " + (AnalizadorLexico.indice_caracter_leer - token.getLexema().length()) +
+                AnalizadorLexico.erroresWarnings.add("Linea " + AnalizadorLexico.nroLinea +
+                        " / Posicion " + (AnalizadorLexico.indiceCaracter - token.getLexema().length()) +
                         " - ERROR: Formato inválido para constante de punto flotante");
             }
         }

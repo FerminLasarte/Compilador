@@ -1,7 +1,6 @@
 package analizadorlexico;
-
-import analizadorlexico.accionessemanticas.AccionSemantica;
-
+import analizadorlexico.accionessemanticas.*;
+import analizadorlexico.conjuntosimbolos.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,18 +10,38 @@ import java.util.HashMap;
 
 public class AnalizadorLexico {
 
+    //variables semi-estaticas
+    private int contadorFila;
+    private int contadorColumna;
+    private int ultimoEstado;
+    private File archivo;
+    private String lexema; //es un string mutable
+
+    //variables dinamicas
+    private ArrayList<String> lineasArchivo;
+    private ArrayList<String> errores;
+    private ArrayList<String> warnings;
+    private HashMap<String, HashMap<String, Object>> tablaSimbolos; //son dos hash map porque el primero tendra como clave el lexema y luego el segundo tendra como clave el atributo
+    private HashMap<String, Integer> codigosTokens; //almacena los numero de token que se le asigna a cada lexema
     private int[][] matrizTransicionEstados;
     private AccionSemantica[][] matrizAccionSemantica;
-    private TablaSimbolos tablaSimbolos;
+    private HashMap<Character, Integer> columnaMatrices; //el caracter que se asocia a cada columna de las matrices
+
+    private int[][] matrizTransicionEstados;
+    private AccionSemantica[][] matrizAccionSemantica;
+    public static HashMap<String, ParametrosToken> tablaSimbolos = new HashMap<>();
     private BufferedReader bufferedReader;
     private String linea;
     private static AnalizadorLexico instance = null;
-    private static int nroLinea = 1;
-    private static int indiceCaracter;
-    private static int estadoActual;
-    private static ArrayList<String> erroresWarnings = new ArrayList<>();
     private String claveTablaSimbolos = null;
-    private int cantidadConstantes = 1;
+
+    public static int nroLinea = 1;
+    public static int indiceCaracter;
+    public static int estadoActual;
+    public static int cantidadConstantes = 1;
+    public static ArrayList<String> errores = new ArrayList<>();
+    public static ArrayList<String> warnings = new ArrayList<>();
+    private ArrayList<ConjuntoSimbolos> columnasMatrizTransicionEstados = new ArrayList<>();
 
     private AnalizadorLexico(String archivo) {
         matrizTransicionEstados = new int[14][17];
@@ -32,12 +51,21 @@ public class AnalizadorLexico {
             linea = bufferedReader.readLine();
             if (linea != null) {
                 cargaDeMatrices();
+                linea = linea + "\n";
+                nroLinea = 1;
+                cargarColumnaMatrizTransicionEstados();
+                cargaDeMatrices();
+                cargaDeTablaSimbolos();
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void getSiguienteToker() {
+
     }
 
     public static AnalizadorLexico getInstance(String archivo) {
@@ -48,8 +76,8 @@ public class AnalizadorLexico {
 
     // carga de matrices
     public void cargaDeMatrices() throws IOException {
-        cargarMatrizAccionSemantica(); // nombre archivo accion semantica
-        cargarMatrizTransicionEstados(); // nombre archivo transicion de estado
+        cargarMatrizAccionSemantica(""); // nombre archivo accion semantica
+        cargarMatrizTransicionEstados(""); // nombre archivo transicion de estado
     }
 
     // Metodo que convierte un identificador de acción semántica en una instancia de la clase correspondiente
@@ -90,7 +118,7 @@ public class AnalizadorLexico {
             while ((linea = br.readLine()) != null && fila < 14) {
                 String[] acciones = linea.split(" "); // agarramos toda la linea separada por espacios y guarda cada valor en una celda del arreglo
                 for (int columna = 0; columna < acciones.length && columna < 17; columna++) { // analizamos toda la fila y  cuando termina suma fila y volvemos al linea.split
-                    matriz_acciones_semanticas[fila][columna] = obtenerAccionSemantica(acciones[columna]);
+                    matrizAccionSemantica[fila][columna] = obtenerAccionSemantica(acciones[columna]);
                 }
                 fila++;
             }
@@ -106,7 +134,7 @@ public class AnalizadorLexico {
             while ((linea = br.readLine()) != null && fila < 14) {
                 String[] estados = linea.split(" "); // agarramos toda la linea separada por espacios y guarda cada valor en una celda del arreglo
                 for (int columna = 0; columna < estados.length && columna < 17; columna++) { // analizamos toda la fila y  cuando termina suma fila y volvemos al linea.split
-                    matriz_acciones_semanticas[fila][columna] = Integer.parseInt(estados[columna]);
+                    matrizTransicionEstados[fila][columna] = Integer.parseInt(estados[columna]);
                 }
                 fila++;
             }
@@ -115,9 +143,23 @@ public class AnalizadorLexico {
         }
     }
 
-    public TablaSimbolos getTablaSimbolos() {
-        return tablaSimbolos;
+    private void cargarColumnaMatrizTransicionEstados() {
+        columnasMatrizTransicionEstados.add(new ConjuntoMas());
+        columnasMatrizTransicionEstados.add(new ConjuntoMenos());
+        columnasMatrizTransicionEstados.add(new ConjuntoMayor());
+        columnasMatrizTransicionEstados.add(new ConjuntoDosPuntos());
+        columnasMatrizTransicionEstados.add(new ConjuntoMayorMenor());
+        columnasMatrizTransicionEstados.add(new ConjuntoIgual());
+        columnasMatrizTransicionEstados.add(new ConjuntoLetrasSinF());
+        columnasMatrizTransicionEstados.add(new ConjuntoLetraF());
+        columnasMatrizTransicionEstados.add(new ConjuntoAmpersand());
+        columnasMatrizTransicionEstados.add(new ConjuntoDigito());
+        columnasMatrizTransicionEstados.add(new ConjuntoPunto());
+        columnasMatrizTransicionEstados.add(new ConjuntoArroba());
+        columnasMatrizTransicionEstados.add(new ConjuntoExclamacion());
+        columnasMatrizTransicionEstados.add(new ConjuntoPorcentaje());
+        columnasMatrizTransicionEstados.add(new ConjuntoSaltoLinea());
+        columnasMatrizTransicionEstados.add(new ConjuntoBlancoTAB());
+        columnasMatrizTransicionEstados.add(new ConjuntoSignos());
     }
-
-
 }

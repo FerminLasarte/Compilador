@@ -7,7 +7,7 @@ import analizadorlexico.Token;
 public class AccionSemantica3 extends AccionSemantica{
     @Override
     public void ejecutar(Token token, char c) {
-        AnalizadorLexico.indice_caracter_leer--;
+        AnalizadorLexico.indiceCaracter--;
 
         ParametrosToken parametrosToken;
         if(TipoToken.esReservada(token.getLexema())) {
@@ -18,8 +18,8 @@ public class AccionSemantica3 extends AccionSemantica{
         } else { //Es identificador
             if (token.getLexema().length() > 20) { //Se recorta si excede los 20 caracteres
                 String identificador_cortado = token.getLexema().substring(0, 20);
-                AnalizadorLexico.errores_y_warnings.add("Linea " + AnalizadorLexico.numero_linea +
-                        " / Posicion " + (AnalizadorLexico.indice_caracter_leer - token.getLexema().length()) +
+                AnalizadorLexico.erroresWarnings.add("Linea " + AnalizadorLexico.nroLinea +
+                        " / Posicion " + (AnalizadorLexico.indiceCaracter - token.getLexema().length()) +
                         " - WARNING: identificador muy largo, se considera solo: " + identificador_cortado);
                 token.setLexema(identificador_cortado);
             }

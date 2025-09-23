@@ -2,11 +2,12 @@ package analizadorlexico.accionessemanticas;
 
 import analizadorlexico.ParametrosToken;
 import analizadorlexico.Token;
+import analizadorlexico.AnalizadorLexico;
 
 public class AccionSemantica5 extends AccionSemantica {
     @Override
     public void ejecutar(Token token, char c) {
-        AnalizadorLexico.indice_caracter_leer--;
+        AnalizadorLexico.indiceCaracter--;
         ParametrosToken parametrosToken = AnalizadorLexico.tablaSimbolos.get(token.getLexema());
         token.setId(parametrosToken.getToken());
     }
