@@ -50,18 +50,19 @@ public abstract class AccionSemantica{
     }
     public static class AccionSemantica4 extends AccionSemantica{ //hay que correguir
         public String aplicarAS(AnalizadorLexico al, char c) {
-            al.disminuirContador();
-            BigDecimal bd = new BigDecimal(al.getLexema().toString());
+            String uintConUI = al.getLexema().toString();
+            String soloEnteros = uintConUI.substring(0, uintConUI.length() - 2); // elimina los últimos 2 (UI)
+            BigDecimal bd = new BigDecimal(soloEnteros);
             BigDecimal limiteSuperior = new BigDecimal("65535"); //luego debo chequear que si es positivo debe ser un valor menos, es decir, se puede hasta 32767 positivo
-            if(bd.compareTo(limiteSuperior) <= 0 || bd.compareTo(0) <= 0{
+            if(bd.compareTo(limiteSuperior) <= 0 || bd.compareTo(BigDecimal.ZERO) <= 0){
                 if(al.getTablaSimbolos().containsKey(al.getLexema())){
-                    al.getTablaSimbolos().get(bd.toString()).put("Contador", (int) al.getTablaSimbolos().get(bd.toString()).get("Contador") + 1);
+                    al.getTablaSimbolos().get(uintConUI).put("Contador", (int) al.getTablaSimbolos().get(uintConUI).get("Contador") + 1);
                     return "CTE";
                 }
                 al.agregarLexemaTS(al.getLexema());
-                al.agregarAtributoLexema(bd.toString(), "Tipo", "Integer");
-                al.agregarAtributoLexema(bd.toString(), "Contador", 1);
-                al.agregarAtributoLexema(bd.toString(), "Uso", "Constante");
+                al.agregarAtributoLexema(uintConUI, "Tipo", "uint");
+                al.agregarAtributoLexema(uintConUI, "Contador", 1);
+                al.agregarAtributoLexema(uintConUI, "Uso", "Constante");
                 return "CTE";
             }
             al.agregarError(" Constante entera sin signo fuera de rango (0 a 65535)");
@@ -76,28 +77,25 @@ public abstract class AccionSemantica{
         }
     }
     public static class AccionSemantica6 extends AccionSemantica {
-        public String aplicarAS(AnalizadorLexico al, char c) {n
-            al.disminuirContador();// Retrocede un carácter para no consumir el que disparó la transició
+        public String aplicarAS(AnalizadorLexico al, char c) {
+            al.disminuirContador();// Retrocede un carácter para no consumir el que disparó la transición
             String valor = al.getLexema().replace('F', 'E');// Reemplazo de 'F' por 'E' (Java/BigDecimal usa notación 'E' para exponentes)
             try {
                 BigDecimal bd = new BigDecimal(valor);
                 // Límites positivos y negativos para Single (32 bits)
                 BigDecimal limiteInferiorPositivo = new BigDecimal("1.17549435E-38");
                 BigDecimal limiteSuperiorPositivo = new BigDecimal("3.40282347E+38");
-                BigDecimal limiteInferiorNegativo = new BigDecimal("-3.40282347E+38");//PUEDE QUE NO SEA NECESARIO
-                BigDecimal limiteSuperiorNegativo = new BigDecimal("-1.17549435E-38");
                 // Verificación de rango: positivo, negativo o cero
                 boolean enRangoPositivo = bd.compareTo(limiteInferiorPositivo) >= 0 && bd.compareTo(limiteSuperiorPositivo) <= 0;
-                boolean enRangoNegativo = bd.compareTo(limiteInferiorNegativo) >= 0 && bd.compareTo(limiteSuperiorNegativo) <= 0;
                 boolean esCero = bd.compareTo(BigDecimal.ZERO) == 0;
-                if (enRangoPositivo || enRangoNegativo || esCero) {// Si ya existe en la tabla, incrementar contador
+                if (enRangoPositivo || esCero) {// Si ya existe en la tabla, incrementar contador
                     if (al.getTablaSimbolos().containsKey(al.getLexema())) {
                         al.getTablaSimbolos().get(al.getLexema()).put("Contador", (int) al.getTablaSimbolos().get(al.getLexema()).get("Contador") + 1);
                         return "CTE";
                     }
                     // Si no existe, agregarlo con sus atributos
                     al.agregarLexemaTS(al.getLexema());
-                    al.agregarAtributoLexema(al.getLexema(), "Tipo", "Single");
+                    al.agregarAtributoLexema(al.getLexema(), "Tipo", "float");
                     al.agregarAtributoLexema(al.getLexema(), "Contador", 1);
                     al.agregarAtributoLexema(al.getLexema(), "Uso", "Constante");
                     return "CTE";

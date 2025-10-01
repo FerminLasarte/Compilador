@@ -1,7 +1,5 @@
 package analizadorlexico.accionessemanticas;
 
-import analizadorlexico.Token;
-
 public class AccionSemantica2 extends AccionSemantica{
 
     @Override

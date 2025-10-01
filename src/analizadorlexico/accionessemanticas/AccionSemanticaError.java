@@ -1,5 +1,4 @@
 package analizadorlexico.accionessemanticas;
-import analizadorlexico.Token;
 import analizadorlexico.AnalizadorLexico;
 
 public class AccionSemanticaError extends AccionSemantica {

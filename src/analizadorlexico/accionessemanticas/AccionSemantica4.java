@@ -1,7 +1,4 @@
 package analizadorlexico.accionessemanticas;
-import analizadorlexico.ParametrosToken;
-import analizadorlexico.TipoToken;
-import analizadorlexico.Token;
 import analizadorlexico.AnalizadorLexico;
 
 public class AccionSemantica4 extends AccionSemantica {
