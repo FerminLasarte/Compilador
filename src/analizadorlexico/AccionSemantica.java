@@ -48,6 +48,7 @@ public abstract class AccionSemantica{
             }
         }
     }
+
     public static class AccionSemantica4 extends AccionSemantica{ //hay que correguir
         public String aplicarAS(AnalizadorLexico al, char c) {
             String uintConUI = al.getLexema().toString();
@@ -76,6 +77,7 @@ public abstract class AccionSemantica{
             return null;
         }
     }
+
     public static class AccionSemantica6 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.disminuirContador();// Retrocede un carácter para no consumir el que disparó la transición
@@ -111,7 +113,7 @@ public abstract class AccionSemantica{
         }
     }
 
-        public static class AccionSemantica7 extends AccionSemantica {
+    public static class AccionSemantica7 extends AccionSemantica {
             public String aplicarAS(AnalizadorLexico al, char c) {
                 al.agregarCaracterLexema(c);
                 if (al.getTablaSimbolos().containsKey(al.getLexema())) {
@@ -121,7 +123,7 @@ public abstract class AccionSemantica{
                 al.agregarAtributoLexema(al.getLexema(), "Uso", "CadenaMultilinea");
                 return "CADENA_MULTILINEA";
             }
-        }
+    }
 
         public static class AccionSemanticaError extends AccionSemantica {
             public String aplicarAS(AnalizadorLexico al, char c) {
