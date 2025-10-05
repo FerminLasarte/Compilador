@@ -1,16 +1,20 @@
+import analizadorlexico.AnalizadorLexico;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-        System.out.printf("prueba de git!");
-
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        AnalizadorLexico al = new AnalizadorLexico("/Users/ferminlasarte/Documents/GitHub/Compilador/pruebas/TP1/caso_1.txt");
+        int tokenFinPrograma = 0;
+        int token = -1;
+        while(token != tokenFinPrograma){
+            token = al.yylex();
+        }
+        System.out.println("\n");
+        if(al.getErrores() != null) {
+            for(String s : al.getErrores()){
+                System.out.println(s);
+            }
         }
     }
 }

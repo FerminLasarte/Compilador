@@ -117,7 +117,6 @@ public class AnalizadorLexico{
         codigosTokens.put("FUN", 274);
         codigosTokens.put("TOS", 282);
 
-
         //mapeo de las columnas de las matrices a un entero asignado asi despues nos podemos mover con estos valores en las matrices
         columnaMatrices = new HashMap<Character, Integer>();
         columnaMatrices.put('+', 0);
@@ -254,7 +253,7 @@ public class AnalizadorLexico{
                 columnaCaracter = columnaMatrices.get(proximoCaracter);
             }
             else{
-                columnaCaracter=20; //cuando es la columna de otros
+                columnaCaracter = 20; //cuando es la columna de otros
             }
             if(matrizAccionesSemanticas[ultimoEstado][columnaCaracter] != null){
                 token = matrizAccionesSemanticas[ultimoEstado][columnaCaracter].aplicarAS(this, proximoCaracter);
@@ -265,13 +264,13 @@ public class AnalizadorLexico{
             }
         }
         //retorno del token
-        if(token != null && (token.equals("ID") || token.equals("CTE") || token.equals("CADENA") || token.equals("ERROR") || token.equals("ETIQUETA"))) {
+        if (token != null && (token.equals("ID") || token.equals("CTE") || token.equals("ERROR") || token.equals("CADENA_MULTILINEA"))) {
             System.out.println(token + ": " + lexema.toString());
             return codigosTokens.get(token); //varios lexemas para un token
         }
-        else{
+        else {
             //System.out.print(codigosTokens.get(lexema.toString()));
-            System.out.println(lexema.toString()+" ");
+            System.out.println(lexema.toString() + " ");
             return codigosTokens.get(lexema.toString()); //un lexema por token
         }
     }
@@ -337,43 +336,6 @@ public class AnalizadorLexico{
         tablaSimbolos.get(lexema).put(key, valor);
     }
 
-    public boolean dentroRangoPositivo() { /*el negativo ya esta chequeado en la accion semantica 5*/
-        if (this.tablaSimbolos.get(this.lexema).get("Tipo") == "Integer") {
-            BigDecimal bd = new BigDecimal(lexema);
-            if(new BigDecimal("32767").compareTo(bd)<0) { //cuando es 32768 positivo
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean dentroRangoNegativo() { /*el positivo ya esta chequeado en la accion semantica 7*/
-        String valorOctal = this.lexema;
-        if (this.tablaSimbolos.get(lexema).get("Tipo") == "Octal") {
-            BigInteger valorDecimal = new BigInteger(valorOctal, 8);
-            valorDecimal = valorDecimal.negate();
-            System.out.println(valorDecimal);
-            if(!(new BigInteger("-4096").compareTo(valorDecimal)<=0)) {
-                return false;
-            }
-        }
-
-        //manejamos el valor negativo en la TS
-        if (!this.tablaSimbolos.containsKey("-" + lexema)) {
-            HashMap<String, Object> atributos = new HashMap<>(this.tablaSimbolos.get(lexema)); //hago una copia, no puede ser por referencia
-            this.tablaSimbolos.put("-" + lexema, atributos);
-            this.agregarAtributoLexema("-" + lexema, "Contador", 0);
-        }
-
-        tablaSimbolos.get("-" + lexema).put("Contador", ((int) tablaSimbolos.get("-" + lexema).get("Contador")) + 1);
-        //ahora actualizo el valor positivo en la TS
-        tablaSimbolos.get(lexema).put("Contador", ((int) tablaSimbolos.get(lexema).get("Contador") - 1));
-        if((int)tablaSimbolos.get(lexema).get("Contador") == 0) { //si el positivo tiene 0 es porque todos sus usos son negativos
-            this.tablaSimbolos.remove(lexema);
-        }
-        return true;
-    }
-
     public int getContadorFila() {
         return this.contadorFila;
     }
@@ -382,7 +344,7 @@ public class AnalizadorLexico{
         if(this.warnings == null) {
             this.warnings = new ArrayList<String>();
         }
-        warnings.add("Linea: "+ (contadorFila+1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
+        warnings.add("Linea: " + (contadorFila + 1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
     }
 
     public ArrayList<String> getWarnings(){
