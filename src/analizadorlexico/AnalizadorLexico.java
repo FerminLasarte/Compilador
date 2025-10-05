@@ -1,12 +1,5 @@
 package analizadorlexico;
-import analizadorlexico.accionessemanticas.*;
-import analizadorlexico.conjuntosimbolos.*;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -124,171 +117,49 @@ public class AnalizadorLexico{
         codigosTokens.put("FUN", 274);
         codigosTokens.put("TOS", 282);
 
-        public int yylex(){
-            ultimoEstado = 0;
-            String token = null;
-            while(ultimoEstado != -1 && ultimoEstado != -2){
-                char proximoCaracter;
-                if(lineasArchivo.get(contadorFila).length() == contadorColumna){
-                    proximoCaracter = '\n'; //esto seria cuando es el fin de una linea
-                }
-                else{
-                    proximoCaracter = lineasArchivo.get(contadorFila).charAt(contadorColumna);
-                    if(proximoCaracter == '\\' && lineasArchivo.get(contadorFila).charAt(contadorColumna++) == 'n'){
-                        proximoCaracter = '\n';
-                        contadorColumna++;
-                    }
-                }
-                contadorColumna++;
-                //ahora debo saber en que columna de la matriz debo ubicarme
-                int columnaCaracter;
-                if(columnaMatrices.containsKey(proximoCaracter)){
-                    columnaCaracter = columnaMatrices.get(proximoCaracter);
-                }
-                else{
-                    columnaCaracter=20; //cuando es la columna de otros
-                }
-                if(matrizAccionesSemanticas[ultimoEstado][columnaCaracter] != null){
-                    token = matrizAccionesSemanticas[ultimoEstado][columnaCaracter].aplicarAS(this, proximoCaracter);
-                }
-                ultimoEstado = matrizTransicionEstados[ultimoEstado][columnaCaracter];
-                if(proximoCaracter == '\n'){
-                    this.aumentarContadorFila(); //se hace aca para que no haya problemas al identificar la linea del error
-                }
-            }
-            //retorno del token
-            if(token != null && (token.equals("ID") || token.equals("CTE") || token.equals("CADENA") || token.equals("ERROR") || token.equals("ETIQUETA"))) {
-                System.out.println(token + ": " + lexema.toString());
-                return codigosTokens.get(token); //varios lexemas para un token
-            }
-            else{
-                //System.out.print(codigosTokens.get(lexema.toString()));
-                System.out.println(lexema.toString()+" ");
-                return codigosTokens.get(lexema.toString()); //un lexema por token
-            }
+
+        //mapeo de las columnas de las matrices a un entero asignado asi despues nos podemos mover con estos valores en las matrices
+        columnaMatrices = new HashMap<Character, Integer>();
+        columnaMatrices.put('+', 0);
+        columnaMatrices.put('-', 1);
+        columnaMatrices.put('>', 2);
+        columnaMatrices.put(':', 3);
+        columnaMatrices.put('<', 4);
+        columnaMatrices.put('>', 4);
+        columnaMatrices.put('=', 5);
+
+        char[] letras = {'a','b','c','d','e','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+        for(int i=0; i<letras.length; i++) {
+            columnaMatrices.put(letras[i], 6);
         }
 
-        public void inicializarLexema(){
-            this.lexema = new String();
+        columnaMatrices.put('f', 7);
+        columnaMatrices.put('F', 7);
+        columnaMatrices.put('&', 8);
+
+        char[] digitos = {'0','1','2','3','4','5','6','7','8','9'};
+        for(int i=0; i<digitos.length; i++) {
+            columnaMatrices.put(digitos[i], 10);
         }
 
-        public void setLexema(String lexema){
-            this.lexema = lexema;
-        }
+        columnaMatrices.put('.', 11);
+        columnaMatrices.put('@', 12);
+        columnaMatrices.put('!', 13);
+        columnaMatrices.put('%', 14);
+        columnaMatrices.put('\n', 15);
+        columnaMatrices.put('\t', 16);
+        columnaMatrices.put('\r', 16);
+        columnaMatrices.put('(', 17);
+        columnaMatrices.put(')', 17);
+        columnaMatrices.put('{', 17);
+        columnaMatrices.put('}', 17);
+        columnaMatrices.put('_', 17);
+        columnaMatrices.put(';', 17);
+        columnaMatrices.put('*', 17);
+        columnaMatrices.put('/', 17);
+        columnaMatrices.put('U', 18);
+        columnaMatrices.put('I', 19);
 
-        public String getLexema(){
-            return this.lexema;
-        }
-
-        public void agregarLexemaTS(String lexema){
-            tablaSimbolos.put(lexema, new HashMap<String,Object>());
-            tablaSimbolos.get(lexema).put("Reservada", false);
-        }
-
-        public void agregarCaracterLexema(char c){
-            this.lexema += c;
-        }
-
-        public void reiniciarLexema(){
-            this.lexema = new String("");
-        }
-
-        //debemos preocuparnos por temas de no devolver listas originales o demas?
-        public ArrayList<String> getErrores(){
-            return this.errores;
-        }
-
-        public void agregarError(String string) {
-            if(this.errores == null) {
-                this.errores = new ArrayList<String>();
-            }
-            errores.add("Linea: "+ (contadorFila+1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
-        }
-
-        //este metodo nos sirve para cuando leemos un caracter y hay que devolverlo a la entrada.
-        public void disminuirContador() {
-            if(contadorColumna!=0){
-                contadorColumna--;
-            }
-            else{
-                contadorFila--;
-                contadorColumna=lineasArchivo.get(contadorFila).length();
-            }
-        }
-
-        public void aumentarContadorFila() {
-            contadorFila++;
-            contadorColumna = 0;
-        }
-
-        public HashMap<String, HashMap<String, Object>> getTablaSimbolos() {
-            return tablaSimbolos;
-        }
-
-        public void agregarAtributoLexema(String lexema, String key, Object valor) {
-            tablaSimbolos.get(lexema).put(key, valor);
-        }
-
-        public boolean dentroRangoPositivo() { /*el negativo ya esta chequeado en la accion semantica 5*/
-            if (this.tablaSimbolos.get(this.lexema).get("Tipo") == "Integer") {
-                BigDecimal bd = new BigDecimal(lexema);
-                if(new BigDecimal("32767").compareTo(bd)<0) { //cuando es 32768 positivo
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public boolean dentroRangoNegativo() { /*el positivo ya esta chequeado en la accion semantica 7*/
-            String valorOctal = this.lexema;
-            if (this.tablaSimbolos.get(lexema).get("Tipo") == "Octal") {
-                BigInteger valorDecimal = new BigInteger(valorOctal, 8);
-                valorDecimal = valorDecimal.negate();
-                System.out.println(valorDecimal);
-                if(!(new BigInteger("-4096").compareTo(valorDecimal)<=0)) {
-                    return false;
-                }
-            }
-            //manejamos el valor negativo en la TS
-            if (!this.tablaSimbolos.containsKey("-" + lexema)) {
-                HashMap<String, Object> atributos = new HashMap<>(this.tablaSimbolos.get(lexema)); //hago una copia, no puede ser por referencia
-                this.tablaSimbolos.put("-" + lexema, atributos);
-                this.agregarAtributoLexema("-" + lexema, "Contador", 0);
-            }
-            tablaSimbolos.get("-" + lexema).put("Contador", ((int) tablaSimbolos.get("-" + lexema).get("Contador")) + 1);
-            //ahora actualizo el valor positivo en la TS
-            tablaSimbolos.get(lexema).put("Contador", ((int) tablaSimbolos.get(lexema).get("Contador") - 1));
-            if((int)tablaSimbolos.get(lexema).get("Contador") == 0) { //si el positivo tiene 0 es porque todos sus usos son negativos
-                this.tablaSimbolos.remove(lexema);
-            }
-            return true;
-        }
-
-        public int getContadorFila() {
-            return this.contadorFila;
-        }
-
-        public void agregarWarning(String string) {
-            if(this.warnings == null) {
-                this.warnings = new ArrayList<String>();
-            }
-            warnings.add("Linea: "+ (contadorFila+1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
-        }
-
-        public ArrayList<String> getWarnings(){
-            return this.warnings;
-        }
-
-        public void reemplazarEnTS(String lexemaViejo, String lexemaNuevo){
-            agregarLexemaTS(lexemaNuevo);
-            HashMap<String, Object> atributos = new HashMap<>(tablaSimbolos.get(lexemaViejo));
-            tablaSimbolos.put(lexemaNuevo, atributos);
-            //tablaSimbolos.remove(lexemaViejo);
-        }
-
-        public Object getAtributo(String lexema, String atributo){
-            return tablaSimbolos.get(lexema).get(atributo);
-        }
         tablaSimbolos = new HashMap<String, HashMap<String, Object>>();
         tablaSimbolos.put("if", new HashMap<String, Object>());
         tablaSimbolos.get("if").put("Reservada", true);
@@ -313,9 +184,6 @@ public class AnalizadorLexico{
         tablaSimbolos.put("lambda", new HashMap<String, Object>());
         tablaSimbolos.get("lambda").put("Reservada", true);
 
-
-
-
         //inicializacion matriz transicion de estados, el estado -1 es el final y -2 es error
         matrizTransicionEstados= new int[][] {
                 /*0*/{-1,1,3,2,3,4,5,5,6,8,9,10,-2,-2,0,0,-1,5,5},
@@ -335,7 +203,7 @@ public class AnalizadorLexico{
                 /*14*/{-2,-2,-2,-2,-2,-2,-2,-2,-2,13,-2,-2,-2,-2,-2,-2,-2,-2,-1},
         };
 
-        //inicializacion acciones semanticas
+        // Inicialización de acciones semánticas
         AccionSemantica as1 = new AccionSemantica.AccionSemantica1();
         AccionSemantica as2 = new AccionSemantica.AccionSemantica2();
         AccionSemantica as3 = new AccionSemantica.AccionSemantica3();
@@ -343,227 +211,192 @@ public class AnalizadorLexico{
         AccionSemantica as5 = new AccionSemantica.AccionSemantica5();
         AccionSemantica as6 = new AccionSemantica.AccionSemantica6();
         AccionSemantica as7 = new AccionSemantica.AccionSemantica7();
-        AccionSemantica ERROR = new AccionSemantica.AccionSemanticaError();
+        AccionSemantica asE = new AccionSemantica.AccionSemanticaError();
+        AccionSemantica asNull = null;
 
         matrizAccionesSemanticas = new AccionSemantica[][] {
-                /*0*/{as1, as1, as1, as1, as1, ERROR, as1, as1, as1, ERROR, as1, as1, as1, as1, as1, ERROR, as1, ERROR, as10, as10, as10,as1},
-                /*1*/{as2, as2, as2, as2, as2, as2, as3, as3, as3, as3, as3, as3, as3, as3, as3, as3, as3, as3, as3, as4, as3,as1},
-                /*2*/{ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, as2, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,as1},
-                /*3*/{as9, as9, as9, as9, as9, as9, as9, as9, as9, as9, as9, as2, as9, as9, as9, as9, as9, as9, as9, as9, as9,as1},
-                /*4*/{ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, as2, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,as1},
-                /*5*/{as5, as5, as2, as2, as2, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as1},
-                /*6*/{ERROR, ERROR, as2, as2, as2, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, as1},
-                /*7*/{as6, as2, as2, as2, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as1},
-                /*8*/{ERROR, ERROR, as2, as2, as2, ERROR, as2, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, as1},
-                /*9*/{ERROR, ERROR, as2, as2, as2, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,as1},
-                /*10*/{as6, as6, as2, as2, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6,as1},
-                /*11*/{as7, as7, as2, as2, as13, as7, as7, as7, as7, as12, as7, as7, as7, as7, as7, as7, as7, as7, as7, as7, as7,as1},
-                /*12*/{as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as8, as2, as2, ERROR, as2, as2, as1},
-                /*13*/{as9, as9, as9, as9, as9, as9, as9, as9, as9, as9, as9, as9, as9, as9, as9, as9, as9, as2, as9, as9, as9, as1},
-                /*14*/{as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as1},
-                /*15*/{as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2, as10, as2, as2, as2, as2, as1}
+                /*0*/ {as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, asE, asNull, asNull, as7},
+                /*1*/ {as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, asE, as5, as5, as5},
+                /*2*/ {asE, asE, asE, asE, asE, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE},
+                /*3*/ {as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, asE, as5, as5, as5},
+                /*4*/ {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, asE, as5, as5, as5},
+                /*5*/ {as3, as3, as3, as3, as3, as2, as2, as2, as3, as3, as3, asE, as3, as3, as3},
+                /*6*/ {as2, as2, as2, as2, as2, as2, as7, as2, as2, as2, as2, asE, as2, as2, as2},
+                /*7*/ {as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, asE, as4, as4, as4},
+                /*8*/ {as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, asE, as6, as6, as6},
+                /*9*/ {asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asE, asNull, asNull, asNull},
+                /*10*/ {as6, as6, as6, as6, as6, as6, as2, as6, as6, as6, as6, asE, as6, as6, as6},
+                /*11*/ {as2, as2, as2, as2, as2, as2, asE, as2, as2, as2, as2, asE, as2, as2, as2},
+                /*12*/ {asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},
+                /*13*/ {as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, asE, as6, as6, as6}
         };
-
-    }
-    //mapeo de las columnas de las matrices a un entero asignado asi despues nos podemos mover con estos valores en las matrices
-    columnaMatrices = new HashMap<Character, Integer>();
-    char[] letras = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','t','u','v','w','x','y','z'};
-		for(int i=0; i<letras.length; i++) {
-        columnaMatrices.put(letras[i], 0);
-        columnaMatrices.put(Character.toUpperCase(letras[i]), 0);
     }
 
-		columnaMatrices.put('s', 1);
-		columnaMatrices.put('S', 1);
-
-    char[] digitos = {'1','2','3','4','5','6','7'};
-		for(int i=0; i<digitos.length; i++) {
-        columnaMatrices.put(digitos[i], 2);
+    public int yylex(){
+        ultimoEstado = 0;
+        String token = null;
+        while(ultimoEstado != -1 && ultimoEstado != -2){
+            char proximoCaracter;
+            if(lineasArchivo.get(contadorFila).length() == contadorColumna){
+                proximoCaracter = '\n'; //esto seria cuando es el fin de una linea
+            }
+            else{
+                proximoCaracter = lineasArchivo.get(contadorFila).charAt(contadorColumna);
+                if(proximoCaracter == '\\' && lineasArchivo.get(contadorFila).charAt(contadorColumna++) == 'n'){
+                    proximoCaracter = '\n';
+                    contadorColumna++;
+                }
+            }
+            contadorColumna++;
+            //ahora debo saber en que columna de la matriz debo ubicarme
+            int columnaCaracter;
+            if(columnaMatrices.containsKey(proximoCaracter)){
+                columnaCaracter = columnaMatrices.get(proximoCaracter);
+            }
+            else{
+                columnaCaracter=20; //cuando es la columna de otros
+            }
+            if(matrizAccionesSemanticas[ultimoEstado][columnaCaracter] != null){
+                token = matrizAccionesSemanticas[ultimoEstado][columnaCaracter].aplicarAS(this, proximoCaracter);
+            }
+            ultimoEstado = matrizTransicionEstados[ultimoEstado][columnaCaracter];
+            if(proximoCaracter == '\n'){
+                this.aumentarContadorFila(); //se hace aca para que no haya problemas al identificar la linea del error
+            }
+        }
+        //retorno del token
+        if(token != null && (token.equals("ID") || token.equals("CTE") || token.equals("CADENA") || token.equals("ERROR") || token.equals("ETIQUETA"))) {
+            System.out.println(token + ": " + lexema.toString());
+            return codigosTokens.get(token); //varios lexemas para un token
+        }
+        else{
+            //System.out.print(codigosTokens.get(lexema.toString()));
+            System.out.println(lexema.toString()+" ");
+            return codigosTokens.get(lexema.toString()); //un lexema por token
+        }
     }
 
-		columnaMatrices.put('0', 3);
-		columnaMatrices.put('8', 4);
-		columnaMatrices.put('9', 4);
-		columnaMatrices.put('_', 5);
-		columnaMatrices.put('+', 6);
-		columnaMatrices.put('-', 6);
-		columnaMatrices.put('*', 7);
-		columnaMatrices.put('/', 16);
-		columnaMatrices.put(':', 10);
-		columnaMatrices.put('=', 11);
-		columnaMatrices.put('<', 12);
-		columnaMatrices.put('>', 12);
-		columnaMatrices.put('!', 13);
-		columnaMatrices.put('.', 9);
-		columnaMatrices.put('#', 17);
-		columnaMatrices.put('{', 14);
-		columnaMatrices.put('}', 15);
-		columnaMatrices.put('(', 8);
-		columnaMatrices.put(')', 8);
-		columnaMatrices.put('[', 8);
-		columnaMatrices.put(']', 8);
-		columnaMatrices.put(',', 8);
-		columnaMatrices.put(';', 8);
-		columnaMatrices.put(' ', 20);
-		columnaMatrices.put('	', 20);
-		columnaMatrices.put('\n', 18);
-		columnaMatrices.put('$', 21);
-		columnaMatrices.put('@', 19);
+    public void inicializarLexema(){
+        this.lexema = new String();
+    }
 
+    public void setLexema(String lexema){
+        this.lexema = lexema;
+    }
+
+    public String getLexema(){
+        return this.lexema;
+    }
+
+    public void agregarLexemaTS(String lexema){
+        tablaSimbolos.put(lexema, new HashMap<String,Object>());
+        tablaSimbolos.get(lexema).put("Reservada", false);
+    }
+
+    public void agregarCaracterLexema(char c){
+        this.lexema += c;
+    }
+
+    public void reiniciarLexema(){
+        this.lexema = new String("");
+    }
+
+    //debemos preocuparnos por temas de no devolver listas originales o demas?
+    public ArrayList<String> getErrores(){
+        return this.errores;
+    }
+
+    public void agregarError(String string) {
+        if(this.errores == null) {
+            this.errores = new ArrayList<String>();
+        }
+        errores.add("Linea: "+ (contadorFila+1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
+    }
+
+    //este metodo nos sirve para cuando leemos un caracter y hay que devolverlo a la entrada.
+    public void disminuirContador() {
+        if(contadorColumna!=0){
+            contadorColumna--;
+        }
+        else{
+            contadorFila--;
+            contadorColumna=lineasArchivo.get(contadorFila).length();
+        }
+    }
+
+    public void aumentarContadorFila() {
+        contadorFila++;
+        contadorColumna = 0;
+    }
+
+    public HashMap<String, HashMap<String, Object>> getTablaSimbolos() {
+        return tablaSimbolos;
+    }
+
+    public void agregarAtributoLexema(String lexema, String key, Object valor) {
+        tablaSimbolos.get(lexema).put(key, valor);
+    }
+
+    public boolean dentroRangoPositivo() { /*el negativo ya esta chequeado en la accion semantica 5*/
+        if (this.tablaSimbolos.get(this.lexema).get("Tipo") == "Integer") {
+            BigDecimal bd = new BigDecimal(lexema);
+            if(new BigDecimal("32767").compareTo(bd)<0) { //cuando es 32768 positivo
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean dentroRangoNegativo() { /*el positivo ya esta chequeado en la accion semantica 7*/
+        String valorOctal = this.lexema;
+        if (this.tablaSimbolos.get(lexema).get("Tipo") == "Octal") {
+            BigInteger valorDecimal = new BigInteger(valorOctal, 8);
+            valorDecimal = valorDecimal.negate();
+            System.out.println(valorDecimal);
+            if(!(new BigInteger("-4096").compareTo(valorDecimal)<=0)) {
+                return false;
+            }
+        }
+
+        //manejamos el valor negativo en la TS
+        if (!this.tablaSimbolos.containsKey("-" + lexema)) {
+            HashMap<String, Object> atributos = new HashMap<>(this.tablaSimbolos.get(lexema)); //hago una copia, no puede ser por referencia
+            this.tablaSimbolos.put("-" + lexema, atributos);
+            this.agregarAtributoLexema("-" + lexema, "Contador", 0);
+        }
+
+        tablaSimbolos.get("-" + lexema).put("Contador", ((int) tablaSimbolos.get("-" + lexema).get("Contador")) + 1);
+        //ahora actualizo el valor positivo en la TS
+        tablaSimbolos.get(lexema).put("Contador", ((int) tablaSimbolos.get(lexema).get("Contador") - 1));
+        if((int)tablaSimbolos.get(lexema).get("Contador") == 0) { //si el positivo tiene 0 es porque todos sus usos son negativos
+            this.tablaSimbolos.remove(lexema);
+        }
+        return true;
+    }
+
+    public int getContadorFila() {
+        return this.contadorFila;
+    }
+
+    public void agregarWarning(String string) {
+        if(this.warnings == null) {
+            this.warnings = new ArrayList<String>();
+        }
+        warnings.add("Linea: "+ (contadorFila+1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
+    }
+
+    public ArrayList<String> getWarnings(){
+        return this.warnings;
+    }
+
+    public void reemplazarEnTS(String lexemaViejo, String lexemaNuevo){
+        agregarLexemaTS(lexemaNuevo);
+        HashMap<String, Object> atributos = new HashMap<>(tablaSimbolos.get(lexemaViejo));
+        tablaSimbolos.put(lexemaNuevo, atributos);
+        //tablaSimbolos.remove(lexemaViejo);
+    }
+
+    public Object getAtributo(String lexema, String atributo){
+        return tablaSimbolos.get(lexema).get(atributo);
+    }
 }
-
-/*public class AnalizadorLexico {
-
-    //variables semi-estaticas
-    private int contadorFila;
-    private int contadorColumna;
-    private int ultimoEstado;
-    private File archivo;
-    private String lexema; //es un string mutable
-
-    //variables dinamicas
-    private ArrayList<String> lineasArchivo;
-    private ArrayList<String> errores;
-    private ArrayList<String> warnings;
-    private HashMap<String, HashMap<String, Object>> tablaSimbolos; //son dos hash map porque el primero tendra como clave el lexema y luego el segundo tendra como clave el atributo
-    private HashMap<String, Integer> codigosTokens; //almacena los numero de token que se le asigna a cada lexema
-    private int[][] matrizTransicionEstados;
-    private AccionSemantica[][] matrizAccionSemantica;
-    private HashMap<Character, Integer> columnaMatrices; //el caracter que se asocia a cada columna de las matrices
-
-    private int[][] matrizTransicionEstados;
-    private AccionSemantica[][] matrizAccionSemantica;
-    public static HashMap<String, ParametrosToken> tablaSimbolos = new HashMap<>();
-    private BufferedReader bufferedReader;
-    private String linea;
-    private static AnalizadorLexico instance = null;
-    private String claveTablaSimbolos = null;
-
-    public static int nroLinea = 1;
-    public static int indiceCaracter;
-    public static int estadoActual;
-    public static int cantidadConstantes = 1;
-    public static ArrayList<String> errores = new ArrayList<>();
-    public static ArrayList<String> warnings = new ArrayList<>();
-    private ArrayList<ConjuntoSimbolos> columnasMatrizTransicionEstados = new ArrayList<>();
-
-    private AnalizadorLexico(String archivo) {
-        matrizTransicionEstados = new int[14][17];
-        matrizAccionSemantica = new AccionSemantica[14][17];
-        try {
-            this.bufferedReader = new BufferedReader(new FileReader(archivo));
-            linea = bufferedReader.readLine();
-            if (linea != null) {
-                cargaDeMatrices();
-                linea = linea + "\n";
-                nroLinea = 1;
-                cargarColumnaMatrizTransicionEstados();
-                cargaDeMatrices();
-                cargaDeTablaSimbolos();
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void getSiguienteToker() {
-
-    }
-
-    public static AnalizadorLexico getInstance(String archivo) {
-        if (instance == null)
-            instance = new AnalizadorLexico(archivo);
-        return instance;
-    }
-
-    // carga de matrices
-    public void cargaDeMatrices() throws IOException {
-        cargarMatrizAccionSemantica(""); // nombre archivo accion semantica
-        cargarMatrizTransicionEstados(""); // nombre archivo transicion de estado
-    }
-
-    // Metodo que convierte un identificador de acción semántica en una instancia de la clase correspondiente
-    private AccionSemantica obtenerAccionSemantica(String identificador) {
-        switch (identificador) {
-            case "AS1":
-                return new AccionSemantica1();
-            case "AS2":
-                return new AccionSemantica2();
-            case "AS3":
-                return new AccionSemantica3();
-            case "AS4":
-                return new AccionSemantica4();
-            case "AS5":
-                return new AccionSemantica5();
-            case "AS6":
-                return new AccionSemantica6();
-            case "AS7":
-                return new AccionSemantica7();
-            case "AS8":
-                return new AccionSemantica8();
-            case "AS9":
-                return new AccionSemantica9();
-            case "ASE":
-                return new AccionSemanticaError();
-            case "NULL":
-                return null; // No hay acción semántica asociada
-            default:
-                throw new IllegalArgumentException("Identificador de acción semántica no reconocido: " + identificador);
-        }
-    }
-
-    // Cargar la matriz de acciones semánticas desde un archivo
-    private void cargarMatrizAccionSemantica(String archivo) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-            String linea;
-            int fila = 0;
-            while ((linea = br.readLine()) != null && fila < 14) {
-                String[] acciones = linea.split(" "); // agarramos toda la linea separada por espacios y guarda cada valor en una celda del arreglo
-                for (int columna = 0; columna < acciones.length && columna < 17; columna++) { // analizamos toda la fila y  cuando termina suma fila y volvemos al linea.split
-                    matrizAccionSemantica[fila][columna] = obtenerAccionSemantica(acciones[columna]);
-                }
-                fila++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void cargarMatrizTransicionEstados(String archivo) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-            String linea;
-            int fila = 0;
-            while ((linea = br.readLine()) != null && fila < 14) {
-                String[] estados = linea.split(" "); // agarramos toda la linea separada por espacios y guarda cada valor en una celda del arreglo
-                for (int columna = 0; columna < estados.length && columna < 17; columna++) { // analizamos toda la fila y  cuando termina suma fila y volvemos al linea.split
-                    matrizTransicionEstados[fila][columna] = Integer.parseInt(estados[columna]);
-                }
-                fila++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void cargarColumnaMatrizTransicionEstados() {
-        columnasMatrizTransicionEstados.add(new ConjuntoMas());
-        columnasMatrizTransicionEstados.add(new ConjuntoMenos());
-        columnasMatrizTransicionEstados.add(new ConjuntoMayor());
-        columnasMatrizTransicionEstados.add(new ConjuntoDosPuntos());
-        columnasMatrizTransicionEstados.add(new ConjuntoMayorMenor());
-        columnasMatrizTransicionEstados.add(new ConjuntoIgual());
-        columnasMatrizTransicionEstados.add(new ConjuntoLetrasSinF());
-        columnasMatrizTransicionEstados.add(new ConjuntoLetraF());
-        columnasMatrizTransicionEstados.add(new ConjuntoAmpersand());
-        columnasMatrizTransicionEstados.add(new ConjuntoDigito());
-        columnasMatrizTransicionEstados.add(new ConjuntoPunto());
-        columnasMatrizTransicionEstados.add(new ConjuntoArroba());
-        columnasMatrizTransicionEstados.add(new ConjuntoExclamacion());
-        columnasMatrizTransicionEstados.add(new ConjuntoPorcentaje());
-        columnasMatrizTransicionEstados.add(new ConjuntoSaltoLinea());
-        columnasMatrizTransicionEstados.add(new ConjuntoBlancoTAB());
-        columnasMatrizTransicionEstados.add(new ConjuntoSignos());
-    }
-}*/

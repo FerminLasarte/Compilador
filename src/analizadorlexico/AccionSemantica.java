@@ -125,12 +125,12 @@ public abstract class AccionSemantica{
             }
     }
 
-        public static class AccionSemanticaError extends AccionSemantica {
-            public String aplicarAS(AnalizadorLexico al, char c) {
+    public static class AccionSemanticaError extends AccionSemantica {
+        public String aplicarAS(AnalizadorLexico al, char c) {
                 al.reiniciarLexema();
                 al.agregarError("Caracter " + c + " invalido ");
                 return "ERROR";
-            }
         }
     }
 }
+
