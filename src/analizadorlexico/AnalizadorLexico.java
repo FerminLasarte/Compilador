@@ -123,26 +123,26 @@ public class AnalizadorLexico{
 
         char[] digitos = {'0','1','2','3','4','5','6','7','8','9'};
         for(int i=0; i<digitos.length; i++) {
-            columnaMatrices.put(digitos[i], 10);
+            columnaMatrices.put(digitos[i], 9);
         }
 
-        columnaMatrices.put('.', 11);
-        columnaMatrices.put('@', 12);
-        columnaMatrices.put('!', 13);
-        columnaMatrices.put('%', 14);
-        columnaMatrices.put('\n', 15);
-        columnaMatrices.put('\t', 16);
-        columnaMatrices.put('\r', 16);
-        columnaMatrices.put('(', 17);
-        columnaMatrices.put(')', 17);
-        columnaMatrices.put('{', 17);
-        columnaMatrices.put('}', 17);
-        columnaMatrices.put('_', 17);
-        columnaMatrices.put(';', 17);
-        columnaMatrices.put('*', 17);
-        columnaMatrices.put('/', 17);
-        columnaMatrices.put('U', 18);
-        columnaMatrices.put('I', 19);
+        columnaMatrices.put('.', 10);
+        columnaMatrices.put('@', 11);
+        columnaMatrices.put('!', 12);
+        columnaMatrices.put('%', 13);
+        columnaMatrices.put('\n', 14);
+        columnaMatrices.put('\t', 15);
+        columnaMatrices.put('\r', 15);
+        columnaMatrices.put('(', 16);
+        columnaMatrices.put(')', 16);
+        columnaMatrices.put('{', 16);
+        columnaMatrices.put('}', 16);
+        columnaMatrices.put('_', 16);
+        columnaMatrices.put(';', 16);
+        columnaMatrices.put('*', 16);
+        columnaMatrices.put('/', 16);
+        columnaMatrices.put('U', 17);
+        columnaMatrices.put('I', 18);
 
         tablaSimbolos = new HashMap<String, HashMap<String, Object>>();
         tablaSimbolos.put("if", new HashMap<String, Object>());
@@ -170,7 +170,7 @@ public class AnalizadorLexico{
 
         //inicializacion matriz transicion de estados, el estado -1 es el final y -2 es error
         matrizTransicionEstados= new int[][] {
-                /*0*/{-1,1,3,2,3,4,5,5,6,8,9,10,-2,-2,0,0,-1,5,5},
+                /*0*/{-1,1,3,2,3,4,5,5,6,7,9,10,-2,-2,0,0,-1,5,5},
                 /*1*/{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
                 /*2*/{-2,-2,-2,-2,-2,-1,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2},
                 /*3*/{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
@@ -221,11 +221,14 @@ public class AnalizadorLexico{
         String token = null;
         while(ultimoEstado != -1 && ultimoEstado != -2){
             char proximoCaracter;
+
             if(lineasArchivo.get(contadorFila).length() == contadorColumna){
                 proximoCaracter = '\n'; //esto seria cuando es el fin de una linea
+                System.out.println("llegue al salto de linea");
             }
             else{
                 proximoCaracter = lineasArchivo.get(contadorFila).charAt(contadorColumna);
+                System.out.println("proximo caracter: " + proximoCaracter);
                 if(proximoCaracter == '\\' && lineasArchivo.get(contadorFila).charAt(contadorColumna++) == 'n'){
                     proximoCaracter = '\n';
                     contadorColumna++;
@@ -235,6 +238,7 @@ public class AnalizadorLexico{
             //ahora debo saber en que columna de la matriz debo ubicarme
             int columnaCaracter;
             if(columnaMatrices.containsKey(proximoCaracter)){
+                System.out.println("entro 240");
                 columnaCaracter = columnaMatrices.get(proximoCaracter);
             }
             else{
@@ -242,6 +246,7 @@ public class AnalizadorLexico{
             }
             if(matrizAccionesSemanticas[ultimoEstado][columnaCaracter] != null){
                 token = matrizAccionesSemanticas[ultimoEstado][columnaCaracter].aplicarAS(this, proximoCaracter);
+                System.out.println("token: " + token);
             }
             ultimoEstado = matrizTransicionEstados[ultimoEstado][columnaCaracter];
             if(proximoCaracter == '\n'){
@@ -256,6 +261,8 @@ public class AnalizadorLexico{
         else {
             //System.out.print(codigosTokens.get(lexema.toString()));
             System.out.println(lexema.toString() + " ");
+            System.out.println("llegoooooo");
+            System.out.println(codigosTokens.get(lexema.toString()));
             return codigosTokens.get(lexema.toString()); //un lexema por token
         }
     }

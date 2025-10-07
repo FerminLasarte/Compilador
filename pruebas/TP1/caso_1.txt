@@ -1,7 +1,4 @@
-if
-	/# Constantes con el primer y último valor dentro del rango (Para cada tipo de datos asignado). #/
-/# Constantes con el primer y último valor fuera del rango (Para cada tipo de datos asignado). #/
-ui := 32767UI;
+32767UI;
 i := -32768;
 ui :=  32768UI;
 i :=  -32769;
@@ -14,7 +11,6 @@ f :=  3.40282348F+38;
 f :=  -1.17549434F38;
 f :=  -3.40282348F38;
 
-/#Para números de punto flotante: parte entera con y sin parte decimal, parte decimal con y sin parte entera, con y sin exponente, con exponente positivo y negativo. #/
 f := 4;
 f := 5.1;
 f := 3.4;
@@ -22,17 +18,13 @@ f := .4;
 f := 4.3f+4;
 f := 4.3f-4;
 
-/# Identificadores de menos y más de 20 caracteres. #/
 a := identificadormuylargo;
 a := identificador;
 
-/# Identificadores con letras, dígitos y "%". #/
 a := idif_1_ador;
 
-/# Intento de incluir en el nombre de un identificador un carácter que no sea letra, dígito o “%“. #/
 a := ho{la;
 
-/# Palabras reservadas escritas en minúsculas y mayúsculas. #/
 IF;
 ELSE;
 ENDIF;
@@ -56,11 +48,9 @@ do;
 while;
 lambda;
 
-/# Comentarios bien y mal escritos. #/
-/# hola #/
-# hola #/
+\n hola #
+# hola \n
 
-/# Cadenas bien y mal escritas. #/
 {hola};
 hola};
 

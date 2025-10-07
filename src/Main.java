@@ -10,6 +10,7 @@ public class Main {
         while(token != tokenFinPrograma){
             token = al.yylex();
         }
+
         System.out.println("\n");
         if(al.getErrores() != null) {
             for(String s : al.getErrores()){
