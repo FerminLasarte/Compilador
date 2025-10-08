@@ -51,22 +51,25 @@ public abstract class AccionSemantica{
 
     public static class AccionSemantica4 extends AccionSemantica{ //hay que correguir
         public String aplicarAS(AnalizadorLexico al, char c) {
+            al.disminuirContador();// Retrocede un carácter para no consumir el que disparó la transición
             String uintConUI = al.getLexema().toString();
             String soloEnteros = uintConUI.substring(0, uintConUI.length() - 2); // elimina los últimos 2 (UI)
+            System.out.println("solo enteros: " + soloEnteros);
             BigDecimal bd = new BigDecimal(soloEnteros);
-            BigDecimal limiteSuperior = new BigDecimal("65535"); //luego debo chequear que si es positivo debe ser un valor menos, es decir, se puede hasta 32767 positivo
-            if(bd.compareTo(limiteSuperior) <= 0 || bd.compareTo(BigDecimal.ZERO) <= 0){
+            BigDecimal limiteSuperior = new BigDecimal("32768"); //luego debo chequear que si es positivo debe ser un valor menos, es decir, se puede hasta 32768 positivo
+            if(bd.compareTo(limiteSuperior) <= 0 || bd.compareTo(BigDecimal.ZERO) <= 0) {
                 if(al.getTablaSimbolos().containsKey(al.getLexema())){
                     al.getTablaSimbolos().get(uintConUI).put("Contador", (int) al.getTablaSimbolos().get(uintConUI).get("Contador") + 1);
                     return "CTE";
                 }
                 al.agregarLexemaTS(al.getLexema());
+                System.out.println("valor del lexema: " + al.getLexema());
                 al.agregarAtributoLexema(uintConUI, "Tipo", "uint");
                 al.agregarAtributoLexema(uintConUI, "Contador", 1);
                 al.agregarAtributoLexema(uintConUI, "Uso", "Constante");
                 return "CTE";
             }
-            al.agregarError(" Constante entera sin signo fuera de rango (0 a 65535)");
+            al.agregarError(" Constante entera sin signo fuera de rango (0 a 32768)");
             return "ERROR";
         }
     }

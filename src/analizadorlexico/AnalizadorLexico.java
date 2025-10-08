@@ -184,7 +184,8 @@ public class AnalizadorLexico{
                 /*11*/{12,12,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2},
                 /*12*/{-2,-2,-2,-2,-2,-2,-2,-2,-2,13,-2,-2,-2,-2,-2,-2,-2,-2,-2},
                 /*13*/{-1,-1,-1,-1,-1,-1,-1,-1,-1,13,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-                /*14*/{-2,-2,-2,-2,-2,-2,-2,-2,-2,13,-2,-2,-2,-2,-2,-2,-2,-2,-1},
+                /*14*/{-2,-2,-2,-2,-2,-2,-2,-2,-2,13,-2,-2,-2,-2,-2,-2,-2,-2,15},
+                /*15*/{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
         };
 
         // Inicialización de acciones semánticas
@@ -199,20 +200,22 @@ public class AnalizadorLexico{
         AccionSemantica asNull = null;
 
         matrizAccionesSemanticas = new AccionSemantica[][] {
-                /*0*/ {as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, asE, asNull, asNull, as7},
-                /*1*/ {as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, asE, as5, as5, as5},
-                /*2*/ {asE, asE, asE, asE, asE, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE},
-                /*3*/ {as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, asE, as5, as5, as5},
-                /*4*/ {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, asE, as5, as5, as5},
-                /*5*/ {as3, as3, as3, as3, as3, as2, as2, as2, as3, as3, as3, asE, as3, as3, as3},
-                /*6*/ {as2, as2, as2, as2, as2, as2, as7, as2, as2, as2, as2, asE, as2, as2, as2},
-                /*7*/ {as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, asE, as4, as4, as4},
-                /*8*/ {as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, asE, as6, as6, as6},
-                /*9*/ {asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asE, asNull, asNull, asNull},
-                /*10*/ {as6, as6, as6, as6, as6, as6, as2, as6, as6, as6, as6, asE, as6, as6, as6},
-                /*11*/ {as2, as2, as2, as2, as2, as2, asE, as2, as2, as2, as2, asE, as2, as2, as2},
-                /*12*/ {asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},
-                /*13*/ {as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, as6, asE, as6, as6, as6}
+                /*0*/  {as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, asE, asE, asNull, asNull, as1, as1, as1},
+                /*1*/  {as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
+                /*2*/  {asE, asE, asE, asE, asE, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},
+                /*3*/  {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
+                /*4*/  {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
+                /*5*/  {as3, as3, as3, as3, as3, as3, as2, as2, as3, as2, as3, as3, as3, as2, as3, as3, as3, as2, as2},
+                /*6*/  {as2, as2, as2, as2, as2, as2, as2, as2, as7, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2},
+                /*7*/  {asE, asE, asE, asE, asE, asE, asE, asE, asE, as2, as2, asE, asE, asE, asE, asE, asE, as2, asE},
+                /*8*/  {as6, as6, as6, as6, as6, as6, as6, as6, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
+                /*9*/  {asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull},
+                /*10*/ {as6, as6, as6, as6, as6, as6, as6, as2, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
+                /*11*/ {as2, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},
+                /*12*/ {asE, asE, asE, asE, asE, asE, asE, asE, asE, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE},
+                /*13*/ {as6, as6, as6, as6, as6, as6, as6, as6, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
+                /*14*/ {asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, as2},
+                /*15*/ {as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4},
         };
     }
 
@@ -242,7 +245,7 @@ public class AnalizadorLexico{
                 columnaCaracter = columnaMatrices.get(proximoCaracter);
             }
             else{
-                columnaCaracter = 20; //cuando es la columna de otros
+                columnaCaracter = 18;
             }
             if(matrizAccionesSemanticas[ultimoEstado][columnaCaracter] != null){
                 token = matrizAccionesSemanticas[ultimoEstado][columnaCaracter].aplicarAS(this, proximoCaracter);
