@@ -67,7 +67,6 @@ public class AnalizadorLexico{
         codigosTokens.put("&", 46);
         codigosTokens.put(".", 47);
         codigosTokens.put("@", 48);
-        codigosTokens.put("!", 50);
         codigosTokens.put("%", 51);
         codigosTokens.put("(", 52);
         codigosTokens.put(")", 53);
@@ -169,23 +168,23 @@ public class AnalizadorLexico{
         tablaSimbolos.get("lambda").put("Reservada", true);
 
         //inicializacion matriz transicion de estados, el estado -1 es el final y -2 es error
-        matrizTransicionEstados= new int[][] {
-                /*0*/{-1,1,3,2,3,4,5,5,6,7,9,10,-2,-2,0,0,-1,5,5},
-                /*1*/{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-                /*2*/{-2,-2,-2,-2,-2,-1,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2},
-                /*3*/{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-                /*4*/{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-                /*5*/{-1,-1,-1,-1,-1,-1,5,5,-1,5,-1,-1,-1,5,-1,-1,-1,5,5},
-                /*6*/{6,6,6,6,6,6,6,6,-1,6,6,6,6,6,6,6,6,6,6},
-                /*7*/{-2,-2,-2,-2,-2,-2,-2,-2,-2,7,8,-2,-2,-2,-2,-2,-2,14,-2},
-                /*8*/{-1,-1,-1,-1,-1,-1,-1,-1,-1,10,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-                /*9*/{9,9,9,9,9,9,9,9,9,9,9,9,9,9,0,9,9,9,9},
-                /*10*/{-1,-1,-1,-1,-1,-1,-1,11,-1,10,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-                /*11*/{12,12,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2},
-                /*12*/{-2,-2,-2,-2,-2,-2,-2,-2,-2,13,-2,-2,-2,-2,-2,-2,-2,-2,-2},
-                /*13*/{-1,-1,-1,-1,-1,-1,-1,-1,-1,13,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-                /*14*/{-2,-2,-2,-2,-2,-2,-2,-2,-2,13,-2,-2,-2,-2,-2,-2,-2,-2,15},
-                /*15*/{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        matrizTransicionEstados = new int[][] {
+                /*0*/  {-1, 1, 3, 2, 3, 4, 5, 5, 6, 7, 9, 10, -2, -2, 0, 0, -1, 5, 5},
+                /*1*/  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                /*2*/  {-2, -2, -2, -2, -2, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
+                /*3*/  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                /*4*/  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                /*5*/  {-1, -1, -1, -1, -1, -1, 5, 5, -1, 5, -1, -1, -1, 5, -1, -1, -1, 5, 5},
+                /*6*/  {6, 6, 6, 6, 6, 6, 6, 6, -1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
+                /*7*/  {-2, -2, -2, -2, -2, -2, -2, -2, -2, 7, 8, -2, -2, -2, -2, -2, -2, 14, -2},
+                /*8*/  {-1, -1, -1, -1, -1, -1, -1, -1, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                /*9*/  {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 9, 9, 9, 9},
+                /*10*/ {-1, -1, -1, -1, -1, -1, -1, 11, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                /*11*/ {12, 12, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
+                /*12*/ {-2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, -2, -2, -2, -2, -2, -2},
+                /*13*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, 13, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                /*14*/ {-2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, -2, -2, -2, -2, -2, 15},
+                /*15*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
         };
 
         // Inicialización de acciones semánticas
@@ -227,7 +226,6 @@ public class AnalizadorLexico{
 
             if(lineasArchivo.get(contadorFila).length() == contadorColumna){
                 proximoCaracter = '\n'; //esto seria cuando es el fin de una linea
-                System.out.println("llegue al salto de linea");
             }
             else{
                 proximoCaracter = lineasArchivo.get(contadorFila).charAt(contadorColumna);
@@ -241,7 +239,6 @@ public class AnalizadorLexico{
             //ahora debo saber en que columna de la matriz debo ubicarme
             int columnaCaracter;
             if(columnaMatrices.containsKey(proximoCaracter)){
-                System.out.println("entro 240");
                 columnaCaracter = columnaMatrices.get(proximoCaracter);
             }
             else{
@@ -249,7 +246,6 @@ public class AnalizadorLexico{
             }
             if(matrizAccionesSemanticas[ultimoEstado][columnaCaracter] != null){
                 token = matrizAccionesSemanticas[ultimoEstado][columnaCaracter].aplicarAS(this, proximoCaracter);
-                System.out.println("token: " + token);
             }
             ultimoEstado = matrizTransicionEstados[ultimoEstado][columnaCaracter];
             if(proximoCaracter == '\n'){
@@ -258,14 +254,12 @@ public class AnalizadorLexico{
         }
         //retorno del token
         if (token != null && (token.equals("ID") || token.equals("CTE") || token.equals("ERROR") || token.equals("CADENA_MULTILINEA"))) {
-            System.out.println(token + ": " + lexema.toString());
+            System.out.println("Token: "   + token + ", " + lexema.toString() + ", " + "(" + codigosTokens.get(lexema.toString()) + ")");
             return codigosTokens.get(token); //varios lexemas para un token
         }
         else {
             //System.out.print(codigosTokens.get(lexema.toString()));
-            System.out.println(lexema.toString() + " ");
-            System.out.println("llegoooooo");
-            System.out.println(codigosTokens.get(lexema.toString()));
+            System.out.println("Lexema: " + lexema.toString() + ", " + "(" + codigosTokens.get(lexema.toString()) + ")");
             return codigosTokens.get(lexema.toString()); //un lexema por token
         }
     }

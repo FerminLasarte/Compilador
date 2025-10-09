@@ -23,23 +23,23 @@ public abstract class AccionSemantica{
         }
     }
 
-    public static class AccionSemantica3 extends AccionSemantica{
+    public static class AccionSemantica3 extends AccionSemantica {
         //para identificadores o palabras reservadas
         public String aplicarAS(AnalizadorLexico al, char c) {
             //Devolver caracter
             al.disminuirContador();
             //buscar en la TS
-            if(al.getTablaSimbolos().containsKey(al.getLexema())){
+            if (al.getTablaSimbolos().containsKey(al.getLexema())) {
                 //si es reservada
-                if((boolean)al.getTablaSimbolos().get(al.getLexema()).get("Reservada") == true){
+                if ((boolean)al.getTablaSimbolos().get(al.getLexema()).get("Reservada") == true) {
                     return null; //el codigo de getToken se encarga de tomar el token.
                 }
-                else{
+                else {
                     return "ID";
                 }
             }
-            else{
-                if (al.getLexema().length() > 20){
+            else {
+                if (al.getLexema().length() > 20) {
                     al.agregarWarning("Identificador mayor a 20 caracteres, se trunco hasta esa cantidad");
                     al.setLexema(al.getLexema().substring(0,20));
                 }
@@ -74,7 +74,7 @@ public abstract class AccionSemantica{
         }
     }
 
-    public static class AccionSemantica5 extends AccionSemantica{
+    public static class AccionSemantica5 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.disminuirContador();
             return null;
