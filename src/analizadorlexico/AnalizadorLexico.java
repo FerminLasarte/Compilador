@@ -99,6 +99,7 @@ public class AnalizadorLexico{
         codigosTokens.put("CTE", 272);
         codigosTokens.put("ERROR", 273);
         codigosTokens.put("CADENA_MULTILINEA", 274);
+        codigosTokens.put("PALABRA_RESERVADA", 275);
 
 
         //mapeo de las columnas de las matrices a un entero asignado asi despues nos podemos mover con estos valores en las matrices
@@ -108,12 +109,13 @@ public class AnalizadorLexico{
         columnaMatrices.put('>', 2);
         columnaMatrices.put(':', 3);
         columnaMatrices.put('<', 4);
-        columnaMatrices.put('>', 4);
+
         columnaMatrices.put('=', 5);
 
         char[] letras = {'a','b','c','d','e','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
         for(int i=0; i<letras.length; i++) {
             columnaMatrices.put(letras[i], 6);
+            columnaMatrices.put(Character.toUpperCase(letras[i]), 6);
         }
 
         columnaMatrices.put('f', 7);
@@ -131,7 +133,7 @@ public class AnalizadorLexico{
         columnaMatrices.put('%', 13);
         columnaMatrices.put('\n', 14);
         columnaMatrices.put('\t', 15);
-        columnaMatrices.put('\r', 15);
+        columnaMatrices.put(' ', 15);
         columnaMatrices.put('(', 16);
         columnaMatrices.put(')', 16);
         columnaMatrices.put('{', 16);
@@ -169,7 +171,7 @@ public class AnalizadorLexico{
 
         //inicializacion matriz transicion de estados, el estado -1 es el final y -2 es error
         matrizTransicionEstados = new int[][] {
-                /*0*/  {-1, 1, 3, 2, 3, 4, 5, 5, 6, 7, 9, 10, -2, -2, 0, 0, -1, 5, 5},
+                /*0*/  {-1, 1, -1, 2, 3, 4, 5, 5, 6, 7, 9, 9, -2, -2, 0, 0, -1, 5, 5},
                 /*1*/  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 /*2*/  {-2, -2, -2, -2, -2, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
                 /*3*/  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
@@ -196,14 +198,14 @@ public class AnalizadorLexico{
         AccionSemantica as6 = new AccionSemantica.AccionSemantica6();
         AccionSemantica as7 = new AccionSemantica.AccionSemantica7();
         AccionSemantica asE = new AccionSemantica.AccionSemanticaError();
-        AccionSemantica asNull = null;
+        AccionSemantica asNull = new AccionSemantica.AccionSemanticaNull();
 
         matrizAccionesSemanticas = new AccionSemantica[][] {
                 /*0*/  {as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, asE, asE, asNull, asNull, as1, as1, as1},
                 /*1*/  {as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
                 /*2*/  {asE, asE, asE, asE, asE, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},
                 /*3*/  {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
-                /*4*/  {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
+                /*4*/  {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5},
                 /*5*/  {as3, as3, as3, as3, as3, as3, as2, as2, as3, as2, as3, as3, as3, as2, as3, as3, as3, as2, as2},
                 /*6*/  {as2, as2, as2, as2, as2, as2, as2, as2, as7, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2},
                 /*7*/  {asE, asE, asE, asE, asE, asE, asE, asE, asE, as2, as2, asE, asE, asE, asE, asE, asE, as2, asE},
@@ -224,19 +226,25 @@ public class AnalizadorLexico{
         while(ultimoEstado != -1 && ultimoEstado != -2){
             char proximoCaracter;
 
-            if(lineasArchivo.get(contadorFila).length() == contadorColumna){
-                proximoCaracter = '\n'; //esto seria cuando es el fin de una linea
+            if (contadorFila >= lineasArchivo.size()) {
+                return 0;
+            }
+
+            String currentLine = lineasArchivo.get(contadorFila);
+
+            if(currentLine.length() == contadorColumna){
+                proximoCaracter = '\n';
             }
             else{
-                proximoCaracter = lineasArchivo.get(contadorFila).charAt(contadorColumna);
-                System.out.println("proximo caracter: " + proximoCaracter);
-                if(proximoCaracter == '\\' && lineasArchivo.get(contadorFila).charAt(contadorColumna++) == 'n'){
+                proximoCaracter = currentLine.charAt(contadorColumna);
+                if(proximoCaracter == '\\' && (contadorColumna + 1 < currentLine.length()) && currentLine.charAt(contadorColumna + 1) == 'n'){
                     proximoCaracter = '\n';
-                    contadorColumna++;
+                    contadorColumna += 2; // Avanza 2 posiciones
+                } else {
+                    contadorColumna++; // Avanza 1 posición
                 }
             }
-            contadorColumna++;
-            //ahora debo saber en que columna de la matriz debo ubicarme
+
             int columnaCaracter;
             if(columnaMatrices.containsKey(proximoCaracter)){
                 columnaCaracter = columnaMatrices.get(proximoCaracter);
@@ -248,19 +256,20 @@ public class AnalizadorLexico{
                 token = matrizAccionesSemanticas[ultimoEstado][columnaCaracter].aplicarAS(this, proximoCaracter);
             }
             ultimoEstado = matrizTransicionEstados[ultimoEstado][columnaCaracter];
+
             if(proximoCaracter == '\n'){
-                this.aumentarContadorFila(); //se hace aca para que no haya problemas al identificar la linea del error
+                this.aumentarContadorFila(); // Seteamos contadorColumna = 0 y avanza contadorFila
             }
         }
+
         //retorno del token
-        if (token != null && (token.equals("ID") || token.equals("CTE") || token.equals("ERROR") || token.equals("CADENA_MULTILINEA"))) {
-            System.out.println("Token: "   + token + ", " + lexema.toString() + ", " + "(" + codigosTokens.get(lexema.toString()) + ")");
+        if (token != null && (token.equals("ID") || token.equals("CTE") || token.equals("ERROR") || token.equals("CADENA_MULTILINEA") || token.equals("PALABRA_RESERVADA"))) {
+            System.out.println("Token: "   + token + ", " + lexema.toString() + ", " + "(" + codigosTokens.get(token) + ")");
             return codigosTokens.get(token); //varios lexemas para un token
         }
         else {
-            //System.out.print(codigosTokens.get(lexema.toString()));
             System.out.println("Lexema: " + lexema.toString() + ", " + "(" + codigosTokens.get(lexema.toString()) + ")");
-            return codigosTokens.get(lexema.toString()); //un lexema por token
+            return codigosTokens.get(lexema.toString());
         }
     }
 
@@ -274,6 +283,14 @@ public class AnalizadorLexico{
 
     public String getLexema(){
         return this.lexema;
+    }
+
+    public boolean isAllLowerCase(String str) {
+        return str != null && str.equals(str.toLowerCase());
+    }
+
+    public boolean isAllUpperCase(String str) {
+        return str != null && str.equals(str.toUpperCase());
     }
 
     public void agregarLexemaTS(String lexema){

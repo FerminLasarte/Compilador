@@ -1,7 +1,5 @@
 package analizadorlexico;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-
 
 public abstract class AccionSemantica{
     public abstract String aplicarAS(AnalizadorLexico al, char c);
@@ -24,28 +22,38 @@ public abstract class AccionSemantica{
     }
 
     public static class AccionSemantica3 extends AccionSemantica {
-        //para identificadores o palabras reservadas
+        @Override
         public String aplicarAS(AnalizadorLexico al, char c) {
-            //Devolver caracter
             al.disminuirContador();
-            //buscar en la TS
-            if (al.getTablaSimbolos().containsKey(al.getLexema())) {
-                //si es reservada
-                if ((boolean)al.getTablaSimbolos().get(al.getLexema()).get("Reservada") == true) {
-                    return null; //el codigo de getToken se encarga de tomar el token.
-                }
-                else {
+            String lexemaActual = al.getLexema();
+
+            if (al.getTablaSimbolos().containsKey(lexemaActual)) {
+                if ((boolean) al.getTablaSimbolos().get(lexemaActual).get("Reservada")) {
+                    return "PALABRA_RESERVADA";
+                } else {
                     return "ID";
                 }
             }
-            else {
-                if (al.getLexema().length() > 20) {
-                    al.agregarWarning("Identificador mayor a 20 caracteres, se trunco hasta esa cantidad");
-                    al.setLexema(al.getLexema().substring(0,20));
-                }
-                al.agregarLexemaTS(al.getLexema());
+
+            if (al.isAllLowerCase(lexemaActual)) {
                 return "ID";
             }
+            else if (al.isAllUpperCase(lexemaActual)) {
+                al.agregarWarning("Identificador '" + lexemaActual + "' contiene solo mayúsculas. Se recomienda usar minúsculas.");
+            }
+            else {
+                al.agregarError("Identificador '" + lexemaActual + "' contiene mayúsculas y minúsculas.");
+                return "ERROR";
+            }
+
+            if (lexemaActual.length() > 20) {
+                al.agregarWarning("Identificador mayor a 20 caracteres, se truncó hasta esa cantidad.");
+                lexemaActual = lexemaActual.substring(0, 20);
+                al.setLexema(lexemaActual);
+            }
+
+            al.agregarLexemaTS(lexemaActual);
+            return "ID";
         }
     }
 
@@ -54,7 +62,6 @@ public abstract class AccionSemantica{
             al.disminuirContador();// Retrocede un carácter para no consumir el que disparó la transición
             String uintConUI = al.getLexema().toString();
             String soloEnteros = uintConUI.substring(0, uintConUI.length() - 2); // elimina los últimos 2 (UI)
-            System.out.println("solo enteros: " + soloEnteros);
             BigDecimal bd = new BigDecimal(soloEnteros);
             BigDecimal limiteSuperior = new BigDecimal("32768"); //luego debo chequear que si es positivo debe ser un valor menos, es decir, se puede hasta 32768 positivo
             if(bd.compareTo(limiteSuperior) <= 0 || bd.compareTo(BigDecimal.ZERO) <= 0) {
@@ -117,22 +124,29 @@ public abstract class AccionSemantica{
     }
 
     public static class AccionSemantica7 extends AccionSemantica {
-            public String aplicarAS(AnalizadorLexico al, char c) {
-                al.agregarCaracterLexema(c);
-                if (al.getTablaSimbolos().containsKey(al.getLexema())) {
-                    return "CADENA_MULTILINEA";
-                }
-                al.agregarLexemaTS(al.getLexema());
-                al.agregarAtributoLexema(al.getLexema(), "Uso", "CadenaMultilinea");
+        public String aplicarAS(AnalizadorLexico al, char c) {
+            al.agregarCaracterLexema(c);
+            if (al.getTablaSimbolos().containsKey(al.getLexema())) {
                 return "CADENA_MULTILINEA";
             }
+            al.agregarLexemaTS(al.getLexema());
+            al.agregarAtributoLexema(al.getLexema(), "Uso", "CadenaMultilinea");
+            return "CADENA_MULTILINEA";
+        }
+    }
+
+    public static class AccionSemanticaNull extends AccionSemantica {
+        public String aplicarAS(AnalizadorLexico al, char c) {
+            al.reiniciarLexema();
+            return null;
+        }
     }
 
     public static class AccionSemanticaError extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
-                al.reiniciarLexema();
-                al.agregarError("Caracter " + c + " invalido ");
-                return "ERROR";
+            al.reiniciarLexema();
+            al.agregarError("Caracter " + c + " invalido ");
+            return "ERROR";
         }
     }
 }

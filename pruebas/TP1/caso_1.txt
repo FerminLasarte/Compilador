@@ -21,9 +21,7 @@ f := 4.3f-4;
 
 a := identificadormuylargo;
 a := identificador;
-
 a := idif_1_ador;
-
 a := ho{la;
 
 IF;
@@ -49,8 +47,12 @@ do;
 while;
 lambda;
 
-\n hola #
-# hola \n
+@ hola
+@ hola \n
+& hola \n
+& hola
+# hola @
+hola @
 
 {hola};
 hola};

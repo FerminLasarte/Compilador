@@ -1,15 +1,30 @@
->=
-<=
-==
+%
+If;
+hola%1
+var
+& hola como te va
+ &
+@ hola como te va
+>
+<
 =!
 ->
-:=
++-
+*
+/
+=
+@
+%
+( )
+{ }
+_
+;
 -> i
-i := 327679UI;
+i:=327679UI;
 ui :=  32768UI;
 i :=  -32769;
-f :=  1.17549435F-38;
-f :=  3.40282347F+38;
+f :=  0.17549435F-38;
+f :=  3.40282349F+38;
 f :=  -1.17549435F-38;
 f :=  -3.40282347F+38;
 f :=  1.17549434F-38;
@@ -27,9 +42,11 @@ f := 4.3f-4;
 a := identificadormuylargo;
 a := identificador;
 
-a := idif_1_ador;
+a := idif=1=ador;
 
 a := ho{la;
+
+
 
 IF;
 ELSE;
@@ -53,9 +70,6 @@ var;
 do;
 while;
 lambda;
-
-\n hola #
-# hola \n
 
 {hola};
 hola};
