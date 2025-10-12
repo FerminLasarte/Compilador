@@ -1,4 +1,3 @@
-package analizadorlexico;
 import java.math.BigDecimal;
 
 public abstract class AccionSemantica{

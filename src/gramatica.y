@@ -1,0 +1,250 @@
+%{
+    import java.io.File;
+    import java.io.IOException;
+    import java.util.ArrayList;
+    import java.io.PrintWriter;
+    import java.io.FileWriter;
+    import java.io.FileNotFoundException;
+    import java.util.HashMap;
+    import java.util.Map;
+    import java.lang.StringBuilder;
+%}
+
+%token ID CTE IF ELSE FLOAT ENDIF RETURN PRINT UINT VAR DO WHILE LAMBDA CADENA_MULTILINEA ASIG_MULTIPLE CR SE LE TOUI ASIG FLECHA MAYOR_IGUAL MENOR_IGUAL DISTINTO
+
+%nonassoc IFX
+%nonassoc ELSE
+
+%%
+
+programa : ID '{' sentencias '}'
+      {
+          salida.add("Linea " + (al.getContadorFila()+1) + ": Programa '" + $1.sval + "' reconocido.");
+          al.agregarAtributoLexema($1.sval, "Uso", "Programa");
+      }
+     | '{' sentencias '}' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico: Falta el nombre del programa.");}
+     | ID sentencias '}' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico: Falta el delimitador '{' al inicio del programa.");}
+     | ID '{' sentencias {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico: Falta el delimitador '}' al final del programa.");}
+     ;
+
+sentencias : sentencias sentencia
+           | sentencia
+           ;
+
+sentencia : sentencia_declarativa
+          | sentencia_ejecutable
+          | error ';' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico en la sentencia.");}
+          ;
+
+sentencia_declarativa : declaracion_tipica ';'
+                      | funcion
+                      | declaracion_var ';'
+                      ;
+
+declaracion_tipica : tipo lista_variables
+            {
+                salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de variables de tipo '" + $1.sval + "'.");
+                listaVariables.clear();
+            }
+            ;
+
+declaracion_var : VAR asignacion
+                {
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración por inferencia (var).");
+                }
+                ;
+
+tipo : UINT { $$.sval = "uint"; }
+     | FLOAT { $$.sval = "float"; }
+     ;
+
+lista_variables : lista_variables ',' variable
+                {
+                    listaVariables.add($3.sval);
+                }
+                | variable
+                {
+                    listaVariables.clear();
+                    listaVariables.add($1.sval);
+                }
+                ;
+
+funcion : lista_tipos_retorno ID '(' lista_parametros_formales ')' '{' sentencias '}'
+        {
+            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de Función '" + $2.sval + "'.");
+        }
+        ;
+
+lista_tipos_retorno : lista_tipos_retorno ',' tipo
+                    | tipo
+                    ;
+
+lista_parametros_formales : lista_parametros_formales ',' parametro_formal
+                          | parametro_formal
+                          ;
+
+parametro_formal : sem_pasaje tipo ID
+                 {
+                 }
+                 ;
+
+sem_pasaje : CR SE
+           | CR LE
+           |
+           ;
+
+sentencia_ejecutable : asignacion ';'
+                     | asignacion_multiple ';'
+                     | condicional_if
+                     | condicional_do_while
+                     | salida_pantalla ';'
+                     | retorno_funcion
+                     ;
+
+asignacion : variable ASIG expresion
+           {
+               salida.add("Linea " + (al.getContadorFila()+1) + ": Asignación simple (:=).");
+           }
+           ;
+
+asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
+                    {
+                        salida.add("Linea " + (al.getContadorFila()+1) + ": Asignación múltiple (=).");
+                    }
+                    ;
+
+lado_derecho_multiple : lista_elementos_restringidos
+                      ;
+
+lista_elementos_restringidos : lista_elementos_restringidos ',' factor
+                             | factor
+                             ;
+
+variable : ID
+         { $$.sval = $1.sval; }
+         | ID '.' ID
+         { $$.sval = $1.sval + "." + $3.sval; }
+         ;
+
+expresion : expresion '+' termino
+          | expresion '-' termino
+          | termino
+          ;
+
+termino : termino '*' factor
+        | termino '/' factor
+        | factor
+        ;
+
+factor : variable
+       | constante
+       | invocacion_funcion
+       | conversion_explicita
+       ;
+
+conversion_explicita : TOUI '(' expresion ')'
+                {
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": Conversión explícita (toui).");
+                }
+                ;
+
+invocacion_funcion : ID '(' lista_parametros_reales ')'
+                   ;
+
+lista_parametros_reales : lista_parametros_reales ',' parametro_real
+                        | parametro_real
+                        ;
+
+parametro_real : parametro_simple FLECHA ID
+               ;
+
+parametro_simple : expresion
+                 | lambda_expresion
+                 ;
+
+lambda_expresion : '(' tipo ID ')' '{' sentencias '}'
+                 ;
+
+constante : CTE
+          | '-' CTE
+          ;
+
+/*
+ * REGLA 'IF' CORREGIDA Y SEPARADA EN DOS PRODUCCIONES
+ */
+condicional_if
+    : IF '(' condicion ')' bloque_ejecutable ENDIF ';' %prec IFX
+    | IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
+    ;
+
+
+condicional_do_while : DO bloque_ejecutable WHILE '(' condicion ')' ';'
+                     {
+                         salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE.");
+                     }
+                     ;
+
+condicion : expresion simbolo_comparacion expresion
+          ;
+
+simbolo_comparacion : MAYOR_IGUAL | MENOR_IGUAL | DISTINTO | '=' | '>' | '<'
+                    ;
+
+bloque_ejecutable : '{' sentencias '}'
+                  ;
+
+
+salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
+                {
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilínea.");
+                }
+                | PRINT '(' expresion ')'
+                {
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresión.");
+                }
+                ;
+
+retorno_funcion : RETURN '(' lista_expresiones ')' ';'
+                {
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia RETURN.");
+                }
+                ;
+
+lista_expresiones : lista_expresiones ',' expresion
+                  | expresion
+                  ;
+
+%%
+
+static AnalizadorLexico al;
+ArrayList<String> erroresSintacticos = new ArrayList<String>();
+ArrayList<String> erroresSemanticos = new ArrayList<String>();
+ArrayList<String> salida = new ArrayList<String>();
+ArrayList<String> listaVariables = new ArrayList<String>();
+
+int yylex() {
+    int token = al.yylex();
+    String lexema = al.getLexema();
+
+    if (token == ID || token == CTE || token == CADENA_MULTILINEA) {
+        yylval = new ParserVal(lexema);
+    } else {
+        yylval = new ParserVal(token);
+    }
+    return token;
+}
+
+public void yyerror(String e) {
+   erroresSintacticos.add("Linea " + (al.getContadorFila() + 1) + ": Error de sintaxis. Verifique la estructura del código.");
+}
+
+public static void main(String args[]){
+    if(args.length == 1) {
+        al = new AnalizadorLexico(args[0]);
+        Parser par = new Parser(false);
+        par.yyparse();
+        // par.saveFile();
+    } else {
+        System.out.println("Error: Se requiere la ruta del archivo fuente como único parámetro.");
+    }
+}

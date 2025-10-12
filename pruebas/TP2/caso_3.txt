@@ -1,0 +1,49 @@
+// Error: Falta el nombre del programa
+{
+    uint i;
+}
+
+// Error: Falta el delimitador '{'
+programa_sin_llave_inicio
+    uint i;
+}
+
+programa_con_errores {
+    // Error: Falta el punto y coma al final de la sentencia
+    uint mi_var
+
+    // Error: Función declarada sin parámetros (la consigna exige al menos uno)
+    float mi_funcion_vacia() {
+        return (1.0);
+    }
+
+    // Error: Bucle 'do-while' con la sintaxis invertida
+    while (mi_var > 0UI) do {
+        print(&incorrecto&);
+    };
+
+    // Error: Expresión en el lado derecho de una asignación múltiple '=' (Tema 19)
+    uint a, b;
+    a, b = 1UI + 2UI, 3UI;
+
+    // Error: Falta el '->' en la invocación de la función
+    a = mi_funcion_vacia(a);
+
+    // Error: Falta la palabra 'endif'
+    if (a > 0UI) {
+        print(&hola&);
+    };
+
+    // Error: Paréntesis anidados en una expresión
+    a := (b + c) * 2UI;
+
+    // Error: Falta el paréntesis de cierre en 'toui'
+    a := toui(1.2;
+
+    // Error: Falta el punto y coma en la sentencia de retorno
+    return (a)
+}
+
+// Error: Falta el delimitador '}' al final
+programa_sin_llave_fin {
+    uint i;

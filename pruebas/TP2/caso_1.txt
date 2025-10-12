@@ -1,0 +1,53 @@
+programa_completo {
+    // TEMA 2 y 5: Declaración de tipos uint y float.
+    uint var_unsigned;
+    float var_float, otra_float;
+
+    // TEMA 9: Declaración por inferencia.
+    var x := 15UI;
+
+    // TEMA 21 y 25: Función con múltiples retornos y pasaje de parámetros cr/se y cr/le.
+    // La función tiene al menos un parámetro.
+    float, uint miFuncion(cr se uint p1, cr le float p2) {
+        print(&Dentro de la funcion&);
+        return (1.2, 2UI);
+    }
+
+    // TEMA 28: Función que acepta una expresión lambda como parámetro.
+    uint procesarLambda(lambda miLambda, uint argumento) {
+        print(&Procesando lambda...&);
+        // (La invocación de la lambda es semántica, no sintáctica)
+        return (argumento);
+    }
+
+    // Asignación simple.
+    var_unsigned := 10UI;
+
+    // TEMA 14: Bucle do-while.
+    do {
+        // TEMA 8: Salida por pantalla con cadena multilínea.
+        print(&Iteracion del bucle do-while\n&);
+
+        // TEMA 31: Conversión explícita a uint.
+        var_unsigned := toui(var_float + 1.0);
+
+    } while (var_unsigned < 10UI);
+
+    // Sentencia if-else.
+    if (x > 10UI)
+        // TEMA 23: Uso de variable con prefijo opcional.
+        modulo.prefijo := 1.0;
+    else {
+        print(&Bloque else&);
+    }
+    endif;
+
+    // TEMA 19: Asignación múltiple con variables y constantes en el lado derecho.
+    var_unsigned, var_float = x, 3.14;
+
+    // TEMA 21: Asignación múltiple a partir de una función con múltiples retornos.
+    otra_float, var_unsigned = miFuncion(var_unsigned -> p1, var_float -> p2);
+
+    // TEMA 28: Invocación a función pasando una expresión lambda.
+    x = procesarLambda( (uint val) { print(&Ejecutando lambda&); } -> miLambda, 5UI -> argumento );
+}
