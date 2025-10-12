@@ -60,7 +60,7 @@ public abstract class AccionSemantica{
     public static class AccionSemantica4 extends AccionSemantica{ //hay que correguir
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.disminuirContador();// Retrocede un carácter para no consumir el que disparó la transición
-            String uintConUI = al.getLexema().toString();
+            String uintConUI = al.getLexema();
             String soloEnteros = uintConUI.substring(0, uintConUI.length() - 2); // elimina los últimos 2 (UI)
             BigDecimal bd = new BigDecimal(soloEnteros);
             BigDecimal limiteSuperior = new BigDecimal("32768"); //luego debo chequear que si es positivo debe ser un valor menos, es decir, se puede hasta 32768 positivo

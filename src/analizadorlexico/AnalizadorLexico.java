@@ -67,6 +67,7 @@ public class AnalizadorLexico{
         codigosTokens.put("&", 46);
         codigosTokens.put(".", 47);
         codigosTokens.put("@", 48);
+        codigosTokens.put(",", 49);
         codigosTokens.put("%", 51);
         codigosTokens.put("(", 52);
         codigosTokens.put(")", 53);
@@ -100,6 +101,10 @@ public class AnalizadorLexico{
         codigosTokens.put("ERROR", 273);
         codigosTokens.put("CADENA_MULTILINEA", 274);
         codigosTokens.put("PALABRA_RESERVADA", 275);
+        codigosTokens.put("cr", 276);
+        codigosTokens.put("se", 277);
+        codigosTokens.put("le", 278);
+        codigosTokens.put("toui", 279);
 
 
         //mapeo de las columnas de las matrices a un entero asignado asi despues nos podemos mover con estos valores en las matrices
@@ -123,8 +128,8 @@ public class AnalizadorLexico{
         columnaMatrices.put('&', 8);
 
         char[] digitos = {'0','1','2','3','4','5','6','7','8','9'};
-        for(int i=0; i<digitos.length; i++) {
-            columnaMatrices.put(digitos[i], 9);
+        for (char digito : digitos) {
+            columnaMatrices.put(digito, 9);
         }
 
         columnaMatrices.put('.', 10);
@@ -142,6 +147,7 @@ public class AnalizadorLexico{
         columnaMatrices.put(';', 16);
         columnaMatrices.put('*', 16);
         columnaMatrices.put('/', 16);
+        columnaMatrices.put(',', 16);
         columnaMatrices.put('U', 17);
         columnaMatrices.put('I', 18);
 
@@ -168,6 +174,14 @@ public class AnalizadorLexico{
         tablaSimbolos.get("while").put("Reservada", true);
         tablaSimbolos.put("lambda", new HashMap<String, Object>());
         tablaSimbolos.get("lambda").put("Reservada", true);
+        tablaSimbolos.put("cr", new HashMap<String, Object>());
+        tablaSimbolos.get("cr").put("Reservada", true);
+        tablaSimbolos.put("se", new HashMap<String, Object>());
+        tablaSimbolos.get("se").put("Reservada", true);
+        tablaSimbolos.put("le", new HashMap<String, Object>());
+        tablaSimbolos.get("le").put("Reservada", true);
+        tablaSimbolos.put("toui", new HashMap<String, Object>());
+        tablaSimbolos.get("toui").put("Reservada", true);
 
         //inicializacion matriz transicion de estados, el estado -1 es el final y -2 es error
         matrizTransicionEstados = new int[][] {

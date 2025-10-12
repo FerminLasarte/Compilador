@@ -4,7 +4,7 @@ import analizadorlexico.AnalizadorLexico;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        AnalizadorLexico al = new AnalizadorLexico("/Users/ferminlasarte/Documents/GitHub/Compilador/pruebas/TP1/caso_3.txt");
+        AnalizadorLexico al = new AnalizadorLexico("C:\\GitHub\\Compilador\\pruebas\\TP1\\caso_3.txt");
         int tokenFinPrograma = 0;
         int token = -1;
         while(token != tokenFinPrograma){
