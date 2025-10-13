@@ -1,49 +1,93 @@
-// Error: Falta el nombre del programa
-{
-    uint i;
-}
+@ -----------------------------------------------------------------------------
+@ CASO DE PRUEBA COMPLETO PARA TP2
+@ Temas: 2, 5, 8, 9, 14, 19, 21, 23, 25, 28, 31, 32
+@ -----------------------------------------------------------------------------
+PRUEBACOMPLETA {
+    @ ---- Tema 9: Inferencia Obligatoria (var) y Tema 5: Constantes float ----
+    @ Declaraciones correctas por inferencia
+    var VARF1 := 1.5F+2;
+    var VARF3 := .75F+10;
+    var VARUINT := 123UI;
+    var OTROUINT := VARUINT;
 
-// Error: Falta el delimitador '{'
-programa_sin_llave_inicio
-    uint i;
-}
-
-programa_con_errores {
-    // Error: Falta el punto y coma al final de la sentencia
-    uint mi_var
-
-    // Error: Función declarada sin parámetros (la consigna exige al menos uno)
-    float mi_funcion_vacia() {
-        return (1.0);
+    @ ---- Tema 25: Pasaje de Parámetros (Copia-Resultado) ----
+    @ y Tema 21: Retornos Múltiples
+    @ Esta función retorna 3 valores.
+    uint, float, uint FUNCIONCR(cr se uint PSE, cr le float PLE) {
+        @ El cuerpo de la función no se analiza semánticamente aún.
+        return (PSE, PLE, 2UI);
     }
 
-    // Error: Bucle 'do-while' con la sintaxis invertida
-    while (mi_var > 0UI) do {
-        print(&incorrecto&);
+    @ ---- Tema 28: Expresiones Lambda como Parámetros ----
+    @ y Tema 2: Declaración explícita de uint
+    uint FUNCIONLAMBDA(lambda MILAMBDA, uint VALOR) {
+        @ El cuerpo es sintácticamente válido, aunque la semántica
+        @ de la llamada a la lambda se verá más adelante.
+        return (VALOR);
+    }
+
+    @ ---- Declaraciones de variables a usar ----
+    uint A, B, C;
+    float X, Y;
+
+    @ ---- Tema 19: Asignaciones Múltiples (igual número de elementos) ----
+    @ Lado derecho solo con constantes, variables o llamadas a función.
+    A, B, X = 100UI, VARUINT, .5F+1;
+    
+    @ ---- Tema 21: Asignación con menos elementos a la izquierda ----
+    @ Se invoca a FUNCIONCR que retorna 3 elementos, pero solo se asignan 2.
+    A, X = FUNCIONCR(0UI -> PSE, 1.0F+0 -> PLE);
+
+    @ ---- Tema 23: Prefijado Opcional ----
+    @ Se usan prefijos en variables.
+    MODULOA.VARIABLE := A;
+    B := OTROMODULO.OTRAVAR + MODULOA.VARIABLE;
+
+    @ ---- Tema 14: Sentencia de Control DO-WHILE ----
+    do {
+        A := A - 1UI;
+        @ Tema 8: Print con cadena multilínea
+        print(&Iterando en el bucle...
+        Esto es una cadena
+        de multiples lineas.&);
+    } while (A > 0UI);
+
+    @ ---- Tema 28 y 31: Invocación con Lambda y Conversión explícita ----
+    @ Se invoca a la función que espera una lambda.
+    @ El segundo parámetro es una conversión explícita.
+    B := FUNCIONLAMBDA((uint Z){ print(&lambda ejecutada&); } -> MILAMBDA, toui(X) -> VALOR);
+
+    @ -----------------------------------------------------------------------------
+    @ SECCIÓN DE ERRORES SINTÁCTICOS
+    @ -----------------------------------------------------------------------------
+
+    @ Error Tema 14: DO-WHILE sin punto y coma final
+    do {
+        X := 1.0F+0;
+    } while (B > 0UI)
+
+    @ Error Tema 19: Expresión aritmética en el lado derecho de una asignación múltiple
+    A, B = 1UI + 2UI, C;
+
+    @ Error Tema 25: Palabra clave de pasaje de parámetros incorrecta (cv en lugar de cr)
+    uint FUNCIONERROR(cv se uint P1) {
+        return (P1);
+    }
+
+    @ Error Tema 28: Falta argumento en la definición de la lambda
+    A := FUNCIONLAMBDA((uint W) -> MILAMBDA, B -> VALOR);
+
+    @ Error Tema 31: Falta paréntesis de cierre en toui
+    A := toui(X;
+
+    @ Error: Sentencia 'if' sin 'endif'
+    if (A == B) {
+        print(&son iguales&);
     };
 
-    // Error: Expresión en el lado derecho de una asignación múltiple '=' (Tema 19)
-    uint a, b;
-    a, b = 1UI + 2UI, 3UI;
+    @ Error: Declaración de 'var' dentro de un bloque de control (prohibido)
+    do {
+        var ERRORVAR := 1UI;
+    } while (A > 0UI);
 
-    // Error: Falta el '->' en la invocación de la función
-    a = mi_funcion_vacia(a);
-
-    // Error: Falta la palabra 'endif'
-    if (a > 0UI) {
-        print(&hola&);
-    };
-
-    // Error: Paréntesis anidados en una expresión
-    a := (b + c) * 2UI;
-
-    // Error: Falta el paréntesis de cierre en 'toui'
-    a := toui(1.2;
-
-    // Error: Falta el punto y coma en la sentencia de retorno
-    return (a)
 }
-
-// Error: Falta el delimitador '}' al final
-programa_sin_llave_fin {
-    uint i;

@@ -250,8 +250,34 @@ public static void main(String args[]){
     if(args.length == 1) {
         al = new AnalizadorLexico(args[0]);
         Parser par = new Parser(false);
-        par.yyparse();
-        // par.saveFile();
+        par.yyparse(); // Se ejecuta el análisis sintáctico
+
+        // ---- AÑADIR ESTE BLOQUE PARA IMPRIMIR LOS RESULTADOS ----
+
+        System.out.println("\n=======================================================");
+        System.out.println("## ESTRUCTURAS SINTACTICAS RECONOCIDAS ##");
+        System.out.println("=======================================================");
+        if (par.salida.isEmpty()) {
+            System.out.println("No se reconocieron estructuras sintácticas válidas.");
+        } else {
+            for (String s : par.salida) {
+                System.out.println(s);
+            }
+        }
+
+        System.out.println("\n=======================================================");
+        System.out.println("## ERRORES SINTACTICOS DETECTADOS ##");
+        System.out.println("=======================================================");
+        if (par.erroresSintacticos.isEmpty()) {
+            System.out.println("No se encontraron errores sintácticos.");
+        } else {
+            for (String s : par.erroresSintacticos) {
+                System.out.println(s);
+            }
+        }
+        System.out.println("=======================================================");
+
+
     } else {
         System.out.println("Error: Se requiere la ruta del archivo fuente como único parámetro.");
     }
