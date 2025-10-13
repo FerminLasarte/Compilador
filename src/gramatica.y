@@ -56,6 +56,7 @@ declaracion_var : VAR asignacion
 
 tipo : UINT { $$.sval = "uint"; }
      | FLOAT { $$.sval = "float"; }
+     | LAMBDA { $$.sval = "lambda"; }
      ;
 
 lista_variables : lista_variables ',' variable
@@ -92,14 +93,12 @@ lista_parametros_formales : lista_parametros_formales ',' parametro_formal
                           | parametro_formal
                           ;
 
-parametro_formal : sem_pasaje tipo ID
-                 {
-                 }
+parametro_formal : especificacion_pasaje tipo ID
+                 | tipo ID
                  ;
 
 sem_pasaje : CR SE
            | CR LE
-           |
            ;
 
 sentencia_ejecutable : asignacion ';'

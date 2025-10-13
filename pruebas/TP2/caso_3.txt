@@ -89,5 +89,4 @@ PRUEBACOMPLETA {
     do {
         var ERRORVAR := 1UI;
     } while (A > 0UI);
-
 }
