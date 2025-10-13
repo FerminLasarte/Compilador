@@ -22,9 +22,9 @@ programa : ID '{' sentencias '}'
           salida.add("Linea " + (al.getContadorFila()+1) + ": Programa '" + $1.sval + "' reconocido.");
           al.agregarAtributoLexema($1.sval, "Uso", "Programa");
       }
-     | '{' sentencias '}' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico: Falta el nombre del programa.");}
-     | ID sentencias '}' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico: Falta el delimitador '{' al inicio del programa.");}
-     | ID '{' sentencias {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico: Falta el delimitador '}' al final del programa.");}
+     | '{' sentencias '}' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");}
+     | ID sentencias '}' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '{' al inicio del programa.");}
+     | ID '{' sentencias {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '}' al final del programa.");}
      ;
 
 sentencias : sentencias sentencia
@@ -33,7 +33,7 @@ sentencias : sentencias sentencia
 
 sentencia : sentencia_declarativa
           | sentencia_ejecutable
-          | error ';' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico en la sentencia.");}
+          | error ';' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico en la sentencia.");}
           ;
 
 sentencia_declarativa : declaracion_tipica ';'
@@ -43,14 +43,14 @@ sentencia_declarativa : declaracion_tipica ';'
 
 declaracion_tipica : tipo lista_variables
             {
-                salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de variables de tipo '" + $1.sval + "'.");
+                salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de variables de tipo '" + $1.sval + "'.");
                 listaVariables.clear();
             }
             ;
 
 declaracion_var : VAR asignacion
                 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración por inferencia (var).");
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion por inferencia (var).");
                 }
                 ;
 
@@ -70,16 +70,16 @@ lista_variables : lista_variables ',' variable
                 ;
 
 /*
- * REGLAS DE FUNCIÓN CORREGIDAS PARA ELIMINAR AMBIGÜEDAD
- * Se separa en dos casos: retorno único y retorno múltiple.
+ * REGLAS DE FUNCION CORREGIDAS PARA ELIMINAR AMBIGÜEDAD
+ * Se separa en dos casos: retorno unico y retorno multiple.
  */
 funcion : tipo ID '(' lista_parametros_formales ')' '{' sentencias '}' /* Funcion con retorno unico */
         {
-            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de Función '" + $2.sval + "' con retorno simple.");
+            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
         }
         | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' sentencias '}' /* Funcion con retorno multiple */
         {
-            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de Función '" + $2.sval + "' con retorno múltiple.");
+            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
         }
         ;
 
@@ -112,13 +112,13 @@ sentencia_ejecutable : asignacion ';'
 
 asignacion : variable ASIG expresion
            {
-               salida.add("Linea " + (al.getContadorFila()+1) + ": Asignación simple (:=).");
+               salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion simple (:=).");
            }
            ;
 
 asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                     {
-                        salida.add("Linea " + (al.getContadorFila()+1) + ": Asignación múltiple (=).");
+                        salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion multiple (=).");
                     }
                     ;
 
@@ -151,7 +151,7 @@ factor : variable
 
 conversion_explicita : TOUI '(' expresion ')'
                 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": Conversión explícita (toui).");
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explícita (toui).");
                 }
                 ;
 
@@ -210,7 +210,7 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 }
                 | PRINT '(' expresion ')'
                 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresión.");
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresion.");
                 }
                 ;
 
@@ -243,14 +243,14 @@ int yylex() {
 }
 
 public void yyerror(String e) {
-   erroresSintacticos.add("Linea " + (al.getContadorFila() + 1) + ": Error de sintaxis. Verifique la estructura del código.");
+   erroresSintacticos.add("Linea " + (al.getContadorFila() + 1) + ": Error de sintaxis. Verifique la estructura del codigo.");
 }
 
 public static void main(String args[]){
     if(args.length == 1) {
         al = new AnalizadorLexico(args[0]);
         Parser par = new Parser(false);
-        par.yyparse(); // Se ejecuta el análisis sintáctico
+        par.yyparse(); // Se ejecuta el analisis sintactico
 
         // ---- AÑADIR ESTE BLOQUE PARA IMPRIMIR LOS RESULTADOS ----
 
@@ -258,7 +258,7 @@ public static void main(String args[]){
         System.out.println("## ESTRUCTURAS SINTACTICAS RECONOCIDAS ##");
         System.out.println("=======================================================");
         if (par.salida.isEmpty()) {
-            System.out.println("No se reconocieron estructuras sintácticas válidas.");
+            System.out.println("No se reconocieron estructuras sintacticas validas.");
         } else {
             for (String s : par.salida) {
                 System.out.println(s);
@@ -269,7 +269,7 @@ public static void main(String args[]){
         System.out.println("## ERRORES SINTACTICOS DETECTADOS ##");
         System.out.println("=======================================================");
         if (par.erroresSintacticos.isEmpty()) {
-            System.out.println("No se encontraron errores sintácticos.");
+            System.out.println("No se encontraron errores sintacticos.");
         } else {
             for (String s : par.erroresSintacticos) {
                 System.out.println(s);
@@ -279,6 +279,6 @@ public static void main(String args[]){
 
 
     } else {
-        System.out.println("Error: Se requiere la ruta del archivo fuente como único parámetro.");
+        System.out.println("Error: Se requiere la ruta del archivo fuente como unico parametro.");
     }
 }

@@ -489,14 +489,14 @@ int yylex() {
 }
 
 public void yyerror(String e) {
-   erroresSintacticos.add("Linea " + (al.getContadorFila() + 1) + ": Error de sintaxis. Verifique la estructura del código.");
+   erroresSintacticos.add("Linea " + (al.getContadorFila() + 1) + ": Error de sintaxis. Verifique la estructura del codigo.");
 }
 
 public static void main(String args[]){
     if(args.length == 1) {
         al = new AnalizadorLexico(args[0]);
         Parser par = new Parser(false);
-        par.yyparse(); // Se ejecuta el análisis sintáctico
+        par.yyparse(); // Se ejecuta el analisis sintactico
 
         // ---- AÑADIR ESTE BLOQUE PARA IMPRIMIR LOS RESULTADOS ----
 
@@ -504,7 +504,7 @@ public static void main(String args[]){
         System.out.println("## ESTRUCTURAS SINTACTICAS RECONOCIDAS ##");
         System.out.println("=======================================================");
         if (par.salida.isEmpty()) {
-            System.out.println("No se reconocieron estructuras sintácticas válidas.");
+            System.out.println("No se reconocieron estructuras sintacticas validas.");
         } else {
             for (String s : par.salida) {
                 System.out.println(s);
@@ -515,7 +515,7 @@ public static void main(String args[]){
         System.out.println("## ERRORES SINTACTICOS DETECTADOS ##");
         System.out.println("=======================================================");
         if (par.erroresSintacticos.isEmpty()) {
-            System.out.println("No se encontraron errores sintácticos.");
+            System.out.println("No se encontraron errores sintacticos.");
         } else {
             for (String s : par.erroresSintacticos) {
                 System.out.println(s);
@@ -525,7 +525,7 @@ public static void main(String args[]){
 
 
     } else {
-        System.out.println("Error: Se requiere la ruta del archivo fuente como único parámetro.");
+        System.out.println("Error: Se requiere la ruta del archivo fuente como unico parametro.");
     }
 }
 //#line 460 "Parser.java"
@@ -691,31 +691,31 @@ case 1:
 break;
 case 2:
 //#line 25 "gramatica.y"
-{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico: Falta el nombre del programa.");}
+{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");}
 break;
 case 3:
 //#line 26 "gramatica.y"
-{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico: Falta el delimitador '{' al inicio del programa.");}
+{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '{' al inicio del programa.");}
 break;
 case 4:
 //#line 27 "gramatica.y"
-{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico: Falta el delimitador '}' al final del programa.");}
+{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '}' al final del programa.");}
 break;
 case 9:
 //#line 36 "gramatica.y"
-{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintáctico en la sentencia.");}
+{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico en la sentencia.");}
 break;
 case 13:
 //#line 45 "gramatica.y"
 {
-                salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de variables de tipo '" + val_peek(1).sval + "'.");
+                salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de variables de tipo '" + val_peek(1).sval + "'.");
                 listaVariables.clear();
             }
 break;
 case 14:
 //#line 52 "gramatica.y"
 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración por inferencia (var).");
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion por inferencia (var).");
                 }
 break;
 case 15:
@@ -742,13 +742,13 @@ break;
 case 19:
 //#line 77 "gramatica.y"
 {
-            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de Función '" + val_peek(6).sval + "' con retorno simple.");
+            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + val_peek(6).sval + "' con retorno simple.");
         }
 break;
 case 20:
 //#line 81 "gramatica.y"
 {
-            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de Función '" + val_peek(6).sval + "' con retorno múltiple.");
+            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + val_peek(6).sval + "' con retorno multiple.");
         }
 break;
 case 25:
@@ -759,13 +759,13 @@ break;
 case 35:
 //#line 114 "gramatica.y"
 {
-               salida.add("Linea " + (al.getContadorFila()+1) + ": Asignación simple (:=).");
+               salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion simple (:=).");
            }
 break;
 case 36:
 //#line 120 "gramatica.y"
 {
-                        salida.add("Linea " + (al.getContadorFila()+1) + ": Asignación múltiple (=).");
+                        salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion multiple (=).");
                     }
 break;
 case 40:
@@ -779,7 +779,7 @@ break;
 case 52:
 //#line 153 "gramatica.y"
 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": Conversión explícita (toui).");
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explícita (toui).");
                 }
 break;
 case 64:
@@ -797,7 +797,7 @@ break;
 case 74:
 //#line 212 "gramatica.y"
 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresión.");
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresion.");
                 }
 break;
 case 75:
