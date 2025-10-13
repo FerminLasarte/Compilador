@@ -69,15 +69,24 @@ lista_variables : lista_variables ',' variable
                 }
                 ;
 
-funcion : lista_tipos_retorno ID '(' lista_parametros_formales ')' '{' sentencias '}'
+/*
+ * REGLAS DE FUNCIÓN CORREGIDAS PARA ELIMINAR AMBIGÜEDAD
+ * Se separa en dos casos: retorno único y retorno múltiple.
+ */
+funcion : tipo ID '(' lista_parametros_formales ')' '{' sentencias '}' /* Funcion con retorno unico */
         {
-            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de Función '" + $2.sval + "'.");
+            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de Función '" + $2.sval + "' con retorno simple.");
+        }
+        | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' sentencias '}' /* Funcion con retorno multiple */
+        {
+            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaración de Función '" + $2.sval + "' con retorno múltiple.");
         }
         ;
 
-lista_tipos_retorno : lista_tipos_retorno ',' tipo
-                    | tipo
-                    ;
+/* La lista de tipos de retorno ahora debe tener como minimo dos elementos */
+lista_tipos_retorno_multiple : tipo ',' tipo
+                             | lista_tipos_retorno_multiple ',' tipo
+                             ;
 
 lista_parametros_formales : lista_parametros_formales ',' parametro_formal
                           | parametro_formal
@@ -120,10 +129,8 @@ lista_elementos_restringidos : lista_elementos_restringidos ',' factor
                              | factor
                              ;
 
-variable : ID
-         { $$.sval = $1.sval; }
-         | ID '.' ID
-         { $$.sval = $1.sval + "." + $3.sval; }
+variable : ID { $$.sval = $1.sval; }
+         | ID '.' ID { $$.sval = $1.sval + "." + $3.sval; }
          ;
 
 expresion : expresion '+' termino
@@ -177,7 +184,6 @@ condicional_if
     | IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
     ;
 
-
 condicional_do_while : DO bloque_ejecutable WHILE '(' condicion ')' ';'
                      {
                          salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE.");
@@ -187,12 +193,16 @@ condicional_do_while : DO bloque_ejecutable WHILE '(' condicion ')' ';'
 condicion : expresion simbolo_comparacion expresion
           ;
 
-simbolo_comparacion : MAYOR_IGUAL | MENOR_IGUAL | DISTINTO | '=' | '>' | '<'
+simbolo_comparacion : MAYOR_IGUAL
+                    | MENOR_IGUAL
+                    | DISTINTO
+                    | '='
+                    | '>'
+                    | '<'
                     ;
 
 bloque_ejecutable : '{' sentencias '}'
                   ;
-
 
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 {
@@ -213,7 +223,6 @@ retorno_funcion : RETURN '(' lista_expresiones ')' ';'
 lista_expresiones : lista_expresiones ',' expresion
                   | expresion
                   ;
-
 %%
 
 static AnalizadorLexico al;
@@ -225,7 +234,6 @@ ArrayList<String> listaVariables = new ArrayList<String>();
 int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();
-
     if (token == ID || token == CTE || token == CADENA_MULTILINEA) {
         yylval = new ParserVal(lexema);
     } else {

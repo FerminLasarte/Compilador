@@ -4,7 +4,7 @@ public abstract class AccionSemantica{
     public abstract String aplicarAS(AnalizadorLexico al, char c);
 
     public static class AccionSemantica1 extends AccionSemantica{
-        //inciar lexema y agregar caracter
+        // inciar lexema y agregar caracter
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.inicializarLexema();
             al.agregarCaracterLexema(c);
@@ -13,7 +13,7 @@ public abstract class AccionSemantica{
     }
 
     public static class AccionSemantica2 extends AccionSemantica{
-        //agregar caracter al lexema
+        // agregar caracter al lexema
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.agregarCaracterLexema(c);
             return null;
@@ -23,60 +23,79 @@ public abstract class AccionSemantica{
     public static class AccionSemantica3 extends AccionSemantica {
         @Override
         public String aplicarAS(AnalizadorLexico al, char c) {
-            al.disminuirContador();
+            al.disminuirContador(); // Retrocede para no procesar el caracter que causó el final del token
             String lexemaActual = al.getLexema();
 
-            if (al.getTablaSimbolos().containsKey(lexemaActual)) {
-                if ((boolean) al.getTablaSimbolos().get(lexemaActual).get("Reservada")) {
-                    return "PALABRA_RESERVADA";
-                } else {
-                    return "ID";
-                }
+            // las palabras reservadas deben estar en minusculas
+            if (al.esPalabraReservada(lexemaActual)) {
+                // si es reservada, retornamos el propio lexema en mayúsculas.
+                return lexemaActual.toUpperCase();
             }
 
-            if (al.isAllLowerCase(lexemaActual)) {
-                return "ID";
-            }
-            else if (al.isAllUpperCase(lexemaActual)) {
-                al.agregarWarning("Identificador '" + lexemaActual + "' contiene solo mayúsculas. Se recomienda usar minúsculas.");
-            }
-            else {
-                al.agregarError("Identificador '" + lexemaActual + "' contiene mayúsculas y minúsculas.");
+            char primerChar = lexemaActual.charAt(0);
+            if (!Character.isLetter(primerChar) || !Character.isUpperCase(primerChar)) {
+                al.agregarError("Identificador '" + lexemaActual + "' debe comenzar con una letra mayuscula.");
                 return "ERROR";
             }
 
-            if (lexemaActual.length() > 20) {
-                al.agregarWarning("Identificador mayor a 20 caracteres, se truncó hasta esa cantidad.");
-                lexemaActual = lexemaActual.substring(0, 20);
-                al.setLexema(lexemaActual);
+            for (int i = 1; i < lexemaActual.length(); i++) {
+                char ch = lexemaActual.charAt(i);
+                if (!(Character.isUpperCase(ch) && Character.isLetter(ch)) && !Character.isDigit(ch) && ch != '%') {
+                    al.agregarError("Identificador '" + lexemaActual + "' contiene un caracter invalido ('" + ch + "'). Solo se permiten letras mayusculas, dígitos y '%'.");
+                    return "ERROR";
+                }
             }
 
-            al.agregarLexemaTS(lexemaActual);
+            if (lexemaActual.length() > 20) {
+                String original = lexemaActual;
+                lexemaActual = lexemaActual.substring(0, 20);
+                al.setLexema(lexemaActual);
+                al.agregarWarning("El identificador '" + original + "' fue truncado a 20 caracteres: '" + lexemaActual + "'.");
+            }
+
+            if (!al.getTablaSimbolos().containsKey(lexemaActual)) {
+                al.agregarLexemaTS(lexemaActual);
+                al.agregarAtributoLexema(lexemaActual, "Uso", "Identificador");
+            }
+
             return "ID";
         }
     }
 
-    public static class AccionSemantica4 extends AccionSemantica{ //hay que correguir
+    public static class AccionSemantica4 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
-            al.disminuirContador();// Retrocede un carácter para no consumir el que disparó la transición
-            String uintConUI = al.getLexema();
-            String soloEnteros = uintConUI.substring(0, uintConUI.length() - 2); // elimina los últimos 2 (UI)
-            BigDecimal bd = new BigDecimal(soloEnteros);
-            BigDecimal limiteSuperior = new BigDecimal("32768"); //luego debo chequear que si es positivo debe ser un valor menos, es decir, se puede hasta 32768 positivo
-            if(bd.compareTo(limiteSuperior) <= 0 || bd.compareTo(BigDecimal.ZERO) <= 0) {
-                if(al.getTablaSimbolos().containsKey(al.getLexema())){
-                    al.getTablaSimbolos().get(uintConUI).put("Contador", (int) al.getTablaSimbolos().get(uintConUI).get("Contador") + 1);
-                    return "CTE";
-                }
-                al.agregarLexemaTS(al.getLexema());
-                System.out.println("valor del lexema: " + al.getLexema());
-                al.agregarAtributoLexema(uintConUI, "Tipo", "uint");
-                al.agregarAtributoLexema(uintConUI, "Contador", 1);
-                al.agregarAtributoLexema(uintConUI, "Uso", "Constante");
-                return "CTE";
+            al.disminuirContador(); // Retrocede un carácter
+            String lexemaConSufijo = al.getLexema();
+
+            if (!lexemaConSufijo.endsWith("UI")) {
+                al.agregarError("Constante mal formada, se esperaba el sufijo 'UI': " + lexemaConSufijo);
+                return "ERROR";
             }
-            al.agregarError(" Constante entera sin signo fuera de rango (0 a 32768)");
-            return "ERROR";
+
+            String soloEnteros = lexemaConSufijo.substring(0, lexemaConSufijo.length() - 2);
+
+            try {
+                BigDecimal bd = new BigDecimal(soloEnteros);
+                BigDecimal limiteSuperior = new BigDecimal("65536");
+
+                if (bd.compareTo(BigDecimal.ZERO) >= 0 && bd.compareTo(limiteSuperior) < 0) {
+                    if (al.getTablaSimbolos().containsKey(lexemaConSufijo)) {
+                        al.getTablaSimbolos().get(lexemaConSufijo).put("Contador", (int) al.getTablaSimbolos().get(lexemaConSufijo).get("Contador") + 1);
+                    } else {
+                        al.agregarLexemaTS(lexemaConSufijo);
+                        al.agregarAtributoLexema(lexemaConSufijo, "Tipo", "uint");
+                        al.agregarAtributoLexema(lexemaConSufijo, "Uso", "Constante");
+                        al.agregarAtributoLexema(lexemaConSufijo, "Contador", 1);
+                    }
+                    return "CTE";
+                } else {
+                    al.agregarError("Constante uint fuera del rango permitido (0 a 65535). Valor encontrado: " + soloEnteros);
+                    return "ERROR";
+                }
+            } catch (NumberFormatException e) {
+                al.agregarError("Formato de número inválido para constante uint: " + soloEnteros);
+                return "ERROR";
+            }
         }
     }
 
@@ -89,33 +108,28 @@ public abstract class AccionSemantica{
 
     public static class AccionSemantica6 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
-            al.disminuirContador();// Retrocede un carácter para no consumir el que disparó la transición
-            String valor = al.getLexema().replace('F', 'E');// Reemplazo de 'F' por 'E' (Java/BigDecimal usa notación 'E' para exponentes)
+            al.disminuirContador();
+            String valor = al.getLexema().replace('F', 'E');
             try {
                 BigDecimal bd = new BigDecimal(valor);
-                // Límites positivos y negativos para Single (32 bits)
                 BigDecimal limiteInferiorPositivo = new BigDecimal("1.17549435E-38");
                 BigDecimal limiteSuperiorPositivo = new BigDecimal("3.40282347E+38");
-                // Verificación de rango: positivo, negativo o cero
                 boolean enRangoPositivo = bd.compareTo(limiteInferiorPositivo) >= 0 && bd.compareTo(limiteSuperiorPositivo) <= 0;
                 boolean esCero = bd.compareTo(BigDecimal.ZERO) == 0;
-                if (enRangoPositivo || esCero) {// Si ya existe en la tabla, incrementar contador
+                if (enRangoPositivo || esCero) {
                     if (al.getTablaSimbolos().containsKey(al.getLexema())) {
                         al.getTablaSimbolos().get(al.getLexema()).put("Contador", (int) al.getTablaSimbolos().get(al.getLexema()).get("Contador") + 1);
                         return "CTE";
                     }
-                    // Si no existe, agregarlo con sus atributos
                     al.agregarLexemaTS(al.getLexema());
                     al.agregarAtributoLexema(al.getLexema(), "Tipo", "float");
                     al.agregarAtributoLexema(al.getLexema(), "Contador", 1);
                     al.agregarAtributoLexema(al.getLexema(), "Uso", "Constante");
                     return "CTE";
                 }
-                // Caso fuera de rango
                 al.agregarError("Constante flotante fuera de rango.");
                 return "ERROR";
             } catch (NumberFormatException e) {
-                // Si el lexema no puede convertirse a número (formato inválido)
                 al.agregarError("Formato inválido de constante flotante.");
                 return "ERROR";
             }

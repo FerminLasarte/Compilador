@@ -223,64 +223,59 @@ public class AnalizadorLexico {
         };
     }
 
-    public int yylex(){
+    public int yylex() {
         ultimoEstado = 0;
-        String token = null;
-        while(ultimoEstado != -1 && ultimoEstado != -2){
+        String tokenString = null;
+
+        while (ultimoEstado != -1 && ultimoEstado != -2) {
             char proximoCaracter;
             if (contadorFila >= lineasArchivo.size()) {
                 return 0;
             }
-
             String currentLine = lineasArchivo.get(contadorFila);
             if(currentLine.length() == contadorColumna){
                 proximoCaracter = '\n';
             }
             else{
                 proximoCaracter = currentLine.charAt(contadorColumna);
-                if(proximoCaracter == '\\' && (contadorColumna + 1 < currentLine.length()) && currentLine.charAt(contadorColumna + 1) == 'n'){
-                    proximoCaracter = '\n';
-                    contadorColumna += 2; // Avanza 2 posiciones
-                } else {
-                    contadorColumna++; // Avanza 1 posición
-                }
             }
+            contadorColumna++;
 
             int columnaCaracter;
-            if(columnaMatrices.containsKey(proximoCaracter)){
+            if (columnaMatrices.containsKey(proximoCaracter)) {
                 columnaCaracter = columnaMatrices.get(proximoCaracter);
+            } else {
+                columnaCaracter = 15;
             }
-            else{
-                columnaCaracter = 18;
+
+            if (matrizAccionesSemanticas[ultimoEstado][columnaCaracter] != null) {
+                tokenString = matrizAccionesSemanticas[ultimoEstado][columnaCaracter].aplicarAS(this, proximoCaracter);
             }
-            if(matrizAccionesSemanticas[ultimoEstado][columnaCaracter] != null){
-                token = matrizAccionesSemanticas[ultimoEstado][columnaCaracter].aplicarAS(this, proximoCaracter);
-            }
+
             ultimoEstado = matrizTransicionEstados[ultimoEstado][columnaCaracter];
-            if(proximoCaracter == '\n'){
-                this.aumentarContadorFila(); // Seteamos contadorColumna = 0 y avanza contadorFila
+
+            if (proximoCaracter == '\n') {
+                this.aumentarContadorFila();
             }
         }
 
-        //retorno del token
-        if (token != null && (token.equals("ID") || token.equals("CTE") || token.equals("ERROR") || token.equals("CADENA_MULTILINEA") || token.equals("PALABRA_RESERVADA"))) {
-            // Para palabras reservadas, devolvemos el código específico del token
-            if (token.equals("PALABRA_RESERVADA")) {
-                System.out.println("Token: " + lexema.toUpperCase() + ", Lexema: " + lexema + ", (" + codigosTokens.get(lexema) + ")");
-                return codigosTokens.get(lexema);
+        if (tokenString != null) {
+            if (codigosTokens.containsKey(tokenString)) {
+                System.out.println("Token: " + tokenString + ", Lexema: " + lexema + ", (" + codigosTokens.get(tokenString) + ")");
+                return codigosTokens.get(tokenString);
             }
-            System.out.println("Token: "   + token + ", Lexema: " + lexema + ", (" + codigosTokens.get(token) + ")");
-            return codigosTokens.get(token);
         }
-        else {
-            // Caso especial para el operador de asignación múltiple '=' que no es compuesto
-            if (lexema.equals("=")) {
-                System.out.println("Lexema: = (ASIG_MULTIPLE), (" + codigosTokens.get("ASIG_MULTIPLE") + ")");
-                return codigosTokens.get("ASIG_MULTIPLE");
-            }
-            System.out.println("Lexema: " + lexema + ", (" + codigosTokens.get(lexema) + ")");
+
+        if (lexema != null && !lexema.isEmpty() && codigosTokens.containsKey(lexema)) {
+            System.out.println("Token: Operador, Lexema: " + lexema + ", (" + codigosTokens.get(lexema) + ")");
             return codigosTokens.get(lexema);
         }
+
+        return -1;
+    }
+
+    public boolean esPalabraReservada(String lexema) {
+        return tablaSimbolos.containsKey(lexema) && (boolean) tablaSimbolos.get(lexema).get("Reservada");
     }
 
     public void inicializarLexema(){

@@ -1,7 +1,14 @@
-x = 1
+X := 1UI
+X, Y = 1UI, 2UI
+:=
+
+=!
+>=
+<=
 cr
 se
 le
+->
 toui
 ,
 %
