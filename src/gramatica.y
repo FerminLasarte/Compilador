@@ -168,16 +168,21 @@ parametro_simple : expresion
                  | lambda_expresion
                  ;
 
-lambda_expresion : '(' tipo ID ')' '{' sentencias '}'
+lambda_expresion : '(' tipo ID ')' '{' cuerpo_lambda '}'
                  ;
+
+cuerpo_lambda : sentencias_ejecutables_lista
+              |
+              ;
+
+sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
+                             | sentencia_ejecutable
+                             ;
 
 constante : CTE
           | '-' CTE
           ;
 
-/*
- * REGLA 'IF' CORREGIDA Y SEPARADA EN DOS PRODUCCIONES
- */
 condicional_if
     : IF '(' condicion ')' bloque_ejecutable ENDIF ';' %prec IFX
     | IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
