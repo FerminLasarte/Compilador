@@ -93,7 +93,7 @@ lista_parametros_formales : lista_parametros_formales ',' parametro_formal
                           | parametro_formal
                           ;
 
-parametro_formal : especificacion_pasaje tipo ID
+parametro_formal : sem_pasaje tipo ID
                  | tipo ID
                  ;
 
@@ -150,7 +150,7 @@ factor : variable
 
 conversion_explicita : TOUI '(' expresion ')'
                 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explícita (toui).");
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explicita (toui).");
                 }
                 ;
 
@@ -210,7 +210,7 @@ bloque_ejecutable : '{' sentencias '}'
 
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilínea.");
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilinea.");
                 }
                 | PRINT '(' expresion ')'
                 {
