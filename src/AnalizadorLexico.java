@@ -57,7 +57,7 @@ public class AnalizadorLexico {
         codigosTokens.put("*", 42);
         codigosTokens.put("/", 46);
         codigosTokens.put(".", 47);
-        codigosTokens.put("=", 61);
+        codigosTokens.put("=", 271);
         codigosTokens.put("<", 60);
         codigosTokens.put(">", 62);
         codigosTokens.put("(", 40);

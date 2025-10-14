@@ -10,7 +10,7 @@
     import java.lang.StringBuilder;
 %}
 
-%token ID CTE IF ELSE FLOAT ENDIF RETURN PRINT UINT VAR DO WHILE LAMBDA CADENA_MULTILINEA ASIG_MULTIPLE CR SE LE TOUI ASIG FLECHA MAYOR_IGUAL MENOR_IGUAL DISTINTO
+%token ID CTE IF ELSE FLOAT ENDIF RETURN PRINT UINT VAR DO WHILE LAMBDA CADENA_MULTILINEA ASIG_MULTIPLE CR SE LE TOUI ASIG FLECHA MAYOR_IGUAL MENOR_IGUAL DISTINTO IGUAL_IGUAL
 
 %nonassoc IFX
 %nonassoc ELSE
@@ -48,7 +48,7 @@ declaracion_tipica : tipo lista_variables
             }
             ;
 
-declaracion_var : VAR asignacion
+declaracion_var : VAR variable ASIG expresion
                 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion por inferencia (var).");
                 }
@@ -70,21 +70,16 @@ lista_variables : lista_variables ',' variable
                 }
                 ;
 
-/*
- * REGLAS DE FUNCION CORREGIDAS PARA ELIMINAR AMBIGÜEDAD
- * Se separa en dos casos: retorno unico y retorno multiple.
- */
-funcion : tipo ID '(' lista_parametros_formales ')' '{' sentencias '}' /* Funcion con retorno unico */
+funcion : tipo ID '(' lista_parametros_formales ')' '{' sentencias '}'
         {
             salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
         }
-        | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' sentencias '}' /* Funcion con retorno multiple */
+        | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' sentencias '}'
         {
             salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
         }
         ;
 
-/* La lista de tipos de retorno ahora debe tener como minimo dos elementos */
 lista_tipos_retorno_multiple : tipo ',' tipo
                              | lista_tipos_retorno_multiple ',' tipo
                              ;
@@ -200,7 +195,7 @@ condicion : expresion simbolo_comparacion expresion
 simbolo_comparacion : MAYOR_IGUAL
                     | MENOR_IGUAL
                     | DISTINTO
-                    | '='
+                    | IGUAL_IGUAL
                     | '>'
                     | '<'
                     ;
@@ -254,9 +249,7 @@ public static void main(String args[]){
     if(args.length == 1) {
         al = new AnalizadorLexico(args[0]);
         Parser par = new Parser(false);
-        par.yyparse(); // Se ejecuta el analisis sintactico
-
-        // ---- AÑADIR ESTE BLOQUE PARA IMPRIMIR LOS RESULTADOS ----
+        par.yyparse();
 
         System.out.println("\n=======================================================");
         System.out.println("## ESTRUCTURAS SINTACTICAS RECONOCIDAS ##");
