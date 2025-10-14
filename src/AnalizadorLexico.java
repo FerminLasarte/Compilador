@@ -55,7 +55,8 @@ public class AnalizadorLexico {
         codigosTokens.put("+", 43);
         codigosTokens.put("-", 45);
         codigosTokens.put("*", 42);
-        codigosTokens.put("/", 47);
+        codigosTokens.put("/", 46);
+        codigosTokens.put(".", 47);
         codigosTokens.put("=", 61);
         codigosTokens.put("<", 60);
         codigosTokens.put(">", 62);
@@ -175,7 +176,7 @@ public class AnalizadorLexico {
 
         // Matriz de Transición de Estados (sin cambios)
         matrizTransicionEstados = new int[][] {
-                /*0*/ {-1, 1, -1, 2, 3, 4, 5, 5, 6, 7, 10, 9, -2, -2, 0, 0, -1, 5, 5},
+                /*0*/ {-1, 1, -1, 2, 3, 4, 5, 5, 6, 7, 16, 9, -2, -2, 0, 0, -1, 5, 5},
                 /*1*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 /*2*/ {-2, -2, -2, -2, -2, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
                 /*3*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
@@ -191,6 +192,7 @@ public class AnalizadorLexico {
                 /*13*/{-1, -1, -1, -1, -1, -1, -1, -1, -1, 13, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 /*14*/{-2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, -2, -2, -2, -2, -2, 15},
                 /*15*/{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                /*16*/{-1, -1, -1, -1, -1, -1, -1, -1, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
         };
 
         // Matriz de Acciones Semánticas (sin cambios)
@@ -220,6 +222,7 @@ public class AnalizadorLexico {
                 /*13*/{as6, as6, as6, as6, as6, as6, as6, as6, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
                 /*14*/{asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, as2},
                 /*15*/{as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4},
+                /*16*/{as5, as5, as5, as5, as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5},
         };
     }
 

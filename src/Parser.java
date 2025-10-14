@@ -788,7 +788,7 @@ break;
 case 53:
 //#line 152 "gramatica.y"
 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explícita (toui).");
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explicita (toui).");
                 }
 break;
 case 69:
@@ -800,7 +800,7 @@ break;
 case 78:
 //#line 212 "gramatica.y"
 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilínea.");
+                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilinea.");
                 }
 break;
 case 79:
