@@ -26,6 +26,11 @@ La rama principal (`main`) contiene la **entrega actual** del proyecto, que incl
 
 Para ejecutar los distintos componentes del compilador, utiliza los siguientes comandos en tu terminal.
 
+### Para la compilación del proyecto
+```bash
+javac *.java
+```
+
 **Nota:** Reemplaza `<ruta>` con la ruta asociada a donde se descargue el proyecto.
 
 ### Analizador Léxico (Lexer)
