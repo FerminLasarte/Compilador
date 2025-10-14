@@ -1,8 +1,9 @@
 PRUEBACOMPLETA {
-    @ Error: Declaración de 'var' dentro de un bloque de control (prohibido)
+
+    @ Error Tema 14: DO-WHILE sin punto y coma final
     do {
-       var ERRORVAR := 1UI;
-    } while (A > 0UI);
+        X := 1.0F+0;
+    } while (B > 0UI)
 
     @ ---- Tema 23: Prefijado Opcional ----
     @ Se usan prefijos en variables.
