@@ -1,7 +1,7 @@
 PRUEBACOMPLETA {
 
-    @ ---- Tema 23: Prefijado Opcional ----
-    @ Se usan prefijos en variables.
-    MODULOA.OTRAVAR := A;
-    B := OTROMODULO.OTRAVAR + MODULOA.VARIABLE;
+    @ Error Tema 25: Palabra clave de pasaje de parámetros incorrecta (cv en lugar de cr)
+        uint FUNCIONERROR(cv se uint P1) {
+            return (P1);
+        }
 }

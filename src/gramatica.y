@@ -15,9 +15,6 @@
 %nonassoc IFX
 %nonassoc ELSE
 
-%left '+' '-'
-%left '*' '/'
-
 %%
 
 programa : ID '{' sentencias '}'
@@ -113,7 +110,7 @@ asignacion : variable ASIG expresion
            }
            ;
 
-asignacion_multiple : lista_variables ',' variable ASIG_MULTIPLE lado_derecho_multiple
+asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                     {
                         salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion multiple (=).");
                     }

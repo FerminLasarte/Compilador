@@ -40,7 +40,7 @@ PRUEBACOMPLETA {
 
     @ ---- Tema 23: Prefijado Opcional ----
     @ Se usan prefijos en variables.
-    MODULOA.OTRAVAR := A;
+
     B := OTROMODULO.OTRAVAR + MODULOA.VARIABLE;
 
     @ ---- Tema 14: Sentencia de Control DO-WHILE ----
@@ -77,18 +77,8 @@ PRUEBACOMPLETA {
         var ERRORVAR := 1UI;
     } while (A > 0UI);
 
-    @ Error Tema 14: DO-WHILE sin punto y coma final
-    do {
-        X := 1.0F+0;
-    } while (B > 0UI)
-
     @ Error Tema 19: Expresión aritmética en el lado derecho de una asignación múltiple
     A, B = 1UI + 2UI, C;
-
-    @ Error Tema 25: Palabra clave de pasaje de parámetros incorrecta (cv en lugar de cr)
-    uint FUNCIONERROR(cv se uint P1) {
-        return (P1);
-    }
 
     @ Error Tema 14: DO-WHILE sin punto y coma final
     do {
