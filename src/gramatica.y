@@ -192,7 +192,7 @@ constante : CTE
 
                             if (contador > 1) {
                                 al.agregarAtributoLexema(lexemaPositivo, "Contador", contador - 1);
-                            } else if (contador == 0) {
+                            } else if (contador == 1) {
                                 al.eliminarLexemaTS(lexemaPositivo);
                             }
                         } else if (tipo.equals("float")) {
