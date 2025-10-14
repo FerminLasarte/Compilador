@@ -1,0 +1,6 @@
+PRUEBACOMPLETA {
+    @ ---- Tema 23: Prefijado Opcional ----
+        @ Se usan prefijos en variables.
+        MODULOA.VARIABLE := A;
+        B := OTROMODULO.OTRAVAR + MODULOA.VARIABLE;
+}
