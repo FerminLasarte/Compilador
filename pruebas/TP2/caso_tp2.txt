@@ -1,0 +1,112 @@
+@ =================================================================
+@ Temas Asignados: 2, 5, 8, 9, 14, 19, 21, 23, 25, 28, 31, 32
+@ =================================================================
+
+PRUEBACOMPLETA {
+    CONSTANTE := -100UI;
+
+    @ -----------------------------------------------------------------
+    @ TEMA 9: Inferencia Obligatoria (var) y Tema 5: Constantes float
+    @ -----------------------------------------------------------------
+    var VARF1 := 1.5F+2;
+    var VARF3 := .75F+10;
+    var VARUINT := 123UI;
+    var OTROUINT := VARUINT;
+
+    @ -----------------------------------------------------------------
+    @ TEMA 25: Pasaje de Parámetros (Copia-Resultado)
+    @ TEMA 21: Retornos Múltiples
+    @ -----------------------------------------------------------------
+    uint, float, uint FUNCIONCR(cr se uint PSE, cr le float PLE) {
+        return (PSE, PLE, 2UI);
+    }
+
+    @ -----------------------------------------------------------------
+    @ TEMA 28: Expresiones Lambda como Parámetros
+    @ TEMA 2: Declaración explícita de uint
+    @ -----------------------------------------------------------------
+    uint FUNCIONLAMBDA(lambda MILAMBDA, uint VALOR) {
+        return (VALOR);
+    }
+    uint A, B, C;
+    float X, Y;
+
+    @ -----------------------------------------------------------------
+    @ TEMA 19: Asignaciones Múltiples (igual número de elementos)
+    @ -----------------------------------------------------------------
+    A, B, X = 100UI, VARUINT, .5F+1;
+
+    @ -----------------------------------------------------------------
+    @ TEMA 21: Asignación con menos elementos a la izquierda
+    @ -----------------------------------------------------------------
+    A, X = FUNCIONCR(0UI -> PSE, 1.0F+0 -> PLE);
+
+    @ -----------------------------------------------------------------
+    @ TEMA 23: Prefijado Opcional
+    @ -----------------------------------------------------------------
+    B := OTROMODULO.OTRAVAR + MODULOA.VARIABLE;
+
+    @ -----------------------------------------------------------------
+    @ TEMA 14: Sentencia de Control DO-WHILE
+    @ -----------------------------------------------------------------
+    do {
+        A := A - 1UI;
+        print(&Iterando en el bucle...&);
+    } while (A > 0UI);
+
+    if (A == B) {
+       print(&son iguales&);
+    } endif;
+
+    @ -----------------------------------------------------------------
+    @ TEMA 28 y 31: Invocación con Lambda y Conversión explícita
+    @ -----------------------------------------------------------------
+    B := FUNCIONLAMBDA((uint Z){ print(&lambda ejecutada&); } -> MILAMBDA, toui(X) -> VALOR);
+
+    @ =================================================================
+    @ SECCIÓN DE ERRORES SINTÁCTICOS
+    @ =================================================================
+
+    @ -----------------------------------------------------------------
+    @ TEMA 28: Falta argumento en la definición de la lambda
+    @ -----------------------------------------------------------------
+    A := FUNCIONLAMBDA((uint W) -> MILAMBDA, B -> VALOR);
+
+    @ -----------------------------------------------------------------
+    @ TEMA 31: Falta paréntesis de cierre en toui
+    @ -----------------------------------------------------------------
+    A := toui(X;
+
+    @ -----------------------------------------------------------------
+    @ Sentencia 'if' sin 'endif'
+    @ -----------------------------------------------------------------
+    if (A == B) {
+        print(&son iguales&);
+    };
+
+    @ -----------------------------------------------------------------
+    @ Declaración de 'var' dentro de un bloque de control (prohibido)
+    @ -----------------------------------------------------------------
+    do {
+        var ERRORVAR := 1UI;
+    } while (A > 0UI);
+
+    @ -----------------------------------------------------------------
+    @ TEMA 19: Expresión aritmética en el lado derecho de una asignación múltiple
+    @ -----------------------------------------------------------------
+    A, B = 1UI + 2UI, C;
+
+    @ -----------------------------------------------------------------
+    @ TEMA 14: DO-WHILE sin punto y coma final
+    @ -----------------------------------------------------------------
+    do {
+        X := 1.0F+0;
+    } while (B > 0UI)
+
+    @ -----------------------------------------------------------------
+    @ TEMA 25: Palabra clave de pasaje de parámetros incorrecta (cv en lugar de cr)
+    @ -----------------------------------------------------------------
+    uint FUNCIONERROR(cv se uint P1) {
+       return (P1);
+    }
+}
