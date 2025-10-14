@@ -4,12 +4,8 @@ PRUEBACOMPLETA {
        var ERRORVAR := 1UI;
     } while (A > 0UI);
 
-    @ Error Tema 28: Falta argumento en la definición de la lambda
-    A := FUNCIONLAMBDA((uint W) -> MILAMBDA, B -> VALOR);
-
     @ ---- Tema 23: Prefijado Opcional ----
     @ Se usan prefijos en variables.
     MODULOA.VARIABLE := A;
     B := OTROMODULO.OTRAVAR + MODULOA.VARIABLE;
-
 }

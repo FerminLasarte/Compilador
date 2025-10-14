@@ -200,7 +200,8 @@ simbolo_comparacion : MAYOR_IGUAL
                     | '<'
                     ;
 
-bloque_ejecutable : '{' sentencias '}'
+bloque_ejecutable : '{' sentencias_ejecutables_lista '}'
+                  | sentencia_ejecutable
                   ;
 
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
