@@ -8,6 +8,7 @@
     import java.util.HashMap;
     import java.util.Map;
     import java.lang.StringBuilder;
+    import java.math.BigDecimal;
 %}
 
 %token ID CTE IF ELSE FLOAT ENDIF RETURN PRINT UINT VAR DO WHILE LAMBDA CADENA_MULTILINEA ASIG_MULTIPLE CR SE LE TOUI ASIG FLECHA MAYOR_IGUAL MENOR_IGUAL DISTINTO IGUAL_IGUAL
@@ -176,22 +177,45 @@ sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
 
 constante : CTE
           | '-' CTE
+            {
+                String lexemaPositivo = $2.sval;
+                String lexemaNegativo = "-" + lexemaPositivo;
+
+                if (al.getTablaSimbolos().containsKey(lexemaPositivo)) {
+                    String tipo = (String) al.getAtributo(lexemaPositivo, "Tipo");
+
+                    if (tipo != null) {
+                        if (tipo.equals("uint")) {
+                            erroresSemanticos.add("Linea " + (al.getContadorFila()+1) + ": Error Semantico. El tipo 'uint' no puede ser negativo. Valor: " + lexemaNegativo);
+
+                            int contador = (int) al.getAtributo(lexemaPositivo, "Contador");
+
+                            if (contador > 1) {
+                                al.agregarAtributoLexema(lexemaPositivo, "Contador", contador - 1);
+                            } else if (contador == 0) {
+                                al.eliminarLexemaTS(lexemaPositivo);
+                            }
+                        } else if (tipo.equals("float")) {
+                            al.reemplazarEnTS(lexemaPositivo, lexemaNegativo);
+                        }
+                    }
+                }
+            }
           ;
 
-condicional_if
-    : IF '(' condicion ')' bloque_ejecutable ENDIF ';' %prec IFX
-    | IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
-    ;
+condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';' %prec IFX
+               | IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
+               ;
 
 condicional_do_while: DO bloque_ejecutable WHILE '(' condicion ')' ';'
-    {
-        salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE reconocida.");
-    }
-    | DO bloque_ejecutable WHILE '(' condicion ')'
-    {
-        yyerror("Linea " + al.getContadorFila() + ": Error Sintactico. Falta punto y coma ';' al final de la sentencia DO-WHILE.");
-    }
-;
+                    {
+                        salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE reconocida.");
+                    }
+                    | DO bloque_ejecutable WHILE '(' condicion ')'
+                    {
+                        yyerror("Linea " + al.getContadorFila() + ": Error Sintactico. Falta punto y coma ';' al final de la sentencia DO-WHILE.");
+                    }
+                    ;
 
 condicion : expresion simbolo_comparacion expresion
           ;
@@ -276,6 +300,32 @@ public static void main(String args[]){
         } else {
             for (String s : par.erroresSintacticos) {
                 System.out.println(s);
+            }
+        }
+
+        System.out.println("\n=======================================================");
+        System.out.println("## ERRORES SEMANTICOS DETECTADOS ##");
+        System.out.println("=======================================================");
+        if (par.erroresSemanticos.isEmpty()) {
+            System.out.println("No se encontraron errores semanticos.");
+        } else {
+            for (String s : par.erroresSemanticos) {
+                System.out.println(s);
+            }
+        }
+
+        System.out.println("\n=======================================================");
+        System.out.println("## CONTENIDOS DE LA TABLA DE SIMBOLOS ##");
+        System.out.println("=======================================================");
+        HashMap<String, HashMap<String, Object>> ts = al.getTablaSimbolos();
+        if (ts.isEmpty()) {
+            System.out.println("La tabla de simbolos esta vacia.");
+        } else {
+            for (Map.Entry<String, HashMap<String, Object>> entry : ts.entrySet()) {
+                System.out.println("Lexema: " + entry.getKey());
+                for (Map.Entry<String, Object> atributos : entry.getValue().entrySet()) {
+                    System.out.println("\t-> " + atributos.getKey() + ": " + atributos.getValue().toString());
+                }
             }
         }
         System.out.println("=======================================================");

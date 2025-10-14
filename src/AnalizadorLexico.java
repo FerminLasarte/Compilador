@@ -279,6 +279,12 @@ public class AnalizadorLexico {
         return -1;
     }
 
+    public void eliminarLexemaTS(String lexema) {
+        if (tablaSimbolos.containsKey(lexema)) {
+            tablaSimbolos.remove(lexema);
+        }
+    }
+
     public boolean esPalabraReservada(String lexema) {
         return tablaSimbolos.containsKey(lexema) && (boolean) tablaSimbolos.get(lexema).get("Reservada");
     }

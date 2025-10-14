@@ -1,7 +1,5 @@
 PRUEBACOMPLETA {
-
-    @ Error Tema 25: Palabra clave de pasaje de parámetros incorrecta (cv en lugar de cr)
-        uint FUNCIONERROR(cv se uint P1) {
-            return (P1);
-        }
+    CONSTANTE := -100UI;
+    CONSTANTE := -9.5F+38;
+    CONSTANTE := -4.0F+38;
 }
