@@ -5,7 +5,6 @@
 PRUEBACOMPLETA {
 
     CONSTANTE := -100UI;
-    CONSTANTE := -9.5F+38;
 
     @ ---- Tema 9: Inferencia Obligatoria (var) y Tema 5: Constantes float ----
     @ Declaraciones correctas por inferencia

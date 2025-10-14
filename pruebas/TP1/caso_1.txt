@@ -1,60 +1,70 @@
-if
-ui := 32767UI;
-i := -32768;
-ui := 32768UI;
-i := -32769;
-f := 1.17549435F-38;
-f := 3.40282347F+38;
-f := -1.17549435F-38;
-f := -3.40282347F+38;
-f := 1.17549434F-38;
-f := 3.40282348F+38;
-f := -1.17549434F38;
-f := -3.40282348F38;
+@ =================================================================
+@ Temas Asignados: 2, 5, 8, 9, 14, 28, 32
+@ =================================================================
 
-f := 4;
-f := 5.1;
-f := 3.4;
-f := .4;
-f := 4.3f+4;
-f := 4.3f-4;
+@ -----------------------------------------------------------------
+@ TEMA 2: Constantes Enteras sin Signo (uint) - Rango: 0 a 65535
+@ -----------------------------------------------------------------
+uint VARUINTMIN := 0UI;              @ VALIDO: Límite inferior del rango
+uint VARUINTMAX := 65535UI;          @ VALIDO: Límite superior del rango
+uint VARUINTOVER := 65536UI;         @ ERROR: Constante fuera de rango (superior)
+uint VARUINTNEG := -1UI;             @ VALIDO: El signo '-' se analiza por separado
 
-a := identificadormuylargo;
-a := identificador;
-a := idif_1_ador;
-a := ho{la;
+@ -----------------------------------------------------------------
+@ TEMA 5: Constantes de Punto Flotante (float)
+@ -----------------------------------------------------------------
+float VARFLOAT1 := 1.F+10;             @ VALIDO: Parte entera y decimal
+float VARFLOAT2 := .5F-5;              @ VALIDO: Sin parte entera, con parte decimal
+float VARFLOAT3 := 1.17549435F-38;     @ VALIDO: Límite inferior del rango
+float VARFLOAT4 := 3.40282347F+38;     @ VALIDO: Límite superior del rango
+float VARFLOATOVER := 3.40282348F+38;  @ ERROR: Constante fuera de rango (superior)
+float VARFLOATERR1 := 1F+10;           @ ERROR: Formato inválido, falta el punto '.'
+float VARFLOATERR2 := 1.F10;           @ ERROR: Formato inválido, falta el signo del exponente
 
-IF;
-ELSE;
-ENDIF;
-PRINT;
-RETURN;
-FLOAT;
-UINT;
-VAR;
-DO;
-WHILE;
-LAMBDA;
-if;
-else;
+@ -----------------------------------------------------------------
+@ TEMA 32: Comentarios de una línea
+@ -----------------------------------------------------------------
+VARA := 1UI; @ Esto es un comentario al final de una sentencia.
+
+@ -----------------------------------------------------------------
+@ TEMA 8: Cadenas Multilínea
+@ -----------------------------------------------------------------
+VARCADENA1 := &Cadena valida en una sola linea&;         @ VALIDO
+VARCADENA2 := &Esta es una cadena
+valida que ocupa
+varias lineas&;                                          @ VALIDO
+
+@ -----------------------------------------------------------------
+@ Identificadores
+@ -----------------------------------------------------------------
+VARIDOK := 1UI;                         @ VALIDO: Identificador corto
+IDCON%NUMEROS123 := 2UI;                @ VALIDO: Con letras, dígitos y '%'
+IDENTIFICADOR20CHARS := 3UI;            @ VALIDO: Longitud exacta de 20 caracteres
+ESTEIDENTIFICADORESMUYGRANDE := 4UI;    @ WARNING: Identificador de más de 20 caracteres, se debe truncar
+1IDERROR := 5UI;                        @ ERROR: No puede comenzar con un dígito
+%IDERROR := 6UI;                        @ ERROR: No puede comenzar con '%'
+
+@ -----------------------------------------------------------------
+@ TEMAS 9, 14, 28: Palabras Reservadas
+@ -----------------------------------------------------------------
+if (A > B)
+    print(A);
 endif;
-print;
-return;
-float;
-uint;
-var;
-do;
-while;
+var x := 0UI;
+do {
+    x := x + 1UI;
+} while (x < 10UI);
 lambda;
+return;
 
-@ hola
-@ hola \n
-& hola \n
-& hola
-# hola @
-hola @
+VAR; DO; WHILE; LAMBDA;
 
-{hola};
-hola};
-
-endif
+@ -----------------------------------------------------------------
+@ Operadores y Otros Símbolos
+@ -----------------------------------------------------------------
+RESULTADO := (VALOR1 + VALOR2) -> FUNC;
+if (A >= B) {}
+if (C <= D) {}
+if (E == F) {}
+if (G =! H) {}
+>

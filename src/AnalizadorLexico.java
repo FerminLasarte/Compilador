@@ -178,7 +178,7 @@ public class AnalizadorLexico {
 
         // Matriz de Transición de Estados (sin cambios)
         matrizTransicionEstados = new int[][] {
-                /*0*/ {-1, 1, -1, 2, 3, 4, 5, 5, 6, 7, 16, 9, -2, -2, 0, 0, -1, 5, 5},
+                /*0*/ {-1, 1, 3, 2, 3, 4, 5, 5, 6, 7, 16, 9, -2, -2, 0, 0, -1, 5, 5},
                 /*1*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 /*2*/ {-2, -2, -2, -2, -2, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
                 /*3*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
@@ -186,7 +186,7 @@ public class AnalizadorLexico {
                 /*5*/ {-1, -1, -1, -1, -1, -1, 5, 5, -1, 5, -1, -1, -1, 5, -1, -1, -1, 5, 5},
                 /*6*/ {6, 6, 6, 6, 6, 6, 6, 6, -1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
                 /*7*/ {-2, -2, -2, -2, -2, -2, -2, -2, -2, 7, 8, -2, -2, -2, -2, -2, -2, 14, -2},
-                /*8*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                /*8*/ {-1, -1, -1, -1, -1, -1, -1, 11, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 /*9*/ {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 9, 9, 9, 9},
                 /*10*/{-1, -1, -1, -1, -1, -1, -1, 11, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 /*11*/{12, 12, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
@@ -216,7 +216,7 @@ public class AnalizadorLexico {
                 /*5*/ {as3, as3, as3, as3, as3, as3, as2, as2, as3, as2, as3, as3, as3, as2, as3, as3, as3, as2, as2},
                 /*6*/ {as2, as2, as2, as2, as2, as2, as2, as2, as7, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2},
                 /*7*/ {asE, asE, asE, asE, asE, asE, asE, asE, asE, as2, as2, asE, asE, asE, asE, asE, asE, as2, asE},
-                /*8*/ {as6, as6, as6, as6, as6, as6, as6, as6, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
+                /*8*/ {as6, as6, as6, as6, as6, as6, as6, as2, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
                 /*9*/ {asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull},
                 /*10*/{as6, as6, as6, as6, as6, as6, as6, as2, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
                 /*11*/{as2, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},

@@ -10,12 +10,14 @@ public class Main {
         }
 
         System.out.println("\n");
+        System.out.println("WARNINGS");
         if (al.getWarnings() != null) {
             for(String s : al.getWarnings()){
                 System.out.println(s);
             }
         }
         System.out.println("=========================================================");
+        System.out.println("ERRORES");
         if (al.getErrores() != null) {
             for(String s : al.getErrores()){
                 System.out.println(s);
