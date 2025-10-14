@@ -183,11 +183,15 @@ condicional_if
     | IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
     ;
 
-condicional_do_while : DO bloque_ejecutable WHILE '(' condicion ')' ';'
-                     {
-                         salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE.");
-                     }
-                     ;
+condicional_do_while: DO bloque_ejecutable WHILE '(' condicion ')' ';'
+    {
+        salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE reconocida.");
+    }
+    | DO bloque_ejecutable WHILE '(' condicion ')'
+    {
+        yyerror("Linea " + al.getContadorFila() + ": Error Sintactico. Falta punto y coma ';' al final de la sentencia DO-WHILE.");
+    }
+;
 
 condicion : expresion simbolo_comparacion expresion
           ;

@@ -84,4 +84,9 @@ PRUEBACOMPLETA {
     do {
         X := 1.0F+0;
     } while (B > 0UI)
+
+     @ Error Tema 25: Palabra clave de pasaje de parámetros incorrecta (cv en lugar de cr)
+     uint FUNCIONERROR(cv se uint P1) {
+        return (P1);
+     }
 }
