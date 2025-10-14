@@ -123,8 +123,8 @@ lista_elementos_restringidos : lista_elementos_restringidos ',' factor
                              | factor
                              ;
 
-variable : ID { $$.sval = $1.sval; }
-         | ID '.' ID { $$.sval = $1.sval + "." + $3.sval; }
+variable : ID '.' ID { $$.sval = $1.sval + "." + $3.sval; }
+         | ID { $$.sval = $1.sval; }
          ;
 
 expresion : expresion '+' termino

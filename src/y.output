@@ -58,8 +58,8 @@
   39  lista_elementos_restringidos : lista_elementos_restringidos ',' factor
   40                               | factor
 
-  41  variable : ID
-  42           | ID '.' ID
+  41  variable : ID '.' ID
+  42           | ID
 
   43  expresion : expresion '+' termino
   44            | expresion '-' termino
@@ -216,14 +216,14 @@ state 4
 
 
 state 5
-	variable : ID .  (41)
-	variable : ID . '.' ID  (42)
+	variable : ID . '.' ID  (41)
+	variable : ID .  (42)
 
 	'.'  shift 34
-	ASIG_MULTIPLE  reduce 41
-	ASIG  reduce 41
-	';'  reduce 41
-	','  reduce 41
+	ASIG_MULTIPLE  reduce 42
+	ASIG  reduce 42
+	';'  reduce 42
+	','  reduce 42
 
 
 state 6
@@ -514,7 +514,7 @@ state 33
 
 
 state 34
-	variable : ID '.' . ID  (42)
+	variable : ID '.' . ID  (41)
 
 	ID  shift 59
 	.  error
@@ -689,13 +689,13 @@ state 45
 
 state 46
 	funcion : tipo ID . '(' lista_parametros_formales ')' '{' sentencias '}'  (20)
-	variable : ID .  (41)
-	variable : ID . '.' ID  (42)
+	variable : ID . '.' ID  (41)
+	variable : ID .  (42)
 
 	'('  shift 80
 	'.'  shift 34
-	';'  reduce 41
-	','  reduce 41
+	';'  reduce 42
+	','  reduce 42
 
 
 state 47
@@ -811,32 +811,32 @@ state 58
 
 
 state 59
-	variable : ID '.' ID .  (42)
+	variable : ID '.' ID .  (41)
 
-	.  reduce 42
+	.  reduce 41
 
 
 state 60
-	variable : ID .  (41)
-	variable : ID . '.' ID  (42)
+	variable : ID . '.' ID  (41)
+	variable : ID .  (42)
 	invocacion_funcion : ID . '(' lista_parametros_reales ')'  (54)
 
 	'('  shift 89
 	'.'  shift 34
-	FLECHA  reduce 41
-	MAYOR_IGUAL  reduce 41
-	MENOR_IGUAL  reduce 41
-	DISTINTO  reduce 41
-	IGUAL_IGUAL  reduce 41
-	';'  reduce 41
-	','  reduce 41
-	')'  reduce 41
-	'+'  reduce 41
-	'-'  reduce 41
-	'*'  reduce 41
-	'/'  reduce 41
-	'>'  reduce 41
-	'<'  reduce 41
+	FLECHA  reduce 42
+	MAYOR_IGUAL  reduce 42
+	MENOR_IGUAL  reduce 42
+	DISTINTO  reduce 42
+	IGUAL_IGUAL  reduce 42
+	';'  reduce 42
+	','  reduce 42
+	')'  reduce 42
+	'+'  reduce 42
+	'-'  reduce 42
+	'*'  reduce 42
+	'/'  reduce 42
+	'>'  reduce 42
+	'<'  reduce 42
 
 
 state 61

@@ -1,6 +1,6 @@
 PRUEBACOMPLETA {
-    @ ---- Tema 23: Prefijado Opcional ----
-        @ Se usan prefijos en variables.
-        MODULOA.VARIABLE := A;
-        B := OTROMODULO.OTRAVAR + MODULOA.VARIABLE;
+    @ ---- Tema 28 y 31: Invocación con Lambda y Conversión explícita ----
+        @ Se invoca a la función que espera una lambda.
+        @ El segundo parámetro es una conversión explícita.
+        B := FUNCIONLAMBDA((uint Z){ print(&lambda ejecutada&); } -> MILAMBDA, toui(X) -> VALOR);
 }
