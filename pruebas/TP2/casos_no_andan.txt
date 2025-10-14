@@ -1,12 +1,7 @@
 PRUEBACOMPLETA {
 
-    @ Error Tema 14: DO-WHILE sin punto y coma final
-    do {
-        X := 1.0F+0;
-    } while (B > 0UI)
-
     @ ---- Tema 23: Prefijado Opcional ----
     @ Se usan prefijos en variables.
-    MODULOA.VARIABLE := A;
+    MODULOA.OTRAVAR := A;
     B := OTROMODULO.OTRAVAR + MODULOA.VARIABLE;
 }

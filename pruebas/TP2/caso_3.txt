@@ -40,7 +40,7 @@ PRUEBACOMPLETA {
 
     @ ---- Tema 23: Prefijado Opcional ----
     @ Se usan prefijos en variables.
-    MODULOA.VARIABLE := A;
+    MODULOA.OTRAVAR := A;
     B := OTROMODULO.OTRAVAR + MODULOA.VARIABLE;
 
     @ ---- Tema 14: Sentencia de Control DO-WHILE ----
@@ -89,4 +89,9 @@ PRUEBACOMPLETA {
     uint FUNCIONERROR(cv se uint P1) {
         return (P1);
     }
+
+    @ Error Tema 14: DO-WHILE sin punto y coma final
+    do {
+        X := 1.0F+0;
+    } while (B > 0UI)
 }
