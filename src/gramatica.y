@@ -202,6 +202,7 @@ simbolo_comparacion : MAYOR_IGUAL
 
 bloque_ejecutable : '{' sentencias_ejecutables_lista '}'
                   | sentencia_ejecutable
+                  | '{' error '}'
                   ;
 
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
