@@ -92,8 +92,9 @@ public class AnalizadorLexico {
         codigosTokens.put("MAYOR_IGUAL", 278);
         codigosTokens.put("MENOR_IGUAL", 279);
         codigosTokens.put("DISTINTO", 280);
-        codigosTokens.put("ERROR", 281);
-        codigosTokens.put("PALABRA_RESERVADA", 282);
+        codigosTokens.put("IGUAL_IGUAL", 281);
+        codigosTokens.put("ERROR", 282);
+        codigosTokens.put("PALABRA_RESERVADA", 283);
 
         // Mapeo de lexemas compuestos a sus tokens
         codigosTokens.put(":=", 276);
@@ -101,6 +102,7 @@ public class AnalizadorLexico {
         codigosTokens.put(">=", 278);
         codigosTokens.put("<=", 279);
         codigosTokens.put("=!", 280);
+        codigosTokens.put("==", 281);
 
         // Mapeo de caracteres para la matriz de transición
         columnaMatrices = new HashMap<Character, Integer>();
