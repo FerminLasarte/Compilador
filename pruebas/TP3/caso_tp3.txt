@@ -1,0 +1,52 @@
+MI_PROGRAMA
+{
+    @ Declaraciones globales
+    uint CONTADOR;
+    float FACTOR;
+
+    @ Funcion con retorno multiple
+    float, uint FUNC_MULTIPLE (cr se float SALIDA1, uint ENTRADA1) {
+        uint TEMP;
+        TEMP := ENTRADA1 * 2UI; @ Multiplicacion valida
+        @ SALIDA1 := TEMP; @ Error: parametro 'se' no puede leerse (asumido por estar a la derecha implicita) - CORRECCION: Este error no aplica a cr se, aplica a la derecha. Este es valido.
+        SALIDA1 := 1.5F; @ Asignacion valida a parametro 'se'
+        print(&Retornando...
+        &);
+        return (FACTOR, TEMP, 5.0F); @ Retorna 3 valores
+    }
+
+    CONTADOR := 0UI;
+    FACTOR := 10.0F;
+
+    @ Prueba DO WHILE y Prefijado Opcional
+    do {
+        CONTADOR := CONTADOR + 1UI;
+        if (CONTADOR > 5UI)
+            FACTOR := FACTOR / 2.0F; @ Division float
+        else
+            FACTOR := FACTOR + 1.0F;
+            @ uint ERROR_DECLARACION; @ Error: Declaracion dentro de bloque de control
+        endif;
+        print(CONTADOR);
+    } while (CONTADOR < 10UI);
+
+    @ Prueba Asignacion Retorno Multiple (Tema 21) -> Menos variables que retornos
+    float VAR_F;
+    uint VAR_UI;
+    VAR_F, VAR_UI = FUNC_MULTIPLE(0.0F -> SALIDA1, 3UI -> ENTRADA1); @ Llama FUNC_MULTIPLE, asigna los 2 primeros retornos
+
+    print(VAR_F); @ Deberia ser 10.0F (FACTOR global)
+    print(VAR_UI); @ Deberia ser 6UI (3UI * 2UI)
+
+    @ Prueba Conversion Explicita (Tema 31) y var (Tema 9)
+    var RESULTADO_UI := toui(FACTOR); @ FACTOR es float, se convierte a uint
+    print(RESULTADO_UI);
+
+    @ Prueba Asignacion Multiple Restringida (Tema 19)
+    float X, Y;
+    X, Y = VAR_F, 1.0F; @ Valido
+
+    @ Prueba error de tipos
+    uint ERROR_TIPO;
+    @ ERROR_TIPO := X + 1UI; @ Error: float + uint sin conversion explicita
+}
