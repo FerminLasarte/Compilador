@@ -20,12 +20,30 @@
 
 programa : ID '{' sentencias '}'
       {
-          salida.add("Linea " + (al.getContadorFila()+1) + ": Programa '" + $1.sval + "' reconocido.");
-          al.agregarAtributoLexema($1.sval, "Uso", "Programa");
+          String nombrePrograma = $1.sval;
+          Object lineaObj = al.getAtributo(nombrePrograma, "Linea");
+          String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+
+          salida.add("Linea " + linea + ": Programa '" + nombrePrograma + "' reconocido.");
+          al.agregarAtributoLexema(nombrePrograma, "Uso", "Programa");
+          al.limpiarUltimaModificacionTS();
       }
-     | '{' sentencias '}' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");}
-     | ID sentencias '}' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '{' al inicio del programa.");}
-     | ID '{' sentencias {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '}' al final del programa.");}
+     | '{' sentencias '}'
+     {
+         erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");
+         al.limpiarUltimaModificacionTS();
+     }
+     |
+     ID sentencias '}'
+     {
+         erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '{' al inicio del programa.");
+         al.limpiarUltimaModificacionTS();
+     }
+     |
+     ID '{' sentencias
+     {
+         erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '}' al final del programa.");
+     }
      ;
 
 sentencias : sentencias sentencia
@@ -37,7 +55,7 @@ sentencia : sentencia_declarativa { al.limpiarUltimaModificacionTS(); }
           | error ';'
             {
                 erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico en la sentencia.");
-                al.revertirUltimaModificacionTS(); // <-- CORRECTO
+                al.revertirUltimaModificacionTS();
             }
           ;
 
@@ -46,7 +64,6 @@ sentencia_declarativa : funcion
                       | declaracion_var ';'
                       ;
 
-// RETORNAR ERROR
 declaracion_var : VAR variable ASIG expresion
                 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion por inferencia (var).");
@@ -214,11 +231,16 @@ condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';' %prec IFX // C
 // AGREGAR MAS ERRORES
 condicional_do_while: DO bloque_ejecutable WHILE '(' condicion ')' ';'
                     {
-                        salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE reconocida.");
+                        Object lineaObj = al.getAtributo("do", "Linea");
+                        String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+                        salida.add("Linea " + linea + ": Sentencia DO-WHILE reconocida.");
                     }
-                    | DO bloque_ejecutable WHILE '(' condicion ')'
+                    |
+                    DO bloque_ejecutable WHILE '(' condicion ')'
                     {
-                        yyerror("Linea " + al.getContadorFila() + ": Error Sintactico. Falta punto y coma ';' al final de la sentencia DO-WHILE.");
+                        Object lineaObj = al.getAtributo("do", "Linea");
+                        String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+                        yyerror("Linea " + linea + ": Error Sintactico. Falta punto y coma ';' al final de la sentencia DO-WHILE.");
                     }
                     ;
 
@@ -266,7 +288,6 @@ ArrayList<String> salida = new ArrayList<String>();
 ArrayList<String> listaVariables = new ArrayList<String>();
 
 int yylex() {
-
     int token = al.yylex();
     String lexema = al.getLexema();
     if (token == ID || token == CTE || token == CADENA_MULTILINEA) {

@@ -4,7 +4,6 @@ public abstract class AccionSemantica{
     public abstract String aplicarAS(AnalizadorLexico al, char c);
 
     public static class AccionSemantica1 extends AccionSemantica{
-        // inciar lexema y agregar caracter
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.inicializarLexema();
             al.agregarCaracterLexema(c);
@@ -13,7 +12,6 @@ public abstract class AccionSemantica{
     }
 
     public static class AccionSemantica2 extends AccionSemantica{
-        // agregar caracter al lexema
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.agregarCaracterLexema(c);
             return null;
@@ -23,12 +21,12 @@ public abstract class AccionSemantica{
     public static class AccionSemantica3 extends AccionSemantica {
         @Override
         public String aplicarAS(AnalizadorLexico al, char c) {
-            al.disminuirContador(); // Retrocede para no procesar el caracter que causó el final del token
+            al.disminuirContador();
             String lexemaActual = al.getLexema();
+            int lineaActual = al.getContadorFila() + 1;
 
-            // las palabras reservadas deben estar en minusculas
             if (al.esPalabraReservada(lexemaActual)) {
-                // si es reservada, retornamos el propio lexema en mayúsculas.
+                al.agregarAtributoLexema(lexemaActual, "Linea", lineaActual);
                 return lexemaActual.toUpperCase();
             }
 
@@ -54,23 +52,16 @@ public abstract class AccionSemantica{
             }
 
             if (!al.getTablaSimbolos().containsKey(lexemaActual)) {
-                // CASO: ID NUEVO
                 al.agregarLexemaTS(lexemaActual);
                 al.agregarAtributoLexema(lexemaActual, "Uso", "Identificador");
-                al.agregarAtributoLexema(lexemaActual, "Contador", 1); // <-- Contamos 1
-
-                // Registramos para Rollback
-                al.setUltimaModificacionTS(lexemaActual, true); // true = es nuevo
-
+                al.agregarAtributoLexema(lexemaActual, "Contador", 1);
+                al.agregarAtributoLexema(lexemaActual, "Linea", lineaActual);
+                al.setUltimaModificacionTS(lexemaActual, true);
             } else {
-                // CASO: ID YA EXISTENTE
                 Object contadorObj = al.getAtributo(lexemaActual, "Contador");
                 int contador = (contadorObj != null) ? (int) contadorObj : 0;
-
-                al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1); // <-- Incrementamos
-
-                // Registramos para Rollback
-                al.setUltimaModificacionTS(lexemaActual, false); // false = no es nuevo
+                al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1);
+                al.setUltimaModificacionTS(lexemaActual, false);
             }
 
             return "ID";
@@ -79,7 +70,7 @@ public abstract class AccionSemantica{
 
     public static class AccionSemantica4 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
-            al.disminuirContador(); // Retrocede un carácter
+            al.disminuirContador();
             String lexemaConSufijo = al.getLexema();
 
             if (!lexemaConSufijo.endsWith("UI")) {
@@ -91,27 +82,19 @@ public abstract class AccionSemantica{
 
             try {
                 BigDecimal bd = new BigDecimal(soloEnteros);
-                BigDecimal limiteSuperior = new BigDecimal("65536"); // 2^16
+                BigDecimal limiteSuperior = new BigDecimal("65536");
 
                 if (bd.compareTo(BigDecimal.ZERO) >= 0 && bd.compareTo(limiteSuperior) < 0) {
-                    // El valor está en el rango [0, 65535]
-
                     if (al.getTablaSimbolos().containsKey(lexemaConSufijo)) {
-                        // CASO: CTE EXISTENTE
                         int contador = (int) al.getAtributo(lexemaConSufijo, "Contador");
                         al.agregarAtributoLexema(lexemaConSufijo, "Contador", contador + 1);
-
-                        // Registramos para Rollback
-                        al.setUltimaModificacionTS(lexemaConSufijo, false); // false = no es nuevo
+                        al.setUltimaModificacionTS(lexemaConSufijo, false);
                     } else {
-                        // CASO: CTE NUEVA
                         al.agregarLexemaTS(lexemaConSufijo);
                         al.agregarAtributoLexema(lexemaConSufijo, "Tipo", "uint");
                         al.agregarAtributoLexema(lexemaConSufijo, "Uso", "Constante");
                         al.agregarAtributoLexema(lexemaConSufijo, "Contador", 1);
-
-                        // Registramos para Rollback
-                        al.setUltimaModificacionTS(lexemaConSufijo, true); // true = es nuevo
+                        al.setUltimaModificacionTS(lexemaConSufijo, true);
                     }
                     return "CTE";
                 } else {
@@ -148,25 +131,17 @@ public abstract class AccionSemantica{
 
                 if (enRangoPositivo || esCero) {
                     if (al.getTablaSimbolos().containsKey(lexemaActual)) {
-                        // CASO: CTE EXISTENTE
                         int contador = (int) al.getAtributo(lexemaActual, "Contador");
                         al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1);
-
-                        // Registramos para Rollback
-                        al.setUltimaModificacionTS(lexemaActual, false); // false = no es nuevo
-
+                        al.setUltimaModificacionTS(lexemaActual, false);
                         return "CTE";
                     }
 
-                    // CASO: CTE NUEVA
                     al.agregarLexemaTS(lexemaActual);
                     al.agregarAtributoLexema(lexemaActual, "Tipo", "float");
                     al.agregarAtributoLexema(lexemaActual, "Contador", 1);
                     al.agregarAtributoLexema(lexemaActual, "Uso", "Constante");
-
-                    // Registramos para Rollback
-                    al.setUltimaModificacionTS(lexemaActual, true); // true = es nuevo
-
+                    al.setUltimaModificacionTS(lexemaActual, true);
                     return "CTE";
                 }
 
@@ -207,4 +182,3 @@ public abstract class AccionSemantica{
         }
     }
 }
-

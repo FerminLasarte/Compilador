@@ -502,7 +502,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 261 "gramatica.y"
+//#line 283 "gramatica.y"
 
 static AnalizadorLexico al;
 ArrayList<String> erroresSintacticos = new ArrayList<String>();
@@ -511,7 +511,6 @@ ArrayList<String> salida = new ArrayList<String>();
 ArrayList<String> listaVariables = new ArrayList<String>();
 
 int yylex() {
-
     int token = al.yylex();
     String lexema = al.getLexema();
     if (token == ID || token == CTE || token == CADENA_MULTILINEA) {
@@ -610,7 +609,7 @@ public static void main(String args[]){
         System.out.println("Error: Se requiere la ruta del archivo fuente como unico parametro.");
     }
 }
-//#line 542 "Parser.java"
+//#line 541 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -767,108 +766,121 @@ boolean doaction;
 case 1:
 //#line 22 "gramatica.y"
 {
-          salida.add("Linea " + (al.getContadorFila()+1) + ": Programa '" + val_peek(3).sval + "' reconocido.");
-          al.agregarAtributoLexema(val_peek(3).sval, "Uso", "Programa");
+          String nombrePrograma = val_peek(3).sval;
+          Object lineaObj = al.getAtributo(nombrePrograma, "Linea");
+          String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+
+          salida.add("Linea " + linea + ": Programa '" + nombrePrograma + "' reconocido.");
+          al.agregarAtributoLexema(nombrePrograma, "Uso", "Programa");
+          al.limpiarUltimaModificacionTS();
       }
 break;
 case 2:
-//#line 26 "gramatica.y"
-{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");}
+//#line 32 "gramatica.y"
+{
+         erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");
+         al.limpiarUltimaModificacionTS();
+     }
 break;
 case 3:
-//#line 27 "gramatica.y"
-{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '{' al inicio del programa.");}
+//#line 38 "gramatica.y"
+{
+         erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '{' al inicio del programa.");
+         al.limpiarUltimaModificacionTS();
+     }
 break;
 case 4:
-//#line 28 "gramatica.y"
-{erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '}' al final del programa.");}
+//#line 44 "gramatica.y"
+{
+         erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '}' al final del programa.");
+     }
 break;
 case 7:
-//#line 35 "gramatica.y"
+//#line 53 "gramatica.y"
 { al.limpiarUltimaModificacionTS(); }
 break;
 case 8:
-//#line 36 "gramatica.y"
+//#line 54 "gramatica.y"
 { al.limpiarUltimaModificacionTS(); }
 break;
 case 9:
-//#line 38 "gramatica.y"
+//#line 56 "gramatica.y"
 {
                 erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico en la sentencia.");
-                al.revertirUltimaModificacionTS(); /* <-- CORRECTO*/
+                al.revertirUltimaModificacionTS();
             }
 break;
 case 12:
-//#line 51 "gramatica.y"
+//#line 68 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion por inferencia (var).");
                 }
 break;
 case 13:
-//#line 56 "gramatica.y"
+//#line 73 "gramatica.y"
 { yyval.sval = "uint"; }
 break;
 case 14:
-//#line 57 "gramatica.y"
+//#line 74 "gramatica.y"
 { yyval.sval = "float"; }
 break;
 case 15:
-//#line 58 "gramatica.y"
+//#line 75 "gramatica.y"
 { yyval.sval = "lambda"; }
 break;
 case 16:
-//#line 62 "gramatica.y"
+//#line 79 "gramatica.y"
 {
                     listaVariables.add(val_peek(0).sval);
                 }
 break;
 case 17:
-//#line 66 "gramatica.y"
+//#line 83 "gramatica.y"
 {
                     listaVariables.clear();
                     listaVariables.add(val_peek(0).sval);
                 }
 break;
 case 18:
-//#line 74 "gramatica.y"
+//#line 91 "gramatica.y"
 {
             salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + val_peek(6).sval + "' con retorno simple.");
         }
 break;
 case 19:
-//#line 78 "gramatica.y"
+//#line 95 "gramatica.y"
 {
             salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + val_peek(6).sval + "' con retorno multiple.");
         }
 break;
 case 34:
-//#line 109 "gramatica.y"
+//#line 126 "gramatica.y"
 {
                salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion simple (:=).");
            }
 break;
 case 35:
-//#line 116 "gramatica.y"
+//#line 133 "gramatica.y"
 {
                         salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion multiple (=).");
                     }
 break;
 case 39:
-//#line 129 "gramatica.y"
+//#line 146 "gramatica.y"
 { yyval.sval = val_peek(2).sval + "." + val_peek(0).sval; }
 break;
 case 40:
-//#line 130 "gramatica.y"
+//#line 147 "gramatica.y"
 { yyval.sval = val_peek(0).sval; }
 break;
 case 51:
-//#line 150 "gramatica.y"
+//#line 167 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explicita (toui).");
                 }
 break;
 case 64:
-//#line 183 "gramatica.y"
+//#line 200 "gramatica.y"
 {
                 String lexemaPositivo = val_peek(0).sval;
                 String lexemaNegativo = "-" + lexemaPositivo;
@@ -895,36 +907,40 @@ case 64:
             }
 break;
 case 67:
-//#line 216 "gramatica.y"
+//#line 233 "gramatica.y"
 {
-                        salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE reconocida.");
+                        Object lineaObj = al.getAtributo("do", "Linea");
+                        String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+                        salida.add("Linea " + linea + ": Sentencia DO-WHILE reconocida.");
                     }
 break;
 case 68:
-//#line 220 "gramatica.y"
+//#line 240 "gramatica.y"
 {
-                        yyerror("Linea " + al.getContadorFila() + ": Error Sintactico. Falta punto y coma ';' al final de la sentencia DO-WHILE.");
+                        Object lineaObj = al.getAtributo("do", "Linea");
+                        String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+                        yyerror("Linea " + linea + ": Error Sintactico. Falta punto y coma ';' al final de la sentencia DO-WHILE.");
                     }
 break;
 case 79:
-//#line 242 "gramatica.y"
+//#line 264 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilinea.");
                 }
 break;
 case 80:
-//#line 246 "gramatica.y"
+//#line 268 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresion.");
                 }
 break;
 case 81:
-//#line 252 "gramatica.y"
+//#line 274 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia RETURN.");
                 }
 break;
-//#line 851 "Parser.java"
+//#line 867 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
