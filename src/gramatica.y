@@ -32,9 +32,13 @@ sentencias : sentencias sentencia
            | sentencia
            ;
 
-sentencia : sentencia_declarativa
-          | sentencia_ejecutable
-          | error ';' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico en la sentencia.");}
+sentencia : sentencia_declarativa { al.limpiarUltimaModificacionTS(); }
+          | sentencia_ejecutable { al.limpiarUltimaModificacionTS(); }
+          | error ';'
+            {
+                erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico en la sentencia.");
+                al.revertirUltimaModificacionTS(); // <-- CORRECTO
+            }
           ;
 
 // BORRAR DECLARACION TIPICA [DONE]
@@ -262,6 +266,7 @@ ArrayList<String> salida = new ArrayList<String>();
 ArrayList<String> listaVariables = new ArrayList<String>();
 
 int yylex() {
+
     int token = al.yylex();
     String lexema = al.getLexema();
     if (token == ID || token == CTE || token == CADENA_MULTILINEA) {
@@ -274,6 +279,7 @@ int yylex() {
 
 public void yyerror(String e) {
    erroresSintacticos.add("Linea " + (al.getContadorFila() + 1) + ": Error de sintaxis. Verifique la estructura del codigo.");
+   al.revertirUltimaModificacionTS();
 }
 
 public static void main(String args[]){

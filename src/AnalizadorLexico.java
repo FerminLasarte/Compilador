@@ -12,6 +12,8 @@ public class AnalizadorLexico {
     private int ultimoEstado;
     private File archivo;
     private String lexema; //es un string mutable
+    private String lexemaProcesadoRecientemente = null;
+    private boolean esNuevoIngreso = false;
 
     //variables dinamicas
     private ArrayList<String> lineasArchivo;
@@ -277,6 +279,47 @@ public class AnalizadorLexico {
         }
 
         return -1;
+    }
+
+    public void limpiarUltimaModificacionTS() {
+        this.lexemaProcesadoRecientemente = null;
+        this.esNuevoIngreso = false;
+    }
+
+    public void setUltimaModificacionTS(String lexema, boolean esNuevo) {
+        this.lexemaProcesadoRecientemente = lexema;
+        this.esNuevoIngreso = esNuevo;
+    }
+
+    public void revertirUltimaModificacionTS() {
+        if (lexemaProcesadoRecientemente == null) {
+            return; // No hay nada que revertir
+        }
+
+        HashMap<String, Object> atributos = tablaSimbolos.get(lexemaProcesadoRecientemente);
+        if (atributos == null) {
+            return;
+        }
+
+        if (esNuevoIngreso) {
+            if (atributos.containsKey("Reservada") && !(boolean)atributos.get("Reservada")) {
+                tablaSimbolos.remove(lexemaProcesadoRecientemente);
+            }
+        } else {
+            Object contadorObj = atributos.get("Contador");
+            if (contadorObj != null) {
+                int contador = (int) contadorObj;
+                if (contador > 1) {
+                    atributos.put("Contador", contador - 1);
+                } else {
+                    // Si el contador era 1, lo quitamos.
+                    atributos.remove("Contador");
+                }
+            }
+        }
+
+        // Limpiamos las banderas DESPUÉS de revertir
+        limpiarUltimaModificacionTS();
     }
 
     public void eliminarLexemaTS(String lexema) {

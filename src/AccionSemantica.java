@@ -54,8 +54,23 @@ public abstract class AccionSemantica{
             }
 
             if (!al.getTablaSimbolos().containsKey(lexemaActual)) {
+                // CASO: ID NUEVO
                 al.agregarLexemaTS(lexemaActual);
                 al.agregarAtributoLexema(lexemaActual, "Uso", "Identificador");
+                al.agregarAtributoLexema(lexemaActual, "Contador", 1); // <-- Contamos 1
+
+                // Registramos para Rollback
+                al.setUltimaModificacionTS(lexemaActual, true); // true = es nuevo
+
+            } else {
+                // CASO: ID YA EXISTENTE
+                Object contadorObj = al.getAtributo(lexemaActual, "Contador");
+                int contador = (contadorObj != null) ? (int) contadorObj : 0;
+
+                al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1); // <-- Incrementamos
+
+                // Registramos para Rollback
+                al.setUltimaModificacionTS(lexemaActual, false); // false = no es nuevo
             }
 
             return "ID";
@@ -76,16 +91,27 @@ public abstract class AccionSemantica{
 
             try {
                 BigDecimal bd = new BigDecimal(soloEnteros);
-                BigDecimal limiteSuperior = new BigDecimal("65536");
+                BigDecimal limiteSuperior = new BigDecimal("65536"); // 2^16
 
                 if (bd.compareTo(BigDecimal.ZERO) >= 0 && bd.compareTo(limiteSuperior) < 0) {
+                    // El valor está en el rango [0, 65535]
+
                     if (al.getTablaSimbolos().containsKey(lexemaConSufijo)) {
-                        al.getTablaSimbolos().get(lexemaConSufijo).put("Contador", (int) al.getTablaSimbolos().get(lexemaConSufijo).get("Contador") + 1);
+                        // CASO: CTE EXISTENTE
+                        int contador = (int) al.getAtributo(lexemaConSufijo, "Contador");
+                        al.agregarAtributoLexema(lexemaConSufijo, "Contador", contador + 1);
+
+                        // Registramos para Rollback
+                        al.setUltimaModificacionTS(lexemaConSufijo, false); // false = no es nuevo
                     } else {
+                        // CASO: CTE NUEVA
                         al.agregarLexemaTS(lexemaConSufijo);
                         al.agregarAtributoLexema(lexemaConSufijo, "Tipo", "uint");
                         al.agregarAtributoLexema(lexemaConSufijo, "Uso", "Constante");
                         al.agregarAtributoLexema(lexemaConSufijo, "Contador", 1);
+
+                        // Registramos para Rollback
+                        al.setUltimaModificacionTS(lexemaConSufijo, true); // true = es nuevo
                     }
                     return "CTE";
                 } else {
@@ -109,26 +135,44 @@ public abstract class AccionSemantica{
     public static class AccionSemantica6 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.disminuirContador();
-            String valor = al.getLexema().replace('F', 'E');
+            String lexemaActual = al.getLexema();
+            String valor = lexemaActual.replace('F', 'E');
+
             try {
                 BigDecimal bd = new BigDecimal(valor);
                 BigDecimal limiteInferiorPositivo = new BigDecimal("1.17549435E-38");
                 BigDecimal limiteSuperiorPositivo = new BigDecimal("3.40282347E+38");
+
                 boolean enRangoPositivo = bd.compareTo(limiteInferiorPositivo) >= 0 && bd.compareTo(limiteSuperiorPositivo) <= 0;
                 boolean esCero = bd.compareTo(BigDecimal.ZERO) == 0;
+
                 if (enRangoPositivo || esCero) {
-                    if (al.getTablaSimbolos().containsKey(al.getLexema())) {
-                        al.getTablaSimbolos().get(al.getLexema()).put("Contador", (int) al.getTablaSimbolos().get(al.getLexema()).get("Contador") + 1);
+                    if (al.getTablaSimbolos().containsKey(lexemaActual)) {
+                        // CASO: CTE EXISTENTE
+                        int contador = (int) al.getAtributo(lexemaActual, "Contador");
+                        al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1);
+
+                        // Registramos para Rollback
+                        al.setUltimaModificacionTS(lexemaActual, false); // false = no es nuevo
+
                         return "CTE";
                     }
-                    al.agregarLexemaTS(al.getLexema());
-                    al.agregarAtributoLexema(al.getLexema(), "Tipo", "float");
-                    al.agregarAtributoLexema(al.getLexema(), "Contador", 1);
-                    al.agregarAtributoLexema(al.getLexema(), "Uso", "Constante");
+
+                    // CASO: CTE NUEVA
+                    al.agregarLexemaTS(lexemaActual);
+                    al.agregarAtributoLexema(lexemaActual, "Tipo", "float");
+                    al.agregarAtributoLexema(lexemaActual, "Contador", 1);
+                    al.agregarAtributoLexema(lexemaActual, "Uso", "Constante");
+
+                    // Registramos para Rollback
+                    al.setUltimaModificacionTS(lexemaActual, true); // true = es nuevo
+
                     return "CTE";
                 }
+
                 al.agregarError("Constante flotante fuera de rango.");
                 return "ERROR";
+
             } catch (NumberFormatException e) {
                 al.agregarError("Formato inválido de constante flotante.");
                 return "ERROR";
