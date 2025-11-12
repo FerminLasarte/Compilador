@@ -42,6 +42,7 @@ sentencia_ejecutable
           | error ';'
 {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico en la sentencia.");}
           ;
+<<<<<<< Updated upstream
 sentencia_declarativa : declaracion_tipica ';'
                       | funcion
                       |
@@ -62,6 +63,15 @@ declaracion_tipica : tipo lista_variables
                 listaVariables.clear();
             }
             ;
+=======
+
+// BORRAR DECLARACION TIPICA [DONE]
+sentencia_declarativa : funcion
+                      | declaracion_var ';'
+                      ;
+
+// RETORNAR ERROR
+>>>>>>> Stashed changes
 declaracion_var : VAR variable ASIG expresion
                 {
                     String tipoExp = gen.getTipo($4.sval);
@@ -95,6 +105,11 @@ variable
                     listaVariables.add($1.sval);
                 }
                 ;
+<<<<<<< Updated upstream
+=======
+
+// REHACER
+>>>>>>> Stashed changes
 funcion : tipo ID '(' lista_parametros_formales ')' '{' sentencias '}'
         {
             salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
@@ -106,8 +121,12 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' sentencias '}'
         ;
 
 lista_tipos_retorno_multiple : tipo ',' tipo
+<<<<<<< Updated upstream
                              |
 lista_tipos_retorno_multiple ',' tipo
+=======
+                             | lista_tipos_retorno_multiple ',' tipo // A CHEQUEAR
+>>>>>>> Stashed changes
                              ;
 lista_parametros_formales : lista_parametros_formales ',' parametro_formal
                           |
@@ -141,6 +160,11 @@ condicional_do_while
 salida_pantalla ';'
                      | retorno_funcion
                      ;
+<<<<<<< Updated upstream
+=======
+
+// FALTA VAR
+>>>>>>> Stashed changes
 asignacion : variable ASIG expresion
            {
                String tipoRes = gen.chequearTipos($1.sval, $3.sval, ":=", erroresSemanticos);
@@ -149,7 +173,12 @@ asignacion : variable ASIG expresion
 }
            ;
 
+<<<<<<< Updated upstream
 asignacion_multiple : lista_variables ASIG_MULTIPLE lista_elementos_restringidos
+=======
+// CHEQUEO DE CANTIDAD DE TERMINOS DE CADA LADO
+asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
+>>>>>>> Stashed changes
                     {
                         if (listaVariables.size() != listaLadoDerecho.size()) {
                             erroresSemanticos.add("Linea " + (al.getContadorFila()+1) + ": Error Semantico (Tema 19). La asignacion multiple debe tener el mismo numero de elementos en ambos lados. Izquierda: " + listaVariables.size() + ", Derecha: " + listaLadoDerecho.size() + ".");
@@ -179,11 +208,18 @@ factor
                                  listaLadoDerecho.add($1.sval);
                              }
                              ;
+<<<<<<< Updated upstream
 variable : ID '.' ID {
                 $$.sval = $1.sval + "." + $3.sval;
 }
          | ID { $$.sval = $1.sval;
 }
+=======
+
+// CHEQUEAR
+variable : ID '.' ID { $$.sval = $1.sval + "." + $3.sval; }
+         | ID { $$.sval = $1.sval; }
+>>>>>>> Stashed changes
          ;
 expresion : expresion '+' termino
           {
@@ -225,6 +261,7 @@ factor : variable
        { $$ = $1;
 }
        | constante
+<<<<<<< Updated upstream
        { $$ = $1;
 }
        |
@@ -237,6 +274,10 @@ invocacion_funcion
        | '(' expresion ')'
        { $$ = $2;
 }
+=======
+       | invocacion_funcion
+       | conversion_explicita // LEER TEMA 19
+>>>>>>> Stashed changes
        ;
 conversion_explicita : TOUI '(' expresion ')'
                 {
@@ -260,6 +301,11 @@ lambda_expresion
                  ;
 lambda_expresion : '(' tipo ID ')' '{' cuerpo_lambda '}'
                  ;
+<<<<<<< Updated upstream
+=======
+
+// CHEQUEAR CUERPO VACIO
+>>>>>>> Stashed changes
 cuerpo_lambda : sentencias_ejecutables_lista
               |
               ;
@@ -297,6 +343,7 @@ constante : CTE
             }
           ;
 
+<<<<<<< Updated upstream
 condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';'
                {
                    String refBF = gen.crearTerceto("BF", $3.sval);
@@ -328,6 +375,16 @@ condicional_do_while: DO marcador_inicio_do bloque_ejecutable WHILE '(' condicio
 {
                         int inicioDo = gen.desapilar();
                         gen.crearTerceto("BT", $7.sval, String.valueOf(inicioDo));
+=======
+// CHEQUEAR PORQUE NO IMPRIME TODO
+condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';' %prec IFX // CHEQUEAR PREC // RECONOCER SENTENCIA IF
+               | IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
+               ;
+
+// AGREGAR MAS ERRORES
+condicional_do_while: DO bloque_ejecutable WHILE '(' condicion ')' ';'
+                    {
+>>>>>>> Stashed changes
                         salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE reconocida.");
 }
                     |
@@ -364,10 +421,15 @@ IGUAL_IGUAL { $$.sval = "=="; }
 '<' { $$.sval = "<"; }
                     ;
 bloque_ejecutable : '{' sentencias_ejecutables_lista '}'
+<<<<<<< Updated upstream
                   |
 sentencia_ejecutable
                   |
 '{' error '}'
+=======
+                  | sentencia_ejecutable // BORRAR ?
+                  | '{' error '}' // CHEQUEAR
+>>>>>>> Stashed changes
                   ;
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 {
@@ -480,6 +542,7 @@ System.out.println("## ERRORES SEMANTICOS DETECTADOS ##");
 System.out.println("## CONTENIDOS DE LA TABLA DE SIMBOLOS ##");
         System.out.println("=======================================================");
         HashMap<String, HashMap<String, Object>> ts = al.getTablaSimbolos();
+<<<<<<< Updated upstream
 if (ts.isEmpty()) {
             System.out.println("La tabla de simbolos esta vacia.");
 } else {
@@ -488,8 +551,43 @@ if (ts.isEmpty()) {
 for (Map.Entry<String, Object> atributos : entry.getValue().entrySet()) {
                     System.out.println("\t-> " + atributos.getKey() + ": " + atributos.getValue().toString());
 }
+=======
+
+        if (ts.isEmpty()) {
+            System.out.println("La tabla de simbolos esta vacia.");
+        } else {
+            // 1. Definir el formato de la tabla y las cabeceras
+            // Ajusta los números (ej: %-30s) si necesitas más o menos espacio por columna
+            String formatString = "| %-30s | %-12s | %-18s | %-10s | %-10s |%n";
+
+            // 2. Imprimir la cabecera
+            System.out.printf(formatString, "Lexema", "Reservada", "Uso", "Tipo", "Contador");
+            System.out.println("|--------------------------------|--------------|--------------------|------------|------------|");
+
+            // 3. Iterar e imprimir cada fila
+            for (Map.Entry<String, HashMap<String, Object>> entry : ts.entrySet()) {
+               String lexema = entry.getKey();
+               HashMap<String, Object> atributos = entry.getValue();
+
+               // Obtener cada atributo. Si no existe en el map, .get() devuelve null
+               Object reservada = atributos.get("Reservada");
+               Object uso = atributos.get("Uso");
+               Object tipo = atributos.get("Tipo");
+               Object contador = atributos.get("Contador");
+
+               // 4. Imprimir la fila formateada
+               // Usamos un ternario para imprimir "null" si el valor no existe
+               System.out.printf(formatString,
+                    lexema,
+                    (reservada != null) ? reservada.toString() : "null",
+                    (uso != null) ? uso.toString() : "null",
+                    (tipo != null) ? tipo.toString() : "null",
+                    (contador != null) ? contador.toString() : "null"
+                );
+>>>>>>> Stashed changes
             }
         }
+
         System.out.println("=======================================================");
 } else {
         System.out.println("Error: Se requiere la ruta del archivo fuente como unico parametro.");

@@ -1,0 +1,7 @@
+PROGRAMA {
+    var W := A + B;
+    var X := 100UI;
+    uint X := 100UI;
+
+
+}
