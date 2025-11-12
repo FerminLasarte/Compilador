@@ -131,7 +131,16 @@ asignacion : variable ASIG expresion
 // CHEQUEO DE CANTIDAD DE TERMINOS DE CADA LADO
 asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                     {
-                        salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion multiple (=).");
+                        if (listaVariables.size() != contadorLadoDerecho) {
+                            Object lineaObj = al.getAtributo(listaVariables.get(0), "Linea");
+                            String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+                            yyerror("Linea " + linea + ": Error Sintactico: La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + listaVariables.size() + ") y a la derecha (" + contadorLadoDerecho + ").");
+                        } else {
+                            Object lineaObj = al.getAtributo(listaVariables.get(0), "Linea");
+                            String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+                            salida.add("Linea " + linea + ": Asignacion multiple (=).");
+                        }
+                        contadorLadoDerecho = 0;
                     }
                     ;
 
@@ -139,7 +148,14 @@ lado_derecho_multiple : lista_elementos_restringidos
                       ;
 
 lista_elementos_restringidos : lista_elementos_restringidos ',' factor
-                             | factor
+                             {
+                                 contadorLadoDerecho++;
+                             }
+                             |
+                             factor
+                             {
+                                 contadorLadoDerecho = 1;
+                             }
                              ;
 
 // CHEQUEAR
@@ -286,6 +302,7 @@ ArrayList<String> erroresSintacticos = new ArrayList<String>();
 ArrayList<String> erroresSemanticos = new ArrayList<String>();
 ArrayList<String> salida = new ArrayList<String>();
 ArrayList<String> listaVariables = new ArrayList<String>();
+int contadorLadoDerecho = 0;
 
 int yylex() {
     int token = al.yylex();

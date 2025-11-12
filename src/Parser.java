@@ -502,13 +502,14 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 283 "gramatica.y"
+//#line 299 "gramatica.y"
 
 static AnalizadorLexico al;
 ArrayList<String> erroresSintacticos = new ArrayList<String>();
 ArrayList<String> erroresSemanticos = new ArrayList<String>();
 ArrayList<String> salida = new ArrayList<String>();
 ArrayList<String> listaVariables = new ArrayList<String>();
+int contadorLadoDerecho = 0;
 
 int yylex() {
     int token = al.yylex();
@@ -609,7 +610,7 @@ public static void main(String args[]){
         System.out.println("Error: Se requiere la ruta del archivo fuente como unico parametro.");
     }
 }
-//#line 541 "Parser.java"
+//#line 542 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -862,25 +863,46 @@ break;
 case 35:
 //#line 133 "gramatica.y"
 {
-                        salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion multiple (=).");
+                        if (listaVariables.size() != contadorLadoDerecho) {
+                            Object lineaObj = al.getAtributo(listaVariables.get(0), "Linea");
+                            String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+                            yyerror("Linea " + linea + ": Error Sintactico: La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + listaVariables.size() + ") y a la derecha (" + contadorLadoDerecho + ").");
+                        } else {
+                            Object lineaObj = al.getAtributo(listaVariables.get(0), "Linea");
+                            String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+                            salida.add("Linea " + linea + ": Asignacion multiple (=).");
+                        }
+                        contadorLadoDerecho = 0;
                     }
 break;
+case 37:
+//#line 151 "gramatica.y"
+{
+                                 contadorLadoDerecho++;
+                             }
+break;
+case 38:
+//#line 156 "gramatica.y"
+{
+                                 contadorLadoDerecho = 1;
+                             }
+break;
 case 39:
-//#line 146 "gramatica.y"
+//#line 162 "gramatica.y"
 { yyval.sval = val_peek(2).sval + "." + val_peek(0).sval; }
 break;
 case 40:
-//#line 147 "gramatica.y"
+//#line 163 "gramatica.y"
 { yyval.sval = val_peek(0).sval; }
 break;
 case 51:
-//#line 167 "gramatica.y"
+//#line 183 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explicita (toui).");
                 }
 break;
 case 64:
-//#line 200 "gramatica.y"
+//#line 216 "gramatica.y"
 {
                 String lexemaPositivo = val_peek(0).sval;
                 String lexemaNegativo = "-" + lexemaPositivo;
@@ -907,7 +929,7 @@ case 64:
             }
 break;
 case 67:
-//#line 233 "gramatica.y"
+//#line 249 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -915,7 +937,7 @@ case 67:
                     }
 break;
 case 68:
-//#line 240 "gramatica.y"
+//#line 256 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -923,24 +945,24 @@ case 68:
                     }
 break;
 case 79:
-//#line 264 "gramatica.y"
+//#line 280 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilinea.");
                 }
 break;
 case 80:
-//#line 268 "gramatica.y"
+//#line 284 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresion.");
                 }
 break;
 case 81:
-//#line 274 "gramatica.y"
+//#line 290 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia RETURN.");
                 }
 break;
-//#line 867 "Parser.java"
+//#line 889 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
