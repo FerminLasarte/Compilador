@@ -9,6 +9,8 @@
     import java.util.Map;
     import java.lang.StringBuilder;
     import java.math.BigDecimal;
+    import java.util.Collections;
+    import java.util.Comparator;
 %}
 
 %token ID CTE IF ELSE FLOAT ENDIF RETURN PRINT UINT VAR DO WHILE LAMBDA CADENA_MULTILINEA ASIG_MULTIPLE CR SE LE TOUI ASIG FLECHA MAYOR_IGUAL MENOR_IGUAL DISTINTO IGUAL_IGUAL PUNTO
@@ -359,6 +361,22 @@ public static void main(String args[]){
         if (par.salida.isEmpty()) {
             System.out.println("No se reconocieron estructuras sintacticas validas.");
         } else {
+
+            Comparator<String> comparadorPorLinea = new Comparator<String>() {
+                @Override
+                public int compare(String s1, String s2) {
+                    try {
+                        int linea1 = Integer.parseInt(s1.substring(6, s1.indexOf(':')).trim());
+                        int linea2 = Integer.parseInt(s2.substring(6, s2.indexOf(':')).trim());
+                        return Integer.compare(linea1, linea2);
+                    } catch (Exception e) {
+                        return s1.compareTo(s2);
+                    }
+                }
+            };
+
+            Collections.sort(par.salida, comparadorPorLinea);
+
             for (String s : par.salida) {
                 System.out.println(s);
             }
