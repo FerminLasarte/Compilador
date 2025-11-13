@@ -11,4 +11,10 @@ PROGRAMA {
     A, B, X = 100UI, VARUINT, .5F+1;
     A, B, X = 100UI, VARUINT;
     A, B = 100UI, VARUINT, .5F+1;
+
+    float, uint, float F(uint X) {
+        return (1UI, 4UI, 2UI);
+    }
+    A, B, C, D = F(1UI->X);
+    A, B = F(1UI->X);
 }

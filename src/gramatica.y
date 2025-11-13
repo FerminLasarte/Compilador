@@ -52,7 +52,8 @@ sentencias : sentencias sentencia
 
 sentencia : sentencia_declarativa
           | sentencia_ejecutable
-          | error ';' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico en la sentencia.");}
+          | error ';'
+          ;
 
 // BORRAR DECLARACION TIPICA [DONE]
 sentencia_declarativa : funcion
@@ -126,32 +127,45 @@ asignacion : variable ASIG expresion
 // CHEQUEO DE CANTIDAD DE TERMINOS DE CADA LADO
 asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                     {
-                        if (listaVariables.size() != contadorLadoDerecho) {
-                            Object lineaObj = al.getAtributo(listaVariables.get(0), "Linea");
-                            String linea = (lineaObj != null) ? lineaObj.toString() : "?";
-                            yyerror("Linea " + linea + ": Error Sintactico: La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + listaVariables.size() + ") y a la derecha (" + contadorLadoDerecho + ").");
+                        String lineaActual = String.valueOf(al.getContadorFila() + 1);
+
+                        if (contadorLadoDerecho == 1 && $3.ival == 1) {
+                            String funcName = $3.sval;
+                            salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') reconocida.");
+
+                            int nroRetornos = al.getNroRetornos(funcName);
+                            if (nroRetornos == -1) {
+                                erroresSemanticos.add("Linea " + lineaActual + ": Error Semantico: La funcion '" + funcName + "' no fue declarada.");
+                            }
+                            else if (nroRetornos == -2) {
+                                erroresSemanticos.add("Linea " + lineaActual + ": Error Semantico: '" + funcName + "' no es una funcion, no puede ser asignado de forma multiple.");
+                            }
+                            else if (listaVariables.size() < nroRetornos) {
+                                erroresSemanticos.add("Linea " + lineaActual + ": Error Semantico: La funcion '" + funcName + "' retorna " + nroRetornos + " valores, pero solo se proveen " + listaVariables.size() + " variables para asignarlos.");
+                            }
                         } else {
-                            Object lineaObj = al.getAtributo(listaVariables.get(0), "Linea");
-                            String linea = (lineaObj != null) ? lineaObj.toString() : "?";
-                            salida.add("Linea " + linea + ": Asignacion multiple (=).");
+                            if (listaVariables.size() != contadorLadoDerecho) {
+                                yyerror("Linea " + lineaActual + ": Error Sintactico: La asignacion multiple (lista) debe tener el mismo numero de elementos a la izquierda (" + listaVariables.size() + ") y a la derecha (" + contadorLadoDerecho + ").");
+                            } else {
+                                salida.add("Linea " + lineaActual + ": Asignacion multiple (lista) reconocida.");
+                            }
                         }
                         contadorLadoDerecho = 0;
                     }
                     ;
 
-lado_derecho_multiple : lista_elementos_restringidos
+lado_derecho_multiple : factor
+                      {
+                          contadorLadoDerecho = 1;
+                          $$.ival = $1.ival;
+                          $$.sval = $1.sval;
+                      }
+                      | lado_derecho_multiple ',' factor
+                      {
+                          contadorLadoDerecho++;
+                          $$.ival = 0;
+                      }
                       ;
-
-lista_elementos_restringidos : lista_elementos_restringidos ',' factor
-                             {
-                                 contadorLadoDerecho++;
-                             }
-                             |
-                             factor
-                             {
-                                 contadorLadoDerecho = 1;
-                             }
-                             ;
 
 // CHEQUEAR
 variable : ID '.' ID { $$.sval = $1.sval + "." + $3.sval; }
@@ -168,11 +182,21 @@ termino : termino '*' factor
         | factor
         ;
 
-factor : variable
-       | constante
+factor : factor_no_funcion
+       {
+           $$.ival = 0;
+       }
        | invocacion_funcion
-       | conversion_explicita // LEER TEMA 19
+       {
+           $$.ival = 1;
+           $$.sval = $1.sval;
+       }
        ;
+
+factor_no_funcion : variable
+                  | constante
+                  | conversion_explicita
+                  ;
 
 conversion_explicita : TOUI '(' expresion ')'
                 {
@@ -181,6 +205,7 @@ conversion_explicita : TOUI '(' expresion ')'
                 ;
 
 invocacion_funcion : ID '(' lista_parametros_reales ')'
+                   { $$.sval = $1.sval; }
                    ;
 
 lista_parametros_reales : lista_parametros_reales ',' parametro_real
@@ -361,33 +386,26 @@ public static void main(String args[]){
         if (ts.isEmpty()) {
             System.out.println("La tabla de simbolos esta vacia.");
         } else {
-            // 1. Definir el formato de la tabla y las cabeceras
-            // Ajusta los números (ej: %-30s) si necesitas más o menos espacio por columna
             String formatString = "| %-30s | %-12s | %-18s | %-10s | %-10s |%n";
 
-            // 2. Imprimir la cabecera
             System.out.printf(formatString, "Lexema", "Reservada", "Uso", "Tipo", "Contador");
             System.out.println("|--------------------------------|--------------|--------------------|------------|------------|");
 
-            // 3. Iterar e imprimir cada fila
             for (Map.Entry<String, HashMap<String, Object>> entry : ts.entrySet()) {
                String lexema = entry.getKey();
                HashMap<String, Object> atributos = entry.getValue();
 
-               // Obtener cada atributo. Si no existe en el map, .get() devuelve null
                Object reservada = atributos.get("Reservada");
                Object uso = atributos.get("Uso");
                Object tipo = atributos.get("Tipo");
                Object contador = atributos.get("Contador");
 
-               // 4. Imprimir la fila formateada
-               // Usamos un ternario para imprimir "null" si el valor no existe
                System.out.printf(formatString,
                     lexema,
                     (reservada != null) ? reservada.toString() : "null",
                     (uso != null) ? uso.toString() : "null",
                     (tipo != null) ? tipo.toString() : "null",
-                    (contador != null) ? contador.toString() : "null"
+                    (contador != null) ? contador.toString() : "0"
                 );
             }
         }

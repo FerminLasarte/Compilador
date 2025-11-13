@@ -382,4 +382,36 @@ public class AnalizadorLexico {
     public Object getAtributo(String lexema, String atributo){
         return tablaSimbolos.get(lexema).get(atributo);
     }
+
+    public int getNroRetornos(String funcName) {
+        // 1. Chequea si la funcion existe en la Tabla de Simbolos
+        if (!tablaSimbolos.containsKey(funcName)) {
+            // La funcion no fue declarada.
+            return -1; // Usamos -1 para indicar "funcion no encontrada"
+        }
+
+        HashMap<String, Object> atributos = tablaSimbolos.get(funcName);
+
+        // 2. Chequea si es realmente una funcion (basado en el "Uso")
+        Object usoObj = atributos.get("Uso");
+        if (usoObj == null || !usoObj.toString().equals("Funcion")) {
+            // El ID existe, pero no es una funcion.
+            return -2; // Usamos -2 para indicar "no es una funcion"
+        }
+
+        // 3. Obtiene el atributo "NroRetornos"
+        Object nroRetornosObj = atributos.get("NroRetornos");
+
+        // 4. Si por alguna razon no se seteo, asumimos 0
+        if (nroRetornosObj == null) {
+            return 0;
+        }
+
+        // 5. Convierte el Object a int y lo devuelve
+        try {
+            return (int) nroRetornosObj;
+        } catch (ClassCastException e) {
+            return 0; // Error inesperado
+        }
+    }
 }
