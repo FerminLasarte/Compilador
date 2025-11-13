@@ -95,6 +95,7 @@ public class AnalizadorLexico {
         codigosTokens.put("IGUAL_IGUAL", 281);
         codigosTokens.put("ERROR", 282);
         codigosTokens.put("PALABRA_RESERVADA", 283);
+        codigosTokens.put("PUNTO", 47);
 
         // Mapeo de lexemas compuestos a sus tokens
         codigosTokens.put(":=", 276);

@@ -1,7 +1,8 @@
 PROGRAMA {
     F.A := J;
-    @ X,Y = F2.B, Z;
-    F1 := J.A;
+    F := J.A;
+
+    X,Y = F.B, Z;
 
     W := A + B;
     var X := 100UI;
