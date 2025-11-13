@@ -2,8 +2,6 @@ PROGRAMA {
     F.A := J;
     F := J.A;
 
-    X,Y = F.B, Z;
-
     W := A + B;
     var X := 100UI;
     uint X := 100UI;
