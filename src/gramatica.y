@@ -117,8 +117,11 @@ sentencia_ejecutable : asignacion ';'
                      | retorno_funcion
                      ;
 
-// FALTA VAR
-asignacion : variable ASIG expresion
+asignacion : variable_con_prefijo ASIG expresion
+           {
+               salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion simple (:=).");
+           }
+           | variable_sin_prefijo ASIG expresion
            {
                salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion simple (:=).");
            }
@@ -156,10 +159,21 @@ lado_derecho_multiple : factor
                       }
                       ;
 
-// CHEQUEAR
-variable : ID '.' ID { $$.sval = $1.sval + "." + $3.sval; }
-         | ID { $$.sval = $1.sval; }
+variable : variable_sin_prefijo
+         | variable_con_prefijo
          ;
+
+variable_sin_prefijo : ID
+                     {
+                        $$.sval = $1.sval;
+                     }
+                     ;
+
+variable_con_prefijo : ID '.' ID
+                     {
+                        $$.sval = $1.sval + "." + $3.sval;
+                     }
+                     ;
 
 expresion : expresion '+' termino
           | expresion '-' termino

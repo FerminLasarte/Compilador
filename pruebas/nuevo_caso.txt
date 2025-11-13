@@ -1,4 +1,8 @@
 PROGRAMA {
+    F.A := J;
+    @ X,Y = F2.B, Z;
+    F1 := J.A;
+
     W := A + B;
     var X := 100UI;
     uint X := 100UI;
@@ -17,7 +21,4 @@ PROGRAMA {
     }
     @ A, B, C, D = F(1UI->X); ESTE CASO TIENE QUE DAR ERROR Y NO LO DA
     A, B = F(1UI->X);
-
-    F1.A := J;
-    X,Y = F2.B, Z;
 }
