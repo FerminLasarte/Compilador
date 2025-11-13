@@ -26,18 +26,18 @@ programa : ID '{' sentencias '}'
 
           salida.add("Linea " + linea + ": Programa '" + nombrePrograma + "' reconocido.");
           al.agregarAtributoLexema(nombrePrograma, "Uso", "Programa");
-          al.limpiarUltimaModificacionTS();
+
       }
      | '{' sentencias '}'
      {
          erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");
-         al.limpiarUltimaModificacionTS();
+
      }
      |
      ID sentencias '}'
      {
          erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '{' al inicio del programa.");
-         al.limpiarUltimaModificacionTS();
+
      }
      |
      ID '{' sentencias
@@ -50,14 +50,9 @@ sentencias : sentencias sentencia
            | sentencia
            ;
 
-sentencia : sentencia_declarativa { al.limpiarUltimaModificacionTS(); }
-          | sentencia_ejecutable { al.limpiarUltimaModificacionTS(); }
-          | error ';'
-            {
-                erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico en la sentencia.");
-                al.revertirUltimaModificacionTS();
-            }
-          ;
+sentencia : sentencia_declarativa
+          | sentencia_ejecutable
+          | error ';' {erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico en la sentencia.");}
 
 // BORRAR DECLARACION TIPICA [DONE]
 sentencia_declarativa : funcion
@@ -317,7 +312,6 @@ int yylex() {
 
 public void yyerror(String e) {
    erroresSintacticos.add("Linea " + (al.getContadorFila() + 1) + ": Error de sintaxis. Verifique la estructura del codigo.");
-   al.revertirUltimaModificacionTS();
 }
 
 public static void main(String args[]){

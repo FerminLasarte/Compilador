@@ -56,12 +56,10 @@ public abstract class AccionSemantica{
                 al.agregarAtributoLexema(lexemaActual, "Uso", "Identificador");
                 al.agregarAtributoLexema(lexemaActual, "Contador", 1);
                 al.agregarAtributoLexema(lexemaActual, "Linea", lineaActual);
-                al.setUltimaModificacionTS(lexemaActual, true);
             } else {
                 Object contadorObj = al.getAtributo(lexemaActual, "Contador");
                 int contador = (contadorObj != null) ? (int) contadorObj : 0;
                 al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1);
-                al.setUltimaModificacionTS(lexemaActual, false);
             }
 
             return "ID";
@@ -88,13 +86,11 @@ public abstract class AccionSemantica{
                     if (al.getTablaSimbolos().containsKey(lexemaConSufijo)) {
                         int contador = (int) al.getAtributo(lexemaConSufijo, "Contador");
                         al.agregarAtributoLexema(lexemaConSufijo, "Contador", contador + 1);
-                        al.setUltimaModificacionTS(lexemaConSufijo, false);
                     } else {
                         al.agregarLexemaTS(lexemaConSufijo);
                         al.agregarAtributoLexema(lexemaConSufijo, "Tipo", "uint");
                         al.agregarAtributoLexema(lexemaConSufijo, "Uso", "Constante");
                         al.agregarAtributoLexema(lexemaConSufijo, "Contador", 1);
-                        al.setUltimaModificacionTS(lexemaConSufijo, true);
                     }
                     return "CTE";
                 } else {
@@ -133,7 +129,6 @@ public abstract class AccionSemantica{
                     if (al.getTablaSimbolos().containsKey(lexemaActual)) {
                         int contador = (int) al.getAtributo(lexemaActual, "Contador");
                         al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1);
-                        al.setUltimaModificacionTS(lexemaActual, false);
                         return "CTE";
                     }
 
@@ -141,7 +136,6 @@ public abstract class AccionSemantica{
                     al.agregarAtributoLexema(lexemaActual, "Tipo", "float");
                     al.agregarAtributoLexema(lexemaActual, "Contador", 1);
                     al.agregarAtributoLexema(lexemaActual, "Uso", "Constante");
-                    al.setUltimaModificacionTS(lexemaActual, true);
                     return "CTE";
                 }
 
