@@ -55,7 +55,6 @@ sentencia : sentencia_declarativa
           | error ';'
           ;
 
-// BORRAR DECLARACION TIPICA [DONE]
 sentencia_declarativa : funcion
                       | declaracion_var ';'
                       ;
@@ -82,19 +81,26 @@ lista_variables : lista_variables ',' variable
                 }
                 ;
 
-// REHACER
 funcion : tipo ID '(' lista_parametros_formales ')' '{' sentencias '}'
         {
-            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
+            String nombreFuncion = $1.sval;
+            Object lineaObj = al.getAtributo(nombreFuncion, "Linea");
+            String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+
+            salida.add("Linea " + (linea) + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
         }
         | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' sentencias '}'
         {
-            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
+            String nombreFuncion = $1.sval;
+            Object lineaObj = al.getAtributo(nombreFuncion, "Linea");
+            String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+
+            salida.add("Linea " + (linea) + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
         }
         ;
 
 lista_tipos_retorno_multiple : tipo ',' tipo
-                             | lista_tipos_retorno_multiple ',' tipo // A CHEQUEAR
+                             | lista_tipos_retorno_multiple ',' tipo
                              ;
 
 lista_parametros_formales : lista_parametros_formales ',' parametro_formal
@@ -117,7 +123,6 @@ sentencia_ejecutable : asignacion ';'
                      | retorno_funcion
                      ;
 
-// FALTA VAR
 asignacion : variable ASIG expresion
            {
                salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion simple (:=).");
@@ -156,7 +161,6 @@ lado_derecho_multiple : factor
                       }
                       ;
 
-// CHEQUEAR
 variable : ID PUNTO ID
             {
             $$.sval = $1.sval + PUNTO + $3.sval;
@@ -219,7 +223,6 @@ lambda_expresion : '(' tipo ID ')' '{' cuerpo_lambda '}'
 
 // CHEQUEAR CUERPO VACIO
 cuerpo_lambda : sentencias_ejecutables_lista
-              |
               ;
 
 sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
@@ -255,8 +258,18 @@ constante : CTE
           ;
 
 // CHEQUEAR PORQUE NO IMPRIME TODO
-condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';' %prec IFX // CHEQUEAR PREC // RECONOCER SENTENCIA IF
+condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';' %prec IFX
+                {
+                    Object lineaObj = al.getAtributo("if", "Linea");
+                    String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+                    salida.add("Linea " + linea + ": Sentencia IF reconocida.");
+                }
                | IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
+               {
+                    Object lineaObj = al.getAtributo("if", "Linea");
+                    String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+                    salida.add("Linea " + linea + ": Sentencia IF-ELSE reconocida.");
+               }
                ;
 
 // AGREGAR MAS ERRORES

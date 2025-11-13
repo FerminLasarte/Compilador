@@ -1,5 +1,15 @@
 PROGRAMA {
 
+    if (A == B) {
+        print(&son iguales&);
+    } endif;
+
+    if (A == B) {
+        print(&son iguales&);
+    } else {
+        print(&son distintos&);
+    } endif;
+
     uint APLICARLAMBDA(lambda FUNC, uint VALOR) {
         print(&Ejecuta LAMBDA&);
         return( FUNC(VALOR->X) );
