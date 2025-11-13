@@ -29,7 +29,8 @@
     import java.math.BigDecimal;
     import java.util.Collections;
     import java.util.Comparator;
-//#line 30 "Parser.java"
+    import java.util.Stack;
+//#line 31 "Parser.java"
 
 
 
@@ -505,9 +506,10 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 329 "gramatica.y"
+//#line 330 "gramatica.y"
 
 static AnalizadorLexico al;
+static Generador g;
 ArrayList<String> erroresSintacticos = new ArrayList<String>();
 ArrayList<String> erroresSemanticos = new ArrayList<String>();
 ArrayList<String> salida = new ArrayList<String>();
@@ -532,80 +534,117 @@ public void yyerror(String e) {
 public static void main(String args[]){
     if(args.length == 1) {
         al = new AnalizadorLexico(args[0]);
-        Parser par = new Parser(false);
-        par.yyparse();
 
+        // --- AÑADIDO: INICIALIZAR GENERADOR ---
+        // 1. Obtenemos la instancia del Generador
+        g = Generador.getInstance();
+        // 2. Le pasamos el Analizador Lexico (para acceder a la Tabla de Simbolos)
+        g.setAnalizadorLexico(al);
+        // --- FIN AÑADIDO ---
+
+        Parser par = new Parser(false);
+        par.yyparse(); // Se ejecuta el analisis
+
+        /*
+         * INICIO: SALIDA REQUERIDA POR TP03
+         * (Se imprime primero, como pide la consigna, pero
+         * MANTENEMOS TUS SALIDAS ANTIGUAS, como pediste)
+         */
+
+        // 1. CODIGO INTERMEDIO (TERCETOS)
+        // (Saldrá vacío hasta que modifiquemos las reglas de la gramática)
+        g.imprimirTercetos();
+
+
+        /*
+         * INICIO: TUS SECCIONES DE SALIDA (SIN CAMBIOS)
+         */
+
+        // 2. ESTRUCTURAS SINTACTICAS (MANTENIDO)
         System.out.println("\n=======================================================");
         System.out.println("## ESTRUCTURAS SINTACTICAS RECONOCIDAS ##");
         System.out.println("=======================================================");
-        if (par.salida.isEmpty()) {
+        if (par.salida.isEmpty()) { // [cite: 745]
             System.out.println("No se reconocieron estructuras sintacticas validas.");
         } else {
-
+            // Tu código de ordenamiento (se mantiene 100% igual)
             Comparator<String> comparadorPorLinea = new Comparator<String>() {
                 @Override
                 public int compare(String s1, String s2) {
                     try {
-                        int linea1 = Integer.parseInt(s1.substring(6, s1.indexOf(':')).trim());
+                        int linea1 = Integer.parseInt(s1.substring(6, s1.indexOf(':')).trim()); // [cite: 747]
                         int linea2 = Integer.parseInt(s2.substring(6, s2.indexOf(':')).trim());
                         return Integer.compare(linea1, linea2);
-                    } catch (Exception e) {
+                    } catch (Exception e) { // [cite: 748]
                         return s1.compareTo(s2);
                     }
                 }
             };
-
-            Collections.sort(par.salida, comparadorPorLinea);
-
+            Collections.sort(par.salida, comparadorPorLinea); // [cite: 750]
             for (String s : par.salida) {
-                System.out.println(s);
+                System.out.println(s); // [cite: 751]
             }
         }
 
+        // 3. ERRORES SINTACTICOS (MANTENIDO)
         System.out.println("\n=======================================================");
-        System.out.println("## ERRORES SINTACTICOS DETECTADOS ##");
+        System.out.println("## ERRORES SINTACTICOS DETECTADOS ##"); // [cite: 752]
         System.out.println("=======================================================");
         if (par.erroresSintacticos.isEmpty()) {
-            System.out.println("No se encontraron errores sintacticos.");
+            System.out.println("No se encontraron errores sintacticos."); // [cite: 753]
         } else {
             for (String s : par.erroresSintacticos) {
-                System.out.println(s);
+                System.out.println(s); // [cite: 754]
             }
         }
 
+        // 4. ERRORES SEMANTICOS (MODIFICADO para incluir los del Generador)
         System.out.println("\n=======================================================");
-        System.out.println("## ERRORES SEMANTICOS DETECTADOS ##");
+        System.out.println("## ERRORES SEMANTICOS DETECTADOS ##"); // [cite: 755]
         System.out.println("=======================================================");
-        if (par.erroresSemanticos.isEmpty()) {
-            System.out.println("No se encontraron errores semanticos.");
-        } else {
+
+        boolean hayErroresSem = false;
+
+        // Errores desde la gramatica (ej. -CTE) [cite: 756]
+        if (!par.erroresSemanticos.isEmpty()) {
             for (String s : par.erroresSemanticos) {
-                System.out.println(s);
+                System.out.println(s); // [cite: 757]
             }
+            hayErroresSem = true;
         }
 
-        System.out.println("\n=======================================================");
-        System.out.println("## CONTENIDOS DE LA TABLA DE SIMBOLOS ##");
-        System.out.println("=======================================================");
-        HashMap<String, HashMap<String, Object>> ts = al.getTablaSimbolos();
+        // Errores desde el Generador/Lexico (los nuevos de la Etapa 3)
+        // (Usamos el getter que creamos en AnalizadorLexico.java)
+        if (al.getErroresSemanticos() != null && !al.getErroresSemanticos().isEmpty()) {
+            for (String s : al.getErroresSemanticos()) {
+                System.out.println(s);
+            }
+            hayErroresSem = true;
+        }
 
+        if (!hayErroresSem) {
+            System.out.println("No se encontraron errores semanticos.");
+        }
+
+        // 5. TABLA DE SIMBOLOS (MANTENIDO)
+        System.out.println("\n=======================================================");
+        System.out.println("## CONTENIDOS DE LA TABLA DE SIMBOLOS ##"); // [cite: 758]
+        System.out.println("=======================================================");
+        // ... (Tu código para imprimir la TS [cite: 759-765] se mantiene 100% igual) ...
+        HashMap<String, HashMap<String, Object>> ts = al.getTablaSimbolos();
         if (ts.isEmpty()) {
             System.out.println("La tabla de simbolos esta vacia.");
         } else {
             String formatString = "| %-30s | %-12s | %-18s | %-10s | %-10s |%n";
-
             System.out.printf(formatString, "Lexema", "Reservada", "Uso", "Tipo", "Contador");
             System.out.println("|--------------------------------|--------------|--------------------|------------|------------|");
-
             for (Map.Entry<String, HashMap<String, Object>> entry : ts.entrySet()) {
                String lexema = entry.getKey();
                HashMap<String, Object> atributos = entry.getValue();
-
                Object reservada = atributos.get("Reservada");
                Object uso = atributos.get("Uso");
                Object tipo = atributos.get("Tipo");
                Object contador = atributos.get("Contador");
-
                System.out.printf(formatString,
                     lexema,
                     (reservada != null) ? reservada.toString() : "null",
@@ -615,13 +654,13 @@ public static void main(String args[]){
                 );
             }
         }
-
         System.out.println("=======================================================");
+
     } else {
         System.out.println("Error: Se requiere la ruta del archivo fuente como unico parametro.");
     }
 }
-//#line 553 "Parser.java"
+//#line 592 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -776,7 +815,7 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
-//#line 24 "gramatica.y"
+//#line 25 "gramatica.y"
 {
           String nombrePrograma = val_peek(3).sval;
           Object lineaObj = al.getAtributo(nombrePrograma, "Linea");
@@ -788,58 +827,58 @@ case 1:
       }
 break;
 case 2:
-//#line 34 "gramatica.y"
+//#line 35 "gramatica.y"
 {
          erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");
 
      }
 break;
 case 3:
-//#line 40 "gramatica.y"
+//#line 41 "gramatica.y"
 {
          erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '{' al inicio del programa.");
 
      }
 break;
 case 4:
-//#line 46 "gramatica.y"
+//#line 47 "gramatica.y"
 {
          erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '}' al final del programa.");
      }
 break;
 case 12:
-//#line 65 "gramatica.y"
+//#line 66 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion por inferencia (var).");
                 }
 break;
 case 13:
-//#line 70 "gramatica.y"
+//#line 71 "gramatica.y"
 { yyval.sval = "uint"; }
 break;
 case 14:
-//#line 71 "gramatica.y"
+//#line 72 "gramatica.y"
 { yyval.sval = "float"; }
 break;
 case 15:
-//#line 72 "gramatica.y"
+//#line 73 "gramatica.y"
 { yyval.sval = "lambda"; }
 break;
 case 16:
-//#line 76 "gramatica.y"
+//#line 77 "gramatica.y"
 {
                     listaVariables.add(val_peek(0).sval);
                 }
 break;
 case 17:
-//#line 80 "gramatica.y"
+//#line 81 "gramatica.y"
 {
                     listaVariables.clear();
                     listaVariables.add(val_peek(0).sval);
                 }
 break;
 case 18:
-//#line 87 "gramatica.y"
+//#line 88 "gramatica.y"
 {
             String nombreFuncion = val_peek(7).sval;
             Object lineaObj = al.getAtributo(nombreFuncion, "Linea");
@@ -849,7 +888,7 @@ case 18:
         }
 break;
 case 19:
-//#line 95 "gramatica.y"
+//#line 96 "gramatica.y"
 {
             String nombreFuncion = val_peek(7).sval;
             Object lineaObj = al.getAtributo(nombreFuncion, "Linea");
@@ -859,13 +898,13 @@ case 19:
         }
 break;
 case 34:
-//#line 129 "gramatica.y"
+//#line 130 "gramatica.y"
 {
                salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion simple (:=).");
            }
 break;
 case 35:
-//#line 136 "gramatica.y"
+//#line 137 "gramatica.y"
 {
                         String lineaActual = String.valueOf(al.getContadorFila() + 1);
 
@@ -883,7 +922,7 @@ case 35:
                     }
 break;
 case 36:
-//#line 154 "gramatica.y"
+//#line 155 "gramatica.y"
 {
                           contadorLadoDerecho = 1;
                           yyval.ival = val_peek(0).ival;
@@ -891,48 +930,48 @@ case 36:
                       }
 break;
 case 37:
-//#line 160 "gramatica.y"
+//#line 161 "gramatica.y"
 {
                           contadorLadoDerecho++;
                           yyval.ival = 0;
                       }
 break;
 case 38:
-//#line 167 "gramatica.y"
+//#line 168 "gramatica.y"
 {
             yyval.sval = val_peek(2).sval + PUNTO + val_peek(0).sval;
             }
 break;
 case 39:
-//#line 171 "gramatica.y"
+//#line 172 "gramatica.y"
 {
             yyval.sval = val_peek(0).sval; }
 break;
 case 46:
-//#line 186 "gramatica.y"
+//#line 187 "gramatica.y"
 {
            yyval.ival = 0;
        }
 break;
 case 47:
-//#line 190 "gramatica.y"
+//#line 191 "gramatica.y"
 {
            yyval.ival = 1;
            yyval.sval = val_peek(0).sval;
        }
 break;
 case 51:
-//#line 202 "gramatica.y"
+//#line 203 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explicita (toui).");
                 }
 break;
 case 52:
-//#line 208 "gramatica.y"
+//#line 209 "gramatica.y"
 { yyval.sval = val_peek(3).sval; }
 break;
 case 64:
-//#line 236 "gramatica.y"
+//#line 237 "gramatica.y"
 {
                 String lexemaPositivo = val_peek(0).sval;
                 String lexemaNegativo = "-" + lexemaPositivo;
@@ -959,7 +998,7 @@ case 64:
             }
 break;
 case 65:
-//#line 264 "gramatica.y"
+//#line 265 "gramatica.y"
 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -967,7 +1006,7 @@ case 65:
                 }
 break;
 case 66:
-//#line 270 "gramatica.y"
+//#line 271 "gramatica.y"
 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -975,7 +1014,7 @@ case 66:
                }
 break;
 case 67:
-//#line 279 "gramatica.y"
+//#line 280 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -983,7 +1022,7 @@ case 67:
                     }
 break;
 case 68:
-//#line 286 "gramatica.y"
+//#line 287 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -991,24 +1030,24 @@ case 68:
                     }
 break;
 case 79:
-//#line 310 "gramatica.y"
+//#line 311 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilinea.");
                 }
 break;
 case 80:
-//#line 314 "gramatica.y"
+//#line 315 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresion.");
                 }
 break;
 case 81:
-//#line 320 "gramatica.y"
+//#line 321 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia RETURN.");
                 }
 break;
-//#line 935 "Parser.java"
+//#line 974 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

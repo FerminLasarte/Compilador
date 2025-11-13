@@ -17,6 +17,7 @@ public class AnalizadorLexico {
     private ArrayList<String> lineasArchivo;
     private ArrayList<String> errores;
     private ArrayList<String> warnings;
+    private ArrayList<String> erroresSemanticos; // <--- AÑADIDO (1)
     private HashMap<String, HashMap<String, Object>> tablaSimbolos;
     private HashMap<String, Integer> codigosTokens;
     private int[][] matrizTransicionEstados;
@@ -32,6 +33,7 @@ public class AnalizadorLexico {
         archivo = new File(rutaArchivo);
         if (archivo.exists()) {
             lineasArchivo = new ArrayList<String>();
+            erroresSemanticos = new ArrayList<String>(); // <--- AÑADIDO (2)
             BufferedReader lector;
             try {
                 lector = new BufferedReader(new FileReader(archivo));
@@ -334,6 +336,25 @@ public class AnalizadorLexico {
         }
         errores.add("Linea: "+ (contadorFila+1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
     }
+
+    // --- METODOS AÑADIDOS (3) ---
+
+    /**
+     * Agrega un error semántico a la lista.
+     * La gramática o el generador deben formatear el string con el nro de línea.
+     */
+    public void agregarErrorSemantico(String string) {
+        if(this.erroresSemanticos == null) {
+            this.erroresSemanticos = new ArrayList<String>();
+        }
+        erroresSemanticos.add(string);
+    }
+
+    public ArrayList<String> getErroresSemanticos() {
+        return this.erroresSemanticos;
+    }
+    // --- FIN DE METODOS AÑADIDOS ---
+
 
     public void disminuirContador() {
         if(contadorColumna!=0){

@@ -1,4 +1,25 @@
 PROGRAMA {
+    var A := 10UI;
+    var B := 1.0F+1;
+
+    A := toui(B);
+
+    do {
+        print(&Iterando...&);
+        A := A - 1UI;
+    } while (A > 0UI);
+
+    A, B = 1UI, 2.0F+1;
+
+    uint FTEST(cr se uint PSE, lambda FUNC) {
+        PSE := 10UI;
+        return ( FUNC(1UI->X) );
+    }
+
+    var R := 0UI;
+    R := FTEST(A->PSE, (uint P){ return(P+1UI); } -> FUNC);
+
+    A := R;
 
     if (A == B) {
         print(&son iguales&);
