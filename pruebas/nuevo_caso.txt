@@ -40,7 +40,7 @@ PROGRAMA {
     float, uint, float F(uint X) {
         return (1UI, 4UI, 2UI);
     }
-    @ A, B, C, D = F(1UI->X); ESTE CASO TIENE QUE DAR ERROR Y NO LO DA
+    A, B, C, D = F(1UI->X);
     A, B = F(1UI->X);
 
     uint F (cr se uint X, cr le uint Y, uint Z) {
