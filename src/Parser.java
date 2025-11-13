@@ -502,7 +502,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 319 "gramatica.y"
+//#line 308 "gramatica.y"
 
 static AnalizadorLexico al;
 ArrayList<String> erroresSintacticos = new ArrayList<String>();
@@ -845,17 +845,6 @@ case 35:
                         if (contadorLadoDerecho == 1 && val_peek(0).ival == 1) {
                             String funcName = val_peek(0).sval;
                             salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') reconocida.");
-
-                            int nroRetornos = al.getNroRetornos(funcName);
-                            if (nroRetornos == -1) {
-                                erroresSemanticos.add("Linea " + lineaActual + ": Error Semantico: La funcion '" + funcName + "' no fue declarada.");
-                            }
-                            else if (nroRetornos == -2) {
-                                erroresSemanticos.add("Linea " + lineaActual + ": Error Semantico: '" + funcName + "' no es una funcion, no puede ser asignado de forma multiple.");
-                            }
-                            else if (listaVariables.size() < nroRetornos) {
-                                erroresSemanticos.add("Linea " + lineaActual + ": Error Semantico: La funcion '" + funcName + "' retorna " + nroRetornos + " valores, pero solo se proveen " + listaVariables.size() + " variables para asignarlos.");
-                            }
                         } else {
                             if (listaVariables.size() != contadorLadoDerecho) {
                                 yyerror("Linea " + lineaActual + ": Error Sintactico: La asignacion multiple (lista) debe tener el mismo numero de elementos a la izquierda (" + listaVariables.size() + ") y a la derecha (" + contadorLadoDerecho + ").");
@@ -867,7 +856,7 @@ case 35:
                     }
 break;
 case 36:
-//#line 158 "gramatica.y"
+//#line 147 "gramatica.y"
 {
                           contadorLadoDerecho = 1;
                           yyval.ival = val_peek(0).ival;
@@ -875,45 +864,45 @@ case 36:
                       }
 break;
 case 37:
-//#line 164 "gramatica.y"
+//#line 153 "gramatica.y"
 {
                           contadorLadoDerecho++;
                           yyval.ival = 0;
                       }
 break;
 case 38:
-//#line 171 "gramatica.y"
+//#line 160 "gramatica.y"
 { yyval.sval = val_peek(2).sval + "." + val_peek(0).sval; }
 break;
 case 39:
-//#line 172 "gramatica.y"
+//#line 161 "gramatica.y"
 { yyval.sval = val_peek(0).sval; }
 break;
 case 46:
-//#line 186 "gramatica.y"
+//#line 175 "gramatica.y"
 {
            yyval.ival = 0;
        }
 break;
 case 47:
-//#line 190 "gramatica.y"
+//#line 179 "gramatica.y"
 {
            yyval.ival = 1;
            yyval.sval = val_peek(0).sval;
        }
 break;
 case 51:
-//#line 202 "gramatica.y"
+//#line 191 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explicita (toui).");
                 }
 break;
 case 52:
-//#line 208 "gramatica.y"
+//#line 197 "gramatica.y"
 { yyval.sval = val_peek(3).sval; }
 break;
 case 64:
-//#line 236 "gramatica.y"
+//#line 225 "gramatica.y"
 {
                 String lexemaPositivo = val_peek(0).sval;
                 String lexemaNegativo = "-" + lexemaPositivo;
@@ -940,7 +929,7 @@ case 64:
             }
 break;
 case 67:
-//#line 269 "gramatica.y"
+//#line 258 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -948,7 +937,7 @@ case 67:
                     }
 break;
 case 68:
-//#line 276 "gramatica.y"
+//#line 265 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -956,24 +945,24 @@ case 68:
                     }
 break;
 case 79:
-//#line 300 "gramatica.y"
+//#line 289 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilinea.");
                 }
 break;
 case 80:
-//#line 304 "gramatica.y"
+//#line 293 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresion.");
                 }
 break;
 case 81:
-//#line 310 "gramatica.y"
+//#line 299 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia RETURN.");
                 }
 break;
-//#line 900 "Parser.java"
+//#line 889 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

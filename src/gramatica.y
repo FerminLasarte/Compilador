@@ -132,17 +132,6 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                         if (contadorLadoDerecho == 1 && $3.ival == 1) {
                             String funcName = $3.sval;
                             salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') reconocida.");
-
-                            int nroRetornos = al.getNroRetornos(funcName);
-                            if (nroRetornos == -1) {
-                                erroresSemanticos.add("Linea " + lineaActual + ": Error Semantico: La funcion '" + funcName + "' no fue declarada.");
-                            }
-                            else if (nroRetornos == -2) {
-                                erroresSemanticos.add("Linea " + lineaActual + ": Error Semantico: '" + funcName + "' no es una funcion, no puede ser asignado de forma multiple.");
-                            }
-                            else if (listaVariables.size() < nroRetornos) {
-                                erroresSemanticos.add("Linea " + lineaActual + ": Error Semantico: La funcion '" + funcName + "' retorna " + nroRetornos + " valores, pero solo se proveen " + listaVariables.size() + " variables para asignarlos.");
-                            }
                         } else {
                             if (listaVariables.size() != contadorLadoDerecho) {
                                 yyerror("Linea " + lineaActual + ": Error Sintactico: La asignacion multiple (lista) debe tener el mismo numero de elementos a la izquierda (" + listaVariables.size() + ") y a la derecha (" + contadorLadoDerecho + ").");
