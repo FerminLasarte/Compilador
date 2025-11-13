@@ -56,7 +56,7 @@ public class AnalizadorLexico {
         codigosTokens.put("-", 45);
         codigosTokens.put("*", 42);
         codigosTokens.put("/", 46);
-        codigosTokens.put(".", 47);
+        codigosTokens.put(".", 282);
         codigosTokens.put("=", 271);
         codigosTokens.put("<", 60);
         codigosTokens.put(">", 62);
@@ -93,9 +93,10 @@ public class AnalizadorLexico {
         codigosTokens.put("MENOR_IGUAL", 279);
         codigosTokens.put("DISTINTO", 280);
         codigosTokens.put("IGUAL_IGUAL", 281);
-        codigosTokens.put("ERROR", 282);
-        codigosTokens.put("PALABRA_RESERVADA", 283);
-        codigosTokens.put("PUNTO", 47);
+        codigosTokens.put("PUNTO", 282);
+
+        codigosTokens.put("ERROR", 290);
+        codigosTokens.put("PALABRA_RESERVADA", 291);
 
         // Mapeo de lexemas compuestos a sus tokens
         codigosTokens.put(":=", 276);
