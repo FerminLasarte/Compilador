@@ -207,6 +207,7 @@ lista_parametros_reales : lista_parametros_reales ',' parametro_real
                         ;
 
 parametro_real : parametro_simple FLECHA ID
+               | parametro_simple
                ;
 
 parametro_simple : expresion

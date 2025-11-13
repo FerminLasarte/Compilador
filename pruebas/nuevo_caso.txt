@@ -1,4 +1,14 @@
 PROGRAMA {
+
+    uint APLICARLAMBDA(lambda FUNC, uint VALOR) {
+        print(&Ejecuta LAMBDA&);
+        return( FUNC(VALOR->X) );
+    }
+    var RESULTADO := 0UI;
+    RESULTADO := APLICARLAMBDA( (uint A){ return(A + 10UI); } , 5UI );
+
+    print(&El resultado final es:&);
+    print(RESULTADO);
     F.A := J;
     F := J.A;
     A,B = F.A, J;
