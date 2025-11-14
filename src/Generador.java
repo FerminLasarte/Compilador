@@ -153,11 +153,30 @@ public class Generador {
         if (operando.startsWith("[")) {
             try {
                 int index = Integer.parseInt(operando.substring(1, operando.length() - 1));
-                return this.tercetos.get(index).getTipo();
+                // Asegurarse de que el terceto existe antes de obtener el tipo
+                Terceto t = this.tercetos.get(index);
+                if (t != null) {
+                    return t.getTipo();
+                } else {
+                    return "error_tipo";
+                }
             } catch (Exception e) {
                 return "error_tipo";
             }
         }
+
+        // --- INICIO DE LA CORRECCIÓN ---
+        // Es un literal constante (ej: "10UI", "1.5F+1", "-1.0F+1")
+        // El analizador léxico ya validó su formato, así que podemos confiar
+        // en los sufijos/caracteres para determinar el tipo.
+        if (operando.endsWith("UI")) {
+            return "uint";
+        }
+        // Usamos contains("F") porque el lexema puede ser "1.5F+1" o ".5F-10", etc.
+        if (operando.contains("F")) {
+            return "float";
+        }
+        // --- FIN DE LA CORRECCIÓN ---
 
         Object tipo;
         // Tema 23: Check por prefijo
