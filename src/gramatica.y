@@ -21,8 +21,7 @@
 
 %%
 
-programa : ID '{' { g.abrirAmbito($1.sval);
-} sentencias '}' { g.cerrarAmbito(); }
+programa : ID '{' { g.abrirAmbito($1.sval); } sentencias '}' { g.cerrarAmbito(); }
       {
           String nombrePrograma = $1.sval;
           Object lineaObj = al.getAtributo(nombrePrograma, "Linea");
@@ -34,14 +33,10 @@ programa : ID '{' { g.abrirAmbito($1.sval);
      {
          erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");
      }
-     | ID sentencias '}'
-     {
-         erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '{' al inicio del programa.");
-     }
-     | ID '{' sentencias
-     {
-         erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el delimitador '}' al final del programa.");
-     }
+     /* * REGLAS DE ERROR AMBIGUAS ELIMINADAS PARA RESOLVER CONFLICTOS SHIFT/REDUCE:
+      * | ID sentencias '}' { ... }
+      * | ID '{' sentencias { ... }
+      */
      ;
 
 sentencias : sentencias sentencia
@@ -81,8 +76,7 @@ declaracion_var : VAR variable ASIG expresion
                 ;
 
 tipo : UINT { $$.sval = "uint"; }
-     | FLOAT { $$.sval = "float";
-     }
+     | FLOAT { $$.sval = "float"; }
      | LAMBDA { $$.sval = "lambda"; }
      ;
 
@@ -124,8 +118,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                      al.agregarAtributoLexema(p.nombre, "Pasaje", p.pasaje);
                 }
             }
-        } sentencias '}' { g.cerrarAmbito();
-        }
+        } sentencias '}' { g.cerrarAmbito(); }
         {
             String nombreFuncion = $2.sval;
             Object lineaObj = al.getAtributo(nombreFuncion, "Linea");
@@ -134,7 +127,13 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         }
       | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' {
             String nombreFuncion = $2.sval;
-            ArrayList<String> tiposRetorno = (ArrayList<String>) $1.obj;
+
+            ArrayList<?> rawList = (ArrayList<?>) $1.obj;
+            ArrayList<String> tiposRetorno = new ArrayList<String>();
+            for (Object o : rawList) {
+                tiposRetorno.add((String) o);
+            }
+
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
 
             if (g.existeEnAmbitoActual(nombreFuncion)) {
@@ -159,8 +158,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                      al.agregarAtributoLexema(p.nombre, "Pasaje", p.pasaje);
                 }
             }
-        } sentencias '}' { g.cerrarAmbito();
-        }
+        } sentencias '}' { g.cerrarAmbito(); }
         {
             String nombreFuncion = $2.sval;
             Object lineaObj = al.getAtributo(nombreFuncion, "Linea");
@@ -179,7 +177,12 @@ lista_tipos_retorno_multiple : tipo ',' tipo
                          |
                          lista_tipos_retorno_multiple ',' tipo
                              {
-                                 ArrayList<String> lista = (ArrayList<String>) $1.obj;
+                                 ArrayList<?> rawList = (ArrayList<?>) $1.obj;
+                                 ArrayList<String> lista = new ArrayList<String>();
+                                 for (Object o : rawList) {
+                                     lista.add((String) o);
+                                 }
+
                                  lista.add($3.sval);
                                  $$.obj = lista;
                              }
@@ -245,7 +248,14 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                                 if (retMultiple == null || !(Boolean)retMultiple) {
                                     al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple a funcion '" + funcName + "' que no tiene retorno multiple.");
                                 } else {
-                                    ArrayList<String> tiposRetorno = (ArrayList<String>) al.getAtributo(funcName, "TiposRetorno");
+                                    Object rawObj = al.getAtributo(funcName, "TiposRetorno");
+                                    ArrayList<String> tiposRetorno = new ArrayList<String>();
+                                    if (rawObj instanceof ArrayList) {
+                                        for (Object o : (ArrayList<?>) rawObj) {
+                                            tiposRetorno.add((String) o);
+                                        }
+                                    }
+
                                     int cantRetornos = tiposRetorno.size();
 
                                     if (cantRetornos < cantIzquierda) {
@@ -383,12 +393,10 @@ factor : factor_no_funcion
        ;
 
 factor_no_funcion : variable
-                  { g.apilarOperando($1.sval);
-                  }
+                  { g.apilarOperando($1.sval); }
                   |
                   constante
-                  { g.apilarOperando($1.sval);
-                  }
+                  { g.apilarOperando($1.sval); }
                   |
                   conversion_explicita
                   { }
@@ -436,7 +444,15 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                            }
                        }
                        else if (uso != null && uso.toString().equals("funcion")) {
-                           ArrayList<ParametroInfo> formales = (ArrayList<ParametroInfo>) al.getAtributo(funcName, "Parametros");
+                           Object rawObj = al.getAtributo(funcName, "Parametros");
+                           ArrayList<ParametroInfo> formales = null;
+                           if (rawObj instanceof ArrayList) {
+                               formales = new ArrayList<ParametroInfo>();
+                               for (Object o : (ArrayList<?>) rawObj) {
+                                   formales.add((ParametroInfo) o);
+                               }
+                           }
+
                            if (formales == null) {
                                 al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: No se pudo recuperar la firma de la funcion '" + funcName + "'.");
                                 $$.sval = "ERROR_CALL";
@@ -445,7 +461,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                $$.sval = "ERROR_CALL";
                            } else {
                                 boolean errorEnParametros = false;
-                               for (ParametroRealInfo real : reales) {
+                                for (ParametroRealInfo real : reales) {
                                    ParametroInfo formal = formales.stream().filter(f -> f.nombre.equals(real.nombreFormal)).findFirst().orElse(null);
                                    if (formal == null) {
                                        al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "': no existe el parametro formal '->" + real.nombreFormal + "'.");
@@ -491,12 +507,10 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                    ;
 
 lista_parametros_reales : lista_parametros_reales ',' parametro_real
-                        { $$.ival = $1.ival + 1;
-                        }
+                        { $$.ival = $1.ival + 1; }
                         |
                         parametro_real
-                        { $$.ival = 1;
-                        }
+                        { $$.ival = 1; }
                         ;
 
 parametro_real : parametro_simple FLECHA ID
@@ -511,8 +525,7 @@ parametro_real : parametro_simple FLECHA ID
                ;
 
 parametro_simple : expresion
-                 { $$.sval = g.desapilarOperando();
-                 }
+                 { $$.sval = g.desapilarOperando(); }
                  |
                  lambda_expresion
                  {
@@ -521,7 +534,8 @@ parametro_simple : expresion
                  ;
 
 lambda_expresion : '(' tipo ID ')' '{' {
-                         String saltoIncondicional = g.addTerceto("BI", "_", "_");
+                         pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
+
                          int inicioLambda = g.getProximoTerceto();
                          $$.sval = String.valueOf(inicioLambda);
 
@@ -531,9 +545,11 @@ lambda_expresion : '(' tipo ID ')' '{' {
                          al.agregarAtributoLexema($3.sval, "Tipo", $2.sval);
 
                          g.addTerceto("DEF_PARAM", $3.sval, "_");
-                     } cuerpo_lambda '}' {
+                 } cuerpo_lambda '}' {
                          g.addTerceto("RET_LAMBDA", "_", "_");
                          int tercetoFin = g.getProximoTerceto();
+
+                         String saltoIncondicional = pilaSaltosLambda.pop();
                          g.modificarSaltoTerceto(Integer.parseInt(saltoIncondicional.substring(1, saltoIncondicional.length()-1)), String.valueOf(tercetoFin));
 
                          g.cerrarAmbito();
@@ -549,8 +565,7 @@ sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
                              ;
 
 constante : CTE
-            { $$.sval = $1.sval;
-            }
+            { $$.sval = $1.sval; }
           |
           '-' CTE
             {
@@ -579,7 +594,7 @@ constante : CTE
           ;
 
 condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';'
-                %prec IFX
+%prec IFX
                 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ?
@@ -592,11 +607,10 @@ condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';'
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ? lineaObj.toString() : "?";
                     salida.add("Linea " + linea + ": Sentencia IF-ELSE reconocida.");
-               }
+                }
                ;
 
-condicional_do_while: DO { g.apilarControl(g.getProximoTerceto());
-} bloque_ejecutable WHILE '(' condicion ')' ';'
+condicional_do_while: DO { g.apilarControl(g.getProximoTerceto()); } bloque_ejecutable WHILE '(' condicion ')' ';'
                     {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -610,15 +624,9 @@ condicional_do_while: DO { g.apilarControl(g.getProximoTerceto());
                             String tercetoSalto = g.addTerceto("BT", refCondicion, String.valueOf(inicioBucle));
                         }
                     }
-                    |
-                    DO bloque_ejecutable WHILE '(' condicion ')'
-                    {
-                        Object lineaObj = al.getAtributo("do", "Linea");
-                        String linea = (lineaObj != null) ? lineaObj.toString() : "?";
-                        yyerror("Linea " + linea + ": Error Sintactico. Falta punto y coma ';' al final de la sentencia DO-WHILE.");
-                        g.desapilarOperando();
-                        g.desapilarControl();
-                    }
+                    /* * REGLA DE ERROR AMBIGUA ELIMINADA PARA RESOLVER CONFLICTO SHIFT/REDUCE:
+                     * | DO bloque_ejecutable WHILE '(' condicion ')' { ... }
+                     */
                     ;
 
 condicion : expresion simbolo_comparacion expresion
@@ -651,8 +659,7 @@ simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
                     '<' { g.apilarOperando("<"); }
                     ;
 
-bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito();
-}
+bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito(); }
                   |
                   '{' error '}'
                   ;
@@ -673,7 +680,12 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
 retorno_funcion : RETURN '(' lista_expresiones ')' ';'
             {
                 salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia RETURN.");
-                ArrayList<String> expresiones = (ArrayList<String>) $3.obj;
+
+                ArrayList<?> rawList = (ArrayList<?>) $3.obj;
+                ArrayList<String> expresiones = new ArrayList<String>();
+                for (Object o : rawList) {
+                    expresiones.add((String) o);
+                }
 
                 for (String exprTerceto : expresiones) {
                     g.addTerceto("RETURN", exprTerceto);
@@ -683,7 +695,12 @@ retorno_funcion : RETURN '(' lista_expresiones ')' ';'
 
 lista_expresiones : lista_expresiones ',' expresion
               {
-                  ArrayList<String> lista = (ArrayList<String>) $1.obj;
+                  ArrayList<?> rawList = (ArrayList<?>) $1.obj;
+                  ArrayList<String> lista = new ArrayList<String>();
+                  for (Object o : rawList) {
+                      lista.add((String) o);
+                  }
+
                   lista.add(g.desapilarOperando());
                   $$.obj = lista;
               }
@@ -695,6 +712,7 @@ lista_expresiones : lista_expresiones ',' expresion
                   $$.obj = lista;
               }
               ;
+
 %%
 
 static AnalizadorLexico al;
@@ -704,6 +722,8 @@ ArrayList<String> erroresSemanticos = new ArrayList<String>();
 ArrayList<String> salida = new ArrayList<String>();
 ArrayList<String> listaVariables = new ArrayList<String>();
 int contadorLadoDerecho = 0;
+Stack<String> pilaSaltosLambda = new Stack<String>();
+
 int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();
@@ -738,8 +758,6 @@ public static void main(String args[]){
                 @Override
                 public int compare(String s1, String s2) {
                     try {
-
-
                         int linea1 = Integer.parseInt(s1.substring(6, s1.indexOf(':')).trim());
                         int linea2 = Integer.parseInt(s2.substring(6, s2.indexOf(':')).trim());
                         return Integer.compare(linea1, linea2);

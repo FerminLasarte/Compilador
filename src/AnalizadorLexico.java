@@ -22,7 +22,6 @@ public class AnalizadorLexico {
     private ArrayList<String> warnings;
     private ArrayList<String> erroresSemanticos;
 
-    // --- CAMBIO: Tabla de Símbolos Anidada (Pila de Ámbitos) ---
     private Stack<Pair<String, HashMap<String, HashMap<String, Object>>>> tablaSimbolos;
     // --- CAMBIO: Palabras Reservadas separadas ---
     private HashMap<String, Integer> palabrasReservadas;
@@ -433,8 +432,6 @@ public class AnalizadorLexico {
         }
         return null;
     }
-
-    // --- MÉTODOS DE ÁMBITO (NUEVOS) ---
 
     public void abrirAmbito(String nombre) {
         // Asegura que el nombre del ámbito sea único si es un bloque anónimo

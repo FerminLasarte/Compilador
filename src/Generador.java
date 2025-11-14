@@ -2,10 +2,6 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.ArrayList;
 
-/**
- * Singleton para gestionar la generación de código intermedio (Tercetos)
- * y el análisis semántico.
- */
 public class Generador {
 
     private static volatile Generador instance;
@@ -136,8 +132,6 @@ public class Generador {
         return -1; // Error, pila vacia
     }
 
-    // --- MANEJO DE ÁMBITOS (WRAPPERS) ---
-
     public void abrirAmbito(String nombre) { al.abrirAmbito(nombre); }
     public void cerrarAmbito() { al.cerrarAmbito(); }
     public boolean existeEnAmbitoActual(String lexema) { return al.existeEnAmbitoActual(lexema); }
@@ -196,7 +190,6 @@ public class Generador {
         }
 
         if (tipo1.equals("indefinido") || tipo2.equals("indefinido")) {
-            // El error de "no declarada" se reportará al usar la variable.
             return "error_tipo";
         }
 
@@ -219,7 +212,6 @@ public class Generador {
         }
 
         if (tipoVar.equals("indefinido") || tipoExpr.equals("indefinido")) {
-            // El error de "no declarada" se reportará al usar la variable.
             return false;
         }
 
@@ -239,8 +231,6 @@ public class Generador {
         return false;
     }
 
-    // --- MANEJO DE PILA DE PARÁMETROS (NUEVO) ---
-
     public void apilarParametro(ParametroInfo p) { this.pilaParametros.push(p); }
 
     public ArrayList<ParametroInfo> getListaParametros() {
@@ -249,8 +239,6 @@ public class Generador {
         pilaParametros.clear();
         return lista;
     }
-
-    // --- MANEJO DE PILA DE PARÁMETROS REALES (NUEVO) ---
 
     public void apilarParametroReal(ParametroRealInfo p) { this.pilaParametrosReales.push(p); }
 
