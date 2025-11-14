@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.ArrayList;
 
 /**
  * Singleton para gestionar la generación de código intermedio (Tercetos)
@@ -9,15 +10,21 @@ public class Generador {
 
     private static volatile Generador instance;
     private ArrayList<Terceto> tercetos;
-    private Stack<String> pilaOperandos;  // Pila para operandos en expresiones
-    private Stack<Integer> pilaControl; // Pila para saltos (IF, DO-WHILE)
-    private AnalizadorLexico al; // Referencia al analizador lexico (para la TS)
+    private Stack<String> pilaOperandos;
+    private Stack<Integer> pilaControl;
+    private Stack<ParametroInfo> pilaParametros;
+    private Stack<ParametroRealInfo> pilaParametrosReales;
+    private Stack<String> pilaLadoDerecho;
+    private AnalizadorLexico al;
 
     // Constructor privado para el Singleton
     private Generador() {
         this.tercetos = new ArrayList<Terceto>();
         this.pilaOperandos = new Stack<>();
         this.pilaControl = new Stack<>();
+        this.pilaParametros = new Stack<>();
+        this.pilaParametrosReales = new Stack<>();
+        this.pilaLadoDerecho = new Stack<>();
     }
 
     /**
@@ -129,11 +136,24 @@ public class Generador {
         return -1; // Error, pila vacia
     }
 
+    // --- MANEJO DE ÁMBITOS (WRAPPERS) ---
+
+    public void abrirAmbito(String nombre) { al.abrirAmbito(nombre); }
+    public void cerrarAmbito() { al.cerrarAmbito(); }
+    public boolean existeEnAmbitoActual(String lexema) { return al.existeEnAmbitoActual(lexema); }
+    public String getAmbitoActual() { return al.getAmbitoActual(); }
+
+
     /**
      * Obtiene el tipo de un operando (var, cte, o resultado de terceto).
      */
     public String getTipo(String operando) {
         if (operando == null) return "void";
+
+        // TEMA 28: Si el operando es una dirección de lambda (un número simple)
+        if (operando.matches("\\d+")) {
+            return "lambda_expr";
+        }
 
         // Es un resultado de un terceto (ej: "[5]")
         if (operando.startsWith("[")) {
@@ -145,8 +165,18 @@ public class Generador {
             }
         }
 
-        // Es un lexema de la Tabla de Símbolos
-        Object tipo = al.getAtributo(operando, "Tipo");
+        Object tipo;
+        // Tema 23: Check por prefijo
+        if (operando.contains(".")) {
+            String[] parts = operando.split("\\.", 2);
+            if (parts.length == 2) {
+                tipo = al.getAtributoConPrefijo(parts[0], parts[1], "Tipo");
+                if (tipo != null) return tipo.toString();
+            }
+        }
+
+        // Tema 23: Búsqueda sin prefijo (hacia arriba en la pila)
+        tipo = al.getAtributo(operando, "Tipo");
         if (tipo != null) {
             return tipo.toString();
         }
@@ -160,43 +190,86 @@ public class Generador {
      * Solo permite operaciones entre tipos iguales. Prohíbe uint vs float.
      * Devuelve el tipo resultante o "error_tipo".
      */
-    public String chequearTipos(String op, String tipo1, String tipo2, int linea) { // <--- CORREGIDO
+    public String chequearTipos(String op, String tipo1, String tipo2, int linea) {
         if (tipo1.equals(tipo2) && !tipo1.equals("indefinido")) {
             return tipo1; // Mismo tipo, todo OK.
         }
 
+        if (tipo1.equals("indefinido") || tipo2.equals("indefinido")) {
+            // El error de "no declarada" se reportará al usar la variable.
+            return "error_tipo";
+        }
+
         // Tema 31: No se permiten operaciones entre uint y float
         if ((tipo1.equals("uint") && tipo2.equals("float")) || (tipo1.equals("float") && tipo2.equals("uint"))) {
-            // <--- CORREGIDO
             al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: No se puede operar ("+op+") entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).");
             return "error_tipo";
         }
 
+        al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Operacion ("+op+") entre tipos incompatibles: " + tipo1 + " y " + tipo2);
         return "error_tipo";
     }
 
     /**
      * TEMA 31: Chequea tipos en asignacion (:=).
      */
-    public boolean chequearAsignacion(String tipoVar, String tipoExpr, int linea) { // <--- CORREGIDO
+    public boolean chequearAsignacion(String tipoVar, String tipoExpr, int linea) {
         if (tipoVar.equals(tipoExpr)) {
             return true; // Mismo tipo, OK.
         }
 
+        if (tipoVar.equals("indefinido") || tipoExpr.equals("indefinido")) {
+            // El error de "no declarada" se reportará al usar la variable.
+            return false;
+        }
+
         // Tema 31: Permite asignar float a uint SOLO con `toui`
         if (tipoVar.equals("uint") && tipoExpr.equals("float")) {
-            // <--- CORREGIDO
             al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Asignacion incompatible. No se puede asignar 'float' a 'uint' sin 'toui' (Tema 31).");
             return false;
         }
 
         // Tema 31: No dice nada de uint -> float, asi que lo prohibimos.
         if (tipoVar.equals("float") && tipoExpr.equals("uint")) {
-            // <--- CORREGIDO
             al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Asignacion incompatible. No se puede asignar 'uint' a 'float' (Tema 31).");
             return false;
         }
 
+        al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Asignacion incompatible. No se puede asignar '" + tipoExpr + "' a '" + tipoVar + "'.");
         return false;
     }
+
+    // --- MANEJO DE PILA DE PARÁMETROS (NUEVO) ---
+
+    public void apilarParametro(ParametroInfo p) { this.pilaParametros.push(p); }
+
+    public ArrayList<ParametroInfo> getListaParametros() {
+        // Devuelve la lista en el orden correcto (FIFO)
+        ArrayList<ParametroInfo> lista = new ArrayList<>(pilaParametros);
+        pilaParametros.clear();
+        return lista;
+    }
+
+    // --- MANEJO DE PILA DE PARÁMETROS REALES (NUEVO) ---
+
+    public void apilarParametroReal(ParametroRealInfo p) { this.pilaParametrosReales.push(p); }
+
+    public ArrayList<ParametroRealInfo> getListaParametrosReales(int count) {
+        ArrayList<ParametroRealInfo> lista = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            if (!pilaParametrosReales.isEmpty()) {
+                // Los vamos dando vuelta para que queden en orden de declaración
+                lista.add(0, pilaParametrosReales.pop());
+            }
+        }
+        return lista;
+    }
+
+    public int getCountParametrosReales() { return pilaParametrosReales.size(); }
+    public void clearParametrosReales() { pilaParametrosReales.clear(); }
+
+    // --- MANEJO DE PILA LADO DERECHO (NUEVO) ---
+    public void apilarLadoDerecho(String s) { this.pilaLadoDerecho.push(s); }
+    public Stack<String> getPilaLadoDerecho() { return this.pilaLadoDerecho; }
+    public void clearLadoDerecho() { this.pilaLadoDerecho.clear(); }
 }

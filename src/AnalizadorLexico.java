@@ -4,6 +4,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
+import java.util.Iterator;
+import java.util.Map;
 
 public class AnalizadorLexico {
     //variables semi-estaticas
@@ -17,8 +20,13 @@ public class AnalizadorLexico {
     private ArrayList<String> lineasArchivo;
     private ArrayList<String> errores;
     private ArrayList<String> warnings;
-    private ArrayList<String> erroresSemanticos; // <--- AÑADIDO (1)
-    private HashMap<String, HashMap<String, Object>> tablaSimbolos;
+    private ArrayList<String> erroresSemanticos;
+
+    // --- CAMBIO: Tabla de Símbolos Anidada (Pila de Ámbitos) ---
+    private Stack<Pair<String, HashMap<String, HashMap<String, Object>>>> tablaSimbolos;
+    // --- CAMBIO: Palabras Reservadas separadas ---
+    private HashMap<String, Integer> palabrasReservadas;
+
     private HashMap<String, Integer> codigosTokens;
     private int[][] matrizTransicionEstados;
     private AccionSemantica[][] matrizAccionesSemanticas;
@@ -29,11 +37,16 @@ public class AnalizadorLexico {
         contadorFila = 0;
         contadorColumna = 0;
 
+        // --- CAMBIO: Inicialización de nuevas estructuras ---
+        palabrasReservadas = new HashMap<String, Integer>();
+        tablaSimbolos = new Stack<Pair<String, HashMap<String, HashMap<String, Object>>>>();
+        // --- FIN CAMBIO ---
+
         // Crear el archivo con la ruta proporcionada
         archivo = new File(rutaArchivo);
         if (archivo.exists()) {
             lineasArchivo = new ArrayList<String>();
-            erroresSemanticos = new ArrayList<String>(); // <--- AÑADIDO (2)
+            erroresSemanticos = new ArrayList<String>();
             BufferedReader lector;
             try {
                 lector = new BufferedReader(new FileReader(archivo));
@@ -59,7 +72,7 @@ public class AnalizadorLexico {
         codigosTokens.put("*", 42);
         codigosTokens.put("/", 46);
         codigosTokens.put(".", 282);
-        codigosTokens.put("=", 271);
+        codigosTokens.put("=", 271); // ASIG_MULTIPLE
         codigosTokens.put("<", 60);
         codigosTokens.put(">", 62);
         codigosTokens.put("(", 40);
@@ -147,38 +160,23 @@ public class AnalizadorLexico {
         columnaMatrices.put('U', 17);
         columnaMatrices.put('I', 18);
 
-        // Tabla de Símbolos con palabras reservadas
-        tablaSimbolos = new HashMap<String, HashMap<String, Object>>();
-        tablaSimbolos.put("if", new HashMap<String, Object>());
-        tablaSimbolos.get("if").put("Reservada", true);
-        tablaSimbolos.put("else", new HashMap<String, Object>());
-        tablaSimbolos.get("else").put("Reservada", true);
-        tablaSimbolos.put("endif", new HashMap<String, Object>());
-        tablaSimbolos.get("endif").put("Reservada", true);
-        tablaSimbolos.put("print", new HashMap<String, Object>());
-        tablaSimbolos.get("print").put("Reservada", true);
-        tablaSimbolos.put("return", new HashMap<String, Object>());
-        tablaSimbolos.get("return").put("Reservada", true);
-        tablaSimbolos.put("float", new HashMap<String, Object>());
-        tablaSimbolos.get("float").put("Reservada", true);
-        tablaSimbolos.put("uint", new HashMap<String, Object>());
-        tablaSimbolos.get("uint").put("Reservada", true);
-        tablaSimbolos.put("var", new HashMap<String, Object>());
-        tablaSimbolos.get("var").put("Reservada", true);
-        tablaSimbolos.put("do", new HashMap<String, Object>());
-        tablaSimbolos.get("do").put("Reservada", true);
-        tablaSimbolos.put("while", new HashMap<String, Object>());
-        tablaSimbolos.get("while").put("Reservada", true);
-        tablaSimbolos.put("lambda", new HashMap<String, Object>());
-        tablaSimbolos.get("lambda").put("Reservada", true);
-        tablaSimbolos.put("cr", new HashMap<String, Object>());
-        tablaSimbolos.get("cr").put("Reservada", true);
-        tablaSimbolos.put("se", new HashMap<String, Object>());
-        tablaSimbolos.get("se").put("Reservada", true);
-        tablaSimbolos.put("le", new HashMap<String, Object>());
-        tablaSimbolos.get("le").put("Reservada", true);
-        tablaSimbolos.put("toui", new HashMap<String, Object>());
-        tablaSimbolos.get("toui").put("Reservada", true);
+        // --- CAMBIO: Mover Palabras Reservadas a su propio map ---
+        palabrasReservadas.put("if", codigosTokens.get("IF"));
+        palabrasReservadas.put("else", codigosTokens.get("ELSE"));
+        palabrasReservadas.put("endif", codigosTokens.get("ENDIF"));
+        palabrasReservadas.put("print", codigosTokens.get("PRINT"));
+        palabrasReservadas.put("return", codigosTokens.get("RETURN"));
+        palabrasReservadas.put("float", codigosTokens.get("FLOAT"));
+        palabrasReservadas.put("uint", codigosTokens.get("UINT"));
+        palabrasReservadas.put("var", codigosTokens.get("VAR"));
+        palabrasReservadas.put("do", codigosTokens.get("DO"));
+        palabrasReservadas.put("while", codigosTokens.get("WHILE"));
+        palabrasReservadas.put("lambda", codigosTokens.get("LAMBDA"));
+        palabrasReservadas.put("cr", codigosTokens.get("CR"));
+        palabrasReservadas.put("se", codigosTokens.get("SE"));
+        palabrasReservadas.put("le", codigosTokens.get("LE"));
+        palabrasReservadas.put("toui", codigosTokens.get("TOUI"));
+        // --- FIN CAMBIO ---
 
         // Matriz de Transición de Estados (sin cambios)
         matrizTransicionEstados = new int[][] {
@@ -263,6 +261,12 @@ public class AnalizadorLexico {
 
             ultimoEstado = matrizTransicionEstados[ultimoEstado][columnaCaracter];
 
+            // --- CAMBIO: Verificación de Palabra Reservada ---
+            if (tokenString != null && tokenString.equals("ID") && esPalabraReservada(lexema)) {
+                tokenString = lexema.toUpperCase(); // Sobrescribe "ID" con "IF", "ELSE", etc.
+            }
+            // --- FIN CAMBIO ---
+
             if (proximoCaracter == '\n') {
                 this.aumentarContadorFila();
             }
@@ -270,27 +274,29 @@ public class AnalizadorLexico {
 
         if (tokenString != null) {
             if (codigosTokens.containsKey(tokenString)) {
-                System.out.println("Token: " + tokenString + ", Lexema: " + lexema + ", (" + codigosTokens.get(tokenString) + ")");
+                // System.out.println("Token: " + tokenString + ", Lexema: " + lexema + ", (" + codigosTokens.get(tokenString) + ")");
                 return codigosTokens.get(tokenString);
             }
         }
 
         if (lexema != null && !lexema.isEmpty() && codigosTokens.containsKey(lexema)) {
-            System.out.println("Token: Operador, Lexema: " + lexema + ", (" + codigosTokens.get(lexema) + ")");
+            // System.out.println("Token: Operador, Lexema: " + lexema + ", (" + codigosTokens.get(lexema) + ")");
             return codigosTokens.get(lexema);
         }
 
         return -1;
     }
 
+    // --- CAMBIO: Modificado para usar la pila ---
     public void eliminarLexemaTS(String lexema) {
-        if (tablaSimbolos.containsKey(lexema)) {
-            tablaSimbolos.remove(lexema);
+        if (!tablaSimbolos.isEmpty()) {
+            tablaSimbolos.peek().getValue().remove(lexema);
         }
     }
 
+    // --- CAMBIO: Modificado para usar palabrasReservadas ---
     public boolean esPalabraReservada(String lexema) {
-        return tablaSimbolos.containsKey(lexema) && (boolean) tablaSimbolos.get(lexema).get("Reservada");
+        return palabrasReservadas.containsKey(lexema);
     }
 
     public void inicializarLexema(){
@@ -313,9 +319,15 @@ public class AnalizadorLexico {
         return str != null && str.equals(str.toUpperCase());
     }
 
+    // --- CAMBIO: Modificado para usar la pila (ámbito actual) ---
     public void agregarLexemaTS(String lexema){
-        tablaSimbolos.put(lexema, new HashMap<String,Object>());
-        tablaSimbolos.get(lexema).put("Reservada", false);
+        if (!tablaSimbolos.isEmpty()) {
+            HashMap<String, HashMap<String, Object>> ambitoActual = tablaSimbolos.peek().getValue();
+            if (!ambitoActual.containsKey(lexema)) {
+                ambitoActual.put(lexema, new HashMap<>());
+                ambitoActual.get(lexema).put("Reservada", false);
+            }
+        }
     }
 
     public void agregarCaracterLexema(char c){
@@ -341,7 +353,6 @@ public class AnalizadorLexico {
 
     /**
      * Agrega un error semántico a la lista.
-     * La gramática o el generador deben formatear el string con el nro de línea.
      */
     public void agregarErrorSemantico(String string) {
         if(this.erroresSemanticos == null) {
@@ -373,12 +384,16 @@ public class AnalizadorLexico {
         contadorColumna = 0;
     }
 
-    public HashMap<String, HashMap<String, Object>> getTablaSimbolos() {
-        return tablaSimbolos;
-    }
-
+    // --- CAMBIO: Modificado para usar la pila (ámbito actual) ---
     public void agregarAtributoLexema(String lexema, String key, Object valor) {
-        tablaSimbolos.get(lexema).put(key, valor);
+        if (!tablaSimbolos.isEmpty()) {
+            HashMap<String, HashMap<String, Object>> ambitoActual = tablaSimbolos.peek().getValue();
+            if (ambitoActual.containsKey(lexema)) {
+                ambitoActual.get(lexema).put(key, valor);
+            } else {
+                // Opcional: ¿Error si no existe?
+            }
+        }
     }
 
     public int getContadorFila() {
@@ -396,13 +411,125 @@ public class AnalizadorLexico {
         return this.warnings;
     }
 
+    // --- CAMBIO: Modificado para usar la pila (ámbito actual) ---
     public void reemplazarEnTS(String lexemaViejo, String lexemaNuevo){
-        agregarLexemaTS(lexemaNuevo);
-        HashMap<String, Object> atributos = new HashMap<>(tablaSimbolos.get(lexemaViejo));
-        tablaSimbolos.put(lexemaNuevo, atributos);
+        if (!tablaSimbolos.isEmpty()) {
+            HashMap<String, Object> atributos = tablaSimbolos.peek().getValue().remove(lexemaViejo);
+            if (atributos != null) {
+                tablaSimbolos.peek().getValue().put(lexemaNuevo, atributos);
+            }
+        }
     }
 
-    public Object getAtributo(String lexema, String atributo){
-        return tablaSimbolos.get(lexema).get(atributo);
+    // --- CAMBIO: Modificado para buscar en pila (Tema 23) ---
+    // Tema 23: Búsqueda sin prefijo (hacia arriba)
+    public Object getAtributo(String lexema, String atributo) {
+        // Corrección: Stack.iterator() va desde el fondo. Necesitamos ir desde el tope.
+        for (int i = tablaSimbolos.size() - 1; i >= 0; i--) {
+            HashMap<String, HashMap<String, Object>> ambito = tablaSimbolos.get(i).getValue();
+            if (ambito.containsKey(lexema)) {
+                return ambito.get(lexema).get(atributo);
+            }
+        }
+        return null;
+    }
+
+    // --- MÉTODOS DE ÁMBITO (NUEVOS) ---
+
+    public void abrirAmbito(String nombre) {
+        // Asegura que el nombre del ámbito sea único si es un bloque anónimo
+        String nombreUnico = nombre;
+        int i = 0;
+        // Evita colisiones de nombres de ámbito
+        while (getAmbitoPorNombre(nombreUnico) != null) {
+            i++;
+            nombreUnico = nombre + "_" + i;
+        }
+        tablaSimbolos.push(new Pair<>(nombreUnico, new HashMap<>()));
+    }
+
+    public void cerrarAmbito() {
+        if (!tablaSimbolos.isEmpty()) {
+            tablaSimbolos.pop();
+        }
+    }
+
+    public String getAmbitoActual() {
+        if (!tablaSimbolos.isEmpty()) {
+            return tablaSimbolos.peek().getKey();
+        }
+        return "GLOBAL_NULL"; // No debería pasar si 'programa' abre un ámbito
+    }
+
+    // Busca un ámbito por nombre en la pila
+    private HashMap<String, HashMap<String, Object>> getAmbitoPorNombre(String nombre) {
+        Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
+        while (iter.hasNext()) {
+            Pair<String, HashMap<String, HashMap<String, Object>>> par = iter.next();
+            if (par.getKey().equals(nombre)) {
+                return par.getValue();
+            }
+        }
+        return null;
+    }
+
+    // Chequea si existe SOLO en el ámbito actual (para redeclaraciones)
+    public boolean existeEnAmbitoActual(String lexema) {
+        if (tablaSimbolos.isEmpty()) return false;
+        return tablaSimbolos.peek().getValue().containsKey(lexema);
+    }
+
+    // Tema 23: Búsqueda con prefijo (saltar a ámbito)
+    public Object getAtributoConPrefijo(String prefijo, String lexema, String atributo) {
+        HashMap<String, HashMap<String, Object>> ambito = getAmbitoPorNombre(prefijo);
+        if (ambito != null && ambito.containsKey(lexema)) {
+            return ambito.get(lexema).get(atributo);
+        }
+        // Chequear visibilidad (Tema 23) - Por ahora, si lo encuentra, es visible.
+        return null;
+    }
+
+    // Sobrecarga para imprimir la nueva TS
+    public void imprimirTablaSimbolos() {
+        System.out.println("\n=======================================================");
+        System.out.println("## CONTENIDOS DE LA TABLA DE SIMBOLOS ##");
+        System.out.println("=======================================================");
+
+        if (tablaSimbolos.isEmpty()) {
+            System.out.println("La tabla de simbolos esta vacia.");
+            return;
+        }
+
+        String formatString = "| %-20s | %-30s | %-12s | %-18s | %-10s | %-10s |%n";
+        System.out.printf(formatString, "Ambito", "Lexema", "Reservada", "Uso", "Tipo", "Contador");
+        System.out.println("|----------------------|--------------------------------|--------------|--------------------|------------|------------|");
+
+        // Iteramos en el orden de la pila (del fondo a la cima)
+        Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
+        while (iter.hasNext()) {
+            Pair<String, HashMap<String, HashMap<String, Object>>> par = iter.next();
+            String ambitoNombre = par.getKey();
+
+            for (Map.Entry<String, HashMap<String, Object>> entry : par.getValue().entrySet()) {
+                String lexema = entry.getKey();
+                HashMap<String, Object> atributos = entry.getValue();
+
+                Object reservada = atributos.get("Reservada");
+                Object uso = atributos.get("Uso");
+                Object tipo = atributos.get("Tipo");
+                Object contador = atributos.get("Contador");
+
+                System.out.printf(formatString,
+                        ambitoNombre,
+                        lexema,
+                        (reservada != null) ? reservada.toString() : "null",
+                        (uso != null) ? uso.toString() : "null",
+                        (tipo != null) ? tipo.toString() : "null",
+                        (contador != null) ? contador.toString() : "0"
+                );
+            }
+            System.out.println("|----------------------|--------------------------------|--------------|--------------------|------------|------------|");
+        }
+        System.out.println("=======================================================");
     }
 }

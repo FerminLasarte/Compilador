@@ -25,10 +25,7 @@ public abstract class AccionSemantica{
             String lexemaActual = al.getLexema();
             int lineaActual = al.getContadorFila() + 1;
 
-            if (al.esPalabraReservada(lexemaActual)) {
-                al.agregarAtributoLexema(lexemaActual, "Linea", lineaActual);
-                return lexemaActual.toUpperCase();
-            }
+            // --- CAMBIO: Lógica de PR movida a yylex() ---
 
             char primerChar = lexemaActual.charAt(0);
             if (!Character.isLetter(primerChar) || !Character.isUpperCase(primerChar)) {
@@ -51,9 +48,18 @@ public abstract class AccionSemantica{
                 al.agregarWarning("El identificador '" + original + "' fue truncado a 20 caracteres: '" + lexemaActual + "'.");
             }
 
-            if (!al.getTablaSimbolos().containsKey(lexemaActual)) {
+            // --- CAMBIO: Usar existeEnAmbitoActual() ---
+            // Nota: Esta lógica es para Ctes, pero la usamos para IDs también.
+            // La TS ahora es por ámbitos, así que solo chequeamos si existe en el ámbito actual
+            // al momento de agregarla (lo cual se hace en la gramática, no aquí).
+            // Aquí solo nos aseguramos de que *si* existe, incrementamos el contador.
+            // La gramática (Tema 9) se encarga de chequear redeclaración.
+
+            // Esta lógica es para el contador de usos (TP1/2), no para declaración.
+            // La mantenemos para compatibilidad.
+            if (!al.existeEnAmbitoActual(lexemaActual)) {
                 al.agregarLexemaTS(lexemaActual);
-                al.agregarAtributoLexema(lexemaActual, "Uso", "Identificador");
+                al.agregarAtributoLexema(lexemaActual, "Uso", "Identificador"); // 'Uso' temporal
                 al.agregarAtributoLexema(lexemaActual, "Contador", 1);
                 al.agregarAtributoLexema(lexemaActual, "Linea", lineaActual);
             } else {
@@ -61,6 +67,7 @@ public abstract class AccionSemantica{
                 int contador = (contadorObj != null) ? (int) contadorObj : 0;
                 al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1);
             }
+            // --- FIN CAMBIO ---
 
             return "ID";
         }
@@ -83,7 +90,9 @@ public abstract class AccionSemantica{
                 BigDecimal limiteSuperior = new BigDecimal("65536");
 
                 if (bd.compareTo(BigDecimal.ZERO) >= 0 && bd.compareTo(limiteSuperior) < 0) {
-                    if (al.getTablaSimbolos().containsKey(lexemaConSufijo)) {
+                    // --- CAMBIO: Usar existeEnAmbitoActual() ---
+                    if (al.existeEnAmbitoActual(lexemaConSufijo)) {
+                        // --- FIN CAMBIO ---
                         int contador = (int) al.getAtributo(lexemaConSufijo, "Contador");
                         al.agregarAtributoLexema(lexemaConSufijo, "Contador", contador + 1);
                     } else {
@@ -126,7 +135,9 @@ public abstract class AccionSemantica{
                 boolean esCero = bd.compareTo(BigDecimal.ZERO) == 0;
 
                 if (enRangoPositivo || esCero) {
-                    if (al.getTablaSimbolos().containsKey(lexemaActual)) {
+                    // --- CAMBIO: Usar existeEnAmbitoActual() ---
+                    if (al.existeEnAmbitoActual(lexemaActual)) {
+                        // --- FIN CAMBIO ---
                         int contador = (int) al.getAtributo(lexemaActual, "Contador");
                         al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1);
                         return "CTE";
@@ -152,7 +163,9 @@ public abstract class AccionSemantica{
     public static class AccionSemantica7 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.agregarCaracterLexema(c);
-            if (al.getTablaSimbolos().containsKey(al.getLexema())) {
+            // --- CAMBIO: Usar existeEnAmbitoActual() ---
+            if (al.existeEnAmbitoActual(al.getLexema())) {
+                // --- FIN CAMBIO ---
                 return "CADENA_MULTILINEA";
             }
             al.agregarLexemaTS(al.getLexema());
