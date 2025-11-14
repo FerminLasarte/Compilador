@@ -64,20 +64,9 @@ public abstract class AccionSemantica{
 
             try {
                 BigDecimal bd = new BigDecimal(soloEnteros);
-                BigDecimal limiteSuperior = new BigDecimal("65536");
+                BigDecimal limiteSuperior = new BigDecimal("65536"); // 2^16
 
                 if (bd.compareTo(BigDecimal.ZERO) >= 0 && bd.compareTo(limiteSuperior) < 0) {
-                    // --- CAMBIO: Usar existeEnAmbitoActual() ---
-                    if (al.existeEnAmbitoActual(lexemaConSufijo)) {
-                        // --- FIN CAMBIO ---
-                        int contador = (int) al.getAtributo(lexemaConSufijo, "Contador");
-                        al.agregarAtributoLexema(lexemaConSufijo, "Contador", contador + 1);
-                    } else {
-                        al.agregarLexemaTS(lexemaConSufijo);
-                        al.agregarAtributoLexema(lexemaConSufijo, "Tipo", "uint");
-                        al.agregarAtributoLexema(lexemaConSufijo, "Uso", "Constante");
-                        al.agregarAtributoLexema(lexemaConSufijo, "Contador", 1);
-                    }
                     return "CTE";
                 } else {
                     al.agregarError("Constante uint fuera del rango permitido (0 a 65535). Valor encontrado: " + soloEnteros);
@@ -112,18 +101,6 @@ public abstract class AccionSemantica{
                 boolean esCero = bd.compareTo(BigDecimal.ZERO) == 0;
 
                 if (enRangoPositivo || esCero) {
-                    // --- CAMBIO: Usar existeEnAmbitoActual() ---
-                    if (al.existeEnAmbitoActual(lexemaActual)) {
-                        // --- FIN CAMBIO ---
-                        int contador = (int) al.getAtributo(lexemaActual, "Contador");
-                        al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1);
-                        return "CTE";
-                    }
-
-                    al.agregarLexemaTS(lexemaActual);
-                    al.agregarAtributoLexema(lexemaActual, "Tipo", "float");
-                    al.agregarAtributoLexema(lexemaActual, "Contador", 1);
-                    al.agregarAtributoLexema(lexemaActual, "Uso", "Constante");
                     return "CTE";
                 }
 
@@ -140,13 +117,6 @@ public abstract class AccionSemantica{
     public static class AccionSemantica7 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.agregarCaracterLexema(c);
-            // --- CAMBIO: Usar existeEnAmbitoActual() ---
-            if (al.existeEnAmbitoActual(al.getLexema())) {
-                // --- FIN CAMBIO ---
-                return "CADENA_MULTILINEA";
-            }
-            al.agregarLexemaTS(al.getLexema());
-            al.agregarAtributoLexema(al.getLexema(), "Uso", "CadenaMultilinea");
             return "CADENA_MULTILINEA";
         }
     }
