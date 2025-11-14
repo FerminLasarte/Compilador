@@ -10,7 +10,7 @@ PROGRAMA {
         GUINT := PSE + 1UI;
 
         @ T25: OK -> PLE (lectura/escritura) puede ser leido y escrito.
-        PLE := PLE + 1.0F;
+        PLE := PLE + 1.0F+0;
 
         @ T25: OK -> PSE (solo escritura) puede ser escrito.
         PSE := 100UI;
@@ -25,7 +25,7 @@ PROGRAMA {
     @ T9: Inferencia en ambito local
     var A := 1UI;
     var B := 2UI;
-    var F := 10.0F;
+    var F := 10.0F+0;
 
     @ T19: OK -> Asignacion Multiple Restringida
     A, B = 3UI, 4UI;
