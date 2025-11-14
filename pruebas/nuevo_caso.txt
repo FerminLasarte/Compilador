@@ -1,25 +1,74 @@
 PROGRAMA {
-    var A := 10UI;
-    var B := 1.0F+1;
+    @ T2 (uint), T5 (float), T9 (var)
+    var GUINT := 10UI;
+    var GFLOAT := 1.5F+1;
 
-    A := toui(B);
+    @ T21(Ret. Mult), T25(CR), T28(Lambda Param)
+    float, uint FUNCCR(cr se uint PSE, cr le float PLE, lambda PLAM) {
 
+        @ T25: Error Semantico -> PSE (solo escritura) no puede ser leido.
+        GUINT := PSE + 1UI;
+
+        @ T25: OK -> PLE (lectura/escritura) puede ser leido y escrito.
+        PLE := PLE + 1.0F;
+
+        @ T25: OK -> PSE (solo escritura) puede ser escrito.
+        PSE := 100UI;
+
+        @ T28: OK -> Invocacion de parametro lambda
+        PLAM(1UI -> X);
+
+        @ T21: OK -> Retorno multiple (float, uint)
+        return (PLE, 5UI);
+    }
+
+    @ T9: Inferencia en ambito local
+    var A := 1UI;
+    var B := 2UI;
+    var F := 10.0F;
+
+    @ T19: OK -> Asignacion Multiple Restringida
+    A, B = 3UI, 4UI;
+
+    @ T31: OK -> Conversion Explicita (float -> uint)
+    A := toui(F);
+
+    @ T14: OK -> DO-WHILE
     do {
-        print(&Iterando...&);
+        @ T8: OK -> Print con cadena multilinea
+        print(&Iterando...
+    A es: &);
+        print(A);
         A := A - 1UI;
     } while (A > 0UI);
 
-    A, B = 1UI, 2.0F+1;
+    @ T21, T25, T28: OK -> Invocacion a funcion CR con Lambda y asignacion multiple
+    @ T21: Warning -> la funcion retorna 2 valores, se asigna 1. Se descarta el segundo.
+    F = FUNCCR(A -> PSE, F -> PLE, (uint K){ print(&Lambda Invocada!&); } -> PLAM);
 
-    uint FTEST(cr se uint PSE, lambda FUNC) {
-        PSE := 10UI;
-        return ( FUNC(1UI->X) );
-    }
+    @ T23: OK -> Prefijado Opcional (Asumiendo que PRUEBATP3 es el ambito)
+    A := PRUEBATP3.GUINT;
 
-    var R := 0UI;
-    R := FTEST(A->PSE, (uint P){ return(P+1UI); } -> FUNC);
+    @ =================================================================
+    @ SECCION DE ERRORES
+    @ =================================================================
 
-    A := R;
+    @ T31: Error Semantico -> operacion uint y float sin conversion
+    A := GUINT + GFLOAT;
+
+    @ T19: Error Semantico -> distinto numero de elementos
+    A, B = 1UI;
+
+    @ T9: Error Semantico -> redeclaracion de A en el mismo ambito
+    var A := 5UI;
+
+    @ T14: Error Sintactico -> falta ';' al final de DO-WHILE
+    do {
+        A := 1UI;
+    } while (A > 0UI)
+
+    @ T21: Error Semantico -> menos retornos (2) que asignaciones (3)
+    A, B, F = FUNCCR(A -> PSE, F -> PLE, (uint K){ print(&Lambda Error!&); } -> PLAM);
 
     if (A == B) {
         print(&son iguales&);
