@@ -21,7 +21,8 @@
 
 %%
 
-programa : ID '{' { g.abrirAmbito($1.sval); } sentencias '}' { g.cerrarAmbito(); }
+programa : ID '{' { g.abrirAmbito($1.sval);
+} sentencias '}' { g.cerrarAmbito(); }
       {
           String nombrePrograma = $1.sval;
           Object lineaObj = al.getAtributo(nombrePrograma, "Linea");
@@ -65,7 +66,6 @@ declaracion_var : VAR variable ASIG expresion
                     String expr = g.desapilarOperando();
                     String tipoExpr = g.getTipo(expr);
                     String varNombre = $2.sval;
-
                     if (g.existeEnAmbitoActual(varNombre)) {
                         al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: Redeclaracion de variable '" + varNombre + "' en el mismo ambito (Tema 9).");
                     } else if (tipoExpr.equals("error_tipo") || tipoExpr.equals("indefinido")) {
@@ -81,7 +81,8 @@ declaracion_var : VAR variable ASIG expresion
                 ;
 
 tipo : UINT { $$.sval = "uint"; }
-     | FLOAT { $$.sval = "float"; }
+     | FLOAT { $$.sval = "float";
+     }
      | LAMBDA { $$.sval = "lambda"; }
      ;
 
@@ -123,7 +124,8 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                      al.agregarAtributoLexema(p.nombre, "Pasaje", p.pasaje);
                 }
             }
-        } sentencias '}' { g.cerrarAmbito(); }
+        } sentencias '}' { g.cerrarAmbito();
+        }
         {
             String nombreFuncion = $2.sval;
             Object lineaObj = al.getAtributo(nombreFuncion, "Linea");
@@ -157,7 +159,8 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                      al.agregarAtributoLexema(p.nombre, "Pasaje", p.pasaje);
                 }
             }
-        } sentencias '}' { g.cerrarAmbito(); }
+        } sentencias '}' { g.cerrarAmbito();
+        }
         {
             String nombreFuncion = $2.sval;
             Object lineaObj = al.getAtributo(nombreFuncion, "Linea");
@@ -222,7 +225,6 @@ asignacion : variable ASIG expresion
 
                String tipoVar = g.getTipo(op1);
                String tipoExpr = g.getTipo(op2);
-
                if (g.chequearAsignacion(tipoVar, tipoExpr, al.getContadorFila()+1)) {
                    g.addTerceto(":=", op1, op2);
                }
@@ -236,12 +238,10 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                             int cantDerecha = contadorLadoDerecho;
                             Stack<String> derechos = g.getPilaLadoDerecho();
                             boolean esFuncion = ($3.ival == 1);
-
                             if (esFuncion) {
                                 String funcTerceto = derechos.pop();
                                 String funcName = g.getTerceto(Integer.parseInt(funcTerceto.substring(1, funcTerceto.length()-1))).getOperando1();
                                 Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
-
                                 if (retMultiple == null || !(Boolean)retMultiple) {
                                     al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple a funcion '" + funcName + "' que no tiene retorno multiple.");
                                 } else {
@@ -280,7 +280,6 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
 
                                         String tipoVar = g.getTipo(var);
                                         String tipoExpr = g.getTipo(expr);
-
                                         if (g.chequearAsignacion(tipoVar, tipoExpr, Integer.parseInt(lineaActual))) {
                                             g.addTerceto(":=", var, expr);
                                         }
@@ -384,10 +383,12 @@ factor : factor_no_funcion
        ;
 
 factor_no_funcion : variable
-                  { g.apilarOperando($1.sval); }
+                  { g.apilarOperando($1.sval);
+                  }
                   |
                   constante
-                  { g.apilarOperando($1.sval); }
+                  { g.apilarOperando($1.sval);
+                  }
                   |
                   conversion_explicita
                   { }
@@ -436,7 +437,6 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                        }
                        else if (uso != null && uso.toString().equals("funcion")) {
                            ArrayList<ParametroInfo> formales = (ArrayList<ParametroInfo>) al.getAtributo(funcName, "Parametros");
-
                            if (formales == null) {
                                 al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: No se pudo recuperar la firma de la funcion '" + funcName + "'.");
                                 $$.sval = "ERROR_CALL";
@@ -491,10 +491,12 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                    ;
 
 lista_parametros_reales : lista_parametros_reales ',' parametro_real
-                        { $$.ival = $1.ival + 1; }
+                        { $$.ival = $1.ival + 1;
+                        }
                         |
                         parametro_real
-                        { $$.ival = 1; }
+                        { $$.ival = 1;
+                        }
                         ;
 
 parametro_real : parametro_simple FLECHA ID
@@ -509,7 +511,8 @@ parametro_real : parametro_simple FLECHA ID
                ;
 
 parametro_simple : expresion
-                 { $$.sval = g.desapilarOperando(); }
+                 { $$.sval = g.desapilarOperando();
+                 }
                  |
                  lambda_expresion
                  {
@@ -546,7 +549,8 @@ sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
                              ;
 
 constante : CTE
-            { $$.sval = $1.sval; }
+            { $$.sval = $1.sval;
+            }
           |
           '-' CTE
             {
@@ -591,12 +595,12 @@ condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';'
                }
                ;
 
-condicional_do_while: DO { g.apilarControl(g.getProximoTerceto()); } bloque_ejecutable WHILE '(' condicion ')' ';'
+condicional_do_while: DO { g.apilarControl(g.getProximoTerceto());
+} bloque_ejecutable WHILE '(' condicion ')' ';'
                     {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         String linea = (lineaObj != null) ? lineaObj.toString() : "?";
                         salida.add("Linea " + linea + ": Sentencia DO-WHILE reconocida.");
-
                         String refCondicion = g.desapilarOperando();
                         int inicioBucle = g.desapilarControl();
 
@@ -647,10 +651,10 @@ simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
                     '<' { g.apilarOperando("<"); }
                     ;
 
-bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito(); }
+bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito();
+}
                   |
-                  sentencia_ejecutable
-                  | '{' error '}'
+                  '{' error '}'
                   ;
 
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
@@ -700,7 +704,6 @@ ArrayList<String> erroresSemanticos = new ArrayList<String>();
 ArrayList<String> salida = new ArrayList<String>();
 ArrayList<String> listaVariables = new ArrayList<String>();
 int contadorLadoDerecho = 0;
-
 int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();
@@ -778,7 +781,6 @@ public static void main(String args[]){
         al.imprimirTablaSimbolos();
 
         System.out.println("=======================================================");
-
     } else {
         System.out.println("Error: Se requiere la ruta del archivo fuente como unico parametro.");
     }
