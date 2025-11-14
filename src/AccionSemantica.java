@@ -25,8 +25,6 @@ public abstract class AccionSemantica{
             String lexemaActual = al.getLexema();
             int lineaActual = al.getContadorFila() + 1;
 
-            // --- CAMBIO: Lógica de PR movida a yylex() ---
-
             char primerChar = lexemaActual.charAt(0);
             if (!Character.isLetter(primerChar) || !Character.isUpperCase(primerChar)) {
                 al.agregarError("Identificador '" + lexemaActual + "' debe comenzar con una letra mayuscula.");
@@ -47,27 +45,6 @@ public abstract class AccionSemantica{
                 al.setLexema(lexemaActual);
                 al.agregarWarning("El identificador '" + original + "' fue truncado a 20 caracteres: '" + lexemaActual + "'.");
             }
-
-            // --- CAMBIO: Usar existeEnAmbitoActual() ---
-            // Nota: Esta lógica es para Ctes, pero la usamos para IDs también.
-            // La TS ahora es por ámbitos, así que solo chequeamos si existe en el ámbito actual
-            // al momento de agregarla (lo cual se hace en la gramática, no aquí).
-            // Aquí solo nos aseguramos de que *si* existe, incrementamos el contador.
-            // La gramática (Tema 9) se encarga de chequear redeclaración.
-
-            // Esta lógica es para el contador de usos (TP1/2), no para declaración.
-            // La mantenemos para compatibilidad.
-            if (!al.existeEnAmbitoActual(lexemaActual)) {
-                al.agregarLexemaTS(lexemaActual);
-                al.agregarAtributoLexema(lexemaActual, "Uso", "Identificador"); // 'Uso' temporal
-                al.agregarAtributoLexema(lexemaActual, "Contador", 1);
-                al.agregarAtributoLexema(lexemaActual, "Linea", lineaActual);
-            } else {
-                Object contadorObj = al.getAtributo(lexemaActual, "Contador");
-                int contador = (contadorObj != null) ? (int) contadorObj : 0;
-                al.agregarAtributoLexema(lexemaActual, "Contador", contador + 1);
-            }
-            // --- FIN CAMBIO ---
 
             return "ID";
         }
