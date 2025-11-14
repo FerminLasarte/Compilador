@@ -241,45 +241,47 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                             int cantDerecha = contadorLadoDerecho;
                             Stack<String> derechos = g.getPilaLadoDerecho();
                             boolean esFuncion = ($3.ival == 1);
+
                             if (esFuncion) {
                                 String funcTerceto = derechos.pop();
-                                String funcName = g.getTerceto(Integer.parseInt(funcTerceto.substring(1, funcTerceto.length()-1))).getOperando1();
-                                Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
-                                if (retMultiple == null || !(Boolean)retMultiple) {
-                                    al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple a funcion '" + funcName + "' que no tiene retorno multiple.");
+                                if (funcTerceto.equals("ERROR_CALL") || funcTerceto.equals("ERROR_CALL_PARAMS") || funcTerceto.equals("ERROR_CALL_LAMBDA")) {
                                 } else {
-                                    Object rawObj = al.getAtributo(funcName, "TiposRetorno");
-                                    ArrayList<String> tiposRetorno = new ArrayList<String>();
-                                    if (rawObj instanceof ArrayList) {
-                                        for (Object o : (ArrayList<?>) rawObj) {
-                                            tiposRetorno.add((String) o);
-                                        }
-                                    }
-
-                                    int cantRetornos = tiposRetorno.size();
-
-                                    if (cantRetornos < cantIzquierda) {
-                                        al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 21): Asignacion multiple a funcion '" + funcName + "'. Insuficientes valores de retorno. Esperados: " + cantIzquierda + ", Retornados: " + cantRetornos + ".");
+                                    String funcName = g.getTerceto(Integer.parseInt(funcTerceto.substring(1, funcTerceto.length()-1))).getOperando1();
+                                    Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
+                                    if (retMultiple == null || !(Boolean)retMultiple) {
+                                        al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple a funcion '" + funcName + "' que no tiene retorno multiple.");
                                     } else {
-                                        if (cantRetornos > cantIzquierda) {
-                                            al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero solo se asignan " + cantIzquierda + ". Se descartan los sobrantes.");
-                                        }
-
-                                        for (int i = 0; i < cantIzquierda; i++) {
-                                            String var = listaVariables.get(i);
-                                            String tipoVar = g.getTipo(var);
-                                            String tipoRet = tiposRetorno.get(i);
-
-                                            if (g.chequearAsignacion(tipoVar, tipoRet, Integer.parseInt(lineaActual))) {
-                                                String retTerceto = g.addTerceto("GET_RET", funcTerceto, String.valueOf(i));
-                                                g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoRet);
-                                                g.addTerceto(":=", var, retTerceto);
+                                        Object rawObj = al.getAtributo(funcName, "TiposRetorno");
+                                        ArrayList<String> tiposRetorno = new ArrayList<String>();
+                                        if (rawObj instanceof ArrayList) {
+                                            for (Object o : (ArrayList<?>) rawObj) {
+                                                tiposRetorno.add((String) o);
                                             }
                                         }
-                                        salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') reconocida.");
+
+                                        int cantRetornos = tiposRetorno.size();
+                                        if (cantRetornos < cantIzquierda) {
+                                            al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 21): Asignacion multiple a funcion '" + funcName + "'. Insuficientes valores de retorno. Esperados: " + cantIzquierda + ", Retornados: " + cantRetornos + ".");
+                                        } else {
+                                            if (cantRetornos > cantIzquierda) {
+                                                al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero solo se asignan " + cantIzquierda + ". Se descartan los sobrantes.");
+                                            }
+
+                                            for (int i = 0; i < cantIzquierda; i++) {
+                                                String var = listaVariables.get(i);
+                                                String tipoVar = g.getTipo(var);
+                                                String tipoRet = tiposRetorno.get(i);
+
+                                                if (g.chequearAsignacion(tipoVar, tipoRet, Integer.parseInt(lineaActual))) {
+                                                    String retTerceto = g.addTerceto("GET_RET", funcTerceto, String.valueOf(i));
+                                                    g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoRet);
+                                                    g.addTerceto(":=", var, retTerceto);
+                                                }
+                                            }
+                                            salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') reconocida.");
+                                        }
                                     }
                                 }
-
                             } else {
                                 if (cantIzquierda != cantDerecha) {
                                     al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + cantIzquierda + ") y a la derecha (" + cantDerecha + ").");
@@ -302,6 +304,7 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                             g.clearLadoDerecho();
                         }
                         ;
+
 
 lado_derecho_multiple : { g.clearLadoDerecho(); } factor
                           {

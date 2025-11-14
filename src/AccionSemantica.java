@@ -23,30 +23,37 @@ public abstract class AccionSemantica{
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.disminuirContador();
             String lexemaActual = al.getLexema();
-            int lineaActual = al.getContadorFila() + 1;
 
-            char primerChar = lexemaActual.charAt(0);
-            if (!Character.isLetter(primerChar) || !Character.isUpperCase(primerChar)) {
-                al.agregarError("Identificador '" + lexemaActual + "' debe comenzar con una letra mayuscula.");
-                return "ERROR";
-            }
-
-            for (int i = 1; i < lexemaActual.length(); i++) {
-                char ch = lexemaActual.charAt(i);
-                if (!(Character.isUpperCase(ch) && Character.isLetter(ch)) && !Character.isDigit(ch) && ch != '%') {
-                    al.agregarError("Identificador '" + lexemaActual + "' contiene un caracter invalido ('" + ch + "'). Solo se permiten letras mayusculas, dígitos y '%'.");
+            if (al.isAllLowerCase(lexemaActual)) {
+                if (al.esPalabraReservada(lexemaActual)) {
+                    return "ID";
+                } else {
+                    al.agregarError("El identificador '" + lexemaActual + "' es invalido. Debe comenzar con mayuscula o ser una palabra reservada en minusculas.");
                     return "ERROR";
                 }
             }
 
-            if (lexemaActual.length() > 20) {
-                String original = lexemaActual;
-                lexemaActual = lexemaActual.substring(0, 20);
-                al.setLexema(lexemaActual);
-                al.agregarWarning("El identificador '" + original + "' fue truncado a 20 caracteres: '" + lexemaActual + "'.");
+            char primerChar = lexemaActual.charAt(0);
+            if (Character.isUpperCase(primerChar)) {
+                for (int i = 1; i < lexemaActual.length(); i++) {
+                    char ch = lexemaActual.charAt(i);
+                    if (!(Character.isUpperCase(ch) && Character.isLetter(ch)) && !Character.isDigit(ch) && ch != '%') {
+                        al.agregarError("Identificador '" + lexemaActual + "' contiene un caracter invalido ('" + ch + "'). Solo se permiten letras mayusculas, digitos y '%'.");
+                        return "ERROR";
+                    }
+                }
+
+                if (lexemaActual.length() > 20) {
+                    String original = lexemaActual;
+                    lexemaActual = lexemaActual.substring(0, 20);
+                    al.setLexema(lexemaActual);
+                    al.agregarWarning("El identificador '" + original + "' fue truncado a 20 caracteres: '" + lexemaActual + "'.");
+                }
+                return "ID";
             }
 
-            return "ID";
+            al.agregarError("Identificador '" + lexemaActual + "' mal formado. Debe comenzar con mayuscula o ser una palabra reservada en minusculas.");
+            return "ERROR";
         }
     }
 
