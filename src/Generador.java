@@ -144,16 +144,16 @@ public class Generador {
     public String getTipo(String operando) {
         if (operando == null) return "void";
 
-        // TEMA 28: Si el operando es una dirección de lambda (un número simple)
+        // 1. Es una referencia a una lambda (ej: "16")
+        // Corrección: se escapa la barra -> "\d+"
         if (operando.matches("\\d+")) {
             return "lambda_expr";
         }
 
-        // Es un resultado de un terceto (ej: "[5]")
+        // 2. Es un resultado de un terceto (ej: "[5]")
         if (operando.startsWith("[")) {
             try {
                 int index = Integer.parseInt(operando.substring(1, operando.length() - 1));
-                // Asegurarse de que el terceto existe antes de obtener el tipo
                 Terceto t = this.tercetos.get(index);
                 if (t != null) {
                     return t.getTipo();
@@ -165,22 +165,19 @@ public class Generador {
             }
         }
 
-        // --- INICIO DE LA CORRECCIÓN ---
-        // Es un literal constante (ej: "10UI", "1.5F+1", "-1.0F+1")
-        // El analizador léxico ya validó su formato, así que podemos confiar
-        // en los sufijos/caracteres para determinar el tipo.
+        // 3. Es una constante literal (ej: "10UI", "1.5F+1")
         if (operando.endsWith("UI")) {
             return "uint";
         }
-        // Usamos contains("F") porque el lexema puede ser "1.5F+1" o ".5F-10", etc.
         if (operando.contains("F")) {
             return "float";
         }
-        // --- FIN DE LA CORRECCIÓN ---
 
+        // 4. Es una variable o función (búsqueda en Tabla de Símbolos)
         Object tipo;
         // Tema 23: Check por prefijo
         if (operando.contains(".")) {
+            // Corrección: se escapa el punto -> "\."
             String[] parts = operando.split("\\.", 2);
             if (parts.length == 2) {
                 tipo = al.getAtributoConPrefijo(parts[0], parts[1], "Tipo");
@@ -194,7 +191,7 @@ public class Generador {
             return tipo.toString();
         }
 
-        // No se encontró el tipo (podría ser un error de variable no declarada)
+        // No se encontró
         return "indefinido";
     }
 
