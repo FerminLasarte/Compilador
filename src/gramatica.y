@@ -21,12 +21,10 @@
 
 %%
 
-programa : ID '{' { g.abrirAmbito($1.sval); } sentencias '}' { }
+programa : ID '{' { g.abrirAmbito($1.sval); al.agregarLexemaTS($1.sval); al.agregarAtributoLexema($1.sval, "Linea", al.getContadorFila()+1); } sentencias '}' { }
       {
           String nombrePrograma = $1.sval;
-          Object lineaObj = al.getAtributo(nombrePrograma, "Linea");
-          String linea = (lineaObj != null) ? lineaObj.toString() : "?";
-          salida.add("Linea " + linea + ": Programa '" + nombrePrograma + "' reconocido.");
+          salida.add("Linea " + (al.getContadorFila()+1) + ": Programa '" + nombrePrograma + "' reconocido.");
       }
      |
      '{' { g.abrirAmbito("MAIN"); } sentencias '}' { }
@@ -96,6 +94,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             } else {
                 al.agregarLexemaTS(nombreFuncion);
                 al.agregarAtributoLexema(nombreFuncion, "Uso", "funcion");
+                al.agregarAtributoLexema(nombreFuncion, "Linea", al.getContadorFila()+1);
                 al.agregarAtributoLexema(nombreFuncion, "Tipo", tipoRetorno);
                 al.agregarAtributoLexema(nombreFuncion, "Parametros", parametros);
                 al.agregarAtributoLexema(nombreFuncion, "RetornoMultiple", false);
@@ -107,6 +106,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                 } else {
                      al.agregarLexemaTS(p.nombre);
                      al.agregarAtributoLexema(p.nombre, "Uso", "parametro");
+                     al.agregarAtributoLexema(nombreFuncion, "Linea", al.getContadorFila()+1);
                      al.agregarAtributoLexema(p.nombre, "Tipo", p.tipo);
                      al.agregarAtributoLexema(p.nombre, "Pasaje", p.pasaje);
                 }
@@ -114,9 +114,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         } sentencias '}' { g.cerrarAmbito(); }
         {
             String nombreFuncion = $2.sval;
-            Object lineaObj = al.getAtributo(nombreFuncion, "Linea");
-            String linea = (lineaObj != null) ? lineaObj.toString() : "?";
-            salida.add("Linea " + (linea) + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
+            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
         }
       | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' {
             String nombreFuncion = $2.sval;
@@ -150,9 +148,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         } sentencias '}' { g.cerrarAmbito(); }
         {
             String nombreFuncion = $2.sval;
-            Object lineaObj = al.getAtributo(nombreFuncion, "Linea");
-            String linea = (lineaObj != null) ? lineaObj.toString() : "?";
-            salida.add("Linea " + (linea) + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
+            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
         }
       ;
 
@@ -206,6 +202,7 @@ sentencia_ejecutable : asignacion ';'
                      |
                      salida_pantalla ';'
                      | retorno_funcion
+                     | invocacion_funcion ';'
                      ;
 
 asignacion : variable ASIG expresion
@@ -269,7 +266,7 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                                 if (cantIzquierda != cantDerecha) {
                                     al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + cantIzquierda + ") y a la derecha (" + cantDerecha + ").");
                                 } else {
-                                    for (int i = 0; i < cantIzquierda; i++) {
+                                    for (int i = cantIzquierda - 1; i >= 0; i--) {
                                         String var = listaVariables.get(i);
                                         String expr = derechos.pop();
                                         String tipoVar = g.getTipo(var);
@@ -587,12 +584,11 @@ condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';'
 condicional_do_while: DO { g.apilarControl(g.getProximoTerceto()); } bloque_ejecutable WHILE '(' condicion ')' ';'
                     {
                         Object lineaObj = al.getAtributo("do", "Linea");
-                        String linea = (lineaObj != null) ? lineaObj.toString() : "?";
-                        salida.add("Linea " + linea + ": Sentencia DO-WHILE reconocida.");
+                        salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE reconocida.");
                         String refCondicion = g.desapilarOperando();
                         int inicioBucle = g.desapilarControl();
                         if (refCondicion.equals("ERROR_CONDICION")) {
-                             al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.");
+                             al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.");
                         } else {
                             String tercetoSalto = g.addTerceto("BT", refCondicion, String.valueOf(inicioBucle));
                         }

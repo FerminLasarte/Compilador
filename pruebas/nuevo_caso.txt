@@ -46,8 +46,8 @@ PROGRAMA {
     @ T21: Warning -> la funcion retorna 2 valores, se asigna 1. Se descarta el segundo.
     F = FUNCCR(A -> PSE, F -> PLE, (uint K){ print(&Lambda Invocada!&); } -> PLAM);
 
-    @ T23: OK -> Prefijado Opcional (Asumiendo que PRUEBATP3 es el ambito)
-    A := PRUEBATP3.GUINT;
+    @ T23: OK -> Prefijado Opcional (Asumiendo que PROGRAMA es el ambito)
+    A := PROGRAMA.GUINT;
 
     @ =================================================================
     @ SECCION DE ERRORES
@@ -69,54 +69,4 @@ PROGRAMA {
 
     @ T21: Error Semantico -> menos retornos (2) que asignaciones (3)
     A, B, F = FUNCCR(A -> PSE, F -> PLE, (uint K){ print(&Lambda Error!&); } -> PLAM);
-
-    if (A == B) {
-        print(&son iguales&);
-    } endif;
-
-    if (A == B) {
-        print(&son iguales&);
-    } else {
-        print(&son distintos&);
-    } endif;
-
-    uint APLICARLAMBDA(lambda FUNC, uint VALOR) {
-        print(&Ejecuta LAMBDA&);
-        return( FUNC(VALOR->X) );
-    }
-    var RESULTADO := 0UI;
-    RESULTADO := APLICARLAMBDA( (uint A){ return(A + 10UI); } , 5UI );
-
-    print(&El resultado final es:&);
-    print(RESULTADO);
-    F.A := J;
-    F := J.A;
-    A,B = F.A, J;
-    F.A, B = A,J;
-
-    W := A + B;
-    var X := 100UI;
-    uint X := 100UI;
-
-    do {
-        A := A - 1UI;
-        print(&Iterando en el bucle...&);
-    } while (A > 0UI);
-
-    A, B, X = 100UI, VARUINT, .5F+1;
-    A, B, X = 100UI, VARUINT;
-    A, B = 100UI, VARUINT, .5F+1;
-
-    float, uint, float F(uint X) {
-        return (1UI, 4UI, 2UI);
-    }
-    A, B, C, D = F(1UI->X);
-    A, B = F(1UI->X);
-
-    uint F (cr se uint X, cr le uint Y, uint Z) {
-        return (X, Y, Z);
-    }
-
-    A := toui(X;
-    A := toui(X);
 }
