@@ -144,11 +144,17 @@ public class Generador {
     public String getTipo(String operando) {
         if (operando == null) return "void";
 
-        // 1. Es una referencia a una lambda (ej: "16")
-        // Corrección: se escapa la barra -> "\d+"
-        if (operando.matches("\\d+")) {
-            return "lambda_expr";
+        // --- INICIO DE CORRECCIÓN ---
+        // 1. Es una referencia a una lambda (ej: "25")
+        // Usamos try-catch en lugar de regex, es más robusto.
+        try {
+            Integer.parseInt(operando);
+            return "lambda_expr"; // Si es un número puro, es una ref a lambda
+        } catch (NumberFormatException e) {
+            // No es un número, seguir chequeando
         }
+        // --- FIN DE CORRECCIÓN ---
+
 
         // 2. Es un resultado de un terceto (ej: "[5]")
         if (operando.startsWith("[")) {
@@ -177,7 +183,7 @@ public class Generador {
         Object tipo;
         // Tema 23: Check por prefijo
         if (operando.contains(".")) {
-            // Corrección: se escapa el punto -> "\."
+            // Corrección: se escapa el punto -> "."
             String[] parts = operando.split("\\.", 2);
             if (parts.length == 2) {
                 tipo = al.getAtributoConPrefijo(parts[0], parts[1], "Tipo");
