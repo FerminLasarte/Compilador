@@ -144,19 +144,12 @@ public class Generador {
     public String getTipo(String operando) {
         if (operando == null) return "void";
 
-        // --- INICIO DE CORRECCIÓN ---
-        // 1. Es una referencia a una lambda (ej: "25")
-        // Usamos try-catch en lugar de regex, es más robusto.
         try {
             Integer.parseInt(operando);
-            return "lambda_expr"; // Si es un número puro, es una ref a lambda
+            return "lambda_expr";
         } catch (NumberFormatException e) {
-            // No es un número, seguir chequeando
         }
-        // --- FIN DE CORRECCIÓN ---
 
-
-        // 2. Es un resultado de un terceto (ej: "[5]")
         if (operando.startsWith("[")) {
             try {
                 int index = Integer.parseInt(operando.substring(1, operando.length() - 1));

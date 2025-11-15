@@ -516,7 +516,7 @@ parametro_simple : expresion
 lambda_expresion : '(' tipo ID ')' '{' {
                          pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
                          int inicioLambda = g.getProximoTerceto();
-                         $$.sval = String.valueOf(inicioLambda);
+                         $$.sval = "L" + String.valueOf(inicioLambda);
                          g.abrirAmbito("lambda_" + inicioLambda);
                          al.agregarLexemaTS($3.sval);
                          al.agregarAtributoLexema($3.sval, "Uso", "parametro_lambda");

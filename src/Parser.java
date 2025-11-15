@@ -1280,7 +1280,7 @@ case 68:
 {
                          pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
                          int inicioLambda = g.getProximoTerceto();
-                         yyval.sval = String.valueOf(inicioLambda);
+                         yyval.sval = "L" + String.valueOf(inicioLambda);
                          g.abrirAmbito("lambda_" + inicioLambda);
                          al.agregarLexemaTS(val_peek(2).sval);
                          al.agregarAtributoLexema(val_peek(2).sval, "Uso", "parametro_lambda");
