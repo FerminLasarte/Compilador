@@ -1,72 +1,146 @@
-PROGRAMA {
-    @ T2 (uint), T5 (float), T9 (var)
-    var GUINT := 10UI;
-    var GFLOAT := 1.5F+1;
+PROGRAMAT9OBLIGATORIO {
+@ =============================================
+@ CASO DE PRUEBA - TEMA 9 (INFERENCIA OBLIGATORIA)
+@ Temas: 2, 5, 8, 9, 14, 19, 21, 23, 25, 28, 31, 32
+@ =============================================
 
-    @ T21(Ret. Mult), T25(CR), T28(Lambda Param)
-    float, uint FUNCCR(cr se uint PSE, cr le float PLE, lambda PLAM) {
+@ T9, T2, T5: Declaraciones Globales con Inferencia Obligatoria
+var GCONTADOR := 0UI;
+var GFACTOR := 1.0F+0;
+var GUINTMAX := 65535UI; @ T2: Límite superior válido
+var GFLOATMIN := 1.17549435F-38; @ T5: Límite inferior válido
 
-        @ T25: Error Semantico -> PSE (solo escritura) no puede ser leido.
-        GUINT := PSE + 1UI;
+@ =============================================
+@ DEFINICION DE FUNCIONES
+@ =============================================
 
-        @ T25: OK -> PLE (lectura/escritura) puede ser leido y escrito.
-        PLE := PLE + 1.0F+0;
+@ T21 (Retorno Múltiple), T25 (CR), T28 (Lambda)
+@ Retorna: (float, uint)
+float, uint FUNCCOMPLETA(cr se uint PSE, cr le float PLE, lambda PLAM) {
 
-        @ T25: OK -> PSE (solo escritura) puede ser escrito.
-        PSE := 100UI;
+    @ T25 (CR LE): OK - Leer y escribir PLE
+    @ Se espera: PLE = PLE + 1.0F+0
+    PLE := PLE + 1.0F+0;
 
-        @ T28: OK -> Invocacion de parametro lambda
-        PLAM(1UI -> X);
+    @ T25 (CR SE): OK - Escribir en PSE
+    @ Se espera: PSE = 100UI
+    PSE := 100UI;
 
-        @ T21: OK -> Retorno multiple (float, uint)
-        return (PLE, 5UI);
-    }
+    @ T28: OK - Invocar el parámetro lambda
+    @ Se esperan tercetos para la llamada
+    PLAM(1UI -> X);
 
-    @ T9: Inferencia en ambito local
-    var A := 1UI;
-    var B := 2UI;
-    var F := 10.0F+0;
+    @ T21: OK - Retorno múltiple (float, uint)
+    @ Se esperan tercetos: (RETURN, PLE), (RETURN, PSE)
+    return (PLE, PSE);
+}
 
-    @ T19: OK -> Asignacion Multiple Restringida
-    A, B = 3UI, 4UI;
+@ Función auxiliar para T19
+uint FUNCSIMPLE() {
+    return (100UI);
+}
 
-    @ T31: OK -> Conversion Explicita (float -> uint)
-    A := toui(F);
+@ =============================================
+@ BLOQUE PRINCIPAL (MAIN)
+@ =============================================
 
-    @ T14: OK -> DO-WHILE
-    do {
-        @ T8: OK -> Print con cadena multilinea
-        print(&Iterando...
-    A es: &);
-        print(A);
-        A := A - 1UI;
-    } while (A > 0UI);
+@ T14 (do-while) y T8 (print cadena multilinea)
+do {
+  print(&Iterando...
+  Valor de GCONTADOR: &); @ T8: OK
+  print(GCONTADOR);
+  GCONTADOR := GCONTADOR + 1UI;
+} while (GCONTADOR < 3UI); @ T14: OK
 
-    @ T21, T25, T28: OK -> Invocacion a funcion CR con Lambda y asignacion multiple
-    @ T21: Warning -> la funcion retorna 2 valores, se asigna 1. Se descarta el segundo.
-    F = FUNCCR(A -> PSE, F -> PLE, (uint K){ print(&Lambda Invocada!&); } -> PLAM);
+@ T9: Declaraciones locales
+var VARA := 1UI;
+var VARB := 2UI;
 
-    @ T23: OK -> Prefijado Opcional (Asumiendo que PROGRAMA es el ambito)
-    A := PROGRAMA.GUINT;
+@ T19 (Asignación Múltiple Restringida)
+@ Lado derecho solo vars, ctes, o invocaciones (no expresiones)
+VARA, VARB = 3UI, 4UI; @ OK: Cte, Cte
+VARA, VARB = GCONTADOR, VARA; @ OK: Var, Var
+VARA, VARB = 1UI, FUNCSIMPLE(); @ OK: Cte, Invocacion
 
-    @ =================================================================
-    @ SECCION DE ERRORES
-    @ =================================================================
+@ T21 (Ret. Multiple), T28 (Lambda Call)
+@ FUNCCOMPLETA retorna (float, uint)
+var VARF := 0.0F+0;
+@ T21 Warning: Se asignan 1 de 2 retornos. Se descarta el 'uint' (PSE).
+VARF = FUNCCOMPLETA(
+    1UI -> PSE,
+    2.0F+0 -> PLE,
+    (uint K){ print(&Lambda llamada OK!&); } -> PLAM @ T28: OK
+);
 
-    @ T31: Error Semantico -> operacion uint y float sin conversion
-    A := GUINT + GFLOAT;
+@ T23 (Prefijado Opcional)
+@ 'GCONTADOR' local (float) "oculta" al global (uint)
+var GCONTADOR := 100.0F+0;
+VARF := GCONTADOR; @ OK: Accede a GCONTADOR local (float)
+@ T23: OK - Accede a GCONTADOR global (uint) usando prefijo
+VARA := PROGRAMAT9OBLIGATORIO.GCONTADOR;
 
-    @ T19: Error Semantico -> distinto numero de elementos
-    A, B = 1UI;
+@ T31 (toui): Conversion explicita float -> uint
+VARA := toui(VARF); @ OK: toui(float)
 
-    @ T9: Error Semantico -> redeclaracion de A en el mismo ambito
-    var A := 5UI;
 
-    @ T14: Error Sintactico -> falta ';' al final de DO-WHILE
-    do {
-        A := 1UI;
-    } while (A > 0UI);
+@ =============================================
+@ SECCION DE ERRORES
+@ =============================================
 
-    @ T21: Error Semantico -> menos retornos (2) que asignaciones (3)
-    A, B, F = FUNCCR(A -> PSE, F -> PLE, (uint K){ print(&Lambda Error!&); } -> PLAM);
+@ T32: Esto es un comentario valido @
+
+@ T2 Error Lexico: uint fuera de rango (65536 > 65535)
+var EUINTRANGO := 65536UI;
+
+@ T5 Error Lexico: float fuera de rango
+var EFLOATRANGO := 3.40282348F+38;
+
+@ T5 Error Lexico: float mal formado (falta signo exponente)
+var EFLOATFORMATO := 1.F10;
+
+@ T9 Error Sintactico: Declaracion dentro de DO-WHILE (Prohibido)
+do {
+    var EVARBLOQUE := 1UI;
+} while (VARA > 0UI);
+
+@ T14 Error Sintactico: Falta ';' al final del do-while
+do {
+    VARA := 0UI;
+} while (VARA > 0UI)
+
+@ T9 Error Semantico: Redeclaracion de VARA en el mismo ambito
+var VARA := 1UI;
+
+@ T19 Error Sintactico/Semantico: Expresion 'VARA + 1UI' no permitida (Tema 19)
+VARA, VARB = 1UI, VARA + 1UI;
+
+@ T19 Error Semantico: Disparidad de elementos (2 izq, 1 der)
+VARA, VARB = 1UI;
+
+@ T21 Error Semantico: Mas variables (3) que retornos (2)
+var VARC := 1UI;
+VARF, VARA, VARC = FUNCCOMPLETA(1UI -> PSE, 2.0F+0 -> PLE, (uint K){ print(&L&); } -> PLAM);
+
+@ T23 Error Semantico: Ambito/Variable no existe
+VARA := AMBITOFALSO.NOEXISTE;
+
+@ T25: Error Semantico (Leer 'cr se')
+float, uint FUNCERRORCR(cr se uint PSEERR) {
+    @ T25 Error: PSEERR es solo escritura (se), no puede leerse
+    var TEMP := PSEERR;
+    return (0.0F+0, TEMP);
+}
+
+@ T28 Error Semantico: Pasar 'uint' (10UI) a parametro 'lambda'
+VARF = FUNCCOMPLETA(1UI -> PSE, 2.0F+0 -> PLE, 10UI -> PLAM);
+
+@ T31 Error Semantico: Asignar float a uint sin 'toui'
+VARA := VARF;
+
+@ T31 Error Semantico: Operar uint y float sin 'toui'
+VARA := VARA + VARF;
+
+@ T31 Error Semantico: 'toui' aplicado a 'uint' (solo aplica a float)
+VARA := toui(VARA);
+
 }
