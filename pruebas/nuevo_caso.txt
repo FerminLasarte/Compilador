@@ -36,7 +36,7 @@ float, uint FUNCCOMPLETA(cr se uint PSE, cr le float PLE, lambda PLAM) {
 }
 
 @ Función auxiliar para T19
-uint FUNCSIMPLE() {
+uint FUNCSIMPLE(uint DUMMY) {
     return (100UI);
 }
 
@@ -60,7 +60,7 @@ var VARB := 2UI;
 @ Lado derecho solo vars, ctes, o invocaciones (no expresiones)
 VARA, VARB = 3UI, 4UI; @ OK: Cte, Cte
 VARA, VARB = GCONTADOR, VARA; @ OK: Var, Var
-VARA, VARB = 1UI, FUNCSIMPLE(); @ OK: Cte, Invocacion
+VARA, VARB = 1UI, FUNCSIMPLE(1UI -> DUMMY); @ OK: Cte, Invocacion
 
 @ T21 (Ret. Multiple), T28 (Lambda Call)
 @ FUNCCOMPLETA retorna (float, uint)
