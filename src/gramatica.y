@@ -21,32 +21,35 @@
 
 %%
 
-programa : ID '{' { g.abrirAmbito($1.sval); al.agregarLexemaTS($1.sval); al.agregarAtributoLexema($1.sval, "Linea", al.getContadorFila()+1); } sentencias '}' { }
-      {
-          String nombrePrograma = $1.sval;
-          salida.add("Linea " + (al.getContadorFila()+1) + ": Programa '" + nombrePrograma + "' reconocido.");
-      }
+programa : ID '{' {
+             g.abrirAmbito($1.sval);
+             al.agregarLexemaTS($1.sval);
+             al.agregarAtributoLexema($1.sval, "Linea", $1.ival);
+         } sentencias '}' { }
+         {
+             String nombrePrograma = $1.sval;
+             Object lineaObj = al.getAtributo(nombrePrograma, "Linea");
+             String linea = (lineaObj != null) ? lineaObj.toString() : "?";
+             salida.add("Linea " + linea + ": Programa '" + nombrePrograma + "' reconocido.");
+         }
      |
      '{' { g.abrirAmbito("MAIN"); } sentencias '}' { }
-     {
-         erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");
-     }
+         {
+             erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");
+         }
      ;
 
 sentencias : sentencias sentencia
-           |
-           sentencia
+           | sentencia
            ;
 
 sentencia : sentencia_declarativa
-          |
-          sentencia_ejecutable
+          | sentencia_ejecutable
           | error ';'
           ;
 
 sentencia_declarativa : funcion
-                      |
-                      declaracion_var ';'
+                      | declaracion_var ';'
                       ;
 
 declaracion_var : VAR variable ASIG expresion
@@ -173,8 +176,7 @@ lista_tipos_retorno_multiple : tipo ',' tipo
                          ;
 
 lista_parametros_formales : lista_parametros_formales ',' parametro_formal
-                          |
-                          parametro_formal
+                          | parametro_formal
                           ;
 
 parametro_formal : sem_pasaje tipo ID
@@ -197,10 +199,8 @@ sem_pasaje : CR SE { $$.sval = "cr_se"; }
 sentencia_ejecutable : asignacion ';'
                      | asignacion_multiple ';'
                      | condicional_if
-                     |
-                     condicional_do_while
-                     |
-                     salida_pantalla ';'
+                     | condicional_do_while
+                     | salida_pantalla ';'
                      | retorno_funcion
                      | invocacion_funcion ';'
                      ;
@@ -453,8 +453,6 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                        if (tipoReal.equals("error_tipo")) {
                                             errorEnParametros = true;
                                        } else if (tipoFormal.equals("lambda") && tipoReal.equals("lambda_expr")) {
-                                            // ESTE ERA EL BUG: Este bloque estaba vacío.
-                                            // No hacemos nada, está correcto.
                                        } else if (!tipoFormal.equals("lambda") && tipoReal.equals("lambda_expr")) {
                                            al.agregarErrorSemantico("Linea " + linea + ": Error Semantico (Tema 28): Se paso una expresion lambda al parametro '->" + real.nombreFormal + "' que no es de tipo 'lambda'.");
                                            errorEnParametros = true;
@@ -535,8 +533,7 @@ cuerpo_lambda : sentencias_ejecutables_lista
               ;
 
 sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
-                             |
-                             sentencia_ejecutable
+                             | sentencia_ejecutable
                              ;
 
 constante : CTE
@@ -567,7 +564,7 @@ constante : CTE
           ;
 
 condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';'
-               %prec IFX
+%prec IFX
                 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ?
@@ -690,10 +687,14 @@ Stack<String> pilaSaltosLambda = new Stack<String>();
 int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();
+    int linea = al.getContadorFila() + 1;
+
     if (token == ID || token == CTE || token == CADENA_MULTILINEA) {
         yylval = new ParserVal(lexema);
+        yylval.ival = linea;
     } else {
         yylval = new ParserVal(token);
+        yylval.ival = linea;
     }
     return token;
 }

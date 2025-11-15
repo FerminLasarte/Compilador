@@ -486,7 +486,6 @@ public class AnalizadorLexico {
         return null;
     }
 
-    // Sobrecarga para imprimir la nueva TS
     public void imprimirTablaSimbolos() {
         System.out.println("\n=======================================================");
         System.out.println("## CONTENIDOS DE LA TABLA DE SIMBOLOS ##");
@@ -497,9 +496,13 @@ public class AnalizadorLexico {
             return;
         }
 
-        String formatString = "| %-20s | %-30s | %-12s | %-18s | %-10s | %-10s |%n";
-        System.out.printf(formatString, "Ambito", "Lexema", "Reservada", "Uso", "Tipo", "Contador");
-        System.out.println("|----------------------|--------------------------------|--------------|--------------------|------------|------------|");
+        // --- INICIO DE MODIFICACION (1. Eliminar Columna Contador) ---
+        // 1. Quitar la columna "%-10s |" del formato
+        String formatString = "| %-20s | %-30s | %-12s | %-18s | %-10s |%n";
+        // 2. Quitar "Contador" del encabezado
+        System.out.printf(formatString, "Ambito", "Lexema", "Reservada", "Uso", "Tipo");
+        // 3. Acortar la línea separadora
+        System.out.println("|----------------------|--------------------------------|--------------|--------------------|------------|");
 
         // Iteramos en el orden de la pila (del fondo a la cima)
         Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
@@ -514,19 +517,23 @@ public class AnalizadorLexico {
                 Object reservada = atributos.get("Reservada");
                 Object uso = atributos.get("Uso");
                 Object tipo = atributos.get("Tipo");
-                Object contador = atributos.get("Contador");
+                // 4. Eliminar la obtención del atributo "Contador"
+                // Object contador = atributos.get("Contador"); // ELIMINADO
 
+                // 5. Quitar la variable 'contador' del printf
                 System.out.printf(formatString,
                         ambitoNombre,
                         lexema,
                         (reservada != null) ? reservada.toString() : "null",
                         (uso != null) ? uso.toString() : "null",
-                        (tipo != null) ? tipo.toString() : "null",
-                        (contador != null) ? contador.toString() : "0"
+                        (tipo != null) ? tipo.toString() : "null"
+                        // (contador != null) ? contador.toString() : "0" // ELIMINADO
                 );
             }
-            System.out.println("|----------------------|--------------------------------|--------------|--------------------|------------|------------|");
+            // 6. Acortar la línea separadora
+            System.out.println("|----------------------|--------------------------------|--------------|--------------------|------------|");
         }
+        // --- FIN DE MODIFICACION ---
         System.out.println("=======================================================");
     }
 }
