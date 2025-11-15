@@ -117,7 +117,8 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                      al.agregarAtributoLexema(p.nombre, "Pasaje", p.pasaje);
                 }
             }
-        } sentencias '}' { g.cerrarAmbito(); }
+        } sentencias '}' { g.cerrarAmbito();
+        }
         {
             String nombreFuncion = $2.sval;
             salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
@@ -151,7 +152,8 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                      al.agregarAtributoLexema(p.nombre, "Pasaje", p.pasaje);
                 }
             }
-        } sentencias '}' { g.cerrarAmbito(); }
+        } sentencias '}' { g.cerrarAmbito();
+        }
         {
             String nombreFuncion = $2.sval;
             salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
@@ -220,7 +222,6 @@ asignacion : variable ASIG expresion
                String tipoVar = g.getTipo(op1_var);
                String tipoExpr = g.getTipo(op2_terceto);
                int linea = $1.ival;
-
                if (tipoExpr.equals("multiple")) {
                    String funcName = "";
                    try {
@@ -231,7 +232,6 @@ asignacion : variable ASIG expresion
                    }
 
                    Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
-
                    if (retMultiple == null || !(Boolean)retMultiple) {
                         al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Asignacion de funcion '" + funcName + "' que no retorna 'multiple' a variable simple.");
                    } else {
@@ -272,7 +272,22 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                             int cantIzquierda = listaVariables.size();
                             int cantDerecha = contadorLadoDerecho;
                             Stack<String> derechos = g.getPilaLadoDerecho();
-                            boolean esFuncion = ($3.ival == 1);
+
+                            boolean esFuncion = false;
+                            if (cantDerecha == 1) {
+                                String op = derechos.peek();
+                                if (op.startsWith("[")) {
+                                    try {
+                                        Terceto t = g.getTerceto(Integer.parseInt(op.substring(1, op.length()-1)));
+                                        if (t.getOperador().equals("CALL")) {
+                                            esFuncion = true;
+                                        }
+                                    } catch (Exception e) {
+                                        esFuncion = false;
+                                    }
+                                }
+                            }
+
                             if (esFuncion) {
                                 String funcTerceto = derechos.pop();
                                 if (funcTerceto.equals("ERROR_CALL") || funcTerceto.equals("ERROR_CALL_PARAMS") || funcTerceto.equals("ERROR_CALL_LAMBDA")) {
@@ -337,8 +352,8 @@ lado_derecho_multiple : { g.clearLadoDerecho(); } factor
                           {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho = 1;
-                              $$.ival = $1.ival;
-                              $$.sval = $1.sval;
+                              $$.ival = $2.ival;
+                              $$.sval = $2.sval;
                           }
                           |
                           lado_derecho_multiple ',' factor
@@ -397,7 +412,8 @@ termino : termino '*' factor
                 g.apilarOperando(terceto);
                 $$.ival = $1.ival;
             }
-        | termino '/' factor
+        |
+        termino '/' factor
             {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -652,7 +668,8 @@ condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF %prec IFX ';'
                }
                ;
 
-condicional_do_while: DO { g.apilarControl(g.getProximoTerceto()); } bloque_ejecutable WHILE '(' condicion ')' ';'
+condicional_do_while: DO { g.apilarControl(g.getProximoTerceto());
+                } bloque_ejecutable WHILE '(' condicion ')' ';'
                     {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + $7.ival + ": Sentencia DO-WHILE reconocida.");
@@ -695,7 +712,8 @@ simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
                     '<' { g.apilarOperando("<"); }
                     ;
 
-bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito(); }
+bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito();
+                  }
                   |
                   '{' error '}'
                   ;
