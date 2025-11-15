@@ -65,7 +65,7 @@ PROGRAMA {
     @ T14: Error Sintactico -> falta ';' al final de DO-WHILE
     do {
         A := 1UI;
-    } while (A > 0UI)
+    } while (A > 0UI);
 
     @ T21: Error Semantico -> menos retornos (2) que asignaciones (3)
     A, B, F = FUNCCR(A -> PSE, F -> PLE, (uint K){ print(&Lambda Error!&); } -> PLAM);
