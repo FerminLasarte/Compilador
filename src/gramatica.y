@@ -57,7 +57,6 @@ sentencia_declarativa : funcion
 
 declaracion_var : VAR variable ASIG expresion
                 {
-                    salida.add("Linea " + $1.ival + ": Declaracion por inferencia (var).");
                     String expr = g.desapilarOperando();
                     String tipoExpr = g.getTipo(expr);
                     String varNombre = $2.sval;
@@ -70,6 +69,7 @@ declaracion_var : VAR variable ASIG expresion
                         al.agregarAtributoLexema(varNombre, "Uso", "variable");
                         al.agregarAtributoLexema(varNombre, "Tipo", tipoExpr);
                         g.addTerceto(":=", varNombre, expr);
+                        salida.add("Linea " + $1.ival + ": Declaracion por inferencia (var).");
                     }
                 }
                 ;

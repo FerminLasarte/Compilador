@@ -787,7 +787,6 @@ break;
 case 14:
 //#line 59 "gramatica.y"
 {
-                    salida.add("Linea " + val_peek(3).ival + ": Declaracion por inferencia (var).");
                     String expr = g.desapilarOperando();
                     String tipoExpr = g.getTipo(expr);
                     String varNombre = val_peek(2).sval;
@@ -800,6 +799,7 @@ case 14:
                         al.agregarAtributoLexema(varNombre, "Uso", "variable");
                         al.agregarAtributoLexema(varNombre, "Tipo", tipoExpr);
                         g.addTerceto(":=", varNombre, expr);
+                        salida.add("Linea " + val_peek(3).ival + ": Declaracion por inferencia (var).");
                     }
                 }
 break;

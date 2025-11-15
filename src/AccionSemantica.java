@@ -117,11 +117,12 @@ public abstract class AccionSemantica{
             } catch (NumberFormatException e) {
                 al.agregarError("Formato inválido de constante flotante: " + lexemaActual);
                 // --- INICIO DE MODIFICACIÓN ---
-                return "CTE"; // Cambiar "ERROR" por "CTE"
+                return "ERROR"; // Cambiar "ERROR" por "CTE"
                 // --- FIN DE MODIFICACIÓN ---
             }
         }
     }
+
     public static class AccionSemantica7 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.agregarCaracterLexema(c);
