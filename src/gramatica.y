@@ -148,7 +148,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         } sentencias '}' { g.cerrarAmbito(); }
         {
             String nombreFuncion = $2.sval;
-            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
+            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
         }
       ;
 
@@ -450,7 +450,11 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                    } else {
                                        String tipoReal = g.getTipo(real.operando);
                                        String tipoFormal = formal.tipo;
-                                       if (tipoFormal.equals("lambda") && tipoReal.equals("lambda_expr")) {
+                                       if (tipoReal.equals("error_tipo")) {
+                                            errorEnParametros = true;
+                                       } else if (tipoFormal.equals("lambda") && tipoReal.equals("lambda_expr")) {
+                                            // ESTE ERA EL BUG: Este bloque estaba vacío.
+                                            // No hacemos nada, está correcto.
                                        } else if (!tipoFormal.equals("lambda") && tipoReal.equals("lambda_expr")) {
                                            al.agregarErrorSemantico("Linea " + linea + ": Error Semantico (Tema 28): Se paso una expresion lambda al parametro '->" + real.nombreFormal + "' que no es de tipo 'lambda'.");
                                            errorEnParametros = true;
@@ -460,8 +464,6 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                        } else if (!tipoReal.equals("error_tipo") && !g.chequearAsignacion(tipoFormal, tipoReal, linea)) {
                                            al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "': tipo incompatible para '->" + real.nombreFormal + "'. Esperado: " + tipoFormal + ", Obtenido: " + tipoReal + ".");
                                            errorEnParametros = true;
-                                       } else if (tipoReal.equals("error_tipo")) {
-                                            errorEnParametros = true;
                                        }
                                        if (!errorEnParametros) {
                                             g.addTerceto("PARAM", real.operando, formal.nombre);
