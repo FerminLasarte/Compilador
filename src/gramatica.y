@@ -40,28 +40,31 @@ programa : ID '{' {
      ;
 
 sentencias : sentencias sentencia
-           | sentencia
+           |
+           sentencia
            ;
 
 sentencia : sentencia_declarativa
-          | sentencia_ejecutable
+          |
+          sentencia_ejecutable
           | error ';'
           ;
 
 sentencia_declarativa : funcion
-                      | declaracion_var ';'
+                      |
+                      declaracion_var ';'
                       ;
 
 declaracion_var : VAR variable ASIG expresion
                 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion por inferencia (var).");
+                    salida.add("Linea " + $1.ival + ": Declaracion por inferencia (var).");
                     String expr = g.desapilarOperando();
                     String tipoExpr = g.getTipo(expr);
                     String varNombre = $2.sval;
                     if (g.existeEnAmbitoActual(varNombre)) {
-                        al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: Redeclaracion de variable '" + varNombre + "' en el mismo ambito (Tema 9).");
+                        al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: Redeclaracion de variable '" + varNombre + "' en el mismo ambito (Tema 9).");
                     } else if (tipoExpr.equals("error_tipo") || tipoExpr.equals("indefinido")) {
-                         al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: No se puede inferir el tipo de '" + varNombre + "' desde una expresion invalida (Tema 9).");
+                         al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: No se puede inferir el tipo de '" + varNombre + "' desde una expresion invalida (Tema 9).");
                     } else {
                         al.agregarLexemaTS(varNombre);
                         al.agregarAtributoLexema(varNombre, "Uso", "variable");
@@ -93,11 +96,11 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             String tipoRetorno = $1.sval;
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
             if (g.existeEnAmbitoActual(nombreFuncion)) {
-                al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
+                al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
             } else {
                 al.agregarLexemaTS(nombreFuncion);
                 al.agregarAtributoLexema(nombreFuncion, "Uso", "funcion");
-                al.agregarAtributoLexema(nombreFuncion, "Linea", al.getContadorFila()+1);
+                al.agregarAtributoLexema(nombreFuncion, "Linea", $2.ival);
                 al.agregarAtributoLexema(nombreFuncion, "Tipo", tipoRetorno);
                 al.agregarAtributoLexema(nombreFuncion, "Parametros", parametros);
                 al.agregarAtributoLexema(nombreFuncion, "RetornoMultiple", false);
@@ -105,11 +108,11 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             g.abrirAmbito($2.sval);
             for (ParametroInfo p : parametros) {
                 if (g.existeEnAmbitoActual(p.nombre)) {
-                     al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: Redeclaracion del parametro '" + p.nombre + "'.");
+                     al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion del parametro '" + p.nombre + "'.");
                 } else {
                      al.agregarLexemaTS(p.nombre);
                      al.agregarAtributoLexema(p.nombre, "Uso", "parametro");
-                     al.agregarAtributoLexema(nombreFuncion, "Linea", al.getContadorFila()+1);
+                     al.agregarAtributoLexema(nombreFuncion, "Linea", $2.ival);
                      al.agregarAtributoLexema(p.nombre, "Tipo", p.tipo);
                      al.agregarAtributoLexema(p.nombre, "Pasaje", p.pasaje);
                 }
@@ -117,7 +120,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         } sentencias '}' { g.cerrarAmbito(); }
         {
             String nombreFuncion = $2.sval;
-            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
+            salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
         }
       | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' {
             String nombreFuncion = $2.sval;
@@ -128,7 +131,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             }
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
             if (g.existeEnAmbitoActual(nombreFuncion)) {
-                al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
+                al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
             } else {
                 al.agregarLexemaTS(nombreFuncion);
                 al.agregarAtributoLexema(nombreFuncion, "Uso", "funcion");
@@ -140,7 +143,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             g.abrirAmbito($2.sval);
             for (ParametroInfo p : parametros) {
                 if (g.existeEnAmbitoActual(p.nombre)) {
-                     al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: Redeclaracion del parametro '" + p.nombre + "'.");
+                     al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion del parametro '" + p.nombre + "'.");
                 } else {
                      al.agregarLexemaTS(p.nombre);
                      al.agregarAtributoLexema(p.nombre, "Uso", "parametro");
@@ -151,7 +154,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         } sentencias '}' { g.cerrarAmbito(); }
         {
             String nombreFuncion = $2.sval;
-            salida.add("Linea " + (al.getContadorFila()+1) + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
+            salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
         }
       ;
 
@@ -176,7 +179,8 @@ lista_tipos_retorno_multiple : tipo ',' tipo
                          ;
 
 lista_parametros_formales : lista_parametros_formales ',' parametro_formal
-                          | parametro_formal
+                          |
+                          parametro_formal
                           ;
 
 parametro_formal : sem_pasaje tipo ID
@@ -199,28 +203,72 @@ sem_pasaje : CR SE { $$.sval = "cr_se"; }
 sentencia_ejecutable : asignacion ';'
                      | asignacion_multiple ';'
                      | condicional_if
-                     | condicional_do_while
-                     | salida_pantalla ';'
+                     |
+                     condicional_do_while
+                     |
+                     salida_pantalla ';'
                      | retorno_funcion
-                     | invocacion_funcion ';'
+                     |
+                     invocacion_funcion ';'
                      ;
 
 asignacion : variable ASIG expresion
            {
-               salida.add("Linea " + (al.getContadorFila()+1) + ": Asignacion simple (:=).");
-               String op2 = g.desapilarOperando();
-               String op1 = $1.sval;
-               String tipoVar = g.getTipo(op1);
-               String tipoExpr = g.getTipo(op2);
-               if (g.chequearAsignacion(tipoVar, tipoExpr, al.getContadorFila()+1)) {
-                   g.addTerceto(":=", op1, op2);
+               salida.add("Linea " + $1.ival + ": Asignacion simple (:=).");
+               String op2_terceto = g.desapilarOperando();
+               String op1_var = $1.sval;
+               String tipoVar = g.getTipo(op1_var);
+               String tipoExpr = g.getTipo(op2_terceto);
+               int linea = $1.ival;
+
+               if (tipoExpr.equals("multiple")) {
+                   String funcName = "";
+                   try {
+                        funcName = g.getTerceto(Integer.parseInt(op2_terceto.substring(1, op2_terceto.length()-1))).getOperando1();
+                   } catch (Exception e) {
+                        g.chequearAsignacion(tipoVar, tipoExpr, linea);
+                        break;
+                   }
+
+                   Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
+
+                   if (retMultiple == null || !(Boolean)retMultiple) {
+                        al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Asignacion de funcion '" + funcName + "' que no retorna 'multiple' a variable simple.");
+                   } else {
+                       Object rawObj = al.getAtributo(funcName, "TiposRetorno");
+                       ArrayList<String> tiposRetorno = new ArrayList<String>();
+                       if (rawObj instanceof ArrayList) {
+                           for (Object o : (ArrayList<?>) rawObj) {
+                               tiposRetorno.add((String) o);
+                           }
+                       }
+
+                       if (tiposRetorno.isEmpty()) {
+                           al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName + "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
+                       } else {
+                           String tipoPrimerRetorno = tiposRetorno.get(0);
+                           if (g.chequearAsignacion(tipoVar, tipoPrimerRetorno, linea)) {
+                               String retTerceto = g.addTerceto("GET_RET", op2_terceto, "0");
+                               g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoPrimerRetorno);
+                               g.addTerceto(":=", op1_var, retTerceto);
+
+                               if (tiposRetorno.size() > 1) {
+                                   al.agregarWarning("Linea " + linea + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + tiposRetorno.size() + " valores, pero solo se asigna 1. Se descartan los sobrantes.");
+                               }
+                           }
+                       }
+                   }
+               } else {
+                   if (g.chequearAsignacion(tipoVar, tipoExpr, linea)) {
+                       g.addTerceto(":=", op1_var, op2_terceto);
+                   }
                }
            }
            ;
 
 asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                         {
-                            String lineaActual = String.valueOf(al.getContadorFila() + 1);
+                            String lineaActual = String.valueOf($2.ival);
                             int cantIzquierda = listaVariables.size();
                             int cantDerecha = contadorLadoDerecho;
                             Stack<String> derechos = g.getPilaLadoDerecho();
@@ -262,6 +310,7 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                                         }
                                     }
                                 }
+
                             } else {
                                 if (cantIzquierda != cantDerecha) {
                                     al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + cantIzquierda + ") y a la derecha (" + cantDerecha + ").");
@@ -288,8 +337,8 @@ lado_derecho_multiple : { g.clearLadoDerecho(); } factor
                           {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho = 1;
-                              $$.ival = $2.ival;
-                              $$.sval = $2.sval;
+                              $$.ival = $1.ival;
+                              $$.sval = $1.sval;
                           }
                           |
                           lado_derecho_multiple ',' factor
@@ -303,11 +352,13 @@ lado_derecho_multiple : { g.clearLadoDerecho(); } factor
 variable : ID PUNTO ID
             {
                 $$.sval = $1.sval + "." + $3.sval;
+                $$.ival = $1.ival;
             }
          |
          ID
             {
                 $$.sval = $1.sval;
+                $$.ival = $1.ival;
             }
          ;
 
@@ -315,53 +366,57 @@ expresion : expresion '+' termino
             {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
-                String tipo = g.chequearTipos("+", g.getTipo(op1), g.getTipo(op2), al.getContadorFila()+1);
+                String tipo = g.chequearTipos("+", g.getTipo(op1), g.getTipo(op2), $1.ival);
                 String terceto = g.addTerceto("+", op1, op2);
                 g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(tipo);
                 g.apilarOperando(terceto);
+                $$.ival = $1.ival;
             }
           |
           expresion '-' termino
             {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
-                String tipo = g.chequearTipos("-", g.getTipo(op1), g.getTipo(op2), al.getContadorFila()+1);
+                String tipo = g.chequearTipos("-", g.getTipo(op1), g.getTipo(op2), $1.ival);
                 String terceto = g.addTerceto("-", op1, op2);
                 g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(tipo);
                 g.apilarOperando(terceto);
+                $$.ival = $1.ival;
             }
           |
-          termino { }
+          termino { $$.ival = $1.ival; }
           ;
 
 termino : termino '*' factor
             {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
-                String tipo = g.chequearTipos("*", g.getTipo(op1), g.getTipo(op2), al.getContadorFila()+1);
+                String tipo = g.chequearTipos("*", g.getTipo(op1), g.getTipo(op2), $1.ival);
                 String terceto = g.addTerceto("*", op1, op2);
                 g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(tipo);
                 g.apilarOperando(terceto);
+                $$.ival = $1.ival;
             }
         | termino '/' factor
             {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
-                String tipo = g.chequearTipos("/", g.getTipo(op1), g.getTipo(op2), al.getContadorFila()+1);
+                String tipo = g.chequearTipos("/", g.getTipo(op1), g.getTipo(op2), $1.ival);
                 String terceto = g.addTerceto("/", op1, op2);
                 g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(tipo);
                 g.apilarOperando(terceto);
+                $$.ival = $1.ival;
             }
-        | factor { }
+        | factor { $$.ival = $1.ival; }
         ;
 
 factor : factor_no_funcion
        {
-           $$.ival = 0;
+           $$.ival = $1.ival;
        }
        | invocacion_funcion
        {
-           $$.ival = 1;
+           $$.ival = $1.ival;
            $$.sval = $1.sval;
            g.apilarOperando($1.sval);
        }
@@ -374,32 +429,37 @@ factor_no_funcion : variable
                       if (tipoVar.equals("indefinido")) {
                           if (varNombre.contains(".")) {
                               String[] parts = varNombre.split("\\.", 2);
-                              al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: Variable '" + parts[1] + "' no existe en el ambito '" + parts[0] + "' o el ambito no es visible (Tema 23).");
+                              al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: Variable '" + parts[1] + "' no existe en el ambito '" + parts[0] + "' o el ambito no es visible (Tema 23).");
                           } else {
-                              al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: Variable '" + varNombre + "' no fue declarada (Regla de alcance).");
+                              al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: Variable '" + varNombre + "' no fue declarada (Regla de alcance).");
                           }
                       }
                       g.apilarOperando(varNombre);
+                      $$.ival = $1.ival;
                   }
                   |
                   constante
-                  { g.apilarOperando($1.sval); }
+                  {
+                      g.apilarOperando($1.sval);
+                      $$.ival = $1.ival;
+                  }
                   |
                   conversion_explicita
-                  { }
+                  { $$.ival = $1.ival; }
                   ;
 
 conversion_explicita : TOUI '(' expresion ')'
                 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": Conversion explicita (toui).");
+                    salida.add("Linea " + $1.ival + ": Conversion explicita (toui).");
                     String op1 = g.desapilarOperando();
                     String tipoOp1 = g.getTipo(op1);
                     if (!tipoOp1.equals("float")) {
-                        al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: 'toui' solo puede aplicarse a expresiones 'float', se obtuvo '" + tipoOp1 + "'.");
+                        al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: 'toui' solo puede aplicarse a expresiones 'float', se obtuvo '" + tipoOp1 + "'.");
                     }
                     String terceto = g.addTerceto("TOUI", op1);
                     g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo("uint");
                     g.apilarOperando(terceto);
+                    $$.ival = $1.ival;
                 }
                 ;
 
@@ -409,7 +469,7 @@ pre_invocacion : { g.clearParametrosReales(); }
 invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                    {
                        String funcName = $1.sval;
-                       int linea = al.getContadorFila() + 1;
+                       int linea = $1.ival;
                        int cantReales = $4.ival;
                        ArrayList<ParametroRealInfo> reales = g.getListaParametrosReales(cantReales);
                        Object uso = al.getAtributo(funcName, "Uso");
@@ -481,6 +541,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                            al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
                            $$.sval = "ERROR_CALL";
                        }
+                       $$.ival = $1.ival;
                    }
                    ;
 
@@ -494,20 +555,26 @@ lista_parametros_reales : lista_parametros_reales ',' parametro_real
 parametro_real : parametro_simple FLECHA ID
                {
                    g.apilarParametroReal(new ParametroRealInfo($1.sval, $3.sval));
+                   $$.ival = $1.ival;
                }
                |
                parametro_simple
                {
-                   al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: Se requiere asignacion explicita de parametro (-> ID).");
+                   al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: Se requiere asignacion explicita de parametro (-> ID).");
+                   $$.ival = $1.ival;
                }
                ;
 
 parametro_simple : expresion
-                 { $$.sval = g.desapilarOperando(); }
+                 {
+                     $$.sval = g.desapilarOperando();
+                     $$.ival = $1.ival;
+                 }
                  |
                  lambda_expresion
                  {
                      $$.sval = $1.sval;
+                     $$.ival = $1.ival;
                  }
                  ;
 
@@ -520,6 +587,7 @@ lambda_expresion : '(' tipo ID ')' '{' {
                          al.agregarAtributoLexema($3.sval, "Uso", "parametro_lambda");
                          al.agregarAtributoLexema($3.sval, "Tipo", $2.sval);
                          g.addTerceto("DEF_PARAM", $3.sval, "_");
+                         $$.ival = $1.ival;
                  } cuerpo_lambda '}' {
                          g.addTerceto("RET_LAMBDA", "_", "_");
                          int tercetoFin = g.getProximoTerceto();
@@ -533,11 +601,15 @@ cuerpo_lambda : sentencias_ejecutables_lista
               ;
 
 sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
-                             | sentencia_ejecutable
+                             |
+                             sentencia_ejecutable
                              ;
 
 constante : CTE
-            { $$.sval = $1.sval; }
+            {
+                $$.sval = $1.sval;
+                $$.ival = $1.ival;
+            }
           |
           '-' CTE
             {
@@ -547,7 +619,7 @@ constante : CTE
                     String tipo = (String) al.getAtributo(lexemaPositivo, "Tipo");
                     if (tipo != null) {
                         if (tipo.equals("uint")) {
-                            al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico. El tipo 'uint' no puede ser negativo. Valor: " + lexemaNegativo);
+                            al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico. El tipo 'uint' no puede ser negativo. Valor: " + lexemaNegativo);
                             int contador = (int) al.getAtributo(lexemaPositivo, "Contador");
                             if (contador > 1) {
                                 al.agregarAtributoLexema(lexemaPositivo, "Contador", contador - 1);
@@ -560,16 +632,17 @@ constante : CTE
                     }
                 }
                 $$.sval = lexemaNegativo;
+                $$.ival = $2.ival;
             }
           ;
 
 condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF %prec IFX ';'
-                {
+               {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ?
                     lineaObj.toString() : "?";
                     salida.add("Linea " + linea + ": Sentencia IF reconocida.");
-                }
+               }
                |
                IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
                {
@@ -582,11 +655,11 @@ condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF %prec IFX ';'
 condicional_do_while: DO { g.apilarControl(g.getProximoTerceto()); } bloque_ejecutable WHILE '(' condicion ')' ';'
                     {
                         Object lineaObj = al.getAtributo("do", "Linea");
-                        salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE reconocida.");
+                        salida.add("Linea " + $7.ival + ": Sentencia DO-WHILE reconocida.");
                         String refCondicion = g.desapilarOperando();
                         int inicioBucle = g.desapilarControl();
                         if (refCondicion.equals("ERROR_CONDICION")) {
-                             al.agregarErrorSemantico("Linea " + (al.getContadorFila()+1) + ": Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.");
+                             al.agregarErrorSemantico("Linea " + $7.ival + ": Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.");
                         } else {
                             String tercetoSalto = g.addTerceto("BT", refCondicion, String.valueOf(inicioBucle));
                         }
@@ -598,7 +671,7 @@ condicion : expresion simbolo_comparacion expresion
                 String op2 = g.desapilarOperando();
                 String op = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
-                String tipo = g.chequearTipos(op, g.getTipo(op1), g.getTipo(op2), al.getContadorFila()+1);
+                String tipo = g.chequearTipos(op, g.getTipo(op1), g.getTipo(op2), $1.ival);
                 if (!tipo.equals("error_tipo")) {
                     String terceto = g.addTerceto(op, op1, op2);
                     g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo("boolean");
@@ -629,20 +702,20 @@ bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } se
 
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilinea.");
+                    salida.add("Linea " + $1.ival + ": PRINT con cadena multilinea.");
                     g.addTerceto("PRINT", $3.sval);
                 }
                 |
                 PRINT '(' expresion ')'
                 {
-                    salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresion.");
+                    salida.add("Linea " + $1.ival + ": PRINT con expresion.");
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
                 ;
 
 retorno_funcion : RETURN '(' lista_expresiones ')' ';'
             {
-                salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia RETURN.");
+                salida.add("Linea " + $1.ival + ": Sentencia RETURN.");
                 ArrayList<?> rawList = (ArrayList<?>) $3.obj;
                 ArrayList<String> expresiones = new ArrayList<String>();
                 for (Object o : rawList) {
