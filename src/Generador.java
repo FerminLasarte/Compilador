@@ -144,11 +144,18 @@ public class Generador {
     public String getTipo(String operando) {
         if (operando == null) return "void";
 
-        try {
-            Integer.parseInt(operando);
-            return "lambda_expr";
-        } catch (NumberFormatException e) {
+        // --- INICIO DE MODIFICACIÓN (2. Bug de Tipo Lambda) ---
+        // Reemplazar el chequeo de Integer.parseInt(operando)
+        if (operando.startsWith("L")) {
+            try {
+                // Verificar que es L + numero (como L29)
+                Integer.parseInt(operando.substring(1));
+                return "lambda_expr";
+            } catch (NumberFormatException e) {
+                // No era L[numero], seguir
+            }
         }
+        // --- FIN DE MODIFICACIÓN ---
 
         if (operando.startsWith("[")) {
             try {

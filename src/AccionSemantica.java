@@ -64,7 +64,7 @@ public abstract class AccionSemantica{
 
             if (!lexemaConSufijo.endsWith("UI")) {
                 al.agregarError("Constante mal formada, se esperaba el sufijo 'UI': " + lexemaConSufijo);
-                return "ERROR";
+                return "ERROR"; // Esto está bien, es un error de token.
             }
 
             String soloEnteros = lexemaConSufijo.substring(0, lexemaConSufijo.length() - 2);
@@ -77,11 +77,11 @@ public abstract class AccionSemantica{
                     return "CTE";
                 } else {
                     al.agregarError("Constante uint fuera del rango permitido (0 a 65535). Valor encontrado: " + soloEnteros);
-                    return "ERROR";
+                    return "CTE"; // <<< MODIFICACIÓN (Devolver CTE)
                 }
             } catch (NumberFormatException e) {
                 al.agregarError("Formato de número inválido para constante uint: " + soloEnteros);
-                return "ERROR";
+                return "CTE"; // <<< MODIFICACIÓN (Devolver CTE)
             }
         }
     }
@@ -112,15 +112,16 @@ public abstract class AccionSemantica{
                 }
 
                 al.agregarError("Constante flotante fuera de rango.");
-                return "ERROR";
+                return "CTE"; // Esto ya lo hicimos
 
             } catch (NumberFormatException e) {
-                al.agregarError("Formato inválido de constante flotante.");
-                return "ERROR";
+                al.agregarError("Formato inválido de constante flotante: " + lexemaActual);
+                // --- INICIO DE MODIFICACIÓN ---
+                return "CTE"; // Cambiar "ERROR" por "CTE"
+                // --- FIN DE MODIFICACIÓN ---
             }
         }
     }
-
     public static class AccionSemantica7 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.agregarCaracterLexema(c);

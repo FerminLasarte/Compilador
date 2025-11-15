@@ -501,7 +501,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 677 "gramatica.y"
+//#line 676 "gramatica.y"
 
 static AnalizadorLexico al;
 static Generador g;
@@ -1335,7 +1335,7 @@ case 74:
             }
 break;
 case 75:
-//#line 568 "gramatica.y"
+//#line 567 "gramatica.y"
 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ?
@@ -1344,7 +1344,7 @@ case 75:
                 }
 break;
 case 76:
-//#line 576 "gramatica.y"
+//#line 575 "gramatica.y"
 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -1352,11 +1352,11 @@ case 76:
                }
 break;
 case 77:
-//#line 583 "gramatica.y"
+//#line 582 "gramatica.y"
 { g.apilarControl(g.getProximoTerceto()); }
 break;
 case 78:
-//#line 584 "gramatica.y"
+//#line 583 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia DO-WHILE reconocida.");
@@ -1370,7 +1370,7 @@ case 78:
                     }
 break;
 case 79:
-//#line 598 "gramatica.y"
+//#line 597 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op = g.desapilarOperando();
@@ -1386,53 +1386,53 @@ case 79:
           }
 break;
 case 80:
-//#line 613 "gramatica.y"
+//#line 612 "gramatica.y"
 { g.apilarOperando(">="); }
 break;
 case 81:
-//#line 615 "gramatica.y"
+//#line 614 "gramatica.y"
 { g.apilarOperando("<="); }
 break;
 case 82:
-//#line 617 "gramatica.y"
+//#line 616 "gramatica.y"
 { g.apilarOperando("=!"); }
 break;
 case 83:
-//#line 619 "gramatica.y"
+//#line 618 "gramatica.y"
 { g.apilarOperando("=="); }
 break;
 case 84:
-//#line 621 "gramatica.y"
+//#line 620 "gramatica.y"
 { g.apilarOperando(">"); }
 break;
 case 85:
-//#line 623 "gramatica.y"
+//#line 622 "gramatica.y"
 { g.apilarOperando("<"); }
 break;
 case 86:
-//#line 626 "gramatica.y"
+//#line 625 "gramatica.y"
 { g.abrirAmbito("bloque_" + g.getProximoTerceto()); }
 break;
 case 87:
-//#line 626 "gramatica.y"
+//#line 625 "gramatica.y"
 { g.cerrarAmbito(); }
 break;
 case 89:
-//#line 632 "gramatica.y"
+//#line 631 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con cadena multilinea.");
                     g.addTerceto("PRINT", val_peek(1).sval);
                 }
 break;
 case 90:
-//#line 638 "gramatica.y"
+//#line 637 "gramatica.y"
 {
                     salida.add("Linea " + (al.getContadorFila()+1) + ": PRINT con expresion.");
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
 break;
 case 91:
-//#line 645 "gramatica.y"
+//#line 644 "gramatica.y"
 {
                 salida.add("Linea " + (al.getContadorFila()+1) + ": Sentencia RETURN.");
                 ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
@@ -1446,7 +1446,7 @@ case 91:
             }
 break;
 case 92:
-//#line 659 "gramatica.y"
+//#line 658 "gramatica.y"
 {
                   ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
                   ArrayList<String> lista = new ArrayList<String>();
@@ -1458,7 +1458,7 @@ case 92:
               }
 break;
 case 93:
-//#line 670 "gramatica.y"
+//#line 669 "gramatica.y"
 {
                   ArrayList<String> lista = new ArrayList<String>();
                   lista.add(g.desapilarOperando());

@@ -563,8 +563,7 @@ constante : CTE
             }
           ;
 
-condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF ';'
-%prec IFX
+condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF %prec IFX ';'
                 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ?
