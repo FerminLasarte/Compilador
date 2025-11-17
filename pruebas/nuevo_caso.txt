@@ -1,24 +1,33 @@
-PROGRAMAT9OBLIGATORIO {
-@ =============================================
-@ CASO DE PRUEBA - TEMA 9 (INFERENCIA OBLIGATORIA)
-@ Temas: 2, 5, 8, 9, 14, 19, 21, 23, 25, 28, 31, 32
-@ =============================================
+MAIN {
+    @ Temas: 2, 5, 8, 9, 14, 19, 21, 23, 25, 28, 31, 32
 
-@ T9, T2, T5: Declaraciones Globales con Inferencia Obligatoria
-var GCONTADOR := 0UI;
-var GCONTADOR1 := 1UI;
-var GFACTOR := 1.0F+0;
-var X := GCONTADOR + GCONTADOR1;
-var X := GCONTADOR + GFACTOR;
+    var GCONTADOR := 0UI;
+    var GCONTADOR1 := 1UI;
+    var GFACTOR := 1.0F+0;
+    var X := GCONTADOR + GCONTADOR1;
+    X := GCONTADOR + GFACTOR;
 
-@ T31 (toui): Conversion explicita float -> uint
-var VARA := 1UI;
-var VARF := 2UI;
-VARA := toui(VARF); @ OK: toui(float)
+    var VARA := 1UI;
+    var VARF := 2UI;
+    VARA := toui(VARF);
 
-@ =============================================
-@ DEFINICION DE FUNCIONES
-@ =============================================
+    var A := 1UI;
+    var B := 2UI;
+    var C := 3UI;
+    A,B,C = 10UI, 20UI, 30UI;
+
+    var Z := 1UI;
+
+    uint funcZ(var Z) {
+
+        var W := 2UI;
+        var Y := 3UI;
+        funcZ.W := Y;
+        funcZ.Y := W;
+
+        return(100UI);
+    }
+}
 
 @ T21 (Retorno Múltiple), T25 (CR), T28 (Lambda)
 @ Retorna: (float, uint)
