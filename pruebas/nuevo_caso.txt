@@ -22,10 +22,10 @@ MAIN {
 
         var W := 2UI;
         var Y := 3UI;
-        funcZ.W := Y;
+        W := MAIN.A;
         funcZ.Y := W;
 
-        return(100UI);
+        return(W);
     }
 }
 
