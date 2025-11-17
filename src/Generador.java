@@ -13,7 +13,6 @@ public class Generador {
     private Stack<String> pilaLadoDerecho;
     private AnalizadorLexico al;
 
-    // Constructor privado para el Singleton
     private Generador() {
         this.tercetos = new ArrayList<Terceto>();
         this.pilaOperandos = new Stack<>();
@@ -23,9 +22,6 @@ public class Generador {
         this.pilaLadoDerecho = new Stack<>();
     }
 
-    /**
-     * Obtiene la instancia única del Generador (Singleton).
-     */
     public static Generador getInstance() {
         Generador result = instance;
         if (result == null) {
@@ -39,22 +35,13 @@ public class Generador {
         return result;
     }
 
-    /**
-     * Establece la referencia al Analizador Léxico para acceder a la Tabla de Símbolos.
-     */
     public void setAnalizadorLexico(AnalizadorLexico al) {
         this.al = al;
     }
 
-    // --- MANEJO DE TERCETOS ---
-
-    /**
-     * Agrega un terceto a la lista y devuelve su índice como referencia (ej: "[0]").
-     */
     public String addTerceto(String operador, String operando1, String operando2) {
         Terceto t = new Terceto(operador, operando1, operando2);
         this.tercetos.add(t);
-        // Devuelve el índice como un String "[i]" para usarlo como operando
         return "[" + (this.tercetos.size() - 1) + "]";
     }
 
@@ -66,10 +53,6 @@ public class Generador {
         return addTerceto(operador, null, null);
     }
 
-    /**
-     * Obtiene el número del próximo terceto que se va a crear.
-     * Útil para backpatching (saber a dónde saltar).
-     */
     public int getProximoTerceto() {
         return this.tercetos.size();
     }
@@ -81,19 +64,12 @@ public class Generador {
         return null;
     }
 
-    /**
-     * Modifica el operando 2 de un terceto (para rellenar saltos de IF/WHILE).
-     */
     public void modificarSaltoTerceto(int index, String saltoDestino) {
         if (index >= 0 && index < this.tercetos.size()) {
-            // Los saltos (BI, BF) se rellenan en el operando 2
             this.tercetos.get(index).setOperando2(saltoDestino);
         }
     }
 
-    /**
-     * Imprime todos los tercetos generados, cumpliendo el formato del TP03.
-     */
     public void imprimirTercetos() {
         System.out.println("\n=======================================================");
         System.out.println("## CODIGO INTERMEDIO (TERCETOS) ##");
@@ -101,14 +77,11 @@ public class Generador {
         if (tercetos.isEmpty()) {
             System.out.println("No se genero codigo intermedio.");
         } else {
-            // Imprime [i]: (operador, op1, op2)
             for (int i = 0; i < tercetos.size(); i++) {
                 System.out.println(i + ":\t" + tercetos.get(i).toString());
             }
         }
     }
-
-    // --- MANEJO DE PILAS (para expresiones y control) ---
 
     public void apilarOperando(String operando) {
         this.pilaOperandos.push(operando);
@@ -118,7 +91,7 @@ public class Generador {
         if (!this.pilaOperandos.isEmpty()) {
             return this.pilaOperandos.pop();
         }
-        return null; // Error, pila vacia
+        return null;
     }
 
     public void apilarControl(int tercetoIndex) {
@@ -129,7 +102,7 @@ public class Generador {
         if (!this.pilaControl.isEmpty()) {
             return this.pilaControl.pop();
         }
-        return -1; // Error, pila vacia
+        return -1;
     }
 
     public void abrirAmbito(String nombre) { al.abrirAmbito(nombre); }
@@ -138,24 +111,16 @@ public class Generador {
     public String getAmbitoActual() { return al.getAmbitoActual(); }
 
 
-    /**
-     * Obtiene el tipo de un operando (var, cte, o resultado de terceto).
-     */
     public String getTipo(String operando) {
         if (operando == null) return "void";
 
-        // --- INICIO DE MODIFICACIÓN (2. Bug de Tipo Lambda) ---
-        // Reemplazar el chequeo de Integer.parseInt(operando)
         if (operando.startsWith("L")) {
             try {
-                // Verificar que es L + numero (como L29)
                 Integer.parseInt(operando.substring(1));
                 return "lambda_expr";
             } catch (NumberFormatException e) {
-                // No era L[numero], seguir
             }
         }
-        // --- FIN DE MODIFICACIÓN ---
 
         if (operando.startsWith("[")) {
             try {
@@ -171,13 +136,8 @@ public class Generador {
             }
         }
 
-        // --- INICIO DE REORDENAMIENTO ---
-        // 4. Es una variable o función (búsqueda en Tabla de Símbolos)
-        // ESTO DEBE IR ANTES DE CHEQUEAR LITERALES
         Object tipo;
-        // Tema 23: Check por prefijo
         if (operando.contains(".")) {
-            // Corrección: se escapa el punto -> "."
             String[] parts = operando.split("\\.", 2);
             if (parts.length == 2) {
                 tipo = al.getAtributoConPrefijo(parts[0], parts[1], "Tipo");
@@ -185,41 +145,30 @@ public class Generador {
             }
         }
 
-        // Tema 23: Búsqueda sin prefijo (hacia arriba en la pila)
         tipo = al.getAtributo(operando, "Tipo");
         if (tipo != null) {
             return tipo.toString();
         }
-        // --- FIN DE REORDENAMIENTO ---
 
-        // 3. Es una constante literal (ej: "10UI", "1.5F+1")
-        // Esto solo se chequea si NO es una variable
         if (operando.endsWith("UI")) {
             return "uint";
         }
-        if (operando.contains("F")) {
+        if (operando.contains(".")) {
             return "float";
         }
 
-        // No se encontró
         return "indefinido";
     }
 
-    /**
-     * TEMA 31: Chequea tipos en operaciones.
-     * Solo permite operaciones entre tipos iguales. Prohíbe uint vs float.
-     * Devuelve el tipo resultante o "error_tipo".
-     */
     public String chequearTipos(String op, String tipo1, String tipo2, int linea) {
         if (tipo1.equals(tipo2) && !tipo1.equals("indefinido")) {
-            return tipo1; // Mismo tipo, todo OK.
+            return tipo1;
         }
 
         if (tipo1.equals("indefinido") || tipo2.equals("indefinido")) {
             return "error_tipo";
         }
 
-        // Tema 31: No se permiten operaciones entre uint y float
         if ((tipo1.equals("uint") && tipo2.equals("float")) || (tipo1.equals("float") && tipo2.equals("uint"))) {
             al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: No se puede operar ("+op+") entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).");
             return "error_tipo";
@@ -229,25 +178,20 @@ public class Generador {
         return "error_tipo";
     }
 
-    /**
-     * TEMA 31: Chequea tipos en asignacion (:=).
-     */
     public boolean chequearAsignacion(String tipoVar, String tipoExpr, int linea) {
         if (tipoVar.equals(tipoExpr)) {
-            return true; // Mismo tipo, OK.
+            return true;
         }
 
         if (tipoVar.equals("indefinido") || tipoExpr.equals("indefinido")) {
             return false;
         }
 
-        // Tema 31: Permite asignar float a uint SOLO con `toui`
         if (tipoVar.equals("uint") && tipoExpr.equals("float")) {
             al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Asignacion incompatible. No se puede asignar 'float' a 'uint' sin 'toui' (Tema 31).");
             return false;
         }
 
-        // Tema 31: No dice nada de uint -> float, asi que lo prohibimos.
         if (tipoVar.equals("float") && tipoExpr.equals("uint")) {
             al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Asignacion incompatible. No se puede asignar 'uint' a 'float' (Tema 31).");
             return false;
@@ -260,7 +204,6 @@ public class Generador {
     public void apilarParametro(ParametroInfo p) { this.pilaParametros.push(p); }
 
     public ArrayList<ParametroInfo> getListaParametros() {
-        // Devuelve la lista en el orden correcto (FIFO)
         ArrayList<ParametroInfo> lista = new ArrayList<>(pilaParametros);
         pilaParametros.clear();
         return lista;
@@ -272,7 +215,6 @@ public class Generador {
         ArrayList<ParametroRealInfo> lista = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             if (!pilaParametrosReales.isEmpty()) {
-                // Los vamos dando vuelta para que queden en orden de declaración
                 lista.add(0, pilaParametrosReales.pop());
             }
         }
@@ -282,7 +224,6 @@ public class Generador {
     public int getCountParametrosReales() { return pilaParametrosReales.size(); }
     public void clearParametrosReales() { pilaParametrosReales.clear(); }
 
-    // --- MANEJO DE PILA LADO DERECHO (NUEVO) ---
     public void apilarLadoDerecho(String s) { this.pilaLadoDerecho.push(s); }
     public Stack<String> getPilaLadoDerecho() { return this.pilaLadoDerecho; }
     public void clearLadoDerecho() { this.pilaLadoDerecho.clear(); }
