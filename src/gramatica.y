@@ -222,38 +222,53 @@ asignacion : variable ASIG expresion
                String tipoVar = g.getTipo(op1_var);
                String tipoExpr = g.getTipo(op2_terceto);
                int linea = $1.ival;
-               if (tipoExpr.equals("multiple")) {
+
+               if (tipoVar.equals("indefinido")) {
+                   if (op1_var.contains(".")) {
+                       String[] parts = op1_var.split("\\.", 2);
+                       al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Variable '" + parts[1] + "' no existe en el ambito '" + parts[0] + "' o el ambito no es visible (Tema 23).");
+                   } else {
+                       al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Variable '" + op1_var + "' no fue declarada (Regla de alcance).");
+                   }
+               }
+               else if (tipoExpr.equals("multiple")) {
                    String funcName = "";
+                   boolean esFuncionValida = true;
                    try {
                         funcName = g.getTerceto(Integer.parseInt(op2_terceto.substring(1, op2_terceto.length()-1))).getOperando1();
                    } catch (Exception e) {
-                        g.chequearAsignacion(tipoVar, tipoExpr, linea);
-                        break;
+                        esFuncionValida = false;
                    }
 
-                   Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
-                   if (retMultiple == null || !(Boolean)retMultiple) {
-                        al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Asignacion de funcion '" + funcName + "' que no retorna 'multiple' a variable simple.");
+                   if (!esFuncionValida) {
+                        if (g.chequearAsignacion(tipoVar, tipoExpr, linea)) {
+                            g.addTerceto(":=", op1_var, op2_terceto);
+                        }
                    } else {
-                       Object rawObj = al.getAtributo(funcName, "TiposRetorno");
-                       ArrayList<String> tiposRetorno = new ArrayList<String>();
-                       if (rawObj instanceof ArrayList) {
-                           for (Object o : (ArrayList<?>) rawObj) {
-                               tiposRetorno.add((String) o);
-                           }
-                       }
-
-                       if (tiposRetorno.isEmpty()) {
-                           al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName + "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
+                       Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
+                       if (retMultiple == null || !(Boolean)retMultiple) {
+                            al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Asignacion de funcion '" + funcName + "' que no retorna 'multiple' a variable simple.");
                        } else {
-                           String tipoPrimerRetorno = tiposRetorno.get(0);
-                           if (g.chequearAsignacion(tipoVar, tipoPrimerRetorno, linea)) {
-                               String retTerceto = g.addTerceto("GET_RET", op2_terceto, "0");
-                               g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoPrimerRetorno);
-                               g.addTerceto(":=", op1_var, retTerceto);
+                           Object rawObj = al.getAtributo(funcName, "TiposRetorno");
+                           ArrayList<String> tiposRetorno = new ArrayList<String>();
+                           if (rawObj instanceof ArrayList) {
+                               for (Object o : (ArrayList<?>) rawObj) {
+                                   tiposRetorno.add((String) o);
+                               }
+                           }
 
-                               if (tiposRetorno.size() > 1) {
-                                   al.agregarWarning("Linea " + linea + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + tiposRetorno.size() + " valores, pero solo se asigna 1. Se descartan los sobrantes.");
+                           if (tiposRetorno.isEmpty()) {
+                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName + "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
+                           } else {
+                               String tipoPrimerRetorno = tiposRetorno.get(0);
+                               if (g.chequearAsignacion(tipoVar, tipoPrimerRetorno, linea)) {
+                                   String retTerceto = g.addTerceto("GET_RET", op2_terceto, "0");
+                                   g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoPrimerRetorno);
+                                   g.addTerceto(":=", op1_var, retTerceto);
+
+                                   if (tiposRetorno.size() > 1) {
+                                       al.agregarWarning("Linea " + linea + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + tiposRetorno.size() + " valores, pero solo se asigna 1. Se descartan los sobrantes.");
+                                   }
                                }
                            }
                        }
@@ -763,6 +778,7 @@ lista_expresiones : lista_expresiones ',' expresion
                   $$.obj = lista;
               }
               ;
+
 %%
 
 static AnalizadorLexico al;
