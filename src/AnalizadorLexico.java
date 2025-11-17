@@ -62,10 +62,8 @@ public class AnalizadorLexico {
             System.out.println("El archivo no existe. Verifique la ruta proporcionada.");
         }
 
-        // Asignación de los códigos de los tokens para que coincidan con la gramática
         codigosTokens = new HashMap<String, Integer>();
 
-        // Tokens de un solo carácter (el parser los usa por su código ASCII)
         codigosTokens.put("+", 43);
         codigosTokens.put("-", 45);
         codigosTokens.put("*", 42);
@@ -81,7 +79,6 @@ public class AnalizadorLexico {
         codigosTokens.put(";", 59);
         codigosTokens.put(",", 44);
 
-        // Tokens definidos en la gramática
         codigosTokens.put("ID", 257);
         codigosTokens.put("CTE", 258);
         codigosTokens.put("IF", 259);
@@ -198,7 +195,6 @@ public class AnalizadorLexico {
                 /*16*/{-1, -1, -1, -1, -1, -1, -1, -1, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
         };
 
-        // Matriz de Acciones Semánticas (sin cambios)
         AccionSemantica as1 = new AccionSemantica.AccionSemantica1();
         AccionSemantica as2 = new AccionSemantica.AccionSemantica2();
         AccionSemantica as3 = new AccionSemantica.AccionSemantica3();
@@ -286,10 +282,12 @@ public class AnalizadorLexico {
         return -1;
     }
 
-    // --- CAMBIO: Modificado para usar la pila ---
+    // --- MODIFICADO: USA NAME MANGLING ---
     public void eliminarLexemaTS(String lexema) {
         if (!tablaSimbolos.isEmpty()) {
-            tablaSimbolos.peek().getValue().remove(lexema);
+            String ambitoActual = tablaSimbolos.peek().getKey();
+            String lexemaMangled = lexema + ":" + ambitoActual;
+            tablaSimbolos.peek().getValue().remove(lexemaMangled);
         }
     }
 
@@ -318,13 +316,18 @@ public class AnalizadorLexico {
         return str != null && str.equals(str.toUpperCase());
     }
 
-    // --- CAMBIO: Modificado para usar la pila (ámbito actual) ---
+    // --- MODIFICADO: USA NAME MANGLING ---
     public void agregarLexemaTS(String lexema){
         if (!tablaSimbolos.isEmpty()) {
-            HashMap<String, HashMap<String, Object>> ambitoActual = tablaSimbolos.peek().getValue();
-            if (!ambitoActual.containsKey(lexema)) {
-                ambitoActual.put(lexema, new HashMap<>());
-                ambitoActual.get(lexema).put("Reservada", false);
+            String ambitoActual = tablaSimbolos.peek().getKey();
+            String lexemaMangled = lexema + ":" + ambitoActual;
+
+            HashMap<String, HashMap<String, Object>> ambitoMap = tablaSimbolos.peek().getValue();
+
+            if (!ambitoMap.containsKey(lexemaMangled)) {
+                ambitoMap.put(lexemaMangled, new HashMap<>());
+                ambitoMap.get(lexemaMangled).put("Reservada", false);
+                ambitoMap.get(lexemaMangled).put("LexemaOriginal", lexema); // Almacena el nombre base
             }
         }
     }
@@ -348,11 +351,6 @@ public class AnalizadorLexico {
         errores.add("Linea: "+ (contadorFila+1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
     }
 
-    // --- METODOS AÑADIDOS (3) ---
-
-    /**
-     * Agrega un error semántico a la lista.
-     */
     public void agregarErrorSemantico(String string) {
         if(this.erroresSemanticos == null) {
             this.erroresSemanticos = new ArrayList<String>();
@@ -363,7 +361,6 @@ public class AnalizadorLexico {
     public ArrayList<String> getErroresSemanticos() {
         return this.erroresSemanticos;
     }
-    // --- FIN DE METODOS AÑADIDOS ---
 
 
     public void disminuirContador() {
@@ -383,14 +380,17 @@ public class AnalizadorLexico {
         contadorColumna = 0;
     }
 
-    // --- CAMBIO: Modificado para usar la pila (ámbito actual) ---
+    // --- MODIFICADO: USA NAME MANGLING ---
     public void agregarAtributoLexema(String lexema, String key, Object valor) {
         if (!tablaSimbolos.isEmpty()) {
-            HashMap<String, HashMap<String, Object>> ambitoActual = tablaSimbolos.peek().getValue();
-            if (ambitoActual.containsKey(lexema)) {
-                ambitoActual.get(lexema).put(key, valor);
+            String ambitoActual = tablaSimbolos.peek().getKey();
+            String lexemaMangled = lexema + ":" + ambitoActual;
+
+            HashMap<String, HashMap<String, Object>> ambitoActualMap = tablaSimbolos.peek().getValue();
+
+            if (ambitoActualMap.containsKey(lexemaMangled)) {
+                ambitoActualMap.get(lexemaMangled).put(key, valor);
             } else {
-                // Opcional: ¿Error si no existe?
             }
         }
     }
@@ -410,37 +410,51 @@ public class AnalizadorLexico {
         return this.warnings;
     }
 
-    // --- CAMBIO: Modificado para usar la pila (ámbito actual) ---
+    // --- MODIFICADO: USA NAME MANGLING ---
     public void reemplazarEnTS(String lexemaViejo, String lexemaNuevo){
         if (!tablaSimbolos.isEmpty()) {
-            HashMap<String, Object> atributos = tablaSimbolos.peek().getValue().remove(lexemaViejo);
+            String ambitoActual = tablaSimbolos.peek().getKey();
+            String lexemaViejoMangled = lexemaViejo + ":" + ambitoActual;
+            String lexemaNuevoMangled = lexemaNuevo + ":" + ambitoActual;
+
+            HashMap<String, HashMap<String, Object>> ambitoMap = tablaSimbolos.peek().getValue();
+
+            HashMap<String, Object> atributos = ambitoMap.remove(lexemaViejoMangled);
             if (atributos != null) {
-                tablaSimbolos.peek().getValue().put(lexemaNuevo, atributos);
+                atributos.put("LexemaOriginal", lexemaNuevo); // Actualiza el lexema original
+                ambitoMap.put(lexemaNuevoMangled, atributos);
             }
         }
     }
 
-    // --- CAMBIO: Modificado para buscar en pila (Tema 23) ---
-    // Tema 23: Búsqueda sin prefijo (hacia arriba)
     public Object getAtributo(String lexema, String atributo) {
-        // Corrección: Stack.iterator() va desde el fondo. Necesitamos ir desde el tope.
         for (int i = tablaSimbolos.size() - 1; i >= 0; i--) {
-            HashMap<String, HashMap<String, Object>> ambito = tablaSimbolos.get(i).getValue();
-            if (ambito.containsKey(lexema)) {
-                return ambito.get(lexema).get(atributo);
+            Pair<String, HashMap<String, HashMap<String, Object>>> scope = tablaSimbolos.get(i);
+            String ambitoNombre = scope.getKey();
+            String lexemaMangled = lexema + ":" + ambitoNombre; // ej. VARA:PROGRAMA:FUNCION
+
+            HashMap<String, HashMap<String, Object>> ambitoMap = scope.getValue();
+            if (ambitoMap.containsKey(lexemaMangled)) {
+                return ambitoMap.get(lexemaMangled).get(atributo);
             }
         }
         return null;
     }
 
     public void abrirAmbito(String nombre) {
-        // Asegura que el nombre del ámbito sea único si es un bloque anónimo
-        String nombreUnico = nombre;
+        String nombreMangled;
+        if (tablaSimbolos.isEmpty()) {
+            nombreMangled = nombre;
+        } else {
+            String nombrePadre = tablaSimbolos.peek().getKey();
+            nombreMangled = nombrePadre + ":" + nombre;
+        }
+
+        String nombreUnico = nombreMangled;
         int i = 0;
-        // Evita colisiones de nombres de ámbito
         while (getAmbitoPorNombre(nombreUnico) != null) {
             i++;
-            nombreUnico = nombre + "_" + i;
+            nombreUnico = nombreMangled + "_" + i;
         }
         tablaSimbolos.push(new Pair<>(nombreUnico, new HashMap<>()));
     }
@@ -455,10 +469,9 @@ public class AnalizadorLexico {
         if (!tablaSimbolos.isEmpty()) {
             return tablaSimbolos.peek().getKey();
         }
-        return "GLOBAL_NULL"; // No debería pasar si 'programa' abre un ámbito
+        return "GLOBAL_NULL";
     }
 
-    // Busca un ámbito por nombre en la pila
     private HashMap<String, HashMap<String, Object>> getAmbitoPorNombre(String nombre) {
         Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
         while (iter.hasNext()) {
@@ -470,19 +483,21 @@ public class AnalizadorLexico {
         return null;
     }
 
-    // Chequea si existe SOLO en el ámbito actual (para redeclaraciones)
     public boolean existeEnAmbitoActual(String lexema) {
         if (tablaSimbolos.isEmpty()) return false;
-        return tablaSimbolos.peek().getValue().containsKey(lexema);
+        String ambitoActual = tablaSimbolos.peek().getKey();
+        String lexemaMangled = lexema + ":" + ambitoActual;
+        return tablaSimbolos.peek().getValue().containsKey(lexemaMangled);
     }
 
-    // Tema 23: Búsqueda con prefijo (saltar a ámbito)
+
     public Object getAtributoConPrefijo(String prefijo, String lexema, String atributo) {
         HashMap<String, HashMap<String, Object>> ambito = getAmbitoPorNombre(prefijo);
-        if (ambito != null && ambito.containsKey(lexema)) {
-            return ambito.get(lexema).get(atributo);
+        String lexemaMangled = lexema + ":" + prefijo; // ej. GCONTADOR:PROGRAMAT9OBLIGATORI
+
+        if (ambito != null && ambito.containsKey(lexemaMangled)) {
+            return ambito.get(lexemaMangled).get(atributo);
         }
-        // Chequear visibilidad (Tema 23) - Por ahora, si lo encuentra, es visible.
         return null;
     }
 
@@ -496,13 +511,11 @@ public class AnalizadorLexico {
             return;
         }
 
-        // --- INICIO DE MODIFICACION (1. Eliminar Columna Contador) ---
-        // 1. Quitar la columna "%-10s |" del formato
-        String formatString = "| %-20s | %-30s | %-12s | %-18s | %-10s |%n";
-        // 2. Quitar "Contador" del encabezado
-        System.out.printf(formatString, "Ambito", "Lexema", "Reservada", "Uso", "Tipo");
-        // 3. Acortar la línea separadora
-        System.out.println("|----------------------|--------------------------------|--------------|--------------------|------------|");
+        // Ajustar anchos de columna para nombres mangled
+        String formatString = "| %-35s | %-45s | %-12s | %-18s | %-10s |%n";
+        System.out.printf(formatString, "Ambito (Completo)", "Lexema (Mangled)", "Reservada", "Uso", "Tipo");
+        String separator = "|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|";
+        System.out.println(separator);
 
         // Iteramos en el orden de la pila (del fondo a la cima)
         Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
@@ -511,27 +524,24 @@ public class AnalizadorLexico {
             String ambitoNombre = par.getKey();
 
             for (Map.Entry<String, HashMap<String, Object>> entry : par.getValue().entrySet()) {
-                String lexema = entry.getKey();
+                String lexemaMangled = entry.getKey(); // Esta es la clave mangled (ej. VARA:MAIN)
                 HashMap<String, Object> atributos = entry.getValue();
 
                 Object reservada = atributos.get("Reservada");
                 Object uso = atributos.get("Uso");
                 Object tipo = atributos.get("Tipo");
-                // 4. Eliminar la obtención del atributo "Contador"
-                // Object contador = atributos.get("Contador"); // ELIMINADO
 
-                // 5. Quitar la variable 'contador' del printf
                 System.out.printf(formatString,
                         ambitoNombre,
-                        lexema,
+                        lexemaMangled, // Imprime la clave mangled
                         (reservada != null) ? reservada.toString() : "null",
                         (uso != null) ? uso.toString() : "null",
                         (tipo != null) ? tipo.toString() : "null"
-                        // (contador != null) ? contador.toString() : "0" // ELIMINADO
                 );
             }
-            // 6. Acortar la línea separadora
-            System.out.println("|----------------------|--------------------------------|--------------|--------------------|------------|");
+            if (!par.getValue().isEmpty()) {
+                System.out.println(separator);
+            }
         }
         // --- FIN DE MODIFICACION ---
         System.out.println("=======================================================");

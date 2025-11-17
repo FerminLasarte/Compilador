@@ -4,17 +4,20 @@ PROGRAMAT9OBLIGATORIO {
 @ Temas: 2, 5, 8, 9, 14, 19, 21, 23, 25, 28, 31, 32
 @ =============================================
 
+@ T9, T2, T5: Declaraciones Globales con Inferencia Obligatoria
+var GCONTADOR := 0UI;
+var GCONTADOR1 := 1UI;
+var GFACTOR := 1.0F+0;
+var X := GCONTADOR + GCONTADOR1;
+var X := GCONTADOR + GFACTOR;
+
 @ T31 (toui): Conversion explicita float -> uint
 var VARA := 1UI;
 var VARF := 2UI;
 VARA := toui(VARF); @ OK: toui(float)
 
 
-@ T9, T2, T5: Declaraciones Globales con Inferencia Obligatoria
-var GCONTADOR := 0UI;
-var GFACTOR := 1.0F+0;
-var GUINTMAX := 65535UI; @ T2: Límite superior válido
-var GFLOATMIN := 1.17549435F-38; @ T5: Límite inferior válido
+
 
 @ =============================================
 @ DEFINICION DE FUNCIONES
