@@ -16,9 +16,6 @@ var VARA := 1UI;
 var VARF := 2UI;
 VARA := toui(VARF); @ OK: toui(float)
 
-
-
-
 @ =============================================
 @ DEFINICION DE FUNCIONES
 @ =============================================
