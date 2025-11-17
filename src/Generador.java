@@ -171,15 +171,9 @@ public class Generador {
             }
         }
 
-        // 3. Es una constante literal (ej: "10UI", "1.5F+1")
-        if (operando.endsWith("UI")) {
-            return "uint";
-        }
-        if (operando.contains("F")) {
-            return "float";
-        }
-
+        // --- INICIO DE REORDENAMIENTO ---
         // 4. Es una variable o función (búsqueda en Tabla de Símbolos)
+        // ESTO DEBE IR ANTES DE CHEQUEAR LITERALES
         Object tipo;
         // Tema 23: Check por prefijo
         if (operando.contains(".")) {
@@ -195,6 +189,16 @@ public class Generador {
         tipo = al.getAtributo(operando, "Tipo");
         if (tipo != null) {
             return tipo.toString();
+        }
+        // --- FIN DE REORDENAMIENTO ---
+
+        // 3. Es una constante literal (ej: "10UI", "1.5F+1")
+        // Esto solo se chequea si NO es una variable
+        if (operando.endsWith("UI")) {
+            return "uint";
+        }
+        if (operando.contains("F")) {
+            return "float";
         }
 
         // No se encontró
