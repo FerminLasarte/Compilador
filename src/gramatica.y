@@ -484,12 +484,17 @@ conversion_explicita : TOUI '(' expresion ')'
                     salida.add("Linea " + $1.ival + ": Conversion explicita (toui).");
                     String op1 = g.desapilarOperando();
                     String tipoOp1 = g.getTipo(op1);
-                    if (!tipoOp1.equals("float")) {
+
+                    if (tipoOp1.equals("float")) {
+                        String terceto = g.addTerceto("TOUI", op1);
+                        g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo("uint");
+                        g.apilarOperando(terceto);
+                    } else if (tipoOp1.equals("indefinido") || tipoOp1.equals("error_tipo")) {
+                        g.apilarOperando("error_tipo");
+                    } else {
                         al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: 'toui' solo puede aplicarse a expresiones 'float', se obtuvo '" + tipoOp1 + "'.");
+                        g.apilarOperando("error_tipo");
                     }
-                    String terceto = g.addTerceto("TOUI", op1);
-                    g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo("uint");
-                    g.apilarOperando(terceto);
                     $$.ival = $1.ival;
                 }
                 ;
