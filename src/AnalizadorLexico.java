@@ -23,6 +23,9 @@ public class AnalizadorLexico {
     private ArrayList<String> erroresSemanticos;
 
     private Stack<Pair<String, HashMap<String, HashMap<String, Object>>>> tablaSimbolos;
+    // --- CAMBIO: Puntero para rastrear el ámbito activo sin hacer pop ---
+    private int indiceAmbitoActual;
+
     // --- CAMBIO: Palabras Reservadas separadas ---
     private HashMap<String, Integer> palabrasReservadas;
 
@@ -39,6 +42,7 @@ public class AnalizadorLexico {
         // --- CAMBIO: Inicialización de nuevas estructuras ---
         palabrasReservadas = new HashMap<String, Integer>();
         tablaSimbolos = new Stack<Pair<String, HashMap<String, HashMap<String, Object>>>>();
+        indiceAmbitoActual = -1; // Inicialmente no hay ámbito activo
         // --- FIN CAMBIO ---
 
         // Crear el archivo con la ruta proporcionada
@@ -282,12 +286,12 @@ public class AnalizadorLexico {
         return -1;
     }
 
-    // --- MODIFICADO: USA NAME MANGLING ---
+    // --- MODIFICADO: USA INDICE ---
     public void eliminarLexemaTS(String lexema) {
-        if (!tablaSimbolos.isEmpty()) {
-            String ambitoActual = tablaSimbolos.peek().getKey();
+        if (indiceAmbitoActual != -1) {
+            String ambitoActual = tablaSimbolos.get(indiceAmbitoActual).getKey();
             String lexemaMangled = lexema + ":" + ambitoActual;
-            tablaSimbolos.peek().getValue().remove(lexemaMangled);
+            tablaSimbolos.get(indiceAmbitoActual).getValue().remove(lexemaMangled);
         }
     }
 
@@ -316,13 +320,13 @@ public class AnalizadorLexico {
         return str != null && str.equals(str.toUpperCase());
     }
 
-    // --- MODIFICADO: USA NAME MANGLING ---
+    // --- MODIFICADO: USA INDICE ---
     public void agregarLexemaTS(String lexema){
-        if (!tablaSimbolos.isEmpty()) {
-            String ambitoActual = tablaSimbolos.peek().getKey();
+        if (indiceAmbitoActual != -1) {
+            String ambitoActual = tablaSimbolos.get(indiceAmbitoActual).getKey();
             String lexemaMangled = lexema + ":" + ambitoActual;
 
-            HashMap<String, HashMap<String, Object>> ambitoMap = tablaSimbolos.peek().getValue();
+            HashMap<String, HashMap<String, Object>> ambitoMap = tablaSimbolos.get(indiceAmbitoActual).getValue();
 
             if (!ambitoMap.containsKey(lexemaMangled)) {
                 ambitoMap.put(lexemaMangled, new HashMap<>());
@@ -380,13 +384,13 @@ public class AnalizadorLexico {
         contadorColumna = 0;
     }
 
-    // --- MODIFICADO: USA NAME MANGLING ---
+    // --- MODIFICADO: USA INDICE ---
     public void agregarAtributoLexema(String lexema, String key, Object valor) {
-        if (!tablaSimbolos.isEmpty()) {
-            String ambitoActual = tablaSimbolos.peek().getKey();
+        if (indiceAmbitoActual != -1) {
+            String ambitoActual = tablaSimbolos.get(indiceAmbitoActual).getKey();
             String lexemaMangled = lexema + ":" + ambitoActual;
 
-            HashMap<String, HashMap<String, Object>> ambitoActualMap = tablaSimbolos.peek().getValue();
+            HashMap<String, HashMap<String, Object>> ambitoActualMap = tablaSimbolos.get(indiceAmbitoActual).getValue();
 
             if (ambitoActualMap.containsKey(lexemaMangled)) {
                 ambitoActualMap.get(lexemaMangled).put(key, valor);
@@ -410,14 +414,14 @@ public class AnalizadorLexico {
         return this.warnings;
     }
 
-    // --- MODIFICADO: USA NAME MANGLING ---
+    // --- MODIFICADO: USA INDICE ---
     public void reemplazarEnTS(String lexemaViejo, String lexemaNuevo){
-        if (!tablaSimbolos.isEmpty()) {
-            String ambitoActual = tablaSimbolos.peek().getKey();
+        if (indiceAmbitoActual != -1) {
+            String ambitoActual = tablaSimbolos.get(indiceAmbitoActual).getKey();
             String lexemaViejoMangled = lexemaViejo + ":" + ambitoActual;
             String lexemaNuevoMangled = lexemaNuevo + ":" + ambitoActual;
 
-            HashMap<String, HashMap<String, Object>> ambitoMap = tablaSimbolos.peek().getValue();
+            HashMap<String, HashMap<String, Object>> ambitoMap = tablaSimbolos.get(indiceAmbitoActual).getValue();
 
             HashMap<String, Object> atributos = ambitoMap.remove(lexemaViejoMangled);
             if (atributos != null) {
@@ -427,26 +431,36 @@ public class AnalizadorLexico {
         }
     }
 
+    // --- MODIFICADO: NAVEGA USANDO METADATA "__METADATA__" -> "PARENT" ---
     public Object getAtributo(String lexema, String atributo) {
-        for (int i = tablaSimbolos.size() - 1; i >= 0; i--) {
-            Pair<String, HashMap<String, HashMap<String, Object>>> scope = tablaSimbolos.get(i);
+        int idx = indiceAmbitoActual;
+        while (idx != -1) {
+            Pair<String, HashMap<String, HashMap<String, Object>>> scope = tablaSimbolos.get(idx);
             String ambitoNombre = scope.getKey();
-            String lexemaMangled = lexema + ":" + ambitoNombre; // ej. VARA:PROGRAMA:FUNCION
+            String lexemaMangled = lexema + ":" + ambitoNombre;
 
             HashMap<String, HashMap<String, Object>> ambitoMap = scope.getValue();
             if (ambitoMap.containsKey(lexemaMangled)) {
                 return ambitoMap.get(lexemaMangled).get(atributo);
             }
+
+            // Ir al padre
+            if (ambitoMap.containsKey("__METADATA__") && ambitoMap.get("__METADATA__").containsKey("PARENT")) {
+                idx = (Integer) ambitoMap.get("__METADATA__").get("PARENT");
+            } else {
+                idx = -1;
+            }
         }
         return null;
     }
 
+    // --- MODIFICADO: GUARDA EL INDICE DEL PADRE EN METADATA Y NO HACE POP ---
     public void abrirAmbito(String nombre) {
         String nombreMangled;
-        if (tablaSimbolos.isEmpty()) {
+        if (indiceAmbitoActual == -1) {
             nombreMangled = nombre;
         } else {
-            String nombrePadre = tablaSimbolos.peek().getKey();
+            String nombrePadre = tablaSimbolos.get(indiceAmbitoActual).getKey();
             nombreMangled = nombrePadre + ":" + nombre;
         }
 
@@ -456,23 +470,39 @@ public class AnalizadorLexico {
             i++;
             nombreUnico = nombreMangled + "_" + i;
         }
-        tablaSimbolos.push(new Pair<>(nombreUnico, new HashMap<>()));
+
+        // Crear nuevo mapa y guardar referencia al padre
+        HashMap<String, HashMap<String, Object>> nuevoMapa = new HashMap<>();
+        HashMap<String, Object> metadata = new HashMap<>();
+        metadata.put("PARENT", indiceAmbitoActual);
+        nuevoMapa.put("__METADATA__", metadata);
+
+        tablaSimbolos.push(new Pair<>(nombreUnico, nuevoMapa));
+        indiceAmbitoActual = tablaSimbolos.size() - 1;
     }
 
     public void cerrarAmbito() {
-        if (!tablaSimbolos.isEmpty()) {
-            tablaSimbolos.pop();
+        if (indiceAmbitoActual != -1) {
+            // Recuperar el índice del padre desde la metadata
+            HashMap<String, Object> metadata = tablaSimbolos.get(indiceAmbitoActual).getValue().get("__METADATA__");
+            if (metadata != null && metadata.containsKey("PARENT")) {
+                indiceAmbitoActual = (Integer) metadata.get("PARENT");
+            } else {
+                indiceAmbitoActual = -1;
+            }
+            // NO HACEMOS POP
         }
     }
 
     public String getAmbitoActual() {
-        if (!tablaSimbolos.isEmpty()) {
-            return tablaSimbolos.peek().getKey();
+        if (indiceAmbitoActual != -1) {
+            return tablaSimbolos.get(indiceAmbitoActual).getKey();
         }
         return "GLOBAL_NULL";
     }
 
     private HashMap<String, HashMap<String, Object>> getAmbitoPorNombre(String nombre) {
+        // Iterar sobre toda la pila (que ahora actúa como lista histórica)
         Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
         while (iter.hasNext()) {
             Pair<String, HashMap<String, HashMap<String, Object>>> par = iter.next();
@@ -484,16 +514,16 @@ public class AnalizadorLexico {
     }
 
     public boolean existeEnAmbitoActual(String lexema) {
-        if (tablaSimbolos.isEmpty()) return false;
-        String ambitoActual = tablaSimbolos.peek().getKey();
+        if (indiceAmbitoActual == -1) return false;
+        String ambitoActual = tablaSimbolos.get(indiceAmbitoActual).getKey();
         String lexemaMangled = lexema + ":" + ambitoActual;
-        return tablaSimbolos.peek().getValue().containsKey(lexemaMangled);
+        return tablaSimbolos.get(indiceAmbitoActual).getValue().containsKey(lexemaMangled);
     }
 
 
     public Object getAtributoConPrefijo(String prefijo, String lexema, String atributo) {
         HashMap<String, HashMap<String, Object>> ambito = getAmbitoPorNombre(prefijo);
-        String lexemaMangled = lexema + ":" + prefijo; // ej. GCONTADOR:PROGRAMAT9OBLIGATORI
+        String lexemaMangled = lexema + ":" + prefijo;
 
         if (ambito != null && ambito.containsKey(lexemaMangled)) {
             return ambito.get(lexemaMangled).get(atributo);
@@ -517,14 +547,18 @@ public class AnalizadorLexico {
         String separator = "|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|";
         System.out.println(separator);
 
-        // Iteramos en el orden de la pila (del fondo a la cima)
+        // Iteramos sobre toda la pila (historial completo)
         Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
         while (iter.hasNext()) {
             Pair<String, HashMap<String, HashMap<String, Object>>> par = iter.next();
             String ambitoNombre = par.getKey();
 
             for (Map.Entry<String, HashMap<String, Object>> entry : par.getValue().entrySet()) {
-                String lexemaMangled = entry.getKey(); // Esta es la clave mangled (ej. VARA:MAIN)
+                String lexemaMangled = entry.getKey();
+
+                // --- CAMBIO: Ignorar la entrada de metadatos internos ---
+                if (lexemaMangled.equals("__METADATA__")) continue;
+
                 HashMap<String, Object> atributos = entry.getValue();
 
                 Object reservada = atributos.get("Reservada");
@@ -533,17 +567,17 @@ public class AnalizadorLexico {
 
                 System.out.printf(formatString,
                         ambitoNombre,
-                        lexemaMangled, // Imprime la clave mangled
+                        lexemaMangled,
                         (reservada != null) ? reservada.toString() : "null",
                         (uso != null) ? uso.toString() : "null",
                         (tipo != null) ? tipo.toString() : "null"
                 );
             }
-            if (!par.getValue().isEmpty()) {
+            // Solo imprimir separador si el ámbito tiene contenido visible
+            if (par.getValue().size() > (par.getValue().containsKey("__METADATA__") ? 1 : 0)) {
                 System.out.println(separator);
             }
         }
-        // --- FIN DE MODIFICACION ---
         System.out.println("=======================================================");
     }
 }

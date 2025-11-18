@@ -8,7 +8,7 @@ MAIN {
     X := GCONTADOR + GFACTOR;
 
     var VARA := 1UI;
-    var VARF := 2UI;
+    var VARF := 1.0F+0;
     VARA := toui(VARF);
 
     var A := 1UI;
