@@ -464,6 +464,12 @@ public class AnalizadorLexico {
         }
     }
 
+    public void eliminarUltimoAmbito() {
+        if (!tablaSimbolos.isEmpty()) {
+            tablaSimbolos.pop();
+        }
+    }
+
     public String getAmbitoActual() {
         if (indiceAmbitoActual != -1) {
             return tablaSimbolos.get(indiceAmbitoActual).getKey();

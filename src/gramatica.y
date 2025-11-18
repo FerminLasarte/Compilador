@@ -97,8 +97,8 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             String tipoRetorno = $1.sval;
             String nombreAmbito = nombreFuncion;
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
+            pilaInicioFuncion.push(g.getProximoTerceto());
 
-            // Preparar validacion de retorno
             ArrayList<String> tiposEsperados = new ArrayList<String>();
             tiposEsperados.add(tipoRetorno);
             pilaTiposRetorno.push(tiposEsperados);
@@ -134,15 +134,19 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
 
             pilaTiposRetorno.pop();
             boolean huboError = pilaErrorEnFuncion.pop();
+            int inicioFunc = pilaInicioFuncion.pop();
 
             if (huboError) {
                 al.eliminarLexemaTS($2.sval);
+                g.anularTercetosDesde(inicioFunc);
+                al.eliminarUltimoAmbito();
             } else {
                 String nombreFuncion = $2.sval;
                 salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
             }
         }
-      | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' {
+      |
+      lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' {
             String nombreFuncion = $2.sval;
             String nombreAmbito = nombreFuncion;
             ArrayList<?> rawList = (ArrayList<?>) $1.obj;
@@ -150,8 +154,8 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             for (Object o : rawList) {
                 tiposRetorno.add((String) o);
             }
+            pilaInicioFuncion.push(g.getProximoTerceto());
 
-            // Preparar validacion de retorno
             pilaTiposRetorno.push(tiposRetorno);
             pilaErrorEnFuncion.push(false);
 
@@ -186,16 +190,18 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
 
             pilaTiposRetorno.pop();
             boolean huboError = pilaErrorEnFuncion.pop();
+            int inicioFunc = pilaInicioFuncion.pop();
 
             if (huboError) {
                 al.eliminarLexemaTS($2.sval);
+                g.anularTercetosDesde(inicioFunc);
+                al.eliminarUltimoAmbito();
             } else {
                 String nombreFuncion = $2.sval;
                 salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
             }
         }
       ;
-
 
 lista_tipos_retorno_multiple : tipo ',' tipo
                              {
@@ -811,9 +817,8 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 ;
 
 retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')' ';'
-            {
+                {
                 enSentenciaReturn = false;
-
                 ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
                 ArrayList<?> rawList = (ArrayList<?>) $4.obj;
                 ArrayList<String> expresiones = new ArrayList<String>();
@@ -882,6 +887,7 @@ Stack<String> pilaSaltosLambda = new Stack<String>();
 static boolean enSentenciaReturn = false;
 static Stack<ArrayList<String>> pilaTiposRetorno = new Stack<ArrayList<String>>();
 static Stack<Boolean> pilaErrorEnFuncion = new Stack<Boolean>();
+static Stack<Integer> pilaInicioFuncion = new Stack<Integer>();
 
 int yylex() {
     int token = al.yylex();

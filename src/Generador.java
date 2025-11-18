@@ -12,7 +12,6 @@ public class Generador {
     private Stack<String> pilaLadoDerecho;
     private AnalizadorLexico al;
 
-    // MODIFICACION: Bandera para controlar la generación y terceto dummy
     private boolean generacionHabilitada = true;
     private final Terceto dummyTerceto = new Terceto("DUMMY", "_", "_");
 
@@ -42,13 +41,11 @@ public class Generador {
         this.al = al;
     }
 
-    // MODIFICACION: Setter para habilitar/deshabilitar generación
     public void setGeneracionHabilitada(boolean habilitada) {
         this.generacionHabilitada = habilitada;
     }
 
     public String addTerceto(String operador, String operando1, String operando2) {
-        // MODIFICACION: Si la generación está deshabilitada, retornar índice dummy (-1)
         if (!generacionHabilitada) {
             return "[-1]";
         }
@@ -70,7 +67,6 @@ public class Generador {
     }
 
     public Terceto getTerceto(int index) {
-        // MODIFICACION: Retornar dummy si el índice es -1
         if (index == -1) {
             return dummyTerceto;
         }
@@ -81,11 +77,16 @@ public class Generador {
     }
 
     public void modificarSaltoTerceto(int index, String saltoDestino) {
-        // MODIFICACION: Ignorar si el índice es dummy
         if (index == -1) return;
 
         if (index >= 0 && index < this.tercetos.size()) {
             this.tercetos.get(index).setOperando2(saltoDestino);
+        }
+    }
+
+    public void anularTercetosDesde(int index) {
+        if (index >= 0 && index < tercetos.size()) {
+            tercetos.subList(index, tercetos.size()).clear();
         }
     }
 
@@ -129,7 +130,6 @@ public class Generador {
     public boolean existeEnAmbitoActual(String lexema) { return al.existeEnAmbitoActual(lexema); }
     public String getAmbitoActual() { return al.getAmbitoActual(); }
 
-
     public String getTipo(String operando) {
         if (operando == null) return "void";
 
@@ -144,7 +144,6 @@ public class Generador {
         if (operando.startsWith("[")) {
             try {
                 int index = Integer.parseInt(operando.substring(1, operando.length() - 1));
-                // MODIFICACION: Usar el método getTerceto para manejar el -1
                 Terceto t = getTerceto(index);
                 if (t != null) {
                     return t.getTipo();
