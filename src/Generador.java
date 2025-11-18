@@ -172,8 +172,12 @@ public class Generador {
         if (operando.endsWith("UI")) {
             return "uint";
         }
+
         if (operando.contains(".")) {
-            return "float";
+            char first = operando.charAt(0);
+            if (Character.isDigit(first) || first == '.' || first == '-') {
+                return "float";
+            }
         }
 
         return "indefinido";

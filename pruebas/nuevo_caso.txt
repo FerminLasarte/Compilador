@@ -21,7 +21,7 @@ MAIN {
             var W := 22UI;
             var Y := 33UI;
             var A := 44UI;
-            W := FUNCZ.A;
+            W := MAIN.A;
             FUNCZ.A := W;
 
             return(55UI);

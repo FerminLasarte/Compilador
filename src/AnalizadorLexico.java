@@ -170,7 +170,7 @@ public class AnalizadorLexico {
                 /*1*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 /*2*/ {-2, -2, -2, -2, -2, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
                 /*3*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                /*4*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                /*4*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -2, -1, -1, -1, -1, -1, -1},
                 /*5*/ {-1, -1, -1, -1, -1, -1, 5, 5, -1, 5, -1, -1, -1, 5, -1, -1, -1, 5, 5},
                 /*6*/ {6, 6, 6, 6, 6, 6, 6, 6, -1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
                 /*7*/ {-2, -2, -2, -2, -2, -2, -2, -2, -2, 7, 8, -2, -2, -2, -2, -2, -2, 14, -2},
@@ -497,11 +497,16 @@ public class AnalizadorLexico {
 
 
     public Object getAtributoConPrefijo(String prefijo, String lexema, String atributo) {
-        HashMap<String, HashMap<String, Object>> ambito = getAmbitoPorNombre(prefijo);
-        String lexemaMangled = lexema + ":" + prefijo;
-
-        if (ambito != null && ambito.containsKey(lexemaMangled)) {
-            return ambito.get(lexemaMangled).get(atributo);
+        Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
+        while (iter.hasNext()) {
+            Pair<String, HashMap<String, HashMap<String, Object>>> par = iter.next();
+            String nombreAmbito = par.getKey();
+            if (nombreAmbito.equals(prefijo) || nombreAmbito.endsWith(":" + prefijo)) {
+                String lexemaMangled = lexema + ":" + nombreAmbito;
+                if (par.getValue().containsKey(lexemaMangled)) {
+                    return par.getValue().get(lexemaMangled).get(atributo);
+                }
+            }
         }
         return null;
     }
