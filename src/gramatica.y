@@ -72,13 +72,14 @@ declaracion_var : VAR variable ASIG expresion
                 }
                 ;
 tipo : UINT { $$.sval = "uint"; }
-     | FLOAT { $$.sval = "float"; }
+     | FLOAT { $$.sval = "float";
+}
      | LAMBDA { $$.sval = "lambda"; }
      ;
 lista_variables : lista_variables ',' variable
                 {
                     listaVariables.add($3.sval);
-                }
+}
                 |
                 variable
                 {
@@ -92,6 +93,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
             if (g.existeEnAmbitoActual(nombreFuncion)) {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
+                g.setGeneracionHabilitada(false); // MODIFICACION: Deshabilitar generacion en error
             } else {
                 al.agregarLexemaTS(nombreFuncion);
                 al.agregarAtributoLexema(nombreFuncion, "Uso", "funcion");
@@ -112,7 +114,9 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                      al.agregarAtributoLexema(p.nombre, "Pasaje", p.pasaje);
                 }
             }
-        } sentencias '}' { g.cerrarAmbito();
+        } sentencias '}' {
+            g.cerrarAmbito();
+            g.setGeneracionHabilitada(true); // MODIFICACION: Habilitar generacion al salir
         }
         {
             String nombreFuncion = $2.sval;
@@ -128,6 +132,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
             if (g.existeEnAmbitoActual(nombreFuncion)) {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
+                g.setGeneracionHabilitada(false); // MODIFICACION: Deshabilitar generacion en error
             } else {
                 al.agregarLexemaTS(nombreFuncion);
                 al.agregarAtributoLexema(nombreFuncion, "Uso", "funcion");
@@ -147,7 +152,9 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                      al.agregarAtributoLexema(p.nombre, "Pasaje", p.pasaje);
                 }
             }
-        } sentencias '}' { g.cerrarAmbito();
+        } sentencias '}' {
+            g.cerrarAmbito();
+            g.setGeneracionHabilitada(true); // MODIFICACION: Habilitar generacion al salir
         }
         {
             String nombreFuncion = $2.sval;
@@ -181,7 +188,7 @@ lista_parametros_formales : lista_parametros_formales ',' parametro_formal
 parametro_formal : sem_pasaje tipo ID
              {
                  g.apilarParametro(new ParametroInfo($3.sval, $2.sval, $1.sval));
-             }
+}
              |
              tipo ID
              {
@@ -213,7 +220,6 @@ asignacion : variable ASIG expresion
                String tipoVar = g.getTipo(op1_var);
                String tipoExpr = g.getTipo(op2_terceto);
                int linea = $1.ival;
-
                if (tipoVar.equals("indefinido")) {
                    if (op1_var.contains(".")) {
                        String[] parts = op1_var.split("\\.", 2);
@@ -249,7 +255,8 @@ asignacion : variable ASIG expresion
                            }
 
                            if (tiposRetorno.isEmpty()) {
-                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName + "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
+                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName +
+                               "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
                            } else {
                                String tipoPrimerRetorno = tiposRetorno.get(0);
                                if (g.chequearAsignacion(tipoVar, tipoPrimerRetorno, linea)) {
@@ -263,6 +270,7 @@ asignacion : variable ASIG expresion
                                }
                            }
                        }
+
                    }
                } else {
                    if (g.chequearAsignacion(tipoVar, tipoExpr, linea)) {
@@ -294,59 +302,64 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                             }
 
                             if (esFuncion) {
-                                String funcTerceto = derechos.pop();
-                                if (funcTerceto.equals("ERROR_CALL") || funcTerceto.equals("ERROR_CALL_PARAMS") || funcTerceto.equals("ERROR_CALL_LAMBDA")) {
-                                } else {
-                                    String funcName = g.getTerceto(Integer.parseInt(funcTerceto.substring(1, funcTerceto.length()-1))).getOperando1();
-                                    Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
-                                    if (retMultiple == null || !(Boolean)retMultiple) {
-                                        al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple a funcion '" + funcName + "' que no tiene retorno multiple.");
-                                    } else {
-                                        Object rawObj = al.getAtributo(funcName, "TiposRetorno");
-                                        ArrayList<String> tiposRetorno = new ArrayList<String>();
-                                        if (rawObj instanceof ArrayList) {
-                                            for (Object o : (ArrayList<?>) rawObj) {
-                                                tiposRetorno.add((String) o);
-                                            }
-                                        }
-                                        int cantRetornos = tiposRetorno.size();
-                                        if (cantRetornos < cantIzquierda) {
-                                            al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 21): Asignacion multiple a funcion '" + funcName + "'. Insuficientes valores de retorno. Esperados: " + cantIzquierda + ", Retornados: " + cantRetornos + ".");
-                                        } else {
-                                            if (cantRetornos > cantIzquierda) {
-                                                al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero solo se asignan " + cantIzquierda + ". Se descartan los sobrantes.");
-                                            }
-                                            for (int i = 0; i < cantIzquierda; i++) {
-                                                String var = listaVariables.get(i);
-                                                String tipoVar = g.getTipo(var);
-                                                String tipoRet = tiposRetorno.get(i);
-                                                if (g.chequearAsignacion(tipoVar, tipoRet, Integer.parseInt(lineaActual))) {
-                                                    String retTerceto = g.addTerceto("GET_RET", funcTerceto, String.valueOf(i));
-                                                    g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoRet);
-                                                    g.addTerceto(":=", var, retTerceto);
-                                                }
-                                            }
-                                            salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') reconocida.");
-                                        }
-                                    }
-                                }
 
-                            } else {
-                                if (cantIzquierda != cantDerecha) {
-                                    al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + cantIzquierda + ") y a la derecha (" + cantDerecha + ").");
-                                } else {
-                                    for (int i = cantIzquierda - 1; i >= 0; i--) {
-                                        String var = listaVariables.get(i);
-                                        String expr = derechos.pop();
-                                        String tipoVar = g.getTipo(var);
-                                        String tipoExpr = g.getTipo(expr);
-                                        if (g.chequearAsignacion(tipoVar, tipoExpr, Integer.parseInt(lineaActual))) {
-                                            g.addTerceto(":=", var, expr);
-                                        }
-                                    }
-                                    salida.add("Linea " + lineaActual + ": Asignacion multiple (lista) reconocida.");
-                                }
-                            }
+                                  String funcTerceto = derechos.pop();
+                                  if (funcTerceto.equals("ERROR_CALL") || funcTerceto.equals("ERROR_CALL_PARAMS") || funcTerceto.equals("ERROR_CALL_LAMBDA")) {
+                                  } else {
+                                      String funcName = g.getTerceto(Integer.parseInt(funcTerceto.substring(1, funcTerceto.length()-1))).getOperando1();
+                                      Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
+                                      if (retMultiple == null || !(Boolean)retMultiple) {
+                                          al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple a funcion '" + funcName + "' que no tiene retorno multiple.");
+                                      } else {
+                                          Object rawObj = al.getAtributo(funcName, "TiposRetorno");
+                                          ArrayList<String> tiposRetorno = new ArrayList<String>();
+                                          if (rawObj instanceof ArrayList) {
+                                              for (Object o : (ArrayList<?>) rawObj) {
+
+                                                  tiposRetorno.add((String) o);
+                                              }
+                                          }
+                                          int cantRetornos = tiposRetorno.size();
+                                          if (cantRetornos < cantIzquierda) {
+                                              al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 21): Asignacion multiple a funcion '" + funcName + "'. Insuficientes valores de retorno. Esperados: " + cantIzquierda + ", Retornados: " + cantRetornos + ".");
+                                          } else {
+                                              if (cantRetornos > cantIzquierda) {
+                                                  al.agregarWarning("Linea "
+                                                  + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero solo se asignan " + cantIzquierda + ". Se descartan los sobrantes.");
+                                              }
+                                              for (int i = 0; i < cantIzquierda; i++) {
+
+                                                  String var = listaVariables.get(i);
+                                                  String tipoVar = g.getTipo(var);
+                                                  String tipoRet = tiposRetorno.get(i);
+                                                  if (g.chequearAsignacion(tipoVar, tipoRet, Integer.parseInt(lineaActual))) {
+                                                      String retTerceto = g.addTerceto("GET_RET", funcTerceto, String.valueOf(i));
+                                                      g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoRet);
+                                                      g.addTerceto(":=", var, retTerceto);
+                                                  }
+                                              }
+                                              salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') reconocida.");
+                                          }
+                                      }
+                                  }
+
+
+                              } else {
+                                  if (cantIzquierda != cantDerecha) {
+                                      al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + cantIzquierda + ") y a la derecha (" + cantDerecha + ").");
+                                  } else {
+                                      for (int i = cantIzquierda - 1; i >= 0; i--) {
+                                          String var = listaVariables.get(i);
+                                          String expr = derechos.pop();
+                                          String tipoVar = g.getTipo(var);
+                                          String tipoExpr = g.getTipo(expr);
+                                          if (g.chequearAsignacion(tipoVar, tipoExpr, Integer.parseInt(lineaActual))) {
+                                              g.addTerceto(":=", var, expr);
+                                          }
+                                      }
+                                      salida.add("Linea " + lineaActual + ": Asignacion multiple (lista) reconocida.");
+                                  }
+                              }
                             contadorLadoDerecho = 0;
                             listaVariables.clear();
                             g.clearLadoDerecho();
@@ -369,7 +382,8 @@ lado_derecho_multiple : { g.clearLadoDerecho(); } factor
                           ;
 variable : ID PUNTO ID
             {
-                $$.sval = $1.sval + "." + $3.sval;
+                $$.sval = $1.sval + "."
+                + $3.sval;
                 $$.ival = $1.ival;
             }
          |
@@ -401,7 +415,8 @@ expresion : expresion '+' termino
                 $$.ival = $1.ival;
             }
           |
-          termino { $$.ival = $1.ival; }
+          termino { $$.ival = $1.ival;
+}
           ;
 termino : termino '*' factor
             {
@@ -424,13 +439,14 @@ termino : termino '*' factor
                 g.apilarOperando(terceto);
                 $$.ival = $1.ival;
             }
-        | factor { $$.ival = $1.ival; }
+        | factor { $$.ival = $1.ival;
+}
         ;
 
 factor : factor_no_funcion
        {
            $$.ival = $1.ival;
-       }
+}
        | invocacion_funcion
        {
            $$.ival = $1.ival;
@@ -463,7 +479,8 @@ factor_no_funcion : variable
                   }
                   |
                   conversion_explicita
-                  { $$.ival = $1.ival; }
+                  { $$.ival = $1.ival;
+}
                   ;
 conversion_explicita : TOUI '(' expresion ')'
                 {
@@ -549,7 +566,8 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                    }
                                }
                                if (!errorEnParametros) {
-                                   String terceto = g.addTerceto("CALL", funcName);
+
+                                  String terceto = g.addTerceto("CALL", funcName);
                                    g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(al.getAtributo(funcName, "Tipo").toString());
                                    $$.sval = terceto;
                                } else {
@@ -558,6 +576,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                            }
                        }
                        else {
+
                            al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
                            $$.sval = "ERROR_CALL";
                        }
@@ -565,10 +584,12 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                    }
                    ;
 lista_parametros_reales : lista_parametros_reales ',' parametro_real
-                        { $$.ival = $1.ival + 1; }
+                        { $$.ival = $1.ival + 1;
+}
                         |
                         parametro_real
-                        { $$.ival = 1; }
+                        { $$.ival = 1;
+}
                         ;
 parametro_real : parametro_simple FLECHA ID
                {
@@ -649,23 +670,23 @@ constante : CTE
             }
           ;
 condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF %prec IFX ';'
-               {
+                {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ?
                     lineaObj.toString() : "?";
                     salida.add("Linea " + linea + ": Sentencia IF reconocida.");
-               }
+                }
                |
                IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
                {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ? lineaObj.toString() : "?";
                     salida.add("Linea " + linea + ": Sentencia IF-ELSE reconocida.");
-               }
+                }
                ;
 
 condicional_do_while: DO { g.apilarControl(g.getProximoTerceto());
-                } bloque_ejecutable WHILE '(' condicion ')' ';'
+} bloque_ejecutable WHILE '(' condicion ')' ';'
                     {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + $7.ival + ": Sentencia DO-WHILE reconocida.");
@@ -767,7 +788,6 @@ int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();
     int linea = al.getContadorFila() + 1;
-
     if (token == ID || token == CTE || token == CADENA_MULTILINEA) {
         yylval = new ParserVal(lexema);
         yylval.ival = linea;
@@ -801,6 +821,7 @@ public static void main(String args[]){
                 @Override
                 public int compare(String s1, String s2) {
                     try {
+
                         int linea1 = Integer.parseInt(s1.substring(6, s1.indexOf(':')).trim());
                         int linea2 = Integer.parseInt(s2.substring(6, s2.indexOf(':')).trim());
                         return Integer.compare(linea1, linea2);

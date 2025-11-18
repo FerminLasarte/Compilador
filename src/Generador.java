@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Stack;
-import java.util.ArrayList;
 
 public class Generador {
 
@@ -12,6 +11,10 @@ public class Generador {
     private Stack<ParametroRealInfo> pilaParametrosReales;
     private Stack<String> pilaLadoDerecho;
     private AnalizadorLexico al;
+
+    // MODIFICACION: Bandera para controlar la generación y terceto dummy
+    private boolean generacionHabilitada = true;
+    private final Terceto dummyTerceto = new Terceto("DUMMY", "_", "_");
 
     private Generador() {
         this.tercetos = new ArrayList<Terceto>();
@@ -39,7 +42,16 @@ public class Generador {
         this.al = al;
     }
 
+    // MODIFICACION: Setter para habilitar/deshabilitar generación
+    public void setGeneracionHabilitada(boolean habilitada) {
+        this.generacionHabilitada = habilitada;
+    }
+
     public String addTerceto(String operador, String operando1, String operando2) {
+        // MODIFICACION: Si la generación está deshabilitada, retornar índice dummy (-1)
+        if (!generacionHabilitada) {
+            return "[-1]";
+        }
         Terceto t = new Terceto(operador, operando1, operando2);
         this.tercetos.add(t);
         return "[" + (this.tercetos.size() - 1) + "]";
@@ -58,6 +70,10 @@ public class Generador {
     }
 
     public Terceto getTerceto(int index) {
+        // MODIFICACION: Retornar dummy si el índice es -1
+        if (index == -1) {
+            return dummyTerceto;
+        }
         if (index >= 0 && index < this.tercetos.size()) {
             return this.tercetos.get(index);
         }
@@ -65,6 +81,9 @@ public class Generador {
     }
 
     public void modificarSaltoTerceto(int index, String saltoDestino) {
+        // MODIFICACION: Ignorar si el índice es dummy
+        if (index == -1) return;
+
         if (index >= 0 && index < this.tercetos.size()) {
             this.tercetos.get(index).setOperando2(saltoDestino);
         }
@@ -125,7 +144,8 @@ public class Generador {
         if (operando.startsWith("[")) {
             try {
                 int index = Integer.parseInt(operando.substring(1, operando.length() - 1));
-                Terceto t = this.tercetos.get(index);
+                // MODIFICACION: Usar el método getTerceto para manejar el -1
+                Terceto t = getTerceto(index);
                 if (t != null) {
                     return t.getTipo();
                 } else {
