@@ -18,12 +18,22 @@ MAIN {
 
     var Z := 1UI;
 
-    uint funcZ(var Z) {
+    uint FUNCZ(uint Z) {
 
         var W := 2UI;
         var Y := 3UI;
         W := MAIN.A;
-        funcZ.Y := W;
+        Y := W;
+
+        return(W);
+    }
+
+    uint FUNCZ(uint Z) {
+
+        var W := 2UI;
+        var Y := 3UI;
+        W := MAIN.A;
+        Y := W;
 
         return(W);
     }
