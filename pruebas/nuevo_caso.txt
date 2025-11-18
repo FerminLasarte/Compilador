@@ -5,6 +5,14 @@ MAIN {
     var B := 2UI;
     var C := 3UI;
     A,B,C = 10UI, 20UI, 30UI;
+    var J := 0UI;
+
+    uint FUNCR(uint J) {
+        J := 1UI;
+        return (100UI);
+    }
+
+    A,B = FUNCR(J->11UI), 20UI;
 
     var Z := 1UI;
 
