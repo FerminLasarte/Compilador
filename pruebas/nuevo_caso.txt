@@ -28,7 +28,16 @@ MAIN {
         return(W);
     }
 
-    float, uint FUNCCOMPLETA(cr se uint PSE, cr le uint PLE) {
+    uint, uint FUNCCOMPLETA(cr se uint PSE, cr le uint PLE) {
+
+        PLE := PLE + 1UI;
+        PSE := 100UI;
+        PLE := PSE;
+
+        return (PLE, PSE);
+    }
+
+    float, uint FUNC(cr se uint PSE, cr le uint PLE) {
 
         PLE := PLE + 1UI;
         PSE := 100UI;
