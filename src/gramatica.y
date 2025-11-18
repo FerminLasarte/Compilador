@@ -43,11 +43,13 @@ sentencias : sentencias sentencia
            |
            sentencia
            ;
+
 sentencia : sentencia_declarativa
           |
           sentencia_ejecutable
           | error ';'
           ;
+
 sentencia_declarativa : funcion
                       |
                       declaracion_var ';'
@@ -71,15 +73,17 @@ declaracion_var : VAR variable ASIG expresion
                     }
                 }
                 ;
+
 tipo : UINT { $$.sval = "uint"; }
      | FLOAT { $$.sval = "float";
 }
      | LAMBDA { $$.sval = "lambda"; }
      ;
+
 lista_variables : lista_variables ',' variable
                 {
                     listaVariables.add($3.sval);
-}
+                }
                 |
                 variable
                 {
@@ -189,14 +193,16 @@ lista_tipos_retorno_multiple : tipo ',' tipo
                                  $$.obj = lista;
                              }
                          ;
+
 lista_parametros_formales : lista_parametros_formales ',' parametro_formal
                           |
                           parametro_formal
                           ;
+
 parametro_formal : sem_pasaje tipo ID
              {
                  g.apilarParametro(new ParametroInfo($3.sval, $2.sval, $1.sval));
-}
+             }
              |
              tipo ID
              {
@@ -204,10 +210,12 @@ parametro_formal : sem_pasaje tipo ID
                  g.apilarParametro(new ParametroInfo($2.sval, $1.sval, pasajeDefault));
              }
              ;
+
 sem_pasaje : CR SE { $$.sval = "cr_se"; }
            |
            CR LE { $$.sval = "cr_le"; }
            ;
+
 sentencia_ejecutable : asignacion ';'
                      | asignacion_multiple ';'
                      | condicional_if
@@ -287,6 +295,7 @@ asignacion : variable ASIG expresion
                }
            }
            ;
+
 asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                         {
                             String lineaActual = String.valueOf($2.ival);
@@ -373,6 +382,7 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                             g.clearLadoDerecho();
                         }
                         ;
+
 lado_derecho_multiple : { g.clearLadoDerecho(); } factor
                           {
                               g.apilarLadoDerecho(g.desapilarOperando());
@@ -388,6 +398,7 @@ lado_derecho_multiple : { g.clearLadoDerecho(); } factor
                               $$.ival = 0;
                           }
                           ;
+
 variable : ID PUNTO ID
             {
                 $$.sval = $1.sval + "."
@@ -401,6 +412,7 @@ variable : ID PUNTO ID
                 $$.ival = $1.ival;
             }
          ;
+
 expresion : expresion '+' termino
             {
                 String op2 = g.desapilarOperando();
@@ -426,6 +438,7 @@ expresion : expresion '+' termino
           termino { $$.ival = $1.ival;
 }
           ;
+
 termino : termino '*' factor
             {
                 String op2 = g.desapilarOperando();
@@ -462,6 +475,7 @@ factor : factor_no_funcion
            g.apilarOperando($1.sval);
        }
        ;
+
 factor_no_funcion : variable
                   {
                       String varNombre = $1.sval;
@@ -475,7 +489,13 @@ factor_no_funcion : variable
                           }
                           g.apilarOperando("error_tipo");
                       } else {
-                          g.apilarOperando(varNombre);
+                          Object pasaje = al.getAtributo(varNombre, "Pasaje");
+                          if (pasaje != null && pasaje.toString().equals("cr_se")) {
+                              al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: El parametro '" + varNombre + "' es de solo escritura (se) y no puede ser leido.");
+                              g.apilarOperando("error_tipo");
+                          } else {
+                              g.apilarOperando(varNombre);
+                          }
                       }
                       $$.ival = $1.ival;
                   }
@@ -490,6 +510,7 @@ factor_no_funcion : variable
                   { $$.ival = $1.ival;
 }
                   ;
+
 conversion_explicita : TOUI '(' expresion ')'
                 {
                     salida.add("Linea " + $1.ival + ": Conversion explicita (toui).");
@@ -509,8 +530,10 @@ conversion_explicita : TOUI '(' expresion ')'
                     $$.ival = $1.ival;
                 }
                 ;
+
 pre_invocacion : { g.clearParametrosReales(); }
                ;
+
 invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                    {
                        String funcName = $1.sval;
@@ -591,6 +614,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                        $$.ival = $1.ival;
                    }
                    ;
+
 lista_parametros_reales : lista_parametros_reales ',' parametro_real
                         { $$.ival = $1.ival + 1;
 }
@@ -599,6 +623,7 @@ lista_parametros_reales : lista_parametros_reales ',' parametro_real
                         { $$.ival = 1;
 }
                         ;
+
 parametro_real : parametro_simple FLECHA ID
                {
                    g.apilarParametroReal(new ParametroRealInfo($1.sval, $3.sval));
@@ -611,6 +636,7 @@ parametro_real : parametro_simple FLECHA ID
                    $$.ival = $1.ival;
                }
                ;
+
 parametro_simple : expresion
                  {
                      $$.sval = g.desapilarOperando();
@@ -623,6 +649,7 @@ parametro_simple : expresion
                      $$.ival = $1.ival;
                  }
                  ;
+
 lambda_expresion : '(' tipo ID ')' '{' {
                          pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
                          int inicioLambda = g.getProximoTerceto();
@@ -641,12 +668,15 @@ lambda_expresion : '(' tipo ID ')' '{' {
                          g.cerrarAmbito();
                  }
                  ;
+
 cuerpo_lambda : sentencias_ejecutables_lista
               ;
+
 sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
                              |
                              sentencia_ejecutable
                              ;
+
 constante : CTE
             {
                 $$.sval = $1.sval;
@@ -677,20 +707,21 @@ constante : CTE
                 $$.ival = $2.ival;
             }
           ;
+
 condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF %prec IFX ';'
-                {
+               {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ?
                     lineaObj.toString() : "?";
                     salida.add("Linea " + linea + ": Sentencia IF reconocida.");
-                }
+               }
                |
                IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
                {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ? lineaObj.toString() : "?";
                     salida.add("Linea " + linea + ": Sentencia IF-ELSE reconocida.");
-                }
+               }
                ;
 
 condicional_do_while: DO { g.apilarControl(g.getProximoTerceto());
@@ -707,6 +738,7 @@ condicional_do_while: DO { g.apilarControl(g.getProximoTerceto());
                         }
                     }
                     ;
+
 condicion : expresion simbolo_comparacion expresion
           {
                 String op2 = g.desapilarOperando();
@@ -722,6 +754,7 @@ condicion : expresion simbolo_comparacion expresion
                 }
           }
           ;
+
 simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
                     |
                     MENOR_IGUAL { g.apilarOperando("<="); }
@@ -734,11 +767,13 @@ simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
                     |
                     '<' { g.apilarOperando("<"); }
                     ;
+
 bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito();
                   }
                   |
                   '{' error '}'
                   ;
+
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 {
                     salida.add("Linea " + $1.ival + ": PRINT con cadena multilinea.");
@@ -751,6 +786,7 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
                 ;
+
 retorno_funcion : RETURN '(' lista_expresiones ')' ';'
             {
                 salida.add("Linea " + $1.ival + ": Sentencia RETURN.");
@@ -764,6 +800,7 @@ retorno_funcion : RETURN '(' lista_expresiones ')' ';'
                 }
             }
             ;
+
 lista_expresiones : lista_expresiones ',' expresion
               {
                   ArrayList<?> rawList = (ArrayList<?>) $1.obj;
@@ -782,6 +819,7 @@ lista_expresiones : lista_expresiones ',' expresion
                   $$.obj = lista;
               }
               ;
+
 %%
 
 static AnalizadorLexico al;
