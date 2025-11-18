@@ -98,6 +98,12 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             String nombreAmbito = nombreFuncion;
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
 
+            // Preparar validacion de retorno
+            ArrayList<String> tiposEsperados = new ArrayList<String>();
+            tiposEsperados.add(tipoRetorno);
+            pilaTiposRetorno.push(tiposEsperados);
+            pilaErrorEnFuncion.push(false);
+
             if (g.existeEnAmbitoActual(nombreFuncion)) {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
                 g.setGeneracionHabilitada(false);
@@ -125,10 +131,16 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         } sentencias '}' {
             g.cerrarAmbito();
             g.setGeneracionHabilitada(true);
-        }
-        {
-            String nombreFuncion = $2.sval;
-            salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
+
+            pilaTiposRetorno.pop();
+            boolean huboError = pilaErrorEnFuncion.pop();
+
+            if (huboError) {
+                al.eliminarLexemaTS($2.sval);
+            } else {
+                String nombreFuncion = $2.sval;
+                salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
+            }
         }
       | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' {
             String nombreFuncion = $2.sval;
@@ -138,6 +150,11 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             for (Object o : rawList) {
                 tiposRetorno.add((String) o);
             }
+
+            // Preparar validacion de retorno
+            pilaTiposRetorno.push(tiposRetorno);
+            pilaErrorEnFuncion.push(false);
+
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
 
             if (g.existeEnAmbitoActual(nombreFuncion)) {
@@ -166,10 +183,16 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         } sentencias '}' {
             g.cerrarAmbito();
             g.setGeneracionHabilitada(true);
-        }
-        {
-            String nombreFuncion = $2.sval;
-            salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
+
+            pilaTiposRetorno.pop();
+            boolean huboError = pilaErrorEnFuncion.pop();
+
+            if (huboError) {
+                al.eliminarLexemaTS($2.sval);
+            } else {
+                String nombreFuncion = $2.sval;
+                salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
+            }
         }
       ;
 
@@ -790,14 +813,39 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
 retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')' ';'
             {
                 enSentenciaReturn = false;
-                salida.add("Linea " + $1.ival + ": Sentencia RETURN.");
+
+                ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
                 ArrayList<?> rawList = (ArrayList<?>) $4.obj;
                 ArrayList<String> expresiones = new ArrayList<String>();
                 for (Object o : rawList) {
                     expresiones.add((String) o);
                 }
-                for (String exprTerceto : expresiones) {
-                    g.addTerceto("RETURN", exprTerceto);
+
+                boolean error = false;
+                if (tiposEsperados.size() != expresiones.size()) {
+                    al.agregarErrorSemantico("Linea " + $1.ival + ": Error de Tipos: Cantidad de valores de retorno incorrecta. Esperado: " + tiposEsperados.size() + ", Encontrado: " + expresiones.size());
+                    error = true;
+                } else {
+                    for (int i = 0; i < tiposEsperados.size(); i++) {
+                        String tipoEsp = tiposEsperados.get(i);
+                        String op = expresiones.get(i);
+                        String tipoEnc = g.getTipo(op);
+
+                        if (!tipoEnc.equals(tipoEsp) && !tipoEnc.equals("error_tipo")) {
+                             al.agregarErrorSemantico("Linea " + $1.ival + ": Error de Tipos: Tipo de retorno incorrecto en la posicion " + (i+1) + ". Esperado: " + tipoEsp + ", Encontrado: " + tipoEnc);
+                             error = true;
+                        }
+                    }
+                }
+
+                if (error) {
+                    pilaErrorEnFuncion.pop();
+                    pilaErrorEnFuncion.push(true);
+                } else {
+                    salida.add("Linea " + $1.ival + ": Sentencia RETURN.");
+                    for (String exprTerceto : expresiones) {
+                        g.addTerceto("RETURN", exprTerceto);
+                    }
                 }
             }
             ;
@@ -832,6 +880,8 @@ ArrayList<String> listaVariables = new ArrayList<String>();
 int contadorLadoDerecho = 0;
 Stack<String> pilaSaltosLambda = new Stack<String>();
 static boolean enSentenciaReturn = false;
+static Stack<ArrayList<String>> pilaTiposRetorno = new Stack<ArrayList<String>>();
+static Stack<Boolean> pilaErrorEnFuncion = new Stack<Boolean>();
 
 int yylex() {
     int token = al.yylex();
