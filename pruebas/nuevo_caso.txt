@@ -1,6 +1,35 @@
 MAIN {
     @ Temas: 2, 5, 8, 9, 14, 19, 21, 23, 25, 28, 31, 32
 
+    var A := 1UI;
+    var B := 2UI;
+    var C := 3UI;
+    A,B,C = 10UI, 20UI, 30UI;
+
+    var Z := 1UI;
+
+    uint FUNCZ(uint Z) {
+
+        var W := 2UI;
+        var Y := 3UI;
+        var A := 4UI;
+        W := MAIN.A;
+        MAIN.A := W;
+
+        uint FUNCJ(uint J) {
+
+            var W := 22UI;
+            var Y := 33UI;
+            var A := 44UI;
+            W := FUNCZ.A;
+            FUNCZ.A := W;
+
+            return(55UI);
+        }
+
+        return(5UI);
+    }
+
     var GCONTADOR := 0UI;
     var GCONTADOR1 := 1UI;
     var GFACTOR := 1.0F+0;
@@ -11,22 +40,7 @@ MAIN {
     var VARF := 1.0F+0;
     VARA := toui(VARF);
 
-    var A := 1UI;
-    var B := 2UI;
-    var C := 5.0F+0;
-    A,B,C = 10UI, 20UI, 1.0F+0;
 
-    var Z := 1UI;
-
-    uint FUNCZ(uint Z) {
-
-        var W := 2UI;
-        var Y := 3UI;
-        W := MAIN.A;
-        Y := W;
-
-        return(W);
-    }
 
     uint, uint FUNCCOMPLETA(cr se uint PSE, cr le uint PLE) {
 
