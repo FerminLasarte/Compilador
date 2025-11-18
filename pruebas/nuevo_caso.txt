@@ -13,8 +13,8 @@ MAIN {
 
     var A := 1UI;
     var B := 2UI;
-    var C := 3UI;
-    A,B,C = 10UI, 20UI, 30UI;
+    var C := 5.0F+0;
+    A,B,C = 10UI, 20UI, 1.0F+0;
 
     var Z := 1UI;
 
@@ -28,37 +28,30 @@ MAIN {
         return(W);
     }
 
-    uint FUNCZ(uint Z) {
+    float, uint FUNCCOMPLETA(cr se uint PSE, cr le uint PLE) {
 
-        var W := 2UI;
-        var Y := 3UI;
-        W := MAIN.A;
-        Y := W;
-
-        return(W);
+        PLE := PLE + 1UI;
+        PSE := 100UI;
+        PLE := PSE;
+        return (PLE, PSE);
     }
+
+    do {
+        print(& PRINT GCONTADOR &);
+        print(MAIN.GCONTADOR);
+        MAIN.GCONTADOR := MAIN.GCONTADOR + 1UI;
+    } while (MAIN.GCONTADOR < 3UI);
+
 }
 
-@ T21 (Retorno Múltiple), T25 (CR), T28 (Lambda)
-@ Retorna: (float, uint)
-float, uint FUNCCOMPLETA(cr se uint PSE, cr le float PLE, lambda PLAM) {
 
-    @ T25 (CR LE): OK - Leer y escribir PLE
-    @ Se espera: PLE = PLE + 1.0F+0
-    PLE := PLE + 1.0F+0;
 
-    @ T25 (CR SE): OK - Escribir en PSE
-    @ Se espera: PSE = 100UI
-    PSE := 100UI;
+    if (MAIN.A < 5UI) {
+        print(& PRINT A &);
+        print(MAIN.A);
+    } else print(100UI);
 
-    @ T28: OK - Invocar el parámetro lambda
-    @ Se esperan tercetos para la llamada
-    PLAM(1UI -> X);
 
-    @ T21: OK - Retorno múltiple (float, uint)
-    @ Se esperan tercetos: (RETURN, PLE), (RETURN, PSE)
-    return (PLE, PSE);
-}
 
 @ Función auxiliar para T19
 uint FUNCSIMPLE(uint DUMMY) {
@@ -70,12 +63,7 @@ uint FUNCSIMPLE(uint DUMMY) {
 @ =============================================
 
 @ T14 (do-while) y T8 (print cadena multilinea)
-do {
-  print(&Iterando...
-  Valor de GCONTADOR: &); @ T8: OK
-  print(GCONTADOR);
-  GCONTADOR := GCONTADOR + 1UI;
-} while (GCONTADOR < 3UI); @ T14: OK
+
 
 @ T9: Declaraciones locales
 var VARA := 1UI;

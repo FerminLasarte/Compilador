@@ -87,13 +87,17 @@ lista_variables : lista_variables ',' variable
                     listaVariables.add($1.sval);
                 }
                 ;
+
 funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             String nombreFuncion = $2.sval;
             String tipoRetorno = $1.sval;
+            String nombreAmbito = nombreFuncion;
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
+
             if (g.existeEnAmbitoActual(nombreFuncion)) {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
-                g.setGeneracionHabilitada(false); // MODIFICACION: Deshabilitar generacion en error
+                g.setGeneracionHabilitada(false);
+                nombreAmbito = "GARBAGE_" + nombreFuncion;
             } else {
                 al.agregarLexemaTS(nombreFuncion);
                 al.agregarAtributoLexema(nombreFuncion, "Uso", "funcion");
@@ -102,7 +106,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                 al.agregarAtributoLexema(nombreFuncion, "Parametros", parametros);
                 al.agregarAtributoLexema(nombreFuncion, "RetornoMultiple", false);
             }
-            g.abrirAmbito($2.sval);
+            g.abrirAmbito(nombreAmbito);
             for (ParametroInfo p : parametros) {
                 if (g.existeEnAmbitoActual(p.nombre)) {
                      al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion del parametro '" + p.nombre + "'.");
@@ -116,7 +120,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             }
         } sentencias '}' {
             g.cerrarAmbito();
-            g.setGeneracionHabilitada(true); // MODIFICACION: Habilitar generacion al salir
+            g.setGeneracionHabilitada(true);
         }
         {
             String nombreFuncion = $2.sval;
@@ -124,15 +128,18 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         }
       | lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' {
             String nombreFuncion = $2.sval;
+            String nombreAmbito = nombreFuncion;
             ArrayList<?> rawList = (ArrayList<?>) $1.obj;
             ArrayList<String> tiposRetorno = new ArrayList<String>();
             for (Object o : rawList) {
                 tiposRetorno.add((String) o);
             }
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
+
             if (g.existeEnAmbitoActual(nombreFuncion)) {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
-                g.setGeneracionHabilitada(false); // MODIFICACION: Deshabilitar generacion en error
+                g.setGeneracionHabilitada(false);
+                nombreAmbito = "GARBAGE_" + nombreFuncion;
             } else {
                 al.agregarLexemaTS(nombreFuncion);
                 al.agregarAtributoLexema(nombreFuncion, "Uso", "funcion");
@@ -141,7 +148,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                 al.agregarAtributoLexema(nombreFuncion, "Parametros", parametros);
                 al.agregarAtributoLexema(nombreFuncion, "RetornoMultiple", true);
             }
-            g.abrirAmbito($2.sval);
+            g.abrirAmbito(nombreAmbito);
             for (ParametroInfo p : parametros) {
                 if (g.existeEnAmbitoActual(p.nombre)) {
                      al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion del parametro '" + p.nombre + "'.");
@@ -154,13 +161,14 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             }
         } sentencias '}' {
             g.cerrarAmbito();
-            g.setGeneracionHabilitada(true); // MODIFICACION: Habilitar generacion al salir
+            g.setGeneracionHabilitada(true);
         }
         {
             String nombreFuncion = $2.sval;
             salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
         }
       ;
+
 
 lista_tipos_retorno_multiple : tipo ',' tipo
                              {
