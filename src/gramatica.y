@@ -490,7 +490,7 @@ factor_no_funcion : variable
                           g.apilarOperando("error_tipo");
                       } else {
                           Object pasaje = al.getAtributo(varNombre, "Pasaje");
-                          if (pasaje != null && pasaje.toString().equals("cr_se")) {
+                          if (pasaje != null && pasaje.toString().equals("cr_se") && !enSentenciaReturn) {
                               al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: El parametro '" + varNombre + "' es de solo escritura (se) y no puede ser leido.");
                               g.apilarOperando("error_tipo");
                           } else {
@@ -725,7 +725,7 @@ condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF %prec IFX ';'
                ;
 
 condicional_do_while: DO { g.apilarControl(g.getProximoTerceto());
-} bloque_ejecutable WHILE '(' condicion ')' ';'
+                    } bloque_ejecutable WHILE '(' condicion ')' ';'
                     {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + $7.ival + ": Sentencia DO-WHILE reconocida.");
@@ -787,10 +787,11 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 }
                 ;
 
-retorno_funcion : RETURN '(' lista_expresiones ')' ';'
+retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')' ';'
             {
+                enSentenciaReturn = false;
                 salida.add("Linea " + $1.ival + ": Sentencia RETURN.");
-                ArrayList<?> rawList = (ArrayList<?>) $3.obj;
+                ArrayList<?> rawList = (ArrayList<?>) $4.obj;
                 ArrayList<String> expresiones = new ArrayList<String>();
                 for (Object o : rawList) {
                     expresiones.add((String) o);
@@ -830,6 +831,8 @@ ArrayList<String> salida = new ArrayList<String>();
 ArrayList<String> listaVariables = new ArrayList<String>();
 int contadorLadoDerecho = 0;
 Stack<String> pilaSaltosLambda = new Stack<String>();
+static boolean enSentenciaReturn = false;
+
 int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();
