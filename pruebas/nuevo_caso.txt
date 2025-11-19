@@ -124,12 +124,12 @@ MAIN {
     }
 
     uint F(lambda X, uint SS) {
-        X(SS);
+        X(SS->F.XX);
     }
 
     F((uint XX) {
         if (XX>1UI) {
             print(& PRINT AA &);
         }
-    }->X,3UI->Y);
+    }->X,3UI->SS);
 }

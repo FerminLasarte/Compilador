@@ -599,6 +599,11 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                            } else {
                                 boolean errorEnParametros = false;
                                 for (ParametroRealInfo real : reales) {
+                                   if (real.nombreFormal == null) {
+                                       al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Se requiere asignacion explicita de parametro (-> ID).");
+                                       errorEnParametros = true;
+                                       continue;
+                                   }
                                    ParametroInfo formal = formales.stream().filter(f -> f.nombre.equals(real.nombreFormal)).findFirst().orElse(null);
                                    if (formal == null) {
                                        al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "': no existe el parametro formal '->" + real.nombreFormal + "'.");
@@ -625,7 +630,6 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                    }
                                }
                                if (!errorEnParametros) {
-
                                   String terceto = g.addTerceto("CALL", funcName);
                                    g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(al.getAtributo(funcName, "Tipo").toString());
                                    $$.sval = terceto;
@@ -635,7 +639,6 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                            }
                        }
                        else {
-
                            al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
                            $$.sval = "ERROR_CALL";
                        }
@@ -644,22 +647,22 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                    ;
 
 lista_parametros_reales : lista_parametros_reales ',' parametro_real
-                        { $$.ival = $1.ival + 1;
+                        {
+                            $$.ival = $1.ival + 1;
                         }
                         |
                         parametro_real
-                        { $$.ival = 1;
+                        {
+                            $$.ival = 1;
                         }
                         ;
 
-parametro_real : parametro_simple FLECHA parametro_simple
+parametro_real : parametro_simple FLECHA variable
                {
                    String op1 = $1.sval;
                    String op2 = $3.sval;
                    if (Character.isUpperCase(op2.charAt(0))) {
                        g.apilarParametroReal(new ParametroRealInfo(op1, op2));
-                   } else if (Character.isUpperCase(op1.charAt(0))) {
-                       g.apilarParametroReal(new ParametroRealInfo(op2, op1));
                    } else {
                        al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: Se requiere un identificador valido como nombre de parametro.");
                    }
@@ -668,7 +671,7 @@ parametro_real : parametro_simple FLECHA parametro_simple
                |
                parametro_simple
                {
-                   al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: Se requiere asignacion explicita de parametro (-> ID).");
+                   g.apilarParametroReal(new ParametroRealInfo($1.sval, null));
                    $$.ival = $1.ival;
                }
                ;

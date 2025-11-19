@@ -95,7 +95,7 @@
   60  lista_parametros_reales : lista_parametros_reales ',' parametro_real
   61                          | parametro_real
 
-  62  parametro_real : parametro_simple FLECHA parametro_simple
+  62  parametro_real : parametro_simple FLECHA variable
   63                 | parametro_simple
 
   64  parametro_simple : expresion
@@ -609,6 +609,7 @@ state 41
 	ASIG_MULTIPLE  reduce 45
 	ASIG  reduce 45
 	','  reduce 45
+	')'  reduce 45
 
 
 state 42
@@ -1101,7 +1102,7 @@ state 92
 
 
 state 93
-	parametro_real : parametro_simple . FLECHA parametro_simple  (62)
+	parametro_real : parametro_simple . FLECHA variable  (62)
 	parametro_real : parametro_simple .  (63)
 
 	FLECHA  shift 128
@@ -1465,25 +1466,12 @@ state 127
 
 
 state 128
-	parametro_real : parametro_simple FLECHA . parametro_simple  (62)
+	parametro_real : parametro_simple FLECHA . variable  (62)
 
-	ID  shift 8
-	CTE  shift 61
-	TOUI  shift 62
-	'('  shift 89
-	'-'  shift 63
+	ID  shift 41
 	.  error
 
-	variable  goto 64
-	expresion  goto 90
-	invocacion_funcion  goto 66
-	factor  goto 67
-	termino  goto 68
-	factor_no_funcion  goto 69
-	constante  goto 70
-	conversion_explicita  goto 71
-	parametro_simple  goto 152
-	lambda_expresion  goto 94
+	variable  goto 152
 
 
 state 129
@@ -1725,7 +1713,7 @@ state 151
 
 
 state 152
-	parametro_real : parametro_simple FLECHA parametro_simple .  (62)
+	parametro_real : parametro_simple FLECHA variable .  (62)
 
 	.  reduce 62
 
