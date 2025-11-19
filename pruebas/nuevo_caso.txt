@@ -12,7 +12,8 @@ MAIN {
         return (100UI);
     }
 
-    A,B = FUNCR(J->11UI), 20UI;
+    A,B = FUNCR(11UI->J), 20UI;
+    A,B = FUNCR(11UI), 20UI;
 
     var Z := 1UI;
 
@@ -66,11 +67,13 @@ MAIN {
         return (PLE, PSE);
     }
 
-    float, uint, float FUNCA(uint S) {
-        return (19.0F+0, 140UI, 11.0F+0);
+    var S := 0UI;
+
+    uint, uint, uint FUNCA(uint S) {
+        return (130UI, 140UI, 150UI);
     }
 
-    A,B,C = FUNCA(1UI -> X);
-    A,B = FUNCA(1UI -> X);
-    A,B,C,D = FUNCA(1UI -> X);
+    A,B,C = FUNCA(1UI->S);
+    A,B = FUNCA(1UI->S);
+    A,B,C,D = FUNCA(1UI->S);
 }

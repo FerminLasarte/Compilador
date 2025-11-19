@@ -653,9 +653,17 @@ lista_parametros_reales : lista_parametros_reales ',' parametro_real
 }
                         ;
 
-parametro_real : parametro_simple FLECHA ID
+parametro_real : parametro_simple FLECHA parametro_simple
                {
-                   g.apilarParametroReal(new ParametroRealInfo($1.sval, $3.sval));
+                   String op1 = $1.sval;
+                   String op2 = $3.sval;
+                   if (Character.isUpperCase(op2.charAt(0))) {
+                       g.apilarParametroReal(new ParametroRealInfo(op1, op2));
+                   } else if (Character.isUpperCase(op1.charAt(0))) {
+                       g.apilarParametroReal(new ParametroRealInfo(op2, op1));
+                   } else {
+                       al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: Se requiere un identificador valido como nombre de parametro.");
+                   }
                    $$.ival = $1.ival;
                }
                |
@@ -817,7 +825,7 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 ;
 
 retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')' ';'
-                {
+            {
                 enSentenciaReturn = false;
                 ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
                 ArrayList<?> rawList = (ArrayList<?>) $4.obj;
