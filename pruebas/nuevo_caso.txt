@@ -80,4 +80,46 @@ MAIN {
     do {
         VARA := 0UI;
     } while (VARA > 0UI);
+
+    do {
+        var EVARBLOQUE := 1UI;
+    } while (VARA > 0UI);
+
+    do {
+        var EVARBLOQUE := 1UI;
+    } while (EVARBLOQUE > 0UI);
+
+    uint FUNCIONX(uint AA) {
+
+        AA := 3UI;
+        var A := 3UI;
+        var GCONTADOR := 0UI;
+
+        do {
+            print(& PRINT GCONTADOR &);
+            print(MAIN.GCONTADOR);
+            MAIN.GCONTADOR := GCONTADOR + 1UI;
+        } while (MAIN.GCONTADOR < 3UI);
+
+        if (AA < 5UI) {
+            print(& PRINT AA &);
+            print(MAIN.A);
+        } else {
+            print(100UI);
+        } endif;
+
+        if (MAIN.A < 5UI) {
+            print(& PRINT MAIN.A &);
+            print(MAIN.A);
+        } else {
+            print(100UI);
+        };
+
+        if (A < 5UI) {
+            print(& PRINT A &);
+            print(A);
+        } endif;
+
+        return (1000UI);
+    }
 }

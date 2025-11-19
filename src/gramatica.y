@@ -700,7 +700,8 @@ lambda_expresion : '(' tipo ID ')' '{' {
                          g.addTerceto("RET_LAMBDA", "_", "_");
                          int tercetoFin = g.getProximoTerceto();
                          String saltoIncondicional = pilaSaltosLambda.pop();
-                         g.modificarSaltoTerceto(Integer.parseInt(saltoIncondicional.substring(1, saltoIncondicional.length()-1)), String.valueOf(tercetoFin));
+                         // Se agrega corchetes al destino del salto para mantener consistencia visual
+                         g.modificarSaltoTerceto(Integer.parseInt(saltoIncondicional.substring(1, saltoIncondicional.length()-1)), "[" + tercetoFin + "]");
                          g.cerrarAmbito();
                  }
                  ;
@@ -770,7 +771,8 @@ condicional_do_while: DO { g.apilarControl(g.getProximoTerceto());
                         if (refCondicion.equals("ERROR_CONDICION")) {
                              al.agregarErrorSemantico("Linea " + $7.ival + ": Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.");
                         } else {
-                            String tercetoSalto = g.addTerceto("BT", refCondicion, String.valueOf(inicioBucle));
+                            // Agregamos corchetes al destino del salto para consistencia con referencias
+                            String tercetoSalto = g.addTerceto("BT", refCondicion, "[" + inicioBucle + "]");
                         }
                     }
                     ;

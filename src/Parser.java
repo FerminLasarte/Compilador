@@ -502,7 +502,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 885 "gramatica.y"
+//#line 887 "gramatica.y"
 
 static AnalizadorLexico al;
 static Generador g;
@@ -1479,19 +1479,20 @@ case 67:
                          g.addTerceto("RET_LAMBDA", "_", "_");
                          int tercetoFin = g.getProximoTerceto();
                          String saltoIncondicional = pilaSaltosLambda.pop();
-                         g.modificarSaltoTerceto(Integer.parseInt(saltoIncondicional.substring(1, saltoIncondicional.length()-1)), String.valueOf(tercetoFin));
+                         /* Se agrega corchetes al destino del salto para mantener consistencia visual*/
+                         g.modificarSaltoTerceto(Integer.parseInt(saltoIncondicional.substring(1, saltoIncondicional.length()-1)), "[" + tercetoFin + "]");
                          g.cerrarAmbito();
                  }
 break;
 case 71:
-//#line 717 "gramatica.y"
+//#line 718 "gramatica.y"
 {
                 yyval.sval = val_peek(0).sval;
                 yyval.ival = val_peek(0).ival;
             }
 break;
 case 72:
-//#line 723 "gramatica.y"
+//#line 724 "gramatica.y"
 {
                 String lexemaPositivo = val_peek(0).sval;
                 String lexemaNegativo = "-" + lexemaPositivo;
@@ -1516,7 +1517,7 @@ case 72:
             }
 break;
 case 73:
-//#line 748 "gramatica.y"
+//#line 749 "gramatica.y"
 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ?
@@ -1525,7 +1526,7 @@ case 73:
                }
 break;
 case 74:
-//#line 756 "gramatica.y"
+//#line 757 "gramatica.y"
 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -1533,12 +1534,12 @@ case 74:
                }
 break;
 case 75:
-//#line 763 "gramatica.y"
+//#line 764 "gramatica.y"
 { g.apilarControl(g.getProximoTerceto());
                     }
 break;
 case 76:
-//#line 765 "gramatica.y"
+//#line 766 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + val_peek(1).ival + ": Sentencia DO-WHILE reconocida.");
@@ -1547,12 +1548,13 @@ case 76:
                         if (refCondicion.equals("ERROR_CONDICION")) {
                              al.agregarErrorSemantico("Linea " + val_peek(1).ival + ": Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.");
                         } else {
-                            String tercetoSalto = g.addTerceto("BT", refCondicion, String.valueOf(inicioBucle));
+                            /* Agregamos corchetes al destino del salto para consistencia con referencias*/
+                            String tercetoSalto = g.addTerceto("BT", refCondicion, "[" + inicioBucle + "]");
                         }
                     }
 break;
 case 77:
-//#line 779 "gramatica.y"
+//#line 781 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op = g.desapilarOperando();
@@ -1568,58 +1570,58 @@ case 77:
           }
 break;
 case 78:
-//#line 794 "gramatica.y"
+//#line 796 "gramatica.y"
 { g.apilarOperando(">="); }
 break;
 case 79:
-//#line 796 "gramatica.y"
+//#line 798 "gramatica.y"
 { g.apilarOperando("<="); }
 break;
 case 80:
-//#line 798 "gramatica.y"
+//#line 800 "gramatica.y"
 { g.apilarOperando("=!"); }
 break;
 case 81:
-//#line 800 "gramatica.y"
+//#line 802 "gramatica.y"
 { g.apilarOperando("=="); }
 break;
 case 82:
-//#line 802 "gramatica.y"
+//#line 804 "gramatica.y"
 { g.apilarOperando(">"); }
 break;
 case 83:
-//#line 804 "gramatica.y"
+//#line 806 "gramatica.y"
 { g.apilarOperando("<"); }
 break;
 case 84:
-//#line 807 "gramatica.y"
+//#line 809 "gramatica.y"
 { g.abrirAmbito("bloque_" + g.getProximoTerceto()); }
 break;
 case 85:
-//#line 807 "gramatica.y"
+//#line 809 "gramatica.y"
 { g.cerrarAmbito();
                   }
 break;
 case 87:
-//#line 814 "gramatica.y"
+//#line 816 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con cadena multilinea.");
                     g.addTerceto("PRINT", val_peek(1).sval);
                 }
 break;
 case 88:
-//#line 820 "gramatica.y"
+//#line 822 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con expresion.");
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
 break;
 case 89:
-//#line 826 "gramatica.y"
+//#line 828 "gramatica.y"
 { enSentenciaReturn = true; }
 break;
 case 90:
-//#line 827 "gramatica.y"
+//#line 829 "gramatica.y"
 {
                 enSentenciaReturn = false;
                 ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
@@ -1658,7 +1660,7 @@ case 90:
             }
 break;
 case 91:
-//#line 866 "gramatica.y"
+//#line 868 "gramatica.y"
 {
                   ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
                   ArrayList<String> lista = new ArrayList<String>();
@@ -1670,14 +1672,14 @@ case 91:
               }
 break;
 case 92:
-//#line 877 "gramatica.y"
+//#line 879 "gramatica.y"
 {
                   ArrayList<String> lista = new ArrayList<String>();
                   lista.add(g.desapilarOperando());
                   yyval.obj = lista;
               }
 break;
-//#line 1604 "Parser.java"
+//#line 1606 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
