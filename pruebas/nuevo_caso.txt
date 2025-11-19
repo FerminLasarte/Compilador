@@ -76,4 +76,8 @@ MAIN {
     A,B,C = FUNCA(1UI->S);
     A,B = FUNCA(1UI->S);
     A,B,C,D = FUNCA(1UI->S);
+
+    do {
+        VARA := 0UI;
+    } while (VARA > 0UI);
 }
