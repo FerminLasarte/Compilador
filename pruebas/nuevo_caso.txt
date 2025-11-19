@@ -124,7 +124,7 @@ MAIN {
     }
 
     uint F(lambda X, uint SS) {
-        X(SS->F.XX);
+        X(SS);
     }
 
     F((uint XX) {
