@@ -108,6 +108,11 @@ MAIN {
             print(100UI);
         } endif;
 
+        if (A < 5UI) {
+            print(& PRINT A &);
+            print(A);
+        } endif;
+
         if (MAIN.A < 5UI) {
             print(& PRINT MAIN.A &);
             print(MAIN.A);
@@ -115,11 +120,16 @@ MAIN {
             print(100UI);
         };
 
-        if (A < 5UI) {
-            print(& PRINT A &);
-            print(A);
-        } endif;
-
         return (1000UI);
     }
+
+    uint F(lambda X, uint SS) {
+        X(SS);
+    }
+
+    F((uint XX) {
+        if (XX>1UI) {
+            print(& PRINT AA &);
+        }
+    }->X,3UI->Y);
 }

@@ -502,7 +502,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 887 "gramatica.y"
+//#line 882 "gramatica.y"
 
 static AnalizadorLexico al;
 static Generador g;
@@ -1519,27 +1519,22 @@ break;
 case 73:
 //#line 749 "gramatica.y"
 {
-                    Object lineaObj = al.getAtributo("if", "Linea");
-                    String linea = (lineaObj != null) ?
-                    lineaObj.toString() : "?";
-                    salida.add("Linea " + linea + ": Sentencia IF reconocida.");
+                   salida.add("Linea " + val_peek(6).ival + ": Sentencia IF reconocida.");
                }
 break;
 case 74:
-//#line 757 "gramatica.y"
+//#line 754 "gramatica.y"
 {
-                    Object lineaObj = al.getAtributo("if", "Linea");
-                    String linea = (lineaObj != null) ? lineaObj.toString() : "?";
-                    salida.add("Linea " + linea + ": Sentencia IF-ELSE reconocida.");
+                   salida.add("Linea " + val_peek(8).ival + ": Sentencia IF-ELSE reconocida.");
                }
 break;
 case 75:
-//#line 764 "gramatica.y"
+//#line 759 "gramatica.y"
 { g.apilarControl(g.getProximoTerceto());
                     }
 break;
 case 76:
-//#line 766 "gramatica.y"
+//#line 761 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + val_peek(1).ival + ": Sentencia DO-WHILE reconocida.");
@@ -1554,7 +1549,7 @@ case 76:
                     }
 break;
 case 77:
-//#line 781 "gramatica.y"
+//#line 776 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op = g.desapilarOperando();
@@ -1570,58 +1565,58 @@ case 77:
           }
 break;
 case 78:
-//#line 796 "gramatica.y"
+//#line 791 "gramatica.y"
 { g.apilarOperando(">="); }
 break;
 case 79:
-//#line 798 "gramatica.y"
+//#line 793 "gramatica.y"
 { g.apilarOperando("<="); }
 break;
 case 80:
-//#line 800 "gramatica.y"
+//#line 795 "gramatica.y"
 { g.apilarOperando("=!"); }
 break;
 case 81:
-//#line 802 "gramatica.y"
+//#line 797 "gramatica.y"
 { g.apilarOperando("=="); }
 break;
 case 82:
-//#line 804 "gramatica.y"
+//#line 799 "gramatica.y"
 { g.apilarOperando(">"); }
 break;
 case 83:
-//#line 806 "gramatica.y"
+//#line 801 "gramatica.y"
 { g.apilarOperando("<"); }
 break;
 case 84:
-//#line 809 "gramatica.y"
+//#line 804 "gramatica.y"
 { g.abrirAmbito("bloque_" + g.getProximoTerceto()); }
 break;
 case 85:
-//#line 809 "gramatica.y"
+//#line 804 "gramatica.y"
 { g.cerrarAmbito();
                   }
 break;
 case 87:
-//#line 816 "gramatica.y"
+//#line 811 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con cadena multilinea.");
                     g.addTerceto("PRINT", val_peek(1).sval);
                 }
 break;
 case 88:
-//#line 822 "gramatica.y"
+//#line 817 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con expresion.");
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
 break;
 case 89:
-//#line 828 "gramatica.y"
+//#line 823 "gramatica.y"
 { enSentenciaReturn = true; }
 break;
 case 90:
-//#line 829 "gramatica.y"
+//#line 824 "gramatica.y"
 {
                 enSentenciaReturn = false;
                 ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
@@ -1660,7 +1655,7 @@ case 90:
             }
 break;
 case 91:
-//#line 868 "gramatica.y"
+//#line 863 "gramatica.y"
 {
                   ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
                   ArrayList<String> lista = new ArrayList<String>();
@@ -1672,14 +1667,14 @@ case 91:
               }
 break;
 case 92:
-//#line 879 "gramatica.y"
+//#line 874 "gramatica.y"
 {
                   ArrayList<String> lista = new ArrayList<String>();
                   lista.add(g.desapilarOperando());
                   yyval.obj = lista;
               }
 break;
-//#line 1606 "Parser.java"
+//#line 1601 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

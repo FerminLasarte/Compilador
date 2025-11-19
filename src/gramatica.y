@@ -747,17 +747,12 @@ constante : CTE
 
 condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF %prec IFX ';'
                {
-                    Object lineaObj = al.getAtributo("if", "Linea");
-                    String linea = (lineaObj != null) ?
-                    lineaObj.toString() : "?";
-                    salida.add("Linea " + linea + ": Sentencia IF reconocida.");
+                   salida.add("Linea " + $1.ival + ": Sentencia IF reconocida.");
                }
                |
                IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
                {
-                    Object lineaObj = al.getAtributo("if", "Linea");
-                    String linea = (lineaObj != null) ? lineaObj.toString() : "?";
-                    salida.add("Linea " + linea + ": Sentencia IF-ELSE reconocida.");
+                   salida.add("Linea " + $1.ival + ": Sentencia IF-ELSE reconocida.");
                }
                ;
 
