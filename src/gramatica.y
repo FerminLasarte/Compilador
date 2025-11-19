@@ -75,7 +75,8 @@ declaracion_var : VAR variable ASIG expresion
                 ;
 
 tipo : UINT { $$.sval = "uint"; }
-     | FLOAT { $$.sval = "float"; }
+     | FLOAT { $$.sval = "float";
+     }
      | LAMBDA { $$.sval = "lambda"; }
      ;
 
@@ -134,7 +135,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             pilaTiposRetorno.pop();
             boolean huboError = pilaErrorEnFuncion.pop();
             int inicioFunc = pilaInicioFuncion.pop();
-
             if (huboError) {
                 al.eliminarLexemaTS($2.sval);
                 g.anularTercetosDesde(inicioFunc);
@@ -159,7 +159,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             pilaErrorEnFuncion.push(false);
 
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
-
             if (g.existeEnAmbitoActual(nombreFuncion)) {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
                 g.setGeneracionHabilitada(false);
@@ -190,7 +189,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             pilaTiposRetorno.pop();
             boolean huboError = pilaErrorEnFuncion.pop();
             int inicioFunc = pilaInicioFuncion.pop();
-
             if (huboError) {
                 al.eliminarLexemaTS($2.sval);
                 g.anularTercetosDesde(inicioFunc);
@@ -347,7 +345,6 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                             }
 
                             if (esFuncion) {
-
                                   String funcTerceto = derechos.pop();
                                   if (funcTerceto.equals("ERROR_CALL") || funcTerceto.equals("ERROR_CALL_PARAMS") || funcTerceto.equals("ERROR_CALL_LAMBDA")) {
                                   } else {
@@ -360,7 +357,6 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                                           ArrayList<String> tiposRetorno = new ArrayList<String>();
                                           if (rawObj instanceof ArrayList) {
                                               for (Object o : (ArrayList<?>) rawObj) {
-
                                                   tiposRetorno.add((String) o);
                                               }
                                           }
@@ -373,7 +369,6 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                                                   + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero solo se asignan " + cantIzquierda + ". Se descartan los sobrantes.");
                                               }
                                               for (int i = 0; i < cantIzquierda; i++) {
-
                                                   String var = listaVariables.get(i);
                                                   String tipoVar = g.getTipo(var);
                                                   String tipoRet = tiposRetorno.get(i);
@@ -387,8 +382,6 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                                           }
                                       }
                                   }
-
-
                               } else {
                                   if (cantIzquierda != cantDerecha) {
                                       al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + cantIzquierda + ") y a la derecha (" + cantDerecha + ").");
@@ -429,8 +422,7 @@ lado_derecho_multiple : { g.clearLadoDerecho(); } factor
 
 variable : ID PUNTO ID
             {
-                $$.sval = $1.sval + "."
-                + $3.sval;
+                $$.sval = $1.sval + "." + $3.sval;
                 $$.ival = $1.ival;
             }
          |
@@ -706,6 +698,8 @@ lambda_expresion : '(' tipo ID ')' '{' {
                          // Se agrega corchetes al destino del salto para mantener consistencia visual
                          g.modificarSaltoTerceto(Integer.parseInt(saltoIncondicional.substring(1, saltoIncondicional.length()-1)), "[" + tercetoFin + "]");
                          g.cerrarAmbito();
+                         $$.sval = $6.sval;
+                         $$.ival = $1.ival;
                  }
                  ;
 
