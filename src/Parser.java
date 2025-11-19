@@ -502,7 +502,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 886 "gramatica.y"
+//#line 885 "gramatica.y"
 
 static AnalizadorLexico al;
 static Generador g;
@@ -592,6 +592,17 @@ public static void main(String args[]){
             }
         }
 
+        System.out.println("\n=======================================================");
+        System.out.println("## WARNINGS DETECTADOS ##");
+        System.out.println("=======================================================");
+        if (al.getWarnings() == null || al.getWarnings().isEmpty()) {
+            System.out.println("No se encontraron warnings.");
+        } else {
+            for (String s : al.getWarnings()) {
+                System.out.println(s);
+            }
+        }
+
         g.imprimirTercetos();
         al.imprimirTablaSimbolos();
 
@@ -600,7 +611,7 @@ public static void main(String args[]){
         System.out.println("Error: Se requiere la ruta del archivo fuente como unico parametro.");
     }
 }
-//#line 532 "Parser.java"
+//#line 543 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -814,28 +825,27 @@ case 15:
 break;
 case 16:
 //#line 78 "gramatica.y"
-{ yyval.sval = "float";
-}
+{ yyval.sval = "float"; }
 break;
 case 17:
-//#line 80 "gramatica.y"
+//#line 79 "gramatica.y"
 { yyval.sval = "lambda"; }
 break;
 case 18:
-//#line 84 "gramatica.y"
+//#line 83 "gramatica.y"
 {
                     listaVariables.add(val_peek(0).sval);
                 }
 break;
 case 19:
-//#line 89 "gramatica.y"
+//#line 88 "gramatica.y"
 {
                     listaVariables.clear();
                     listaVariables.add(val_peek(0).sval);
                 }
 break;
 case 20:
-//#line 95 "gramatica.y"
+//#line 94 "gramatica.y"
 {
             String nombreFuncion = val_peek(4).sval;
             String tipoRetorno = val_peek(5).sval;
@@ -875,7 +885,7 @@ case 20:
         }
 break;
 case 21:
-//#line 131 "gramatica.y"
+//#line 130 "gramatica.y"
 {
             g.cerrarAmbito();
             g.setGeneracionHabilitada(true);
@@ -895,7 +905,7 @@ case 21:
         }
 break;
 case 22:
-//#line 149 "gramatica.y"
+//#line 148 "gramatica.y"
 {
             String nombreFuncion = val_peek(4).sval;
             String nombreAmbito = nombreFuncion;
@@ -937,7 +947,7 @@ case 22:
         }
 break;
 case 23:
-//#line 187 "gramatica.y"
+//#line 186 "gramatica.y"
 {
             g.cerrarAmbito();
             g.setGeneracionHabilitada(true);
@@ -957,7 +967,7 @@ case 23:
         }
 break;
 case 24:
-//#line 207 "gramatica.y"
+//#line 206 "gramatica.y"
 {
                                  ArrayList<String> lista = new ArrayList<String>();
                                  lista.add(val_peek(2).sval);
@@ -966,7 +976,7 @@ case 24:
                              }
 break;
 case 25:
-//#line 215 "gramatica.y"
+//#line 214 "gramatica.y"
 {
                                  ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
                                  ArrayList<String> lista = new ArrayList<String>();
@@ -978,28 +988,28 @@ case 25:
                              }
 break;
 case 28:
-//#line 232 "gramatica.y"
+//#line 231 "gramatica.y"
 {
                  g.apilarParametro(new ParametroInfo(val_peek(0).sval, val_peek(1).sval, val_peek(2).sval));
              }
 break;
 case 29:
-//#line 237 "gramatica.y"
+//#line 236 "gramatica.y"
 {
                  String pasajeDefault = "default_cv";
                  g.apilarParametro(new ParametroInfo(val_peek(0).sval, val_peek(1).sval, pasajeDefault));
              }
 break;
 case 30:
-//#line 243 "gramatica.y"
+//#line 242 "gramatica.y"
 { yyval.sval = "cr_se"; }
 break;
 case 31:
-//#line 245 "gramatica.y"
+//#line 244 "gramatica.y"
 { yyval.sval = "cr_le"; }
 break;
 case 39:
-//#line 261 "gramatica.y"
+//#line 260 "gramatica.y"
 {
                salida.add("Linea " + val_peek(2).ival + ": Asignacion simple (:=).");
                String op2_terceto = g.desapilarOperando();
@@ -1067,7 +1077,7 @@ case 39:
            }
 break;
 case 40:
-//#line 329 "gramatica.y"
+//#line 328 "gramatica.y"
 {
                             String lineaActual = String.valueOf(val_peek(1).ival);
                             int cantIzquierda = listaVariables.size();
@@ -1154,11 +1164,11 @@ case 40:
                         }
 break;
 case 41:
-//#line 415 "gramatica.y"
+//#line 414 "gramatica.y"
 { g.clearLadoDerecho(); }
 break;
 case 42:
-//#line 416 "gramatica.y"
+//#line 415 "gramatica.y"
 {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho = 1;
@@ -1167,7 +1177,7 @@ case 42:
                           }
 break;
 case 43:
-//#line 424 "gramatica.y"
+//#line 423 "gramatica.y"
 {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho++;
@@ -1175,7 +1185,7 @@ case 43:
                           }
 break;
 case 44:
-//#line 432 "gramatica.y"
+//#line 431 "gramatica.y"
 {
                 yyval.sval = val_peek(2).sval + "."
                 + val_peek(0).sval;
@@ -1183,14 +1193,14 @@ case 44:
             }
 break;
 case 45:
-//#line 439 "gramatica.y"
+//#line 438 "gramatica.y"
 {
                 yyval.sval = val_peek(0).sval;
                 yyval.ival = val_peek(0).ival;
             }
 break;
 case 46:
-//#line 446 "gramatica.y"
+//#line 445 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -1202,7 +1212,7 @@ case 46:
             }
 break;
 case 47:
-//#line 457 "gramatica.y"
+//#line 456 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -1214,12 +1224,12 @@ case 47:
             }
 break;
 case 48:
-//#line 467 "gramatica.y"
+//#line 466 "gramatica.y"
 { yyval.ival = val_peek(0).ival;
-}
+          }
 break;
 case 49:
-//#line 472 "gramatica.y"
+//#line 471 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -1231,7 +1241,7 @@ case 49:
             }
 break;
 case 50:
-//#line 483 "gramatica.y"
+//#line 482 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -1243,18 +1253,18 @@ case 50:
             }
 break;
 case 51:
-//#line 492 "gramatica.y"
+//#line 491 "gramatica.y"
 { yyval.ival = val_peek(0).ival;
-}
+        }
 break;
 case 52:
-//#line 497 "gramatica.y"
+//#line 496 "gramatica.y"
 {
            yyval.ival = val_peek(0).ival;
-}
+       }
 break;
 case 53:
-//#line 501 "gramatica.y"
+//#line 500 "gramatica.y"
 {
            yyval.ival = val_peek(0).ival;
            yyval.sval = val_peek(0).sval;
@@ -1262,7 +1272,7 @@ case 53:
        }
 break;
 case 54:
-//#line 509 "gramatica.y"
+//#line 508 "gramatica.y"
 {
                       String varNombre = val_peek(0).sval;
                       String tipoVar = g.getTipo(varNombre);
@@ -1287,19 +1297,19 @@ case 54:
                   }
 break;
 case 55:
-//#line 533 "gramatica.y"
+//#line 532 "gramatica.y"
 {
                       g.apilarOperando(val_peek(0).sval);
                       yyval.ival = val_peek(0).ival;
                   }
 break;
 case 56:
-//#line 539 "gramatica.y"
+//#line 538 "gramatica.y"
 { yyval.ival = val_peek(0).ival;
-}
+                  }
 break;
 case 57:
-//#line 544 "gramatica.y"
+//#line 543 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": Conversion explicita (toui).");
                     String op1 = g.desapilarOperando();
@@ -1319,11 +1329,11 @@ case 57:
                 }
 break;
 case 58:
-//#line 563 "gramatica.y"
+//#line 562 "gramatica.y"
 { g.clearParametrosReales(); }
 break;
 case 59:
-//#line 567 "gramatica.y"
+//#line 566 "gramatica.y"
 {
                        String funcName = val_peek(4).sval;
                        int linea = val_peek(4).ival;
@@ -1404,17 +1414,17 @@ case 59:
                    }
 break;
 case 60:
-//#line 648 "gramatica.y"
+//#line 647 "gramatica.y"
 { yyval.ival = val_peek(2).ival + 1;
-}
+                        }
 break;
 case 61:
-//#line 652 "gramatica.y"
+//#line 651 "gramatica.y"
 { yyval.ival = 1;
-}
+                        }
 break;
 case 62:
-//#line 657 "gramatica.y"
+//#line 656 "gramatica.y"
 {
                    String op1 = val_peek(2).sval;
                    String op2 = val_peek(0).sval;
@@ -1429,28 +1439,28 @@ case 62:
                }
 break;
 case 63:
-//#line 671 "gramatica.y"
+//#line 670 "gramatica.y"
 {
                    al.agregarErrorSemantico("Linea " + val_peek(0).ival + ": Error Semantico: Se requiere asignacion explicita de parametro (-> ID).");
                    yyval.ival = val_peek(0).ival;
                }
 break;
 case 64:
-//#line 678 "gramatica.y"
+//#line 677 "gramatica.y"
 {
                      yyval.sval = g.desapilarOperando();
                      yyval.ival = val_peek(0).ival;
                  }
 break;
 case 65:
-//#line 684 "gramatica.y"
+//#line 683 "gramatica.y"
 {
                      yyval.sval = val_peek(0).sval;
                      yyval.ival = val_peek(0).ival;
                  }
 break;
 case 66:
-//#line 690 "gramatica.y"
+//#line 689 "gramatica.y"
 {
                          pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
                          int inicioLambda = g.getProximoTerceto();
@@ -1464,7 +1474,7 @@ case 66:
                  }
 break;
 case 67:
-//#line 700 "gramatica.y"
+//#line 699 "gramatica.y"
 {
                          g.addTerceto("RET_LAMBDA", "_", "_");
                          int tercetoFin = g.getProximoTerceto();
@@ -1474,14 +1484,14 @@ case 67:
                  }
 break;
 case 71:
-//#line 718 "gramatica.y"
+//#line 717 "gramatica.y"
 {
                 yyval.sval = val_peek(0).sval;
                 yyval.ival = val_peek(0).ival;
             }
 break;
 case 72:
-//#line 724 "gramatica.y"
+//#line 723 "gramatica.y"
 {
                 String lexemaPositivo = val_peek(0).sval;
                 String lexemaNegativo = "-" + lexemaPositivo;
@@ -1506,7 +1516,7 @@ case 72:
             }
 break;
 case 73:
-//#line 749 "gramatica.y"
+//#line 748 "gramatica.y"
 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ?
@@ -1515,7 +1525,7 @@ case 73:
                }
 break;
 case 74:
-//#line 757 "gramatica.y"
+//#line 756 "gramatica.y"
 {
                     Object lineaObj = al.getAtributo("if", "Linea");
                     String linea = (lineaObj != null) ? lineaObj.toString() : "?";
@@ -1523,12 +1533,12 @@ case 74:
                }
 break;
 case 75:
-//#line 764 "gramatica.y"
+//#line 763 "gramatica.y"
 { g.apilarControl(g.getProximoTerceto());
                     }
 break;
 case 76:
-//#line 766 "gramatica.y"
+//#line 765 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + val_peek(1).ival + ": Sentencia DO-WHILE reconocida.");
@@ -1542,7 +1552,7 @@ case 76:
                     }
 break;
 case 77:
-//#line 780 "gramatica.y"
+//#line 779 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op = g.desapilarOperando();
@@ -1558,58 +1568,58 @@ case 77:
           }
 break;
 case 78:
-//#line 795 "gramatica.y"
+//#line 794 "gramatica.y"
 { g.apilarOperando(">="); }
 break;
 case 79:
-//#line 797 "gramatica.y"
+//#line 796 "gramatica.y"
 { g.apilarOperando("<="); }
 break;
 case 80:
-//#line 799 "gramatica.y"
+//#line 798 "gramatica.y"
 { g.apilarOperando("=!"); }
 break;
 case 81:
-//#line 801 "gramatica.y"
+//#line 800 "gramatica.y"
 { g.apilarOperando("=="); }
 break;
 case 82:
-//#line 803 "gramatica.y"
+//#line 802 "gramatica.y"
 { g.apilarOperando(">"); }
 break;
 case 83:
-//#line 805 "gramatica.y"
+//#line 804 "gramatica.y"
 { g.apilarOperando("<"); }
 break;
 case 84:
-//#line 808 "gramatica.y"
+//#line 807 "gramatica.y"
 { g.abrirAmbito("bloque_" + g.getProximoTerceto()); }
 break;
 case 85:
-//#line 808 "gramatica.y"
+//#line 807 "gramatica.y"
 { g.cerrarAmbito();
                   }
 break;
 case 87:
-//#line 815 "gramatica.y"
+//#line 814 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con cadena multilinea.");
                     g.addTerceto("PRINT", val_peek(1).sval);
                 }
 break;
 case 88:
-//#line 821 "gramatica.y"
+//#line 820 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con expresion.");
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
 break;
 case 89:
-//#line 827 "gramatica.y"
+//#line 826 "gramatica.y"
 { enSentenciaReturn = true; }
 break;
 case 90:
-//#line 828 "gramatica.y"
+//#line 827 "gramatica.y"
 {
                 enSentenciaReturn = false;
                 ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
@@ -1648,7 +1658,7 @@ case 90:
             }
 break;
 case 91:
-//#line 867 "gramatica.y"
+//#line 866 "gramatica.y"
 {
                   ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
                   ArrayList<String> lista = new ArrayList<String>();
@@ -1660,14 +1670,14 @@ case 91:
               }
 break;
 case 92:
-//#line 878 "gramatica.y"
+//#line 877 "gramatica.y"
 {
                   ArrayList<String> lista = new ArrayList<String>();
                   lista.add(g.desapilarOperando());
                   yyval.obj = lista;
               }
 break;
-//#line 1594 "Parser.java"
+//#line 1604 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

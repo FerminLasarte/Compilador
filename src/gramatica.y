@@ -75,8 +75,7 @@ declaracion_var : VAR variable ASIG expresion
                 ;
 
 tipo : UINT { $$.sval = "uint"; }
-     | FLOAT { $$.sval = "float";
-}
+     | FLOAT { $$.sval = "float"; }
      | LAMBDA { $$.sval = "lambda"; }
      ;
 
@@ -465,7 +464,7 @@ expresion : expresion '+' termino
             }
           |
           termino { $$.ival = $1.ival;
-}
+          }
           ;
 
 termino : termino '*' factor
@@ -490,13 +489,13 @@ termino : termino '*' factor
                 $$.ival = $1.ival;
             }
         | factor { $$.ival = $1.ival;
-}
+        }
         ;
 
 factor : factor_no_funcion
        {
            $$.ival = $1.ival;
-}
+       }
        | invocacion_funcion
        {
            $$.ival = $1.ival;
@@ -537,7 +536,7 @@ factor_no_funcion : variable
                   |
                   conversion_explicita
                   { $$.ival = $1.ival;
-}
+                  }
                   ;
 
 conversion_explicita : TOUI '(' expresion ')'
@@ -646,11 +645,11 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
 
 lista_parametros_reales : lista_parametros_reales ',' parametro_real
                         { $$.ival = $1.ival + 1;
-}
+                        }
                         |
                         parametro_real
                         { $$.ival = 1;
-}
+                        }
                         ;
 
 parametro_real : parametro_simple FLECHA parametro_simple
@@ -968,6 +967,17 @@ public static void main(String args[]){
             System.out.println("No se encontraron errores semanticos.");
         } else {
             for (String s : al.getErroresSemanticos()) {
+                System.out.println(s);
+            }
+        }
+
+        System.out.println("\n=======================================================");
+        System.out.println("## WARNINGS DETECTADOS ##");
+        System.out.println("=======================================================");
+        if (al.getWarnings() == null || al.getWarnings().isEmpty()) {
+            System.out.println("No se encontraron warnings.");
+        } else {
+            for (String s : al.getWarnings()) {
                 System.out.println(s);
             }
         }
