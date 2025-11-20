@@ -130,6 +130,6 @@ MAIN {
     F((uint XX) {
         if (XX>1UI) {
             print(& PRINT AA &);
-        }
+        } endif;
     }->X,3UI->SS);
 }
