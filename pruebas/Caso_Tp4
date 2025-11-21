@@ -1,0 +1,155 @@
+MAIN {
+    @ Temas: 2, 5, 8, 9, 14, 19, 21, 23, 25, 28, 31, 32
+
+    var A := 1UI;
+    var B := 2UI;
+    var C := 3UI;
+    A,B,C = 10UI, 20UI, 30UI;
+    var J := 0UI;
+
+    uint FUNCR(uint J) {
+        J := 1UI;
+        return (100UI);
+    }
+
+    A,B = FUNCR(11UI->J), 20UI;
+    A,B = FUNCR(11UI->J), 20UI;
+
+    var Z := 1UI;
+
+    uint FUNCZ(uint Z) {
+
+        var W := 2UI;
+        var Y := 3UI;
+        var A := 4UI;
+        W := MAIN.A;
+        MAIN.A := W;
+
+        uint FUNCJ(uint J) {
+
+            var W := 22UI;
+            var Y := 33UI;
+            var A := 44UI;
+            W := MAIN.A;
+            FUNCZ.A := W;
+
+            return(55UI);
+        }
+
+        return(5UI);
+    }
+
+    var GCONTADOR := 0UI;
+    var GCONTADOR1 := 1UI;
+    var GFACTOR := 1.0F+0;
+    var X := GCONTADOR + GCONTADOR1;
+
+    @ CORRECCION: Error de Tipos. uint + float requiere conversion explicita (toui) segun Tema 31
+    @ X := GCONTADOR + GFACTOR;  <-- ESTO DABA ERROR
+    X := GCONTADOR + toui(GFACTOR);
+
+    var VARA := 1UI;
+    var VARF := 1.0F+0;
+    VARA := toui(VARF);
+
+    uint, uint FUNCCOMPLETA(cr se uint PSE, cr le uint PLE) {
+
+        PLE := PLE + 1UI;
+        PSE := 100UI;
+        PLE := 100UI;
+
+        return (PLE, PSE);
+    }
+
+    float, uint FUNC(cr se uint PSE, cr le uint PLE) {
+
+        PLE := PLE + 1UI;
+        PSE := 100UI;
+        PLE := 100UI;
+
+        @ CORRECCION: Asegurar tipos float, uint
+        return (1.5F+1, PSE);
+    }
+
+    var S := 0UI;
+
+    uint, uint, uint FUNCA(uint S) {
+        return (130UI, 140UI, 150UI);
+    }
+
+    A,B,C = FUNCA(1UI->S);
+    A,B = FUNCA(1UI->S);
+
+    do {
+        VARA := 0UI;
+    } while (VARA > 0UI);
+
+    @ CORRECCION: Sacar declaraciones de variables fuera de los bloques de control para evitar errores sintacticos/alcance
+    var EVARBLOQUE := 1UI;
+
+    do {
+        EVARBLOQUE := 1UI;
+    } while (VARA > 0UI);
+
+    do {
+        EVARBLOQUE := 1UI;
+    } while (EVARBLOQUE > 0UI);
+
+    uint FUNCIONX(uint AA) {
+        AA := 3UI;
+        var A := 3UI;
+        var GCONTADOR := 0UI;
+        do {
+            print(& PRINT GCONTADOR &);
+            print(MAIN.GCONTADOR);
+            MAIN.GCONTADOR := GCONTADOR + 1UI;
+        } while (MAIN.GCONTADOR < 3UI);
+        if (AA < 5UI) {
+            print(& PRINT AA &);
+            print(MAIN.A);
+        } else {
+            print(100UI);
+        } endif;
+
+        if (A < 5UI) {
+            print(& PRINT A &);
+            print(A);
+        } endif;
+
+        if (MAIN.A < 5UI) {
+            print(& PRINT MAIN.A &);
+            print(MAIN.A);
+        } else {
+            print(100UI);
+        }endif;
+        return (1000UI);
+    }
+
+    uint F(lambda X, uint SS) {
+        X(SS);
+    }
+
+    F((uint XX) {
+        if (XX>1UI) {
+            print(& PRINT AA &);
+        } endif;
+    }->X,3UI->SS);
+
+    print(&
+    Inicio de cadena
+    Linea intermedia
+    Fin de cadena
+    &);
+
+    var UOP1 := 50UI;
+    var UOP2 := 20UI;
+    var URESSUB := UOP1 - UOP2;
+
+    var URESADD := UOP1 + UOP2;
+
+    var FOP1 := 2.0F+10;
+    var FOP2 := 3.0F+5;
+    var FRESPROD := FOP1 * FOP2;
+
+    var FDIV := FOP1 / FOP2;
+}

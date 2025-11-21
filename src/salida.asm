@@ -103,6 +103,32 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux95 dd 0
 @aux96 dd 0
 @aux97 dd 0
+@aux98 dd 0
+@aux99 dd 0
+@aux100 dd 0
+@aux101 dd 0
+@aux102 dd 0
+@aux103 dd 0
+@aux104 dd 0
+@aux105 dd 0
+@aux106 dd 0
+@aux107 dd 0
+@aux108 dd 0
+@aux109 dd 0
+@aux110 dd 0
+@aux111 dd 0
+@aux112 dd 0
+@aux113 dd 0
+@aux114 dd 0
+@aux115 dd 0
+@aux116 dd 0
+@aux117 dd 0
+@aux118 dd 0
+@aux119 dd 0
+@aux120 dd 0
+@aux121 dd 0
+@aux122 dd 0
+@aux123 dd 0
 _A dd 0
 _B dd 0
 _C dd 0
@@ -121,15 +147,28 @@ _PLE dd 0
 _PSE dd 0
 _S dd 0
 _FUNCA dd 0
+_EVARBLOQUE dd 0
 _AA dd 0
 _SS dd 0
 _XX dd 0
 _F dd 0
-str_70 db " PRINT GCONTADOR ", 0
-str_77 db " PRINT AA ", 0
-str_81 db " PRINT A ", 0
-str_84 db " PRINT MAIN.A ", 0
-str_93 db " PRINT AA ", 0
+_UOP1 dd 0
+_UOP2 dd 0
+_URESSUB dd 0
+_URESADD dd 0
+_FOP1 dd 0
+_FOP2 dd 0
+_FRESPROD dd 0
+str_85 db " PRINT GCONTADOR ", 0
+str_92 db " PRINT AA ", 0
+str_96 db " PRINT A ", 0
+str_99 db " PRINT MAIN.A ", 0
+str_108 db " PRINT AA ", 0
+str_113 db "
+    Inicio de cadena
+    Linea intermedia
+    Fin de cadena
+    ", 0
 .386
 .model flat, stdcall
 option casemap :none
@@ -178,234 +217,315 @@ Label12:
 MOV EAX, @aux10
 MOV _A, EAX
 Label13:
+PUSH 11
+Label14:
+CALL _FUNCR
+MOV @aux14, EAX
+Label15:
 MOV EAX, 20
 MOV _B, EAX
-Label14:
+Label16:
+MOV EAX, @aux14
+MOV _A, EAX
+Label17:
 MOV EAX, 1
 MOV _Z, EAX
-Label15:
+Label18:
 MOV EAX, 2
 MOV _W, EAX
-Label16:
+Label19:
 MOV EAX, 3
 MOV _Y, EAX
-Label17:
+Label20:
 MOV EAX, 4
 MOV _A, EAX
-Label18:
+Label21:
 MOV EAX, _MAIN_A
 MOV _W, EAX
-Label19:
+Label22:
 MOV EAX, _W
 MOV _MAIN_A, EAX
-Label20:
+Label23:
 MOV EAX, 22
 MOV _W, EAX
-Label21:
+Label24:
 MOV EAX, 33
 MOV _Y, EAX
-Label22:
+Label25:
 MOV EAX, 44
 MOV _A, EAX
-Label23:
+Label26:
 MOV EAX, _MAIN_A
 MOV _W, EAX
-Label24:
+Label27:
 MOV EAX, _W
 MOV _FUNCZ_A, EAX
-Label25:
+Label28:
 RET
-Label26:
+Label29:
 RET
-Label27:
+Label30:
 MOV EAX, 0
 MOV _GCONTADOR, EAX
-Label28:
+Label31:
 MOV EAX, 1
 MOV _GCONTADOR1, EAX
-Label29:
+Label32:
 MOV EAX, 1.0F+0
 MOV _GFACTOR, EAX
-Label30:
+Label33:
 MOV EAX, _GCONTADOR
 ADD EAX, _GCONTADOR1
-MOV @aux30, EAX
-Label31:
-MOV EAX, @aux30
-MOV _X, EAX
-Label32:
-MOV EAX, _GCONTADOR
-ADD EAX, _GFACTOR
-MOV @aux32, EAX
-Label33:
-MOV EAX, 1
-MOV _VARA, EAX
+MOV @aux33, EAX
 Label34:
-MOV EAX, 1.0F+0
-MOV _VARF, EAX
+MOV EAX, @aux33
+MOV _X, EAX
 Label35:
-FLD _VARF
+FLD _GFACTOR
 FISTP @aux35
 Label36:
-MOV EAX, @aux35
-MOV _VARA, EAX
+MOV EAX, _GCONTADOR
+ADD EAX, @aux35
+MOV @aux36, EAX
 Label37:
+MOV EAX, @aux36
+MOV _X, EAX
+Label38:
+MOV EAX, 1
+MOV _VARA, EAX
+Label39:
+MOV EAX, 1.0F+0
+MOV _VARF, EAX
+Label40:
+FLD _VARF
+FISTP @aux40
+Label41:
+MOV EAX, @aux40
+MOV _VARA, EAX
+Label42:
 MOV EAX, _PLE
 ADD EAX, 1
-MOV @aux37, EAX
-Label38:
-MOV EAX, @aux37
+MOV @aux42, EAX
+Label43:
+MOV EAX, @aux42
 MOV _PLE, EAX
-Label39:
+Label44:
 MOV EAX, 100
 MOV _PSE, EAX
-Label40:
-RET
-Label41:
-RET
-Label42:
-MOV EAX, 0
-MOV _S, EAX
-Label43:
-RET
-Label44:
-RET
 Label45:
-RET
+MOV EAX, 100
+MOV _PLE, EAX
 Label46:
-PUSH 1
+RET
 Label47:
-CALL _FUNCA
-MOV @aux47, EAX
+RET
 Label48:
+MOV EAX, _PLE
+ADD EAX, 1
+MOV @aux48, EAX
 Label49:
 MOV EAX, @aux48
-MOV _A, EAX
+MOV _PLE, EAX
 Label50:
+MOV EAX, 100
+MOV _PSE, EAX
 Label51:
-MOV EAX, @aux50
-MOV _B, EAX
+MOV EAX, 100
+MOV _PLE, EAX
 Label52:
+RET
 Label53:
-MOV EAX, @aux52
-MOV _C, EAX
+RET
 Label54:
-PUSH 1
+MOV EAX, 0
+MOV _S, EAX
 Label55:
-CALL _FUNCA
-MOV @aux55, EAX
+RET
 Label56:
+RET
 Label57:
-MOV EAX, @aux56
-MOV _A, EAX
+RET
 Label58:
-Label59:
-MOV EAX, @aux58
-MOV _B, EAX
-Label60:
 PUSH 1
-Label61:
+Label59:
 CALL _FUNCA
-MOV @aux61, EAX
+MOV @aux59, EAX
+Label60:
+Label61:
+MOV EAX, @aux60
+MOV _A, EAX
 Label62:
+Label63:
+MOV EAX, @aux62
+MOV _B, EAX
+Label64:
+Label65:
+MOV EAX, @aux64
+MOV _C, EAX
+Label66:
+PUSH 1
+Label67:
+CALL _FUNCA
+MOV @aux67, EAX
+Label68:
+Label69:
+MOV EAX, @aux68
+MOV _A, EAX
+Label70:
+Label71:
+MOV EAX, @aux70
+MOV _B, EAX
+Label72:
 MOV EAX, 0
 MOV _VARA, EAX
-Label63:
-MOV EAX, _VARA
-CMP EAX, 0
-MOV @aux63, 0
-Label64:
-MOV EAX, @aux63
-CMP EAX, 1
-JE @aux62
-Label65:
-MOV EAX, _VARA
-CMP EAX, 0
-MOV @aux65, 0
-Label66:
-MOV EAX, @aux65
-CMP EAX, 1
-JE @aux65
-Label67:
-MOV EAX, 3
-MOV _AA, EAX
-Label68:
-MOV EAX, 3
-MOV _A, EAX
-Label69:
-MOV EAX, 0
-MOV _GCONTADOR, EAX
-Label70:
-invoke MessageBox, NULL, addr str_70, addr MensajePrint, MB_OK
-Label71:
-invoke MessageBox, NULL, addr _MAIN_GCONTADOR, addr MensajePrintNum, MB_OK
-Label72:
-MOV EAX, _GCONTADOR
-ADD EAX, 1
-MOV @aux72, EAX
 Label73:
-MOV EAX, @aux72
-MOV _MAIN_GCONTADOR, EAX
+MOV EAX, _VARA
+CMP EAX, 0
+MOV @aux73, 0
 Label74:
-MOV EAX, _MAIN_GCONTADOR
-CMP EAX, 3
-MOV @aux74, 0
-Label75:
-MOV EAX, @aux74
+MOV EAX, @aux73
 CMP EAX, 1
-JE @aux70
+JE @aux72
+Label75:
+MOV EAX, 1
+MOV _EVARBLOQUE, EAX
 Label76:
-MOV EAX, _AA
-CMP EAX, 5
-MOV @aux76, 0
+MOV EAX, 1
+MOV _EVARBLOQUE, EAX
 Label77:
-invoke MessageBox, NULL, addr str_77, addr MensajePrint, MB_OK
+MOV EAX, _VARA
+CMP EAX, 0
+MOV @aux77, 0
 Label78:
-invoke MessageBox, NULL, addr _MAIN_A, addr MensajePrintNum, MB_OK
+MOV EAX, @aux77
+CMP EAX, 1
+JE @aux76
 Label79:
-invoke MessageBox, NULL, addr 100, addr MensajePrintNum, MB_OK
+MOV EAX, 1
+MOV _EVARBLOQUE, EAX
 Label80:
-MOV EAX, _A
-CMP EAX, 5
+MOV EAX, _EVARBLOQUE
+CMP EAX, 0
 MOV @aux80, 0
 Label81:
-invoke MessageBox, NULL, addr str_81, addr MensajePrint, MB_OK
+MOV EAX, @aux80
+CMP EAX, 1
+JE @aux79
 Label82:
-invoke MessageBox, NULL, addr _A, addr MensajePrintNum, MB_OK
+MOV EAX, 3
+MOV _AA, EAX
 Label83:
+MOV EAX, 3
+MOV _A, EAX
+Label84:
+MOV EAX, 0
+MOV _GCONTADOR, EAX
+Label85:
+invoke MessageBox, NULL, addr str_85, addr MensajePrint, MB_OK
+Label86:
+invoke MessageBox, NULL, addr _MAIN_GCONTADOR, addr MensajePrintNum, MB_OK
+Label87:
+MOV EAX, _GCONTADOR
+ADD EAX, 1
+MOV @aux87, EAX
+Label88:
+MOV EAX, @aux87
+MOV _MAIN_GCONTADOR, EAX
+Label89:
+MOV EAX, _MAIN_GCONTADOR
+CMP EAX, 3
+MOV @aux89, 0
+Label90:
+MOV EAX, @aux89
+CMP EAX, 1
+JE @aux85
+Label91:
+MOV EAX, _AA
+CMP EAX, 5
+MOV @aux91, 0
+Label92:
+invoke MessageBox, NULL, addr str_92, addr MensajePrint, MB_OK
+Label93:
+invoke MessageBox, NULL, addr _MAIN_A, addr MensajePrintNum, MB_OK
+Label94:
+invoke MessageBox, NULL, addr 100, addr MensajePrintNum, MB_OK
+Label95:
+MOV EAX, _A
+CMP EAX, 5
+MOV @aux95, 0
+Label96:
+invoke MessageBox, NULL, addr str_96, addr MensajePrint, MB_OK
+Label97:
+invoke MessageBox, NULL, addr _A, addr MensajePrintNum, MB_OK
+Label98:
 MOV EAX, _MAIN_A
 CMP EAX, 5
-MOV @aux83, 0
-Label84:
-invoke MessageBox, NULL, addr str_84, addr MensajePrint, MB_OK
-Label85:
+MOV @aux98, 0
+Label99:
+invoke MessageBox, NULL, addr str_99, addr MensajePrint, MB_OK
+Label100:
 invoke MessageBox, NULL, addr _MAIN_A, addr MensajePrintNum, MB_OK
-Label86:
+Label101:
 invoke MessageBox, NULL, addr 100, addr MensajePrintNum, MB_OK
-Label87:
+Label102:
 RET
-Label88:
-Label89:
+Label103:
+Label104:
 MOV EAX, _X
 CALL EAX
-Label90:
+Label105:
 JMP __
-Label91:
-Label92:
+Label106:
+Label107:
 MOV EAX, _XX
 CMP EAX, 1
-MOV @aux92, 0
-Label93:
-invoke MessageBox, NULL, addr str_93, addr MensajePrint, MB_OK
-Label94:
+MOV @aux107, 0
+Label108:
+invoke MessageBox, NULL, addr str_108, addr MensajePrint, MB_OK
+Label109:
 RET
-Label95:
-PUSH _L91
-Label96:
+Label110:
+PUSH _L106
+Label111:
 PUSH 3
-Label97:
+Label112:
 CALL _F
-MOV @aux97, EAX
+MOV @aux112, EAX
+Label113:
+invoke MessageBox, NULL, addr str_113, addr MensajePrint, MB_OK
+Label114:
+MOV EAX, 50
+MOV _UOP1, EAX
+Label115:
+MOV EAX, 20
+MOV _UOP2, EAX
+Label116:
+MOV EAX, _UOP1
+SUB EAX, _UOP2
+MOV @aux116, EAX
+Label117:
+MOV EAX, @aux116
+MOV _URESSUB, EAX
+Label118:
+MOV EAX, _UOP1
+ADD EAX, _UOP2
+MOV @aux118, EAX
+Label119:
+MOV EAX, @aux118
+MOV _URESADD, EAX
+Label120:
+MOV EAX, 2.0F+10
+MOV _FOP1, EAX
+Label121:
+MOV EAX, 3.0F+5
+MOV _FOP2, EAX
+Label122:
+MOV EAX, _FOP1
+MUL _FOP2
+MOV @aux122, EAX
+Label123:
+MOV EAX, @aux122
+MOV _FRESPROD, EAX
 invoke ExitProcess, 0
 Error_DivCero:
 invoke MessageBox, NULL, addr ErrorDivCero, addr ErrorDivCero, MB_OK
