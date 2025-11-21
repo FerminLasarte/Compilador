@@ -1,26 +1,48 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        AnalizadorLexico al = new AnalizadorLexico(args[0]);
-        int tokenFinPrograma = 0;
-        int token = -1;
-        while (token != tokenFinPrograma) {
-            token = al.yylex();
+        if (args.length == 0) {
+            System.out.println("Error: Falta ruta del archivo");
+            return;
         }
 
-        System.out.println("\n");
-        System.out.println("WARNINGS");
-        if (al.getWarnings() != null) {
-            for(String s : al.getWarnings()){
-                System.out.println(s);
+        // 1. Inicializar Analizador Lexico y Generador
+        AnalizadorLexico al = new AnalizadorLexico(args[0]);
+        Generador g = Generador.getInstance();
+        g.setAnalizadorLexico(al);
+
+        // 2. --- CORRECCION CRITICA: Conectar con las variables estaticas del Parser ---
+        // El Parser generado usa sus propias variables estaticas 'al' y 'g' internamente.
+        // Debemos asignarles las instancias que acabamos de crear.
+        Parser.al = al;
+        Parser.g = g;
+        // ------------------------------------------------------------------------------
+
+        // 3. Crear e iniciar el Parser
+        Parser par = new Parser(false);
+        par.yyparse();
+
+        System.out.println("\n=======================================================");
+        System.out.println("## GENERACION DE ASSEMBLER ##");
+        System.out.println("=======================================================");
+
+        // 4. Generar Assembler solo si no hubo errores previos
+        // Verificamos errores sintacticos, lexicos y semanticos
+        if (par.erroresSintacticos.isEmpty() && al.getErrores().isEmpty() && al.getErroresSemanticos().isEmpty()) {
+            GeneradorAssembler ga = new GeneradorAssembler(g, al);
+            ga.generarAssembler("salida.asm");
+            System.out.println("Archivo salida.asm generado exitosamente.");
+        } else {
+            System.out.println("No se genero Assembler debido a errores previos.");
+
+            // Imprimir errores para depuracion
+            if (!par.erroresSintacticos.isEmpty()) {
+                System.out.println("Errores Sintacticos: " + par.erroresSintacticos);
             }
-        }
-        System.out.println("=========================================================");
-        System.out.println("ERRORES");
-        if (al.getErrores() != null) {
-            for(String s : al.getErrores()){
-                System.out.println(s);
+            if (!al.getErrores().isEmpty()) {
+                System.out.println("Errores Lexicos: " + al.getErrores());
+            }
+            if (!al.getErroresSemanticos().isEmpty()) {
+                System.out.println("Errores Semanticos: " + al.getErroresSemanticos());
             }
         }
     }
