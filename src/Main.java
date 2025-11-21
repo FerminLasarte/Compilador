@@ -10,12 +10,9 @@ public class Main {
         Generador g = Generador.getInstance();
         g.setAnalizadorLexico(al);
 
-        // 2. --- CORRECCION CRITICA: Conectar con las variables estaticas del Parser ---
-        // El Parser generado usa sus propias variables estaticas 'al' y 'g' internamente.
-        // Debemos asignarles las instancias que acabamos de crear.
+        // 2. Conectar con las variables estaticas del Parser
         Parser.al = al;
         Parser.g = g;
-        // ------------------------------------------------------------------------------
 
         // 3. Crear e iniciar el Parser
         Parser par = new Parser(false);
@@ -25,16 +22,15 @@ public class Main {
         System.out.println("## GENERACION DE ASSEMBLER ##");
         System.out.println("=======================================================");
 
-        // 4. Generar Assembler solo si no hubo errores previos
-        // Verificamos errores sintacticos, lexicos y semanticos
-        if (par.erroresSintacticos.isEmpty() && al.getErrores().isEmpty() && al.getErroresSemanticos().isEmpty()) {
-            GeneradorAssembler ga = new GeneradorAssembler(g, al);
-            ga.generarAssembler("salida.asm");
-            System.out.println("Archivo salida.asm generado exitosamente.");
-        } else {
+        // 4. Generar Assembler (FORZADO para pruebas, ignorando errores)
+        // Nota: En produccion, descomentar el chequeo de errores.
+        // if (par.erroresSintacticos.isEmpty() && al.getErrores().isEmpty() && al.getErroresSemanticos().isEmpty()) {
+        GeneradorAssembler ga = new GeneradorAssembler(g, al);
+        ga.generarAssembler("salida.asm");
+        System.out.println("Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores logicos si hubo errores de compilacion).");
+        /* } else {
             System.out.println("No se genero Assembler debido a errores previos.");
 
-            // Imprimir errores para depuracion
             if (!par.erroresSintacticos.isEmpty()) {
                 System.out.println("Errores Sintacticos: " + par.erroresSintacticos);
             }
@@ -44,6 +40,14 @@ public class Main {
             if (!al.getErroresSemanticos().isEmpty()) {
                 System.out.println("Errores Semanticos: " + al.getErroresSemanticos());
             }
+        } */
+
+        // Mostrar errores de todos modos para depuracion
+        if (!par.erroresSintacticos.isEmpty() || !al.getErrores().isEmpty() || !al.getErroresSemanticos().isEmpty()) {
+            System.out.println("\n--- Reporte de Errores (Ignorados para generar ASM) ---");
+            if (!par.erroresSintacticos.isEmpty()) System.out.println("Sintacticos: " + par.erroresSintacticos);
+            if (!al.getErrores().isEmpty()) System.out.println("Lexicos: " + al.getErrores());
+            if (!al.getErroresSemanticos().isEmpty()) System.out.println("Semanticos: " + al.getErroresSemanticos());
         }
     }
 }
