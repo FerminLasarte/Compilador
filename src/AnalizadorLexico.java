@@ -37,10 +37,13 @@ public class AnalizadorLexico {
         tablaSimbolos = new Stack<Pair<String, HashMap<String, HashMap<String, Object>>>>();
         indiceAmbitoActual = -1;
 
+        errores = new ArrayList<String>();
+        warnings = new ArrayList<String>();
+        erroresSemanticos = new ArrayList<String>();
+        lineasArchivo = new ArrayList<String>();
+
         archivo = new File(rutaArchivo);
         if (archivo.exists()) {
-            lineasArchivo = new ArrayList<String>();
-            erroresSemanticos = new ArrayList<String>();
             BufferedReader lector;
             try {
                 lector = new BufferedReader(new FileReader(archivo));
@@ -328,16 +331,10 @@ public class AnalizadorLexico {
     }
 
     public void agregarError(String string) {
-        if(this.errores == null) {
-            this.errores = new ArrayList<String>();
-        }
         errores.add("Linea: "+ (contadorFila+1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
     }
 
     public void agregarErrorSemantico(String string) {
-        if(this.erroresSemanticos == null) {
-            this.erroresSemanticos = new ArrayList<String>();
-        }
         erroresSemanticos.add(string);
     }
 
@@ -381,9 +378,6 @@ public class AnalizadorLexico {
     }
 
     public void agregarWarning(String string) {
-        if(this.warnings == null) {
-            this.warnings = new ArrayList<String>();
-        }
         warnings.add("Linea: " + (contadorFila + 1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
     }
 
