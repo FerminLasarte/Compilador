@@ -45,12 +45,10 @@ public class GeneradorAssembler {
         data.append("MensajePrintNum db \"Salida: %d\", 10, 0\n");
         data.append("MensajePrintFloat db \"Salida: %f\", 10, 0\n");
 
-        // Variables auxiliares para tercetos
         for (int i = 0; i < generador.getProximoTerceto(); i++) {
             data.append("@aux").append(i).append(" dd 0\n");
         }
 
-        // Deteccion y declaracion automatica de variables
         Set<String> variablesDeclaradas = new HashSet<>();
         for (int i = 0; i < generador.getProximoTerceto(); i++) {
             Terceto t = generador.getTerceto(i);
@@ -66,11 +64,9 @@ public class GeneradorAssembler {
                 Character.isDigit(op.charAt(0)) || op.startsWith("\'") || op.startsWith("&")) {
             return;
         }
-        // Verificar si es una constante float o uint
         if (op.contains(".") || op.endsWith("UI")) return;
 
         String varName = resolveOperand(op);
-        // Evitar declarar registros o nombres reservados
         if (varName.equalsIgnoreCase("EAX") || varName.equalsIgnoreCase("EBX")) return;
 
         if (!declaradas.contains(varName)) {
@@ -92,7 +88,6 @@ public class GeneradorAssembler {
                 continue;
             }
 
-            // Etiqueta para el terceto actual
             codigo.append("Label").append(numTerceto).append(":\n");
 
             String op = tercetoActual.getOperador();
@@ -130,27 +125,24 @@ public class GeneradorAssembler {
                     break;
                 case "PRINT":
                     if (op1.startsWith("&")) {
-                        // String literal
                         String strName = "str_" + numTerceto;
                         data.append(strName).append(" db \"").append(op1.replace("&", "")).append("\", 0\n");
                         codigo.append("invoke MessageBox, NULL, addr ").append(strName).append(", addr MensajePrint, MB_OK\n");
                     } else {
-                        // Asumimos numero para simplificar
                         codigo.append("invoke MessageBox, NULL, addr ").append(op1).append(", addr MensajePrintNum, MB_OK\n");
                     }
                     break;
-                case "BF": // Salto si Falso
+                case "BF":
                     codigo.append("MOV EAX, ").append(op1).append("\n");
                     codigo.append("CMP EAX, 0\n");
-                    // Extraer numero de etiqueta del formato [N]
                     String targetBF = op2.replace("[", "Label").replace("]", "");
                     codigo.append("JE ").append(targetBF).append("\n");
                     break;
-                case "BI": // Salto Incondicional
+                case "BI":
                     String targetBI = op1.replace("[", "Label").replace("]", "");
                     codigo.append("JMP ").append(targetBI).append("\n");
                     break;
-                case "BT": // Salto si Verdadero (Usado en DO-WHILE segun gramatica)
+                case "BT":
                     codigo.append("MOV EAX, ").append(op1).append("\n");
                     codigo.append("CMP EAX, 1\n");
                     String targetBT = op2.replace("[", "Label").replace("]", "");
@@ -164,9 +156,7 @@ public class GeneradorAssembler {
                 case "=!":
                     codigo.append("MOV EAX, ").append(op1).append("\n");
                     codigo.append("CMP EAX, ").append(op2).append("\n");
-                    // Logica simple: setear 1 si true, 0 si false en res
-                    // Se requeriria saltos condicionales especificos (JG, JL, etc)
-                    codigo.append("MOV ").append(res).append(", 0\n"); // Placeholder
+                    codigo.append("MOV ").append(res).append(", 0\n");
                     break;
                 case "FUNC_LABEL":
                     codigo.append(op1).append(":\n");
@@ -177,10 +167,9 @@ public class GeneradorAssembler {
                     break;
                 case "CALL":
                     codigo.append("CALL ").append(op1).append("\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n"); // Guardar retorno
+                    codigo.append("MOV ").append(res).append(", EAX\n");
                     break;
                 case "CALL_LAMBDA":
-                    // Call indirecto
                     codigo.append("MOV EAX, ").append(op1).append("\n");
                     codigo.append("CALL EAX\n");
                     break;
@@ -188,7 +177,6 @@ public class GeneradorAssembler {
                     codigo.append("PUSH ").append(op1).append("\n");
                     break;
                 case "TOUI":
-                    // Conversion simple (truncado)
                     codigo.append("FLD ").append(op1).append("\n");
                     codigo.append("FISTP ").append(res).append("\n");
                     break;
@@ -217,11 +205,9 @@ public class GeneradorAssembler {
         if (op.endsWith("UI")) {
             return op.substring(0, op.length() - 2);
         }
-        if (op.endsWith("F")) { // Simplificacion float
-            // Para MASM float literal es complejo, retornamos var o int truncado por ahora
+        if (op.endsWith("F") && op.contains(".")) {
             return op.substring(0, op.indexOf("."));
         }
-        // Manejo de punteros y nombres con puntos
         if (!Character.isDigit(op.charAt(0)) && !op.startsWith("'") && !op.startsWith("&")) {
             return "_" + op.replace(".", "_");
         }
