@@ -4,12 +4,14 @@ option casemap :none
 include \masm32\include\windows.inc
 include \masm32\include\kernel32.inc
 include \masm32\include\user32.inc
+include \masm32\include\msvcrt.inc
 includelib \masm32\lib\kernel32.lib
 includelib \masm32\lib\user32.lib
+includelib \masm32\lib\msvcrt.lib
 .data
-ErrorDivCero db "Error: Division por cero", 0
-ErrorOverflow db "Error: Overflow en operacion", 0
-ErrorRestaNegativa db "Error: Resultado negativo en resta de enteros sin signo", 0
+ErrorDivCero db "Error: Division por cero", 10, 0
+ErrorOverflow db "Error: Overflow en operacion", 10, 0
+ErrorRestaNegativa db "Error: Resultado negativo en resta de enteros sin signo", 10, 0
 MensajePrint db "Salida: %s", 10, 0
 MensajePrintNum db "Salida: %d", 10, 0
 MensajePrintFloat db "Salida: %f", 10, 0
@@ -37,529 +39,113 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux21 dd 0
 @aux22 dd 0
 @aux23 dd 0
-@aux24 dd 0
-@aux25 dd 0
-@aux26 dd 0
-@aux27 dd 0
-@aux28 dd 0
-@aux29 dd 0
-@aux30 dd 0
-@aux31 dd 0
-@aux32 dd 0
-@aux33 dd 0
-@aux34 dd 0
-@aux35 dd 0
-@aux36 dd 0
-@aux37 dd 0
-@aux38 dd 0
-@aux39 dd 0
-@aux40 dd 0
-@aux41 dd 0
-@aux42 dd 0
-@aux43 dd 0
-@aux44 dd 0
-@aux45 dd 0
-@aux46 dd 0
-@aux47 dd 0
-@aux48 dd 0
-@aux49 dd 0
-@aux50 dd 0
-@aux51 dd 0
-@aux52 dd 0
-@aux53 dd 0
-@aux54 dd 0
-@aux55 dd 0
-@aux56 dd 0
-@aux57 dd 0
-@aux58 dd 0
-@aux59 dd 0
-@aux60 dd 0
-@aux61 dd 0
-@aux62 dd 0
-@aux63 dd 0
-@aux64 dd 0
-@aux65 dd 0
-@aux66 dd 0
-@aux67 dd 0
-@aux68 dd 0
-@aux69 dd 0
-@aux70 dd 0
-@aux71 dd 0
-@aux72 dd 0
-@aux73 dd 0
-@aux74 dd 0
-@aux75 dd 0
-@aux76 dd 0
-@aux77 dd 0
-@aux78 dd 0
-@aux79 dd 0
-@aux80 dd 0
-@aux81 dd 0
-@aux82 dd 0
-@aux83 dd 0
-@aux84 dd 0
-@aux85 dd 0
-@aux86 dd 0
-@aux87 dd 0
-@aux88 dd 0
-@aux89 dd 0
-@aux90 dd 0
-@aux91 dd 0
-@aux92 dd 0
-@aux93 dd 0
-@aux94 dd 0
-@aux95 dd 0
-@aux96 dd 0
-@aux97 dd 0
-@aux98 dd 0
-@aux99 dd 0
-@aux100 dd 0
-@aux101 dd 0
-@aux102 dd 0
-@aux103 dd 0
-@aux104 dd 0
-@aux105 dd 0
-@aux106 dd 0
-@aux107 dd 0
-@aux108 dd 0
-@aux109 dd 0
-@aux110 dd 0
-@aux111 dd 0
-@aux112 dd 0
-@aux113 dd 0
-@aux114 dd 0
-@aux115 dd 0
-@aux116 dd 0
-@aux117 dd 0
-@aux118 dd 0
-@aux119 dd 0
-@aux120 dd 0
-@aux121 dd 0
-@aux122 dd 0
-@aux123 dd 0
-@aux124 dd 0
-@aux125 dd 0
 _A dd 0
 _B dd 0
-_C dd 0
-_J dd 0
-_FUNCR dd 0
-_Z dd 0
-_W dd 0
-_Y dd 0
-_MAIN_A dd 0
-_FUNCZ_A dd 0
-_GCONTADOR dd 0
-_GCONTADOR1 dd 0
-_GFACTOR dd 0
-_X dd 0
-_VARA dd 0
-_VARF dd 0
-_PLE dd 0
-_PSE dd 0
-_S dd 0
-_FUNCA dd 0
-_EVARBLOQUE dd 0
-_AA dd 0
-_MAIN_GCONTADOR dd 0
-_SS dd 0
-_XX dd 0
-_F dd 0
-_UOP1 dd 0
-_UOP2 dd 0
-_URESSUB dd 0
-_URESADD dd 0
 _FOP1 dd 0
+_C dd 0
 _FOP2 dd 0
 _FRESPROD dd 0
 _FDIV dd 0
-str_85 db " PRINT GCONTADOR ", 0
-str_92 db " PRINT AA ", 0
-str_96 db " PRINT A ", 0
-str_99 db " PRINT MAIN.A ", 0
-str_108 db " PRINT AA ", 0
-str_113 db 13, 10, "    Inicio de cadena", 13, 10, "    Linea intermedia", 13, 10, "    Fin de cadena", 13, 10, "    ", 0
+str_0 db "Prueba de Operaciones", 0
+str_7 db "Suma A + B:", 0
+str_10 db "C es mayor a 25", 0
+str_16 db "Fin del programa", 0
 .code
 start:
 Label0:
-MOV EAX, 1
-MOV _A, EAX
+invoke crt_printf, addr MensajePrint, addr str_0
 Label1:
-MOV EAX, 2
-MOV _B, EAX
+MOV EAX, 20
+MOV _A, EAX
 Label2:
-MOV EAX, 3
-MOV _C, EAX
-Label3:
-MOV EAX, 30
-MOV _C, EAX
-Label4:
-MOV EAX, 20
-MOV _B, EAX
-Label5:
 MOV EAX, 10
-MOV _A, EAX
-Label6:
-MOV EAX, 0
-MOV _J, EAX
-Label7:
-MOV EAX, 1
-MOV _J, EAX
-Label8:
-RET
-Label9:
-PUSH 11
-Label10:
-CALL _FUNCR
-MOV @aux10, EAX
-Label11:
-MOV EAX, 20
 MOV _B, EAX
-Label12:
-MOV EAX, @aux10
-MOV _A, EAX
-Label13:
-PUSH 11
-Label14:
-CALL _FUNCR
-MOV @aux14, EAX
-Label15:
-MOV EAX, 20
-MOV _B, EAX
-Label16:
-MOV EAX, @aux14
-MOV _A, EAX
-Label17:
-MOV EAX, 1
-MOV _Z, EAX
-Label18:
-MOV EAX, 2
-MOV _W, EAX
-Label19:
-MOV EAX, 3
-MOV _Y, EAX
-Label20:
-MOV EAX, 4
-MOV _A, EAX
-Label21:
-MOV EAX, _MAIN_A
-MOV _W, EAX
-Label22:
-MOV EAX, _W
-MOV _MAIN_A, EAX
-Label23:
-MOV EAX, 22
-MOV _W, EAX
-Label24:
-MOV EAX, 33
-MOV _Y, EAX
-Label25:
-MOV EAX, 44
-MOV _A, EAX
-Label26:
-MOV EAX, _MAIN_A
-MOV _W, EAX
-Label27:
-MOV EAX, _W
-MOV _FUNCZ_A, EAX
-Label28:
-RET
-Label29:
-RET
-Label30:
-MOV EAX, 0
-MOV _GCONTADOR, EAX
-Label31:
-MOV EAX, 1
-MOV _GCONTADOR1, EAX
-Label32:
-MOV EAX, 1
-MOV _GFACTOR, EAX
-Label33:
-MOV EAX, _GCONTADOR
-ADD EAX, _GCONTADOR1
-MOV @aux33, EAX
-Label34:
-MOV EAX, @aux33
-MOV _X, EAX
-Label35:
-FLD _GFACTOR
-FISTP @aux35
-Label36:
-MOV EAX, _GCONTADOR
-ADD EAX, @aux35
-MOV @aux36, EAX
-Label37:
-MOV EAX, @aux36
-MOV _X, EAX
-Label38:
-MOV EAX, 1
-MOV _VARA, EAX
-Label39:
-MOV EAX, 1
-MOV _VARF, EAX
-Label40:
-FLD _VARF
-FISTP @aux40
-Label41:
-MOV EAX, @aux40
-MOV _VARA, EAX
-Label42:
-MOV EAX, _PLE
-ADD EAX, 1
-MOV @aux42, EAX
-Label43:
-MOV EAX, @aux42
-MOV _PLE, EAX
-Label44:
-MOV EAX, 100
-MOV _PSE, EAX
-Label45:
-MOV EAX, 100
-MOV _PLE, EAX
-Label46:
-RET
-Label47:
-RET
-Label48:
-MOV EAX, _PLE
-ADD EAX, 1
-MOV @aux48, EAX
-Label49:
-MOV EAX, @aux48
-MOV _PLE, EAX
-Label50:
-MOV EAX, 100
-MOV _PSE, EAX
-Label51:
-MOV EAX, 100
-MOV _PLE, EAX
-Label52:
-RET
-Label53:
-RET
-Label54:
-MOV EAX, 0
-MOV _S, EAX
-Label55:
-RET
-Label56:
-RET
-Label57:
-RET
-Label58:
-PUSH 1
-Label59:
-CALL _FUNCA
-MOV @aux59, EAX
-Label60:
-Label61:
-MOV EAX, @aux60
-MOV _A, EAX
-Label62:
-Label63:
-MOV EAX, @aux62
-MOV _B, EAX
-Label64:
-Label65:
-MOV EAX, @aux64
-MOV _C, EAX
-Label66:
-PUSH 1
-Label67:
-CALL _FUNCA
-MOV @aux67, EAX
-Label68:
-Label69:
-MOV EAX, @aux68
-MOV _A, EAX
-Label70:
-Label71:
-MOV EAX, @aux70
-MOV _B, EAX
-Label72:
-MOV EAX, 0
-MOV _VARA, EAX
-Label73:
-MOV EAX, _VARA
-CMP EAX, 0
-SETA AL
-MOVZX EAX, AL
-MOV @aux73, EAX
-Label74:
-MOV EAX, @aux73
-CMP EAX, 1
-JE Label72
-Label75:
-MOV EAX, 1
-MOV _EVARBLOQUE, EAX
-Label76:
-MOV EAX, 1
-MOV _EVARBLOQUE, EAX
-Label77:
-MOV EAX, _VARA
-CMP EAX, 0
-SETA AL
-MOVZX EAX, AL
-MOV @aux77, EAX
-Label78:
-MOV EAX, @aux77
-CMP EAX, 1
-JE Label76
-Label79:
-MOV EAX, 1
-MOV _EVARBLOQUE, EAX
-Label80:
-MOV EAX, _EVARBLOQUE
-CMP EAX, 0
-SETA AL
-MOVZX EAX, AL
-MOV @aux80, EAX
-Label81:
-MOV EAX, @aux80
-CMP EAX, 1
-JE Label79
-Label82:
-MOV EAX, 3
-MOV _AA, EAX
-Label83:
-MOV EAX, 3
-MOV _A, EAX
-Label84:
-MOV EAX, 0
-MOV _GCONTADOR, EAX
-Label85:
-invoke MessageBox, NULL, addr str_85, addr MensajePrint, MB_OK
-Label86:
-invoke MessageBox, NULL, addr _MAIN_GCONTADOR, addr MensajePrintNum, MB_OK
-Label87:
-MOV EAX, _GCONTADOR
-ADD EAX, 1
-MOV @aux87, EAX
-Label88:
-MOV EAX, @aux87
-MOV _MAIN_GCONTADOR, EAX
-Label89:
-MOV EAX, _MAIN_GCONTADOR
-CMP EAX, 3
-SETB AL
-MOVZX EAX, AL
-MOV @aux89, EAX
-Label90:
-MOV EAX, @aux89
-CMP EAX, 1
-JE Label85
-Label91:
-MOV EAX, _AA
-CMP EAX, 5
-SETB AL
-MOVZX EAX, AL
-MOV @aux91, EAX
-Label92:
-invoke MessageBox, NULL, addr str_92, addr MensajePrint, MB_OK
-Label93:
-invoke MessageBox, NULL, addr _MAIN_A, addr MensajePrintNum, MB_OK
-Label94:
-MOV EAX, 100
-MOV @aux94, EAX
-invoke MessageBox, NULL, addr @aux94, addr MensajePrintNum, MB_OK
-Label95:
-MOV EAX, _A
-CMP EAX, 5
-SETB AL
-MOVZX EAX, AL
-MOV @aux95, EAX
-Label96:
-invoke MessageBox, NULL, addr str_96, addr MensajePrint, MB_OK
-Label97:
-invoke MessageBox, NULL, addr _A, addr MensajePrintNum, MB_OK
-Label98:
-MOV EAX, _MAIN_A
-CMP EAX, 5
-SETB AL
-MOVZX EAX, AL
-MOV @aux98, EAX
-Label99:
-invoke MessageBox, NULL, addr str_99, addr MensajePrint, MB_OK
-Label100:
-invoke MessageBox, NULL, addr _MAIN_A, addr MensajePrintNum, MB_OK
-Label101:
-MOV EAX, 100
-MOV @aux101, EAX
-invoke MessageBox, NULL, addr @aux101, addr MensajePrintNum, MB_OK
-Label102:
-RET
-Label103:
-Label104:
-MOV EAX, _X
-CALL EAX
-Label105:
-; JMP UNRESOLVED (_)
-Label106:
-Label107:
-MOV EAX, _XX
-CMP EAX, 1
-SETA AL
-MOVZX EAX, AL
-MOV @aux107, EAX
-Label108:
-invoke MessageBox, NULL, addr str_108, addr MensajePrint, MB_OK
-Label109:
-RET
-Label110:
-PUSH Label106
-Label111:
-PUSH 3
-Label112:
-CALL _F
-MOV @aux112, EAX
-Label113:
-invoke MessageBox, NULL, addr str_113, addr MensajePrint, MB_OK
-Label114:
-MOV EAX, 50
-MOV _UOP1, EAX
-Label115:
-MOV EAX, 20
-MOV _UOP2, EAX
-Label116:
-MOV EAX, _UOP1
-SUB EAX, _UOP2
-MOV @aux116, EAX
-Label117:
-MOV EAX, @aux116
-MOV _URESSUB, EAX
-Label118:
-MOV EAX, _UOP1
-ADD EAX, _UOP2
-MOV @aux118, EAX
-Label119:
-MOV EAX, @aux118
-MOV _URESADD, EAX
-Label120:
+Label3:
 MOV EAX, 2147483647
 MOV _FOP1, EAX
-Label121:
+Label4:
+fld _FOP1
+sub esp, 8
+fstp qword ptr [esp]
+push offset MensajePrintFloat
+call crt_printf
+add esp, 12
+Label5:
+MOV EAX, _A
+ADD EAX, _B
+MOV @aux5, EAX
+Label6:
+MOV EAX, @aux5
+MOV _C, EAX
+Label7:
+invoke crt_printf, addr MensajePrint, addr str_7
+Label8:
+invoke crt_printf, addr MensajePrintNum, _C
+Label9:
+MOV EAX, _C
+CMP EAX, 25
+SETA AL
+MOVZX EAX, AL
+MOV @aux9, EAX
+Label10:
+invoke crt_printf, addr MensajePrint, addr str_10
+Label11:
+invoke crt_printf, addr MensajePrintNum, _B
+Label12:
+MOV EAX, _B
+SUB EAX, 1
+MOV @aux12, EAX
+Label13:
+MOV EAX, @aux12
+MOV _B, EAX
+Label14:
+MOV EAX, _B
+CMP EAX, 7
+SETA AL
+MOVZX EAX, AL
+MOV @aux14, EAX
+Label15:
+MOV EAX, @aux14
+CMP EAX, 1
+JE Label11
+Label16:
+invoke crt_printf, addr MensajePrint, addr str_16
+Label17:
 MOV EAX, 300000
 MOV _FOP2, EAX
-Label122:
+Label18:
 MOV EAX, _FOP1
 MUL _FOP2
-MOV @aux122, EAX
-Label123:
-MOV EAX, @aux122
+MOV @aux18, EAX
+Label19:
+MOV EAX, @aux18
 MOV _FRESPROD, EAX
-Label124:
+Label20:
 MOV EAX, _FOP1
 XOR EDX, EDX
 CMP _FOP2, 0
 JE Error_DivCero
 DIV _FOP2
-MOV @aux124, EAX
-Label125:
-MOV EAX, @aux124
+MOV @aux20, EAX
+Label21:
+MOV EAX, @aux20
 MOV _FDIV, EAX
+Label22:
+fld _FDIV
+sub esp, 8
+fstp qword ptr [esp]
+push offset MensajePrintFloat
+call crt_printf
+add esp, 12
+Label23:
+fld _FRESPROD
+sub esp, 8
+fstp qword ptr [esp]
+push offset MensajePrintFloat
+call crt_printf
+add esp, 12
 invoke ExitProcess, 0
 Error_DivCero:
-invoke MessageBox, NULL, addr ErrorDivCero, addr ErrorDivCero, MB_OK
+invoke crt_printf, addr ErrorDivCero
 invoke ExitProcess, 1
 end start

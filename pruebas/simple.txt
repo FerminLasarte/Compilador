@@ -1,0 +1,34 @@
+MAIN {
+    print(&Prueba de Operaciones&);
+
+    var A := 20UI;
+    var B := 10UI;
+    var FOP1 := 2.0F+10;
+    print(FOP1);
+    
+    @ Prueba de suma
+    var C := A + B;
+    print(&Suma A + B:&);
+    print(C);
+
+    @ Prueba de IF
+    if (C > 25UI) {
+        print(&C es mayor a 25&);
+    } endif;
+
+    @ Prueba de DO WHILE
+    do {
+        print(B);
+        B := B - 1UI;
+    } while (B > 7UI);
+
+    print(&Fin del programa&);
+
+     var FOP1 := 2.0F+10;
+     var FOP2 := 3.0F+5;
+     var FRESPROD := FOP1 * FOP2;
+
+     var FDIV := FOP1 / FOP2;
+     print(FDIV);
+     print(FRESPROD);
+}

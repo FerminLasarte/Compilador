@@ -34,15 +34,17 @@ public class GeneradorAssembler {
         encabezado.append("include \\masm32\\include\\windows.inc\n");
         encabezado.append("include \\masm32\\include\\kernel32.inc\n");
         encabezado.append("include \\masm32\\include\\user32.inc\n");
+        encabezado.append("include \\masm32\\include\\msvcrt.inc\n");
         encabezado.append("includelib \\masm32\\lib\\kernel32.lib\n");
         encabezado.append("includelib \\masm32\\lib\\user32.lib\n");
+        encabezado.append("includelib \\masm32\\lib\\msvcrt.lib\n");
     }
 
     private void generarData() {
         data.append(".data\n");
-        data.append("ErrorDivCero db \"Error: Division por cero\", 0\n");
-        data.append("ErrorOverflow db \"Error: Overflow en operacion\", 0\n");
-        data.append("ErrorRestaNegativa db \"Error: Resultado negativo en resta de enteros sin signo\", 0\n");
+        data.append("ErrorDivCero db \"Error: Division por cero\", 10, 0\n");
+        data.append("ErrorOverflow db \"Error: Overflow en operacion\", 10, 0\n");
+        data.append("ErrorRestaNegativa db \"Error: Resultado negativo en resta de enteros sin signo\", 10, 0\n");
         data.append("MensajePrint db \"Salida: %s\", 10, 0\n");
         data.append("MensajePrintNum db \"Salida: %d\", 10, 0\n");
         data.append("MensajePrintFloat db \"Salida: %f\", 10, 0\n");
@@ -166,14 +168,18 @@ public class GeneradorAssembler {
                         }
                         dbStr.append("\n");
                         data.append(dbStr);
-                        codigo.append("invoke MessageBox, NULL, addr ").append(strName).append(", addr MensajePrint, MB_OK\n");
+                        codigo.append("invoke crt_printf, addr MensajePrint, addr ").append(strName).append("\n");
                     } else {
-                        if (isNumeric(op1)) {
-                            codigo.append("MOV EAX, ").append(op1).append("\n");
-                            codigo.append("MOV ").append(res).append(", EAX\n");
-                            codigo.append("invoke MessageBox, NULL, addr ").append(res).append(", addr MensajePrintNum, MB_OK\n");
+                        String tipo = generador.getTipo(rawOp1);
+                        if (tipo.equals("float")) {
+                            codigo.append("fld ").append(op1).append("\n");
+                            codigo.append("sub esp, 8\n");
+                            codigo.append("fstp qword ptr [esp]\n");
+                            codigo.append("push offset MensajePrintFloat\n");
+                            codigo.append("call crt_printf\n");
+                            codigo.append("add esp, 12\n");
                         } else {
-                            codigo.append("invoke MessageBox, NULL, addr ").append(op1).append(", addr MensajePrintNum, MB_OK\n");
+                            codigo.append("invoke crt_printf, addr MensajePrintNum, ").append(op1).append("\n");
                         }
                     }
                     break;
@@ -276,7 +282,7 @@ public class GeneradorAssembler {
 
     private void generarErrores() {
         codigo.append("Error_DivCero:\n");
-        codigo.append("invoke MessageBox, NULL, addr ErrorDivCero, addr ErrorDivCero, MB_OK\n");
+        codigo.append("invoke crt_printf, addr ErrorDivCero\n");
         codigo.append("invoke ExitProcess, 1\n");
     }
 
