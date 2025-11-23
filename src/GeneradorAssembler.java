@@ -68,7 +68,6 @@ public class GeneradorAssembler {
         }
         if (op.endsWith("UI")) return;
 
-        // Ignorar constantes float, pero permitir identificadores que contengan F (ej: FUNCZ.A)
         if (!Character.isLetter(op.charAt(0)) && op.contains("F") && (op.contains(".") || op.contains("+") || op.contains("-"))) return;
 
         String varName = resolveOperand(op);
@@ -199,14 +198,46 @@ public class GeneradorAssembler {
                     codigo.append("JE ").append(targetBT).append("\n");
                     break;
                 case ">":
+                    codigo.append("MOV EAX, ").append(op1).append("\n");
+                    codigo.append("CMP EAX, ").append(op2).append("\n");
+                    codigo.append("SETA AL\n");
+                    codigo.append("MOVZX EAX, AL\n");
+                    codigo.append("MOV ").append(res).append(", EAX\n");
+                    break;
                 case "<":
+                    codigo.append("MOV EAX, ").append(op1).append("\n");
+                    codigo.append("CMP EAX, ").append(op2).append("\n");
+                    codigo.append("SETB AL\n");
+                    codigo.append("MOVZX EAX, AL\n");
+                    codigo.append("MOV ").append(res).append(", EAX\n");
+                    break;
                 case ">=":
+                    codigo.append("MOV EAX, ").append(op1).append("\n");
+                    codigo.append("CMP EAX, ").append(op2).append("\n");
+                    codigo.append("SETAE AL\n");
+                    codigo.append("MOVZX EAX, AL\n");
+                    codigo.append("MOV ").append(res).append(", EAX\n");
+                    break;
                 case "<=":
+                    codigo.append("MOV EAX, ").append(op1).append("\n");
+                    codigo.append("CMP EAX, ").append(op2).append("\n");
+                    codigo.append("SETBE AL\n");
+                    codigo.append("MOVZX EAX, AL\n");
+                    codigo.append("MOV ").append(res).append(", EAX\n");
+                    break;
                 case "==":
+                    codigo.append("MOV EAX, ").append(op1).append("\n");
+                    codigo.append("CMP EAX, ").append(op2).append("\n");
+                    codigo.append("SETE AL\n");
+                    codigo.append("MOVZX EAX, AL\n");
+                    codigo.append("MOV ").append(res).append(", EAX\n");
+                    break;
                 case "=!":
                     codigo.append("MOV EAX, ").append(op1).append("\n");
                     codigo.append("CMP EAX, ").append(op2).append("\n");
-                    codigo.append("MOV ").append(res).append(", 0\n");
+                    codigo.append("SETNE AL\n");
+                    codigo.append("MOVZX EAX, AL\n");
+                    codigo.append("MOV ").append(res).append(", EAX\n");
                     break;
                 case "FUNC_LABEL":
                     codigo.append(op1).append(":\n");
@@ -259,16 +290,13 @@ public class GeneradorAssembler {
         if (op.endsWith("UI")) {
             return op.substring(0, op.length() - 2);
         }
-        // Fix A2006: Mapear L123 a Label123 para lambdas/etiquetas
         if (op.startsWith("L")) {
             try {
                 Integer.parseInt(op.substring(1));
                 return "Label" + op.substring(1);
             } catch (NumberFormatException e) {
-                // No es una etiqueta numerica, continuar
             }
         }
-        // Fix A2001: Si empieza con letra, es variable (Identificador). Evita confundir FUNCZ.A con float.
         if (Character.isLetter(op.charAt(0))) {
             return "_" + op.replace(".", "_");
         }

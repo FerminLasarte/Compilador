@@ -383,7 +383,9 @@ MOV _VARA, EAX
 Label73:
 MOV EAX, _VARA
 CMP EAX, 0
-MOV @aux73, 0
+SETA AL
+MOVZX EAX, AL
+MOV @aux73, EAX
 Label74:
 MOV EAX, @aux73
 CMP EAX, 1
@@ -397,7 +399,9 @@ MOV _EVARBLOQUE, EAX
 Label77:
 MOV EAX, _VARA
 CMP EAX, 0
-MOV @aux77, 0
+SETA AL
+MOVZX EAX, AL
+MOV @aux77, EAX
 Label78:
 MOV EAX, @aux77
 CMP EAX, 1
@@ -408,7 +412,9 @@ MOV _EVARBLOQUE, EAX
 Label80:
 MOV EAX, _EVARBLOQUE
 CMP EAX, 0
-MOV @aux80, 0
+SETA AL
+MOVZX EAX, AL
+MOV @aux80, EAX
 Label81:
 MOV EAX, @aux80
 CMP EAX, 1
@@ -436,7 +442,9 @@ MOV _MAIN_GCONTADOR, EAX
 Label89:
 MOV EAX, _MAIN_GCONTADOR
 CMP EAX, 3
-MOV @aux89, 0
+SETB AL
+MOVZX EAX, AL
+MOV @aux89, EAX
 Label90:
 MOV EAX, @aux89
 CMP EAX, 1
@@ -444,7 +452,9 @@ JE Label85
 Label91:
 MOV EAX, _AA
 CMP EAX, 5
-MOV @aux91, 0
+SETB AL
+MOVZX EAX, AL
+MOV @aux91, EAX
 Label92:
 invoke MessageBox, NULL, addr str_92, addr MensajePrint, MB_OK
 Label93:
@@ -456,7 +466,9 @@ invoke MessageBox, NULL, addr @aux94, addr MensajePrintNum, MB_OK
 Label95:
 MOV EAX, _A
 CMP EAX, 5
-MOV @aux95, 0
+SETB AL
+MOVZX EAX, AL
+MOV @aux95, EAX
 Label96:
 invoke MessageBox, NULL, addr str_96, addr MensajePrint, MB_OK
 Label97:
@@ -464,7 +476,9 @@ invoke MessageBox, NULL, addr _A, addr MensajePrintNum, MB_OK
 Label98:
 MOV EAX, _MAIN_A
 CMP EAX, 5
-MOV @aux98, 0
+SETB AL
+MOVZX EAX, AL
+MOV @aux98, EAX
 Label99:
 invoke MessageBox, NULL, addr str_99, addr MensajePrint, MB_OK
 Label100:
@@ -485,7 +499,9 @@ Label106:
 Label107:
 MOV EAX, _XX
 CMP EAX, 1
-MOV @aux107, 0
+SETA AL
+MOVZX EAX, AL
+MOV @aux107, EAX
 Label108:
 invoke MessageBox, NULL, addr str_108, addr MensajePrint, MB_OK
 Label109:
