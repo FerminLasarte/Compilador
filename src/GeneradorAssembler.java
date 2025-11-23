@@ -171,7 +171,6 @@ public class GeneradorAssembler {
                         codigo.append("FSTSW AX\n");
                         codigo.append("SAHF\n");
                         codigo.append("JE Error_DivCero\n");
-                        // Limpiar op2 de la pila para recargar en orden correcto o usar DIVR
                         codigo.append("FSTP ST(0)\n");
 
                         loadToFPU(op1);
@@ -266,8 +265,8 @@ public class GeneradorAssembler {
                 case "==":
                 case "=!":
                     if (generador.getTipo(rawOp1).equals("float") || generador.getTipo(rawOp2).equals("float")) {
-                        loadToFPU(op1);
                         loadToFPU(op2);
+                        loadToFPU(op1);
                         codigo.append("FCOMIP ST(0), ST(1)\n");
                         codigo.append("FSTP ST(0)\n");
                         String jump = "";
