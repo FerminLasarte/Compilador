@@ -129,6 +129,8 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux121 dd 0
 @aux122 dd 0
 @aux123 dd 0
+@aux124 dd 0
+@aux125 dd 0
 _A dd 0
 _B dd 0
 _C dd 0
@@ -159,6 +161,7 @@ _URESADD dd 0
 _FOP1 dd 0
 _FOP2 dd 0
 _FRESPROD dd 0
+_FDIV dd 0
 str_85 db " PRINT GCONTADOR ", 0
 str_92 db " PRINT AA ", 0
 str_96 db " PRINT A ", 0
@@ -526,6 +529,16 @@ MOV @aux122, EAX
 Label123:
 MOV EAX, @aux122
 MOV _FRESPROD, EAX
+Label124:
+MOV EAX, _FOP1
+XOR EDX, EDX
+CMP _FOP2, 0
+JE Error_DivCero
+DIV _FOP2
+MOV @aux124, EAX
+Label125:
+MOV EAX, @aux124
+MOV _FDIV, EAX
 invoke ExitProcess, 0
 Error_DivCero:
 invoke MessageBox, NULL, addr ErrorDivCero, addr ErrorDivCero, MB_OK

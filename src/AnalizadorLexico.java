@@ -14,16 +14,13 @@ public class AnalizadorLexico {
     private int ultimoEstado;
     private File archivo;
     private String lexema;
-
     private ArrayList<String> lineasArchivo;
     private ArrayList<String> errores;
     private ArrayList<String> warnings;
     private ArrayList<String> erroresSemanticos;
-
     private Stack<Pair<String, HashMap<String, HashMap<String, Object>>>> tablaSimbolos;
     private int indiceAmbitoActual;
     private HashMap<String, Integer> palabrasReservadas;
-
     private HashMap<String, Integer> codigosTokens;
     private int[][] matrizTransicionEstados;
     private AccionSemantica[][] matrizAccionesSemanticas;
@@ -32,16 +29,13 @@ public class AnalizadorLexico {
     public AnalizadorLexico(String rutaArchivo) {
         contadorFila = 0;
         contadorColumna = 0;
-
         palabrasReservadas = new HashMap<String, Integer>();
         tablaSimbolos = new Stack<Pair<String, HashMap<String, HashMap<String, Object>>>>();
         indiceAmbitoActual = -1;
-
         errores = new ArrayList<String>();
         warnings = new ArrayList<String>();
         erroresSemanticos = new ArrayList<String>();
         lineasArchivo = new ArrayList<String>();
-
         archivo = new File(rutaArchivo);
         if (archivo.exists()) {
             BufferedReader lector;
@@ -59,13 +53,11 @@ public class AnalizadorLexico {
         } else {
             System.out.println("El archivo no existe. Verifique la ruta proporcionada.");
         }
-
         codigosTokens = new HashMap<String, Integer>();
-
         codigosTokens.put("+", 43);
         codigosTokens.put("-", 45);
         codigosTokens.put("*", 42);
-        codigosTokens.put("/", 46);
+        codigosTokens.put("/", 47);
         codigosTokens.put(".", 282);
         codigosTokens.put("=", 271);
         codigosTokens.put("<", 60);
@@ -76,7 +68,6 @@ public class AnalizadorLexico {
         codigosTokens.put("}", 125);
         codigosTokens.put(";", 59);
         codigosTokens.put(",", 44);
-
         codigosTokens.put("ID", 257);
         codigosTokens.put("CTE", 258);
         codigosTokens.put("IF", 259);
@@ -103,17 +94,14 @@ public class AnalizadorLexico {
         codigosTokens.put("DISTINTO", 280);
         codigosTokens.put("IGUAL_IGUAL", 281);
         codigosTokens.put("PUNTO", 282);
-
         codigosTokens.put("ERROR", 290);
         codigosTokens.put("PALABRA_RESERVADA", 291);
-
         codigosTokens.put(":=", 276);
         codigosTokens.put("->", 277);
         codigosTokens.put(">=", 278);
         codigosTokens.put("<=", 279);
         codigosTokens.put("=!", 280);
         codigosTokens.put("==", 281);
-
         columnaMatrices = new HashMap<Character, Integer>();
         columnaMatrices.put('+', 0);
         columnaMatrices.put('-', 1);
@@ -121,15 +109,15 @@ public class AnalizadorLexico {
         columnaMatrices.put(':', 3);
         columnaMatrices.put('<', 4);
         columnaMatrices.put('=', 5);
-        char[] letras = {'a','b','c','d','e','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-        for(char letra : letras) {
+        char[] letras = {'a', 'b', 'c', 'd', 'e', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+        for (char letra : letras) {
             columnaMatrices.put(letra, 6);
             columnaMatrices.put(Character.toUpperCase(letra), 6);
         }
         columnaMatrices.put('f', 7);
         columnaMatrices.put('F', 7);
         columnaMatrices.put('&', 8);
-        char[] digitos = {'0','1','2','3','4','5','6','7','8','9'};
+        char[] digitos = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
         for (char digito : digitos) {
             columnaMatrices.put(digito, 9);
         }
@@ -151,7 +139,6 @@ public class AnalizadorLexico {
         columnaMatrices.put(',', 16);
         columnaMatrices.put('U', 17);
         columnaMatrices.put('I', 18);
-
         palabrasReservadas.put("if", codigosTokens.get("IF"));
         palabrasReservadas.put("else", codigosTokens.get("ELSE"));
         palabrasReservadas.put("endif", codigosTokens.get("ENDIF"));
@@ -167,27 +154,25 @@ public class AnalizadorLexico {
         palabrasReservadas.put("se", codigosTokens.get("SE"));
         palabrasReservadas.put("le", codigosTokens.get("LE"));
         palabrasReservadas.put("toui", codigosTokens.get("TOUI"));
-
-        matrizTransicionEstados = new int[][] {
-                /*0*/ {-1, 1, 3, 2, 3, 4, 5, 5, 6, 7, 16, 9, -2, -2, 0, 0, -1, 5, 5},
-                /*1*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                /*2*/ {-2, -2, -2, -2, -2, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
-                /*3*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                /*4*/ {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -2, -1, -1, -1, -1, -1, -1},
-                /*5*/ {-1, -1, -1, -1, -1, -1, 5, 5, -1, 5, -1, -1, -1, 5, -1, -1, -1, 5, 5},
-                /*6*/ {6, 6, 6, 6, 6, 6, 6, 6, -1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
-                /*7*/ {-2, -2, -2, -2, -2, -2, -2, -2, -2, 7, 8, -2, -2, -2, -2, -2, -2, 14, -2},
-                /*8*/ {-1, -1, -1, -1, -1, -1, -1, 11, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                /*9*/ {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 9, 9, 9, 9},
-                /*10*/{-1, -1, -1, -1, -1, -1, -1, 11, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                /*11*/{12, 12, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
-                /*12*/{-2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, -2, -2, -2, -2, -2, -2},
-                /*13*/{-1, -1, -1, -1, -1, -1, -1, -1, -1, 13, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                /*14*/{-2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, -2, -2, -2, -2, -2, 15},
-                /*15*/{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                /*16*/{-1, -1, -1, -1, -1, -1, -1, -1, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+        matrizTransicionEstados = new int[][]{
+                {-1, 1, 3, 2, 3, 4, 5, 5, 6, 7, 16, 9, -2, -2, 0, 0, -1, 5, 5},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-2, -2, -2, -2, -2, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -2, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, 5, 5, -1, 5, -1, -1, -1, 5, -1, -1, -1, 5, 5},
+                {6, 6, 6, 6, 6, 6, 6, 6, -1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
+                {-2, -2, -2, -2, -2, -2, -2, -2, -2, 7, 8, -2, -2, -2, -2, -2, -2, 14, -2},
+                {-1, -1, -1, -1, -1, -1, -1, 11, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 9, 9, 9, 9},
+                {-1, -1, -1, -1, -1, -1, -1, 11, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {12, 12, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
+                {-2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, -2, -2, -2, -2, -2, -2},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, 13, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, -2, -2, -2, -2, -2, 15},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
         };
-
         AccionSemantica as1 = new AccionSemantica.AccionSemantica1();
         AccionSemantica as2 = new AccionSemantica.AccionSemantica2();
         AccionSemantica as3 = new AccionSemantica.AccionSemantica3();
@@ -198,76 +183,66 @@ public class AnalizadorLexico {
         AccionSemantica asE = new AccionSemantica.AccionSemanticaError();
         AccionSemantica asNull = new AccionSemantica.AccionSemanticaNull();
         matrizAccionesSemanticas = new AccionSemantica[][]{
-                /*0*/ {as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, asE, asE, asNull, asNull, as1, as1, as1},
-                /*1*/ {as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
-                /*2*/ {asE, asE, asE, asE, asE, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},
-                /*3*/ {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
-                /*4*/ {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5},
-                /*5*/ {as3, as3, as3, as3, as3, as3, as2, as2, as3, as2, as3, as3, as3, as2, as3, as3, as3, as2, as2},
-                /*6*/ {as2, as2, as2, as2, as2, as2, as2, as2, as7, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2},
-                /*7*/ {asE, asE, asE, asE, asE, asE, asE, asE, asE, as2, as2, asE, asE, asE, asE, asE, asE, as2, asE},
-                /*8*/ {as6, as6, as6, as6, as6, as6, as6, as2, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
-                /*9*/ {asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull},
-                /*10*/{as6, as6, as6, as6, as6, as6, as6, as2, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
-                /*11*/{as2, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},
-                /*12*/{asE, asE, asE, asE, asE, asE, asE, asE, asE, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE},
-                /*13*/{as6, as6, as6, as6, as6, as6, as6, as6, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
-                /*14*/{asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, as2},
-                /*15*/{as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4},
-                /*16*/{as5, as5, as5, as5, as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5},
+                {as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, asE, asE, asNull, asNull, as1, as1, as1},
+                {as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
+                {asE, asE, asE, asE, asE, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},
+                {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
+                {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5},
+                {as3, as3, as3, as3, as3, as3, as2, as2, as3, as2, as3, as3, as3, as2, as3, as3, as3, as2, as2},
+                {as2, as2, as2, as2, as2, as2, as2, as2, as7, as2, as2, as2, as2, as2, as2, as2, as2, as2, as2},
+                {asE, asE, asE, asE, asE, asE, asE, asE, asE, as2, as2, asE, asE, asE, asE, asE, asE, as2, asE},
+                {as6, as6, as6, as6, as6, as6, as6, as2, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
+                {asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull, asNull},
+                {as6, as6, as6, as6, as6, as6, as6, as2, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
+                {as2, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},
+                {asE, asE, asE, asE, asE, asE, asE, asE, asE, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE},
+                {as6, as6, as6, as6, as6, as6, as6, as6, as6, as2, as6, as6, as6, as6, as6, as6, as6, as6, as6},
+                {asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, as2},
+                {as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4},
+                {as5, as5, as5, as5, as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5},
         };
     }
 
     public int yylex() {
         ultimoEstado = 0;
         String tokenString = null;
-
         while (ultimoEstado != -1 && ultimoEstado != -2) {
             char proximoCaracter;
             if (contadorFila >= lineasArchivo.size()) {
                 return 0;
             }
             String currentLine = lineasArchivo.get(contadorFila);
-            if(currentLine.length() == contadorColumna){
+            if (currentLine.length() == contadorColumna) {
                 proximoCaracter = '\n';
-            }
-            else{
+            } else {
                 proximoCaracter = currentLine.charAt(contadorColumna);
             }
             contadorColumna++;
-
             int columnaCaracter;
             if (columnaMatrices.containsKey(proximoCaracter)) {
                 columnaCaracter = columnaMatrices.get(proximoCaracter);
             } else {
                 columnaCaracter = 15;
             }
-
             if (matrizAccionesSemanticas[ultimoEstado][columnaCaracter] != null) {
                 tokenString = matrizAccionesSemanticas[ultimoEstado][columnaCaracter].aplicarAS(this, proximoCaracter);
             }
-
             ultimoEstado = matrizTransicionEstados[ultimoEstado][columnaCaracter];
-
             if (tokenString != null && tokenString.equals("ID") && esPalabraReservada(lexema)) {
                 tokenString = lexema.toUpperCase();
             }
-
             if (proximoCaracter == '\n') {
                 this.aumentarContadorFila();
             }
         }
-
         if (tokenString != null) {
             if (codigosTokens.containsKey(tokenString)) {
                 return codigosTokens.get(tokenString);
             }
         }
-
         if (lexema != null && !lexema.isEmpty() && codigosTokens.containsKey(lexema)) {
             return codigosTokens.get(lexema);
         }
-
         return -1;
     }
 
@@ -283,15 +258,15 @@ public class AnalizadorLexico {
         return palabrasReservadas.containsKey(lexema);
     }
 
-    public void inicializarLexema(){
+    public void inicializarLexema() {
         this.lexema = "";
     }
 
-    public void setLexema(String lexema){
+    public void setLexema(String lexema) {
         this.lexema = lexema;
     }
 
-    public String getLexema(){
+    public String getLexema() {
         return this.lexema;
     }
 
@@ -303,13 +278,11 @@ public class AnalizadorLexico {
         return str != null && str.equals(str.toUpperCase());
     }
 
-    public void agregarLexemaTS(String lexema){
+    public void agregarLexemaTS(String lexema) {
         if (indiceAmbitoActual != -1) {
             String ambitoActual = tablaSimbolos.get(indiceAmbitoActual).getKey();
             String lexemaMangled = lexema + ":" + ambitoActual;
-
             HashMap<String, HashMap<String, Object>> ambitoMap = tablaSimbolos.get(indiceAmbitoActual).getValue();
-
             if (!ambitoMap.containsKey(lexemaMangled)) {
                 ambitoMap.put(lexemaMangled, new HashMap<>());
                 ambitoMap.get(lexemaMangled).put("Reservada", false);
@@ -318,20 +291,20 @@ public class AnalizadorLexico {
         }
     }
 
-    public void agregarCaracterLexema(char c){
+    public void agregarCaracterLexema(char c) {
         this.lexema += c;
     }
 
-    public void reiniciarLexema(){
+    public void reiniciarLexema() {
         this.lexema = "";
     }
 
-    public ArrayList<String> getErrores(){
+    public ArrayList<String> getErrores() {
         return this.errores;
     }
 
     public void agregarError(String string) {
-        errores.add("Linea: "+ (contadorFila+1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
+        errores.add("Linea: " + (contadorFila + 1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
     }
 
     public void agregarErrorSemantico(String string) {
@@ -342,15 +315,13 @@ public class AnalizadorLexico {
         return this.erroresSemanticos;
     }
 
-
     public void disminuirContador() {
-        if(contadorColumna!=0){
+        if (contadorColumna != 0) {
             contadorColumna--;
-        }
-        else{
+        } else {
             if (contadorFila > 0) {
                 contadorFila--;
-                contadorColumna=lineasArchivo.get(contadorFila).length();
+                contadorColumna = lineasArchivo.get(contadorFila).length();
             }
         }
     }
@@ -364,9 +335,7 @@ public class AnalizadorLexico {
         if (indiceAmbitoActual != -1) {
             String ambitoActual = tablaSimbolos.get(indiceAmbitoActual).getKey();
             String lexemaMangled = lexema + ":" + ambitoActual;
-
             HashMap<String, HashMap<String, Object>> ambitoActualMap = tablaSimbolos.get(indiceAmbitoActual).getValue();
-
             if (ambitoActualMap.containsKey(lexemaMangled)) {
                 ambitoActualMap.get(lexemaMangled).put(key, valor);
             }
@@ -381,18 +350,16 @@ public class AnalizadorLexico {
         warnings.add("Linea: " + (contadorFila + 1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
     }
 
-    public ArrayList<String> getWarnings(){
+    public ArrayList<String> getWarnings() {
         return this.warnings;
     }
 
-    public void reemplazarEnTS(String lexemaViejo, String lexemaNuevo){
+    public void reemplazarEnTS(String lexemaViejo, String lexemaNuevo) {
         if (indiceAmbitoActual != -1) {
             String ambitoActual = tablaSimbolos.get(indiceAmbitoActual).getKey();
             String lexemaViejoMangled = lexemaViejo + ":" + ambitoActual;
             String lexemaNuevoMangled = lexemaNuevo + ":" + ambitoActual;
-
             HashMap<String, HashMap<String, Object>> ambitoMap = tablaSimbolos.get(indiceAmbitoActual).getValue();
-
             HashMap<String, Object> atributos = ambitoMap.remove(lexemaViejoMangled);
             if (atributos != null) {
                 atributos.put("LexemaOriginal", lexemaNuevo);
@@ -407,12 +374,10 @@ public class AnalizadorLexico {
             Pair<String, HashMap<String, HashMap<String, Object>>> scope = tablaSimbolos.get(idx);
             String ambitoNombre = scope.getKey();
             String lexemaMangled = lexema + ":" + ambitoNombre;
-
             HashMap<String, HashMap<String, Object>> ambitoMap = scope.getValue();
             if (ambitoMap.containsKey(lexemaMangled)) {
                 return ambitoMap.get(lexemaMangled).get(atributo);
             }
-
             if (ambitoMap.containsKey("__METADATA__") && ambitoMap.get("__METADATA__").containsKey("PARENT")) {
                 idx = (Integer) ambitoMap.get("__METADATA__").get("PARENT");
             } else {
@@ -430,19 +395,16 @@ public class AnalizadorLexico {
             String nombrePadre = tablaSimbolos.get(indiceAmbitoActual).getKey();
             nombreMangled = nombrePadre + ":" + nombre;
         }
-
         String nombreUnico = nombreMangled;
         int i = 0;
         while (getAmbitoPorNombre(nombreUnico) != null) {
             i++;
             nombreUnico = nombreMangled + "_" + i;
         }
-
         HashMap<String, HashMap<String, Object>> nuevoMapa = new HashMap<>();
         HashMap<String, Object> metadata = new HashMap<>();
         metadata.put("PARENT", indiceAmbitoActual);
         nuevoMapa.put("__METADATA__", metadata);
-
         tablaSimbolos.push(new Pair<>(nombreUnico, nuevoMapa));
         indiceAmbitoActual = tablaSimbolos.size() - 1;
     }
@@ -489,7 +451,6 @@ public class AnalizadorLexico {
         return tablaSimbolos.get(indiceAmbitoActual).getValue().containsKey(lexemaMangled);
     }
 
-
     public Object getAtributoConPrefijo(String prefijo, String lexema, String atributo) {
         Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
         while (iter.hasNext()) {
@@ -509,35 +470,26 @@ public class AnalizadorLexico {
         System.out.println("\n=======================================================");
         System.out.println("## CONTENIDOS DE LA TABLA DE SIMBOLOS ##");
         System.out.println("=======================================================");
-
         if (tablaSimbolos.isEmpty()) {
             System.out.println("La tabla de simbolos esta vacia.");
             return;
         }
-
         String formatString = "| %-35s | %-45s | %-12s | %-18s | %-10s |%n";
         System.out.printf(formatString, "Ambito (Completo)", "Lexema (Mangled)", "Reservada", "Uso", "Tipo");
         String separator = "|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|";
         System.out.println(separator);
-
         Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
         while (iter.hasNext()) {
             Pair<String, HashMap<String, HashMap<String, Object>>> par = iter.next();
             String ambitoNombre = par.getKey();
-
             if (ambitoNombre.contains("GARBAGE_")) continue;
-
             for (Map.Entry<String, HashMap<String, Object>> entry : par.getValue().entrySet()) {
                 String lexemaMangled = entry.getKey();
-
                 if (lexemaMangled.equals("__METADATA__")) continue;
-
                 HashMap<String, Object> atributos = entry.getValue();
-
                 Object reservada = atributos.get("Reservada");
                 Object uso = atributos.get("Uso");
                 Object tipo = atributos.get("Tipo");
-
                 System.out.printf(formatString,
                         ambitoNombre,
                         lexemaMangled,
