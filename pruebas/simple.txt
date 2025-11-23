@@ -5,7 +5,7 @@ MAIN {
     var B := 10UI;
     var FOP1 := 2.0F+10;
     print(FOP1);
-    
+
     @ Prueba de suma
     var C := A + B;
     print(&Suma A + B:&);
@@ -24,7 +24,7 @@ MAIN {
 
     print(&Fin del programa&);
 
-     var FOP1 := 2.0F+10;
+     FOP1 := 2.0F+10;
      var FOP2 := 3.0F+5;
      var FRESPROD := FOP1 * FOP2;
 

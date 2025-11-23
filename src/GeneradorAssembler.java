@@ -42,9 +42,9 @@ public class GeneradorAssembler {
 
     private void generarData() {
         data.append(".data\n");
-        data.append("ErrorDivCero db \"Error: Division por cero\", 10, 0\n");
-        data.append("ErrorOverflow db \"Error: Overflow en operacion\", 10, 0\n");
-        data.append("ErrorRestaNegativa db \"Error: Resultado negativo en resta de enteros sin signo\", 10, 0\n");
+        data.append("MsgErrorDivCero db \"Error: Division por cero\", 10, 0\n");
+        data.append("MsgErrorOverflow db \"Error: Overflow en operacion\", 10, 0\n");
+        data.append("MsgErrorRestaNegativa db \"Error: Resultado negativo en resta de enteros sin signo\", 10, 0\n");
         data.append("MensajePrint db \"Salida: %s\", 10, 0\n");
         data.append("MensajePrintNum db \"Salida: %d\", 10, 0\n");
         data.append("MensajePrintFloat db \"Salida: %f\", 10, 0\n");
@@ -70,7 +70,7 @@ public class GeneradorAssembler {
         }
         if (op.endsWith("UI")) return;
 
-        if (!Character.isLetter(op.charAt(0)) && op.contains("F") && (op.contains(".") || op.contains("+") || op.contains("-"))) return;
+        if (isFloatLiteral(op)) return;
 
         String varName = resolveOperand(op);
         if (varName.equalsIgnoreCase("EAX") || varName.equalsIgnoreCase("EBX") || isNumeric(varName)) return;
@@ -79,6 +79,10 @@ public class GeneradorAssembler {
             data.append(varName).append(" dd 0\n");
             declaradas.add(varName);
         }
+    }
+
+    private boolean isFloatLiteral(String op) {
+        return !Character.isLetter(op.charAt(0)) && op.contains("F") && (op.contains(".") || op.contains("+") || op.contains("-"));
     }
 
     private boolean isNumeric(String str) {
@@ -111,34 +115,86 @@ public class GeneradorAssembler {
             String op1 = resolveOperand(rawOp1);
             String op2 = resolveOperand(rawOp2);
             String res = "@aux" + numTerceto;
+            String tipoTerceto = tercetoActual.getTipo();
+
+            boolean isFloatOp = tipoTerceto.equals("float");
+            if (!isFloatOp && rawOp1 != null) {
+                String t1 = generador.getTipo(rawOp1);
+                if (t1.equals("float")) isFloatOp = true;
+            }
 
             switch (op) {
                 case "+":
-                    codigo.append("MOV EAX, ").append(op1).append("\n");
-                    codigo.append("ADD EAX, ").append(op2).append("\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n");
+                    if (isFloatOp) {
+                        loadToFPU(op1);
+                        loadToFPU(op2);
+                        codigo.append("FADD\n");
+                        codigo.append("FSTP ").append(res).append("\n");
+                    } else {
+                        codigo.append("MOV EAX, ").append(op1).append("\n");
+                        codigo.append("ADD EAX, ").append(op2).append("\n");
+                        codigo.append("JO ErrorOverflow\n");
+                        codigo.append("MOV ").append(res).append(", EAX\n");
+                    }
                     break;
                 case "-":
-                    codigo.append("MOV EAX, ").append(op1).append("\n");
-                    codigo.append("SUB EAX, ").append(op2).append("\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n");
+                    if (isFloatOp) {
+                        loadToFPU(op1);
+                        loadToFPU(op2);
+                        codigo.append("FSUB\n");
+                        codigo.append("FSTP ").append(res).append("\n");
+                    } else {
+                        codigo.append("MOV EAX, ").append(op1).append("\n");
+                        codigo.append("SUB EAX, ").append(op2).append("\n");
+                        codigo.append("JC ErrorRestaNegativa\n");
+                        codigo.append("MOV ").append(res).append(", EAX\n");
+                    }
                     break;
                 case "*":
-                    codigo.append("MOV EAX, ").append(op1).append("\n");
-                    codigo.append("MUL ").append(op2).append("\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n");
+                    if (isFloatOp) {
+                        loadToFPU(op1);
+                        loadToFPU(op2);
+                        codigo.append("FMUL\n");
+                        codigo.append("FSTP ").append(res).append("\n");
+                    } else {
+                        codigo.append("MOV EAX, ").append(op1).append("\n");
+                        codigo.append("MUL ").append(op2).append("\n");
+                        codigo.append("CMP EDX, 0\n");
+                        codigo.append("JNE ErrorOverflow\n");
+                        codigo.append("MOV ").append(res).append(", EAX\n");
+                    }
                     break;
                 case "/":
-                    codigo.append("MOV EAX, ").append(op1).append("\n");
-                    codigo.append("XOR EDX, EDX\n");
-                    codigo.append("CMP ").append(op2).append(", 0\n");
-                    codigo.append("JE Error_DivCero\n");
-                    codigo.append("DIV ").append(op2).append("\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n");
+                    if (isFloatOp) {
+                        loadToFPU(op2);
+                        codigo.append("FTST\n");
+                        codigo.append("FSTSW AX\n");
+                        codigo.append("SAHF\n");
+                        codigo.append("JE Error_DivCero\n");
+                        // Limpiar op2 de la pila para recargar en orden correcto o usar DIVR
+                        codigo.append("FSTP ST(0)\n");
+
+                        loadToFPU(op1);
+                        loadToFPU(op2);
+                        codigo.append("FDIV\n");
+                        codigo.append("FSTP ").append(res).append("\n");
+                    } else {
+                        codigo.append("MOV EAX, ").append(op1).append("\n");
+                        codigo.append("XOR EDX, EDX\n");
+                        codigo.append("CMP ").append(op2).append(", 0\n");
+                        codigo.append("JE Error_DivCero\n");
+                        codigo.append("DIV ").append(op2).append("\n");
+                        codigo.append("MOV ").append(res).append(", EAX\n");
+                    }
                     break;
                 case ":=":
-                    codigo.append("MOV EAX, ").append(op2).append("\n");
-                    codigo.append("MOV ").append(op1).append(", EAX\n");
+                    if (isFloatOp) {
+                        loadToFPU(op2);
+                        codigo.append("FSTP ").append(op1).append("\n");
+                    } else {
+                        codigo.append("MOV EAX, ").append(op2).append("\n");
+                        codigo.append("MOV ").append(op1).append(", EAX\n");
+                    }
                     break;
                 case "PRINT":
                     if (rawOp1.startsWith("&")) {
@@ -172,7 +228,7 @@ public class GeneradorAssembler {
                     } else {
                         String tipo = generador.getTipo(rawOp1);
                         if (tipo.equals("float")) {
-                            codigo.append("fld ").append(op1).append("\n");
+                            loadToFPU(op1);
                             codigo.append("sub esp, 8\n");
                             codigo.append("fstp qword ptr [esp]\n");
                             codigo.append("push offset MensajePrintFloat\n");
@@ -204,46 +260,44 @@ public class GeneradorAssembler {
                     codigo.append("JE ").append(targetBT).append("\n");
                     break;
                 case ">":
-                    codigo.append("MOV EAX, ").append(op1).append("\n");
-                    codigo.append("CMP EAX, ").append(op2).append("\n");
-                    codigo.append("SETA AL\n");
-                    codigo.append("MOVZX EAX, AL\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n");
-                    break;
                 case "<":
-                    codigo.append("MOV EAX, ").append(op1).append("\n");
-                    codigo.append("CMP EAX, ").append(op2).append("\n");
-                    codigo.append("SETB AL\n");
-                    codigo.append("MOVZX EAX, AL\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n");
-                    break;
                 case ">=":
-                    codigo.append("MOV EAX, ").append(op1).append("\n");
-                    codigo.append("CMP EAX, ").append(op2).append("\n");
-                    codigo.append("SETAE AL\n");
-                    codigo.append("MOVZX EAX, AL\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n");
-                    break;
                 case "<=":
-                    codigo.append("MOV EAX, ").append(op1).append("\n");
-                    codigo.append("CMP EAX, ").append(op2).append("\n");
-                    codigo.append("SETBE AL\n");
-                    codigo.append("MOVZX EAX, AL\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n");
-                    break;
                 case "==":
-                    codigo.append("MOV EAX, ").append(op1).append("\n");
-                    codigo.append("CMP EAX, ").append(op2).append("\n");
-                    codigo.append("SETE AL\n");
-                    codigo.append("MOVZX EAX, AL\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n");
-                    break;
                 case "=!":
-                    codigo.append("MOV EAX, ").append(op1).append("\n");
-                    codigo.append("CMP EAX, ").append(op2).append("\n");
-                    codigo.append("SETNE AL\n");
-                    codigo.append("MOVZX EAX, AL\n");
-                    codigo.append("MOV ").append(res).append(", EAX\n");
+                    if (generador.getTipo(rawOp1).equals("float") || generador.getTipo(rawOp2).equals("float")) {
+                        loadToFPU(op1);
+                        loadToFPU(op2);
+                        codigo.append("FCOMIP ST(0), ST(1)\n");
+                        codigo.append("FSTP ST(0)\n");
+                        String jump = "";
+                        switch(op) {
+                            case ">": jump = "SETA"; break;
+                            case "<": jump = "SETB"; break;
+                            case ">=": jump = "SETAE"; break;
+                            case "<=": jump = "SETBE"; break;
+                            case "==": jump = "SETE"; break;
+                            case "=!": jump = "SETNE"; break;
+                        }
+                        codigo.append(jump).append(" AL\n");
+                        codigo.append("MOVZX EAX, AL\n");
+                        codigo.append("MOV ").append(res).append(", EAX\n");
+                    } else {
+                        codigo.append("MOV EAX, ").append(op1).append("\n");
+                        codigo.append("CMP EAX, ").append(op2).append("\n");
+                        String set = "";
+                        switch(op) {
+                            case ">": set = "SETA"; break;
+                            case "<": set = "SETB"; break;
+                            case ">=": set = "SETAE"; break;
+                            case "<=": set = "SETBE"; break;
+                            case "==": set = "SETE"; break;
+                            case "=!": set = "SETNE"; break;
+                        }
+                        codigo.append(set).append(" AL\n");
+                        codigo.append("MOVZX EAX, AL\n");
+                        codigo.append("MOV ").append(res).append(", EAX\n");
+                    }
                     break;
                 case "FUNC_LABEL":
                     codigo.append(op1).append(":\n");
@@ -268,7 +322,7 @@ public class GeneradorAssembler {
                     }
                     break;
                 case "TOUI":
-                    codigo.append("FLD ").append(op1).append("\n");
+                    loadToFPU(op1);
                     codigo.append("FISTP ").append(res).append("\n");
                     break;
             }
@@ -280,9 +334,26 @@ public class GeneradorAssembler {
         codigo.append("end start\n");
     }
 
+    private void loadToFPU(String op) {
+        if (isNumeric(op)) {
+            codigo.append("MOV EAX, ").append(op).append("\n");
+            codigo.append("PUSH EAX\n");
+            codigo.append("FLD DWORD PTR [ESP]\n");
+            codigo.append("ADD ESP, 4\n");
+        } else {
+            codigo.append("FLD ").append(op).append("\n");
+        }
+    }
+
     private void generarErrores() {
         codigo.append("Error_DivCero:\n");
-        codigo.append("invoke crt_printf, addr ErrorDivCero\n");
+        codigo.append("invoke crt_printf, addr MsgErrorDivCero\n");
+        codigo.append("invoke ExitProcess, 1\n");
+        codigo.append("ErrorOverflow:\n");
+        codigo.append("invoke crt_printf, addr MsgErrorOverflow\n");
+        codigo.append("invoke ExitProcess, 1\n");
+        codigo.append("ErrorRestaNegativa:\n");
+        codigo.append("invoke crt_printf, addr MsgErrorRestaNegativa\n");
         codigo.append("invoke ExitProcess, 1\n");
     }
 
@@ -307,15 +378,17 @@ public class GeneradorAssembler {
             return "_" + op.replace(".", "_");
         }
 
-        if (op.contains("F") && (op.contains("+") || op.contains("-") || op.contains("."))) {
-            String clean = op.replace("F", "E");
+        if (isFloatLiteral(op)) {
             try {
-                double d = Double.parseDouble(clean);
-                return String.valueOf((int)d);
+                String clean = op.replace("F", "E");
+                float f = Float.parseFloat(clean);
+                int bits = Float.floatToIntBits(f);
+                return String.valueOf(bits);
             } catch(Exception e) {
                 return "0";
             }
         }
+
         if (!Character.isDigit(op.charAt(0)) && !op.startsWith("'") && !op.startsWith("&") && !op.startsWith("-")) {
             return "_" + op.replace(".", "_");
         }
