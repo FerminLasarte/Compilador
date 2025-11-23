@@ -741,13 +741,47 @@ constante : CTE
             }
           ;
 
-condicional_if : IF '(' condicion ')' bloque_ejecutable ENDIF %prec IFX ';'
+// Nuevo no-terminal para la parte común.
+// Genera el terceto BF y apila su índice.
+if_encabezado : IF '(' condicion ')' {
+                   String cond = g.desapilarOperando();
+                   if (cond.equals("ERROR_CONDICION")) {
+                       g.apilarControl(-1);
+                   } else {
+                       String bf = g.addTerceto("BF", cond, "_");
+                       int bfIdx = Integer.parseInt(bf.substring(1, bf.length()-1));
+                       g.apilarControl(bfIdx);
+                   }
+                   $$.ival = $1.ival; // Preservamos la línea para usarla en las reglas principales
+               }
+               ;
+
+condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                {
+                   int bfIdx = g.desapilarControl();
+                   if (bfIdx != -1) {
+                       int finIf = g.getProximoTerceto();
+                       g.modificarSaltoTerceto(bfIdx, "[" + finIf + "]");
+                   }
                    salida.add("Linea " + $1.ival + ": Sentencia IF reconocida.");
                }
                |
-               IF '(' condicion ')' bloque_ejecutable ELSE bloque_ejecutable ENDIF ';'
+               if_encabezado bloque_ejecutable ELSE {
+                   int bfIdx = g.desapilarControl();
+                   String bi = g.addTerceto("BI", "_", "_");
+                   int biIdx = Integer.parseInt(bi.substring(1, bi.length()-1));
+                   g.apilarControl(biIdx); // Apilamos el BI para resolverlo al final.
+                   if (bfIdx != -1) {
+                       int inicioElse = g.getProximoTerceto();
+                       g.modificarSaltoTerceto(bfIdx, "[" + inicioElse + "]");
+                   }
+               } bloque_ejecutable ENDIF ';'
                {
+                   // Al final del IF-ELSE, resolvemos el BI que saltó el bloque ELSE.
+                   int biIdx = g.desapilarControl();
+                   int finElse = g.getProximoTerceto();
+                   g.modificarSaltoTerceto(biIdx, "[" + finElse + "]");
+
                    salida.add("Linea " + $1.ival + ": Sentencia IF-ELSE reconocida.");
                }
                ;

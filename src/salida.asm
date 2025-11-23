@@ -40,6 +40,7 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux22 dd 0
 @aux23 dd 0
 @aux24 dd 0
+@aux25 dd 0
 _A dd 0
 _B dd 0
 _FOP1 dd 0
@@ -49,8 +50,8 @@ _FRESPROD dd 0
 _FDIV dd 0
 str_0 db "Prueba de Operaciones", 0
 str_7 db "Suma A + B:", 0
-str_10 db "C es mayor a 25", 0
-str_16 db "Fin del programa", 0
+str_11 db "C es mayor a 25", 0
+str_17 db "Fin del programa", 0
 .code
 start:
 Label0:
@@ -59,7 +60,7 @@ Label1:
 MOV EAX, 20
 MOV _A, EAX
 Label2:
-MOV EAX, 10
+MOV EAX, 5
 MOV _B, EAX
 Label3:
 MOV EAX, 1351942905
@@ -88,58 +89,62 @@ Label8:
 invoke crt_printf, addr MensajePrintNum, _C
 Label9:
 MOV EAX, _C
-CMP EAX, 59
+CMP EAX, 25
 SETA AL
 MOVZX EAX, AL
 MOV @aux9, EAX
 Label10:
-invoke crt_printf, addr MensajePrint, addr str_10
+MOV EAX, @aux9
+CMP EAX, 0
+JE Label12
 Label11:
-invoke crt_printf, addr MensajePrintNum, _B
+invoke crt_printf, addr MensajePrint, addr str_11
 Label12:
+invoke crt_printf, addr MensajePrintNum, _B
+Label13:
 MOV EAX, _B
 SUB EAX, 1
 JC ErrorRestaNegativa
-MOV @aux12, EAX
-Label13:
-MOV EAX, @aux12
-MOV _B, EAX
+MOV @aux13, EAX
 Label14:
+MOV EAX, @aux13
+MOV _B, EAX
+Label15:
 MOV EAX, _B
 CMP EAX, 7
 SETA AL
 MOVZX EAX, AL
-MOV @aux14, EAX
-Label15:
-MOV EAX, @aux14
-CMP EAX, 1
-JE Label11
+MOV @aux15, EAX
 Label16:
-invoke crt_printf, addr MensajePrint, addr str_16
+MOV EAX, @aux15
+CMP EAX, 1
+JE Label12
 Label17:
+invoke crt_printf, addr MensajePrint, addr str_17
+Label18:
 MOV EAX, 1351942905
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
 FSTP _FOP1
-Label18:
+Label19:
 MOV EAX, 1217559552
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
 FSTP _FOP2
-Label19:
+Label20:
 FLD _FOP1
 FLD _FOP2
 FMUL
 FSTSW AX
 TEST AX, 8
 JNZ ErrorOverflow
-FSTP @aux19
-Label20:
-FLD @aux19
-FSTP _FRESPROD
+FSTP @aux20
 Label21:
+FLD @aux20
+FSTP _FRESPROD
+Label22:
 FLD _FOP2
 FTST
 FSTSW AX
@@ -149,18 +154,18 @@ FSTP ST(0)
 FLD _FOP1
 FLD _FOP2
 FDIV
-FSTP @aux21
-Label22:
-FLD @aux21
-FSTP _FDIV
+FSTP @aux22
 Label23:
+FLD @aux22
+FSTP _FDIV
+Label24:
 FLD _FDIV
 sub esp, 8
 fstp qword ptr [esp]
 push offset MensajePrintFloat
 call crt_printf
 add esp, 12
-Label24:
+Label25:
 FLD _FRESPROD
 sub esp, 8
 fstp qword ptr [esp]

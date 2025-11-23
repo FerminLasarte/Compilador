@@ -2,7 +2,7 @@ MAIN {
     print(&Prueba de Operaciones&);
 
     var A := 20UI;
-    var B := 10UI;
+    var B := 5UI;
     var FOP1 := 2.0F+10;
     print(FOP1);
 
@@ -12,7 +12,7 @@ MAIN {
     print(C);
 
     @ Prueba de IF
-    if (C > 59UI) {
+    if (C > 25UI) {
         print(&C es mayor a 25&);
     } endif;
 
