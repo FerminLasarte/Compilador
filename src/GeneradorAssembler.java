@@ -67,8 +67,9 @@ public class GeneradorAssembler {
             return;
         }
         if (op.endsWith("UI")) return;
-        // Ignorar constantes float compuestas en la declaracion de variables
-        if (op.contains("F") && (op.contains(".") || op.contains("+") || op.contains("-"))) return;
+
+        // Ignorar constantes float, pero permitir identificadores que contengan F (ej: FUNCZ.A)
+        if (!Character.isLetter(op.charAt(0)) && op.contains("F") && (op.contains(".") || op.contains("+") || op.contains("-"))) return;
 
         String varName = resolveOperand(op);
         if (varName.equalsIgnoreCase("EAX") || varName.equalsIgnoreCase("EBX") || isNumeric(varName)) return;
@@ -145,11 +146,26 @@ public class GeneradorAssembler {
                         StringBuilder dbStr = new StringBuilder();
                         dbStr.append(strName).append(" db ");
                         String[] lines = content.split("\n|\\r\\n");
+                        ArrayList<String> parts = new ArrayList<>();
+
                         for (int i = 0; i < lines.length; i++) {
-                            if (i > 0) dbStr.append(", 13, 10, ");
-                            dbStr.append("\"").append(lines[i].replace("\"", "'")).append("\"");
+                            if (!lines[i].isEmpty()) {
+                                parts.add("\"" + lines[i].replace("\"", "'") + "\"");
+                            }
+                            if (i < lines.length - 1) {
+                                parts.add("13, 10");
+                            }
                         }
-                        dbStr.append(", 0\n");
+                        if (parts.isEmpty()) {
+                            dbStr.append("0");
+                        } else {
+                            for (int i = 0; i < parts.size(); i++) {
+                                dbStr.append(parts.get(i));
+                                if (i < parts.size() - 1) dbStr.append(", ");
+                            }
+                            dbStr.append(", 0");
+                        }
+                        dbStr.append("\n");
                         data.append(dbStr);
                         codigo.append("invoke MessageBox, NULL, addr ").append(strName).append(", addr MensajePrint, MB_OK\n");
                     } else {
@@ -243,6 +259,20 @@ public class GeneradorAssembler {
         if (op.endsWith("UI")) {
             return op.substring(0, op.length() - 2);
         }
+        // Fix A2006: Mapear L123 a Label123 para lambdas/etiquetas
+        if (op.startsWith("L")) {
+            try {
+                Integer.parseInt(op.substring(1));
+                return "Label" + op.substring(1);
+            } catch (NumberFormatException e) {
+                // No es una etiqueta numerica, continuar
+            }
+        }
+        // Fix A2001: Si empieza con letra, es variable (Identificador). Evita confundir FUNCZ.A con float.
+        if (Character.isLetter(op.charAt(0))) {
+            return "_" + op.replace(".", "_");
+        }
+
         if (op.contains("F") && (op.contains("+") || op.contains("-") || op.contains("."))) {
             String clean = op.replace("F", "E");
             try {

@@ -148,6 +148,7 @@ _Z dd 0
 _W dd 0
 _Y dd 0
 _MAIN_A dd 0
+_FUNCZ_A dd 0
 _GCONTADOR dd 0
 _GCONTADOR1 dd 0
 _GFACTOR dd 0
@@ -177,7 +178,7 @@ str_92 db " PRINT AA ", 0
 str_96 db " PRINT A ", 0
 str_99 db " PRINT MAIN.A ", 0
 str_108 db " PRINT AA ", 0
-str_113 db "", 13, 10, "    Inicio de cadena", 13, 10, "    Linea intermedia", 13, 10, "    Fin de cadena", 13, 10, "    ", 0
+str_113 db 13, 10, "    Inicio de cadena", 13, 10, "    Linea intermedia", 13, 10, "    Fin de cadena", 13, 10, "    ", 0
 .code
 start:
 Label0:
@@ -260,7 +261,7 @@ MOV EAX, _MAIN_A
 MOV _W, EAX
 Label27:
 MOV EAX, _W
-MOV 0, EAX
+MOV _FUNCZ_A, EAX
 Label28:
 RET
 Label29:
@@ -490,7 +491,7 @@ invoke MessageBox, NULL, addr str_108, addr MensajePrint, MB_OK
 Label109:
 RET
 Label110:
-PUSH OFFSET _L106
+PUSH Label106
 Label111:
 PUSH 3
 Label112:
