@@ -1,3 +1,11 @@
+.386
+.model flat, stdcall
+option casemap :none
+include \masm32\include\windows.inc
+include \masm32\include\kernel32.inc
+include \masm32\include\user32.inc
+includelib \masm32\lib\kernel32.lib
+includelib \masm32\lib\user32.lib
 .data
 ErrorDivCero db "Error: Division por cero", 0
 ErrorOverflow db "Error: Overflow en operacion", 0
@@ -172,14 +180,6 @@ str_113 db "
     Linea intermedia
     Fin de cadena
     ", 0
-.386
-.model flat, stdcall
-option casemap :none
-include \masm32\include\windows.inc
-include \masm32\include\kernel32.inc
-include \masm32\include\user32.inc
-includelib \masm32\lib\kernel32.lib
-includelib \masm32\lib\user32.lib
 .code
 start:
 Label0:

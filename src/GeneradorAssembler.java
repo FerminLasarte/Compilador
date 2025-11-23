@@ -7,12 +7,14 @@ import java.util.Set;
 public class GeneradorAssembler {
     private Generador generador;
     private AnalizadorLexico analizadorLexico;
+    private StringBuilder encabezado;
     private StringBuilder codigo;
     private StringBuilder data;
 
     public GeneradorAssembler(Generador generador, AnalizadorLexico al) {
         this.generador = generador;
         this.analizadorLexico = al;
+        this.encabezado = new StringBuilder();
         this.codigo = new StringBuilder();
         this.data = new StringBuilder();
     }
@@ -26,14 +28,14 @@ public class GeneradorAssembler {
     }
 
     private void generarHeader() {
-        codigo.append(".386\n");
-        codigo.append(".model flat, stdcall\n");
-        codigo.append("option casemap :none\n");
-        codigo.append("include \\masm32\\include\\windows.inc\n");
-        codigo.append("include \\masm32\\include\\kernel32.inc\n");
-        codigo.append("include \\masm32\\include\\user32.inc\n");
-        codigo.append("includelib \\masm32\\lib\\kernel32.lib\n");
-        codigo.append("includelib \\masm32\\lib\\user32.lib\n");
+        encabezado.append(".386\n");
+        encabezado.append(".model flat, stdcall\n");
+        encabezado.append("option casemap :none\n");
+        encabezado.append("include \\masm32\\include\\windows.inc\n");
+        encabezado.append("include \\masm32\\include\\kernel32.inc\n");
+        encabezado.append("include \\masm32\\include\\user32.inc\n");
+        encabezado.append("includelib \\masm32\\lib\\kernel32.lib\n");
+        encabezado.append("includelib \\masm32\\lib\\user32.lib\n");
     }
 
     private void generarData() {
@@ -216,6 +218,7 @@ public class GeneradorAssembler {
 
     private void guardarArchivo(String nombre) {
         try (FileWriter writer = new FileWriter(nombre)) {
+            writer.write(encabezado.toString());
             writer.write(data.toString());
             writer.write(codigo.toString());
         } catch (IOException e) {
