@@ -147,6 +147,7 @@ _FUNCR dd 0
 _Z dd 0
 _W dd 0
 _Y dd 0
+_MAIN_A dd 0
 _GCONTADOR dd 0
 _GCONTADOR1 dd 0
 _GFACTOR dd 0
@@ -159,6 +160,7 @@ _S dd 0
 _FUNCA dd 0
 _EVARBLOQUE dd 0
 _AA dd 0
+_MAIN_GCONTADOR dd 0
 _SS dd 0
 _XX dd 0
 _F dd 0
@@ -175,11 +177,7 @@ str_92 db " PRINT AA ", 0
 str_96 db " PRINT A ", 0
 str_99 db " PRINT MAIN.A ", 0
 str_108 db " PRINT AA ", 0
-str_113 db "
-    Inicio de cadena
-    Linea intermedia
-    Fin de cadena
-    ", 0
+str_113 db "", 13, 10, "    Inicio de cadena", 13, 10, "    Linea intermedia", 13, 10, "    Fin de cadena", 13, 10, "    ", 0
 .code
 start:
 Label0:
@@ -262,7 +260,7 @@ MOV EAX, _MAIN_A
 MOV _W, EAX
 Label27:
 MOV EAX, _W
-MOV _FUNCZ_A, EAX
+MOV 0, EAX
 Label28:
 RET
 Label29:
@@ -274,7 +272,7 @@ Label31:
 MOV EAX, 1
 MOV _GCONTADOR1, EAX
 Label32:
-MOV EAX, 1.0F+0
+MOV EAX, 1
 MOV _GFACTOR, EAX
 Label33:
 MOV EAX, _GCONTADOR
@@ -297,7 +295,7 @@ Label38:
 MOV EAX, 1
 MOV _VARA, EAX
 Label39:
-MOV EAX, 1.0F+0
+MOV EAX, 1
 MOV _VARF, EAX
 Label40:
 FLD _VARF
@@ -388,7 +386,7 @@ MOV @aux73, 0
 Label74:
 MOV EAX, @aux73
 CMP EAX, 1
-JE @aux72
+JE Label72
 Label75:
 MOV EAX, 1
 MOV _EVARBLOQUE, EAX
@@ -402,7 +400,7 @@ MOV @aux77, 0
 Label78:
 MOV EAX, @aux77
 CMP EAX, 1
-JE @aux76
+JE Label76
 Label79:
 MOV EAX, 1
 MOV _EVARBLOQUE, EAX
@@ -413,7 +411,7 @@ MOV @aux80, 0
 Label81:
 MOV EAX, @aux80
 CMP EAX, 1
-JE @aux79
+JE Label79
 Label82:
 MOV EAX, 3
 MOV _AA, EAX
@@ -441,7 +439,7 @@ MOV @aux89, 0
 Label90:
 MOV EAX, @aux89
 CMP EAX, 1
-JE @aux85
+JE Label85
 Label91:
 MOV EAX, _AA
 CMP EAX, 5
@@ -451,7 +449,9 @@ invoke MessageBox, NULL, addr str_92, addr MensajePrint, MB_OK
 Label93:
 invoke MessageBox, NULL, addr _MAIN_A, addr MensajePrintNum, MB_OK
 Label94:
-invoke MessageBox, NULL, addr 100, addr MensajePrintNum, MB_OK
+MOV EAX, 100
+MOV @aux94, EAX
+invoke MessageBox, NULL, addr @aux94, addr MensajePrintNum, MB_OK
 Label95:
 MOV EAX, _A
 CMP EAX, 5
@@ -469,7 +469,9 @@ invoke MessageBox, NULL, addr str_99, addr MensajePrint, MB_OK
 Label100:
 invoke MessageBox, NULL, addr _MAIN_A, addr MensajePrintNum, MB_OK
 Label101:
-invoke MessageBox, NULL, addr 100, addr MensajePrintNum, MB_OK
+MOV EAX, 100
+MOV @aux101, EAX
+invoke MessageBox, NULL, addr @aux101, addr MensajePrintNum, MB_OK
 Label102:
 RET
 Label103:
@@ -477,7 +479,7 @@ Label104:
 MOV EAX, _X
 CALL EAX
 Label105:
-JMP __
+; JMP UNRESOLVED (_)
 Label106:
 Label107:
 MOV EAX, _XX
@@ -488,7 +490,7 @@ invoke MessageBox, NULL, addr str_108, addr MensajePrint, MB_OK
 Label109:
 RET
 Label110:
-PUSH _L106
+PUSH OFFSET _L106
 Label111:
 PUSH 3
 Label112:
@@ -517,10 +519,10 @@ Label119:
 MOV EAX, @aux118
 MOV _URESADD, EAX
 Label120:
-MOV EAX, 2.0F+10
+MOV EAX, 2147483647
 MOV _FOP1, EAX
 Label121:
-MOV EAX, 3.0F+5
+MOV EAX, 300000
 MOV _FOP2, EAX
 Label122:
 MOV EAX, _FOP1

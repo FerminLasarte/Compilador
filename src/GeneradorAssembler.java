@@ -63,17 +63,28 @@ public class GeneradorAssembler {
 
     private void checkAndAddVariable(String op, Set<String> declaradas) {
         if (op == null || op.equals("_") || op.startsWith("[") || op.startsWith("L") ||
-                Character.isDigit(op.charAt(0)) || op.startsWith("\'") || op.startsWith("&")) {
+                Character.isDigit(op.charAt(0)) || op.startsWith("\'") || op.startsWith("&") || op.startsWith("-")) {
             return;
         }
-        if (op.contains(".") || op.endsWith("UI")) return;
+        if (op.endsWith("UI")) return;
+        // Ignorar constantes float compuestas en la declaracion de variables
+        if (op.contains("F") && (op.contains(".") || op.contains("+") || op.contains("-"))) return;
 
         String varName = resolveOperand(op);
-        if (varName.equalsIgnoreCase("EAX") || varName.equalsIgnoreCase("EBX")) return;
+        if (varName.equalsIgnoreCase("EAX") || varName.equalsIgnoreCase("EBX") || isNumeric(varName)) return;
 
         if (!declaradas.contains(varName)) {
             data.append(varName).append(" dd 0\n");
             declaradas.add(varName);
+        }
+    }
+
+    private boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e) {
+            return false;
         }
     }
 
@@ -93,8 +104,10 @@ public class GeneradorAssembler {
             codigo.append("Label").append(numTerceto).append(":\n");
 
             String op = tercetoActual.getOperador();
-            String op1 = resolveOperand(tercetoActual.getOperando1());
-            String op2 = resolveOperand(tercetoActual.getOperando2());
+            String rawOp1 = tercetoActual.getOperando1();
+            String rawOp2 = tercetoActual.getOperando2();
+            String op1 = resolveOperand(rawOp1);
+            String op2 = resolveOperand(rawOp2);
             String res = "@aux" + numTerceto;
 
             switch (op) {
@@ -126,28 +139,47 @@ public class GeneradorAssembler {
                     codigo.append("MOV ").append(op1).append(", EAX\n");
                     break;
                 case "PRINT":
-                    if (op1.startsWith("&")) {
+                    if (rawOp1.startsWith("&")) {
                         String strName = "str_" + numTerceto;
-                        data.append(strName).append(" db \"").append(op1.replace("&", "")).append("\", 0\n");
+                        String content = rawOp1.replace("&", "");
+                        StringBuilder dbStr = new StringBuilder();
+                        dbStr.append(strName).append(" db ");
+                        String[] lines = content.split("\n|\\r\\n");
+                        for (int i = 0; i < lines.length; i++) {
+                            if (i > 0) dbStr.append(", 13, 10, ");
+                            dbStr.append("\"").append(lines[i].replace("\"", "'")).append("\"");
+                        }
+                        dbStr.append(", 0\n");
+                        data.append(dbStr);
                         codigo.append("invoke MessageBox, NULL, addr ").append(strName).append(", addr MensajePrint, MB_OK\n");
                     } else {
-                        codigo.append("invoke MessageBox, NULL, addr ").append(op1).append(", addr MensajePrintNum, MB_OK\n");
+                        if (isNumeric(op1)) {
+                            codigo.append("MOV EAX, ").append(op1).append("\n");
+                            codigo.append("MOV ").append(res).append(", EAX\n");
+                            codigo.append("invoke MessageBox, NULL, addr ").append(res).append(", addr MensajePrintNum, MB_OK\n");
+                        } else {
+                            codigo.append("invoke MessageBox, NULL, addr ").append(op1).append(", addr MensajePrintNum, MB_OK\n");
+                        }
                     }
                     break;
                 case "BF":
                     codigo.append("MOV EAX, ").append(op1).append("\n");
                     codigo.append("CMP EAX, 0\n");
-                    String targetBF = op2.replace("[", "Label").replace("]", "");
+                    String targetBF = rawOp2.replace("[", "Label").replace("]", "");
                     codigo.append("JE ").append(targetBF).append("\n");
                     break;
                 case "BI":
-                    String targetBI = op1.replace("[", "Label").replace("]", "");
-                    codigo.append("JMP ").append(targetBI).append("\n");
+                    String targetBI = rawOp1.replace("[", "Label").replace("]", "");
+                    if (targetBI.equals("_") || targetBI.equals("__")) {
+                        codigo.append("; JMP UNRESOLVED (").append(rawOp1).append(")\n");
+                    } else {
+                        codigo.append("JMP ").append(targetBI).append("\n");
+                    }
                     break;
                 case "BT":
                     codigo.append("MOV EAX, ").append(op1).append("\n");
                     codigo.append("CMP EAX, 1\n");
-                    String targetBT = op2.replace("[", "Label").replace("]", "");
+                    String targetBT = rawOp2.replace("[", "Label").replace("]", "");
                     codigo.append("JE ").append(targetBT).append("\n");
                     break;
                 case ">":
@@ -176,7 +208,11 @@ public class GeneradorAssembler {
                     codigo.append("CALL EAX\n");
                     break;
                 case "PARAM":
-                    codigo.append("PUSH ").append(op1).append("\n");
+                    if (op1.startsWith("_L")) {
+                        codigo.append("PUSH OFFSET ").append(op1).append("\n");
+                    } else {
+                        codigo.append("PUSH ").append(op1).append("\n");
+                    }
                     break;
                 case "TOUI":
                     codigo.append("FLD ").append(op1).append("\n");
@@ -207,10 +243,16 @@ public class GeneradorAssembler {
         if (op.endsWith("UI")) {
             return op.substring(0, op.length() - 2);
         }
-        if (op.endsWith("F") && op.contains(".")) {
-            return op.substring(0, op.indexOf("."));
+        if (op.contains("F") && (op.contains("+") || op.contains("-") || op.contains("."))) {
+            String clean = op.replace("F", "E");
+            try {
+                double d = Double.parseDouble(clean);
+                return String.valueOf((int)d);
+            } catch(Exception e) {
+                return "0";
+            }
         }
-        if (!Character.isDigit(op.charAt(0)) && !op.startsWith("'") && !op.startsWith("&")) {
+        if (!Character.isDigit(op.charAt(0)) && !op.startsWith("'") && !op.startsWith("&") && !op.startsWith("-")) {
             return "_" + op.replace(".", "_");
         }
         return op;
