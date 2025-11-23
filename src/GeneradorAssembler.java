@@ -133,7 +133,7 @@ public class GeneradorAssembler {
                     } else {
                         codigo.append("MOV EAX, ").append(op1).append("\n");
                         codigo.append("ADD EAX, ").append(op2).append("\n");
-                        codigo.append("JO ErrorOverflow\n");
+                        codigo.append("JC ErrorOverflow\n");
                         codigo.append("MOV ").append(res).append(", EAX\n");
                     }
                     break;
@@ -155,6 +155,9 @@ public class GeneradorAssembler {
                         loadToFPU(op1);
                         loadToFPU(op2);
                         codigo.append("FMUL\n");
+                        codigo.append("FSTSW AX\n");
+                        codigo.append("TEST AX, 8\n");
+                        codigo.append("JNZ ErrorOverflow\n");
                         codigo.append("FSTP ").append(res).append("\n");
                     } else {
                         codigo.append("MOV EAX, ").append(op1).append("\n");

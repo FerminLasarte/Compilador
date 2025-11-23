@@ -77,7 +77,7 @@ add esp, 12
 Label5:
 MOV EAX, _A
 ADD EAX, _B
-JO ErrorOverflow
+JC ErrorOverflow
 MOV @aux5, EAX
 Label6:
 MOV EAX, @aux5
@@ -88,7 +88,7 @@ Label8:
 invoke crt_printf, addr MensajePrintNum, _C
 Label9:
 MOV EAX, _C
-CMP EAX, 25
+CMP EAX, 59
 SETA AL
 MOVZX EAX, AL
 MOV @aux9, EAX
@@ -132,6 +132,9 @@ Label19:
 FLD _FOP1
 FLD _FOP2
 FMUL
+FSTSW AX
+TEST AX, 8
+JNZ ErrorOverflow
 FSTP @aux19
 Label20:
 FLD @aux19

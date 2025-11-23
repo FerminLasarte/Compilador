@@ -12,7 +12,7 @@ MAIN {
     print(C);
 
     @ Prueba de IF
-    if (C > 25UI) {
+    if (C > 59UI) {
         print(&C es mayor a 25&);
     } endif;
 
