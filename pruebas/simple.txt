@@ -23,16 +23,15 @@ MAIN {
     } while (B > 5UI);
 
     var AE := 1UI;
-        var BE := 2UI;
-        var CE := 3UI;
-        print(AE);
-        print(BE);
-        print(CE);
-        AE,BE,CE = 10UI, 20UI, 30UI;
-        print(AE);
-        print(BE);
-        print(CE);
-
+    var BE := 2UI;
+    var CE := 3UI;
+    print(AE);
+    print(BE);
+    print(CE);
+    AE,BE,CE = 10UI, 20UI, 30UI;
+    print(AE);
+    print(BE);
+    print(CE);
 
     FOP1 := 2.0F+10;
     var FOP2 := 3.0F+5;

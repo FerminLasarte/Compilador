@@ -1,0 +1,198 @@
+MAIN {
+    var A := 0UI;
+    print(&A:&);
+    print(A);
+    @ var A := 1UI;
+    var B := 65535UI;
+    print(&B:&);
+    print(B);
+
+    var F1 := 1.5F+2;
+    print(&F1:&);
+    print(F1);
+    var F2 := .5F-1;
+    print(&F2:&);
+    print(F2);
+    var F3 := 10.F+0;
+    print(&F3:&);
+    print(F3);
+
+    print(&cadena
+    multilinea&);
+
+    var X := 10UI;
+    print(&X:&);
+    print(X);
+    var Y := 2.5F+1;
+    print(&Y:&);
+    print(Y);
+    var Z := Y;
+    print(&Z:&);
+    print(Z);
+
+    @ var E := 10UI + 2.5F+1;
+    var E := 10UI + toui(2.5F+1);
+    print(&E:&);
+    print(E);
+
+    var CONT := 0UI;
+    do {
+        CONT := CONT + 1UI;
+        print(&CONT:&);
+        print(CONT);
+    } while (CONT < 5UI);
+
+    print(&#ASIGNACION MULTIPLE IGUAL DE LADOS#&);
+    A, B = 10UI, 20UI;
+    print(&A:&);
+    print(A);
+    print(&B:&);
+    print(B);
+
+    print(&IMPRIME AAAAA:&);
+    print(A);
+
+    uint FUNCZ(uint Z) {
+        print(&AAAAAAA&);
+        print(A);
+
+        var W := 2UI;
+        print(&W DE FUNCZ:&);
+        print(W);
+        var J := 3UI;
+        print(&J DE FUNCZ:&);
+        print(J);
+        var A := 4UI;
+        print(&A DE FUNCZ:&);
+        print(A);
+        W := A;
+        print(&W DE FUNCZ TOMA VALOR DE A DE FUNCZ:&);
+        print(W);
+        W := MAIN.A;
+        print(&W DE FUNCZ TOMA VALOR DE MAIN.A:&);
+        print(W);
+        MAIN.A := W;
+        print(&MAIN.A TOMA VALOR DE W:&);
+        print(MAIN.A);
+        print(&IMPRIMO A DE FUNCZ:&);
+        print(A);
+
+        uint FUNCJ(uint J) {
+
+            var W := 22UI;
+            print(&W DE FUNCJ:&);
+            print(W);
+            var P := 33UI;
+            print(&P DE FUNCJ:&);
+            print(P);
+            var A := 44UI;
+            print(&A DE FUNCJ:&);
+            print(A);
+            W := MAIN.A;
+            print(&W DE FUNCJ TOMA VALOR DE MAIN.A:&);
+            print(W);
+            FUNCZ.A := W;
+            print(&FUNCZ.A TOMA VALOR DE W DE FUNCJ:&);
+            print(W);
+
+            return(55UI);
+        }
+
+        return(5UI);
+    }
+
+    uint FUNCIONX(uint AA) {
+
+        AA := 3UI;
+        var A := 3UI;
+        var GCONTADOR := 0UI;
+
+        do {
+            print(&PRINT GCONTADOR &);
+            print(GCONTADOR);
+            GCONTADOR := GCONTADOR + 1UI;
+        } while (GCONTADOR < 3UI);
+
+        if (AA < 5UI) {
+            print(&PRINT AA &);
+            print(FUNCIONX.A);
+        } else {
+            print(100UI);
+        } endif;
+
+        if (A < 5UI) {
+            print(&PRINT A &);
+            print(A);
+        } endif;
+
+        if (FUNCIONX.A < 5UI) {
+            print(&PRINT FUNCIONX.A &);
+            print(FUNCIONX.A);
+        } else {
+            print(100UI);
+        };
+
+        return (1000UI);
+    }
+
+    var VALOR := 10UI;
+    uint PROCESAR(cr se uint OUT, cr le uint INOUT) {
+
+        OUT := 99UI;
+        INOUT := INOUT + 1UI;
+
+        @ return (1UI);
+    }
+
+    var BASURA := 0UI;
+    PROCESAR(BASURA->OUT, VALOR->INOUT);
+    print(BASURA);
+    print(VALOR);
+
+    uint F(lambda X, uint SS) {
+        X(SS);
+    }
+
+    F((uint XX) {
+        if (XX>1UI) {
+            print(& PRINT AA &);
+        } endif;
+    }->X,3UI->SS);
+
+    A := 0UI;
+
+    @ var DIV := 10UI / A;
+
+    var MAX := 65535UI;
+    var OVER := MAX + 1UI;
+
+    var GLOBAL := 100UI;
+    print(&GLOBAL:&);
+    print(GLOBAL);
+    uint, float FUNCION(uint P1) {
+
+        var VARLOCAL := 200UI;
+        GLOBAL := GLOBAL + 1UI;
+        print(&MAIN.GLOBAL:&);
+        print(GLOBAL);
+        VARLOCAL := GLOBAL;
+        print(&VARLOCAL:&);
+        print(VARLOCAL);
+        GLOBAL := VARLOCAL + 3UI;
+        print(&MAIN.GLOBAL:&);
+        print(GLOBAL);
+
+        return (P1, 3.14F+0);
+    }
+
+    var R1 := 0UI;
+    var R2 := 0.0F+0;
+
+    R1 = FUNCION(50UI -> P1);
+    print(&R1:&);
+    print(R1);
+    print(&GLOBAL:&);
+    print(GLOBAL);
+
+    print(&Si ves esto, el control de overflow fallo&);
+}
