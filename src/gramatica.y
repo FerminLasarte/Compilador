@@ -969,33 +969,6 @@ public static void main(String args[]){
         par.yyparse();
 
         System.out.println("\n=======================================================");
-        System.out.println("## ESTRUCTURAS SINTACTICAS RECONOCIDAS ##");
-        System.out.println("=======================================================");
-        if (par.salida.isEmpty()) {
-            System.out.println("No se reconocieron estructuras sintacticas validas.");
-        } else {
-
-            Comparator<String> comparadorPorLinea = new Comparator<String>() {
-                @Override
-                public int compare(String s1, String s2) {
-                    try {
-
-                        int linea1 = Integer.parseInt(s1.substring(6, s1.indexOf(':')).trim());
-                        int linea2 = Integer.parseInt(s2.substring(6, s2.indexOf(':')).trim());
-                        return Integer.compare(linea1, linea2);
-                    } catch (Exception e) {
-                        return s1.compareTo(s2);
-                    }
-                }
-            };
-            Collections.sort(par.salida, comparadorPorLinea);
-
-            for (String s : par.salida) {
-                System.out.println(s);
-            }
-        }
-
-        System.out.println("\n=======================================================");
         System.out.println("## ERRORES SINTACTICOS DETECTADOS ##");
         System.out.println("=======================================================");
         if (par.erroresSintacticos.isEmpty()) {

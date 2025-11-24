@@ -1,54 +1,73 @@
+import java.io.PrintStream;
+
 public class Main {
     public static void main(String[] args) {
-        if (args.length == 0) {
-            System.out.println("Error: Falta ruta del archivo");
-            return;
-        }
+        try {
 
-        AnalizadorLexico al = new AnalizadorLexico(args[0]);
-        Generador g = Generador.getInstance();
-        g.setAnalizadorLexico(al);
+            // ⬅ PRIMERO: REDIRECCIÓN de salida
+            PrintStream fileOut = new PrintStream("salida_parser.txt");
+            System.setOut(fileOut);
+            System.setErr(fileOut);
 
-        Parser.al = al;
-        Parser.g = g;
+            // ⬅ AHORA recién procesamos argumentos
+            if (args.length == 0) {
+                System.out.println("Error: Falta ruta del archivo");
+                return;
+            }
 
-        Parser par = new Parser(false);
-        par.yyparse();
+            // ⬅ Desde acá todo lo que impriman las clases queda guardado
+            AnalizadorLexico al = new AnalizadorLexico(args[0]);
+            Generador g = Generador.getInstance();
+            g.setAnalizadorLexico(al);
 
-        System.out.println("\n=======================================================");
-        System.out.println("## GENERACION DE ASSEMBLER ##");
-        System.out.println("=======================================================");
+            Parser.al = al;
+            Parser.g = g;
 
-        GeneradorAssembler ga = new GeneradorAssembler(g, al);
-        ga.generarAssembler("salida.asm");
-        System.out.println("Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores logicos si hubo errores de compilacion).");
+            Parser par = new Parser(false);
+            par.yyparse();
 
-        if (!par.erroresSintacticos.isEmpty() || !al.getErrores().isEmpty() || !al.getErroresSemanticos().isEmpty()) {
             System.out.println("\n=======================================================");
-            System.out.println("              REPORTE DE ERRORES");
+            System.out.println("## GENERACION DE ASSEMBLER ##");
             System.out.println("=======================================================");
 
-            if (!par.erroresSintacticos.isEmpty()) {
-                System.out.println("\nErrores Sintacticos:");
-                for (String error : par.erroresSintacticos) {
-                    System.out.println(" - " + error);
+            GeneradorAssembler ga = new GeneradorAssembler(g, al);
+            ga.generarAssembler("salida.asm");
+            System.out.println("Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores logicos si hubo errores de compilacion).");
+
+            if (!par.erroresSintacticos.isEmpty() ||
+                    !al.getErrores().isEmpty() ||
+                    !al.getErroresSemanticos().isEmpty()) {
+
+                System.out.println("\n=======================================================");
+                System.out.println("              REPORTE DE ERRORES");
+                System.out.println("=======================================================");
+
+                if (!par.erroresSintacticos.isEmpty()) {
+                    System.out.println("\nErrores Sintacticos:");
+                    for (String error : par.erroresSintacticos) {
+                        System.out.println(" - " + error);
+                    }
                 }
+
+                if (!al.getErrores().isEmpty()) {
+                    System.out.println("\nErrores Lexicos:");
+                    for (String error : al.getErrores()) {
+                        System.out.println(" - " + error);
+                    }
+                }
+
+                if (!al.getErroresSemanticos().isEmpty()) {
+                    System.out.println("\nErrores Semanticos:");
+                    for (String error : al.getErroresSemanticos()) {
+                        System.out.println(" - " + error);
+                    }
+                }
+
+                System.out.println("\n=======================================================");
             }
 
-            if (!al.getErrores().isEmpty()) {
-                System.out.println("\nErrores Lexicos:");
-                for (String error : al.getErrores()) {
-                    System.out.println(" - " + error);
-                }
-            }
-
-            if (!al.getErroresSemanticos().isEmpty()) {
-                System.out.println("\nErrores Semanticos:");
-                for (String error : al.getErroresSemanticos()) {
-                    System.out.println(" - " + error);
-                }
-            }
-            System.out.println("\n=======================================================");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

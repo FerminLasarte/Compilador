@@ -1,0 +1,16 @@
+
+=======================================================
+## GENERACION DE ASSEMBLER ##
+=======================================================
+Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores logicos si hubo errores de compilacion).
+
+=======================================================
+              REPORTE DE ERRORES
+=======================================================
+
+Errores Semanticos:
+ - Linea 69: Error de Tipos: No se puede operar (+) entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).
+ - Linea 69: Error Semantico: No se puede inferir el tipo de 'VARUINTMAX' desde una expresion invalida (Tema 9).
+ - Linea 70: Error Semantico: Variable 'VARUINTMAX' no fue declarada (Regla de alcance).
+
+=======================================================
