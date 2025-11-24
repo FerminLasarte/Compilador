@@ -92,6 +92,7 @@ lista_variables : lista_variables ',' variable
                 ;
 
 funcion : tipo ID '(' lista_parametros_formales ')' '{' {
+            g.setGeneracionHabilitada(true);
             String nombreFuncion = $2.sval;
             String tipoRetorno = $1.sval;
             String nombreAmbito = nombreFuncion;
@@ -152,6 +153,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         }
       |
       lista_tipos_retorno_multiple ID '(' lista_parametros_formales ')' '{' {
+            g.setGeneracionHabilitada(true);
             String nombreFuncion = $2.sval;
             String nombreAmbito = nombreFuncion;
             ArrayList<?> rawList = (ArrayList<?>) $1.obj;
@@ -760,7 +762,7 @@ if_encabezado : IF '(' condicion ')' {
                        int bfIdx = Integer.parseInt(bf.substring(1, bf.length()-1));
                        g.apilarControl(bfIdx);
                    }
-                   $$.ival = $1.ival; // Preservamos la línea para usarla en las reglas principales
+                   $$.ival = $1.ival; /* Preservamos la línea para usarla en las reglas principales*/
                }
                ;
 
@@ -778,14 +780,14 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    int bfIdx = g.desapilarControl();
                    String bi = g.addTerceto("BI", "_", "_");
                    int biIdx = Integer.parseInt(bi.substring(1, bi.length()-1));
-                   g.apilarControl(biIdx); // Apilamos el BI para resolverlo al final.
+                   g.apilarControl(biIdx); /* Apilamos el BI para resolverlo al final.*/
                    if (bfIdx != -1) {
                        int inicioElse = g.getProximoTerceto();
                        g.modificarSaltoTerceto(bfIdx, "[" + inicioElse + "]");
                    }
                } bloque_ejecutable ENDIF ';'
                {
-                   // Al final del IF-ELSE, resolvemos el BI que saltó el bloque ELSE.
+                   /* Al final del IF-ELSE, resolvemos el BI que saltó el bloque ELSE.*/
                    int biIdx = g.desapilarControl();
                    int finElse = g.getProximoTerceto();
                    g.modificarSaltoTerceto(biIdx, "[" + finElse + "]");
@@ -953,6 +955,7 @@ public static void main(String args[]){
     if(args.length == 1) {
         al = new AnalizadorLexico(args[0]);
         g = Generador.getInstance();
+        g.setGeneracionHabilitada(true);
         g.setAnalizadorLexico(al);
         Parser par = new Parser(false);
         par.yyparse();
