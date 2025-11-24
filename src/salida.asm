@@ -63,7 +63,6 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux45 dd 0
 @aux46 dd 0
 @aux47 dd 0
-@aux48 dd 0
 _A dd 0
 _B dd 0
 _FOP1 dd 0
@@ -80,8 +79,7 @@ str_0 db "Prueba de Operaciones", 0
 str_7 db "Suma A + B:", 0
 str_11 db "C es mayor a 25", 0
 str_17 db "Fin del programa", 0
-str_30 db "Ae", 0
-str_41 db "FUNCION", 0
+str_40 db "FUNCION", 0
 .code
 start:
 Label0:
@@ -119,7 +117,7 @@ Label8:
 invoke crt_printf, addr MensajePrintNum, _C
 Label9:
 MOV EAX, _C
-CMP EAX, 25
+CMP EAX, 100
 SETA AL
 MOVZX EAX, AL
 MOV @aux9, EAX
@@ -214,50 +212,48 @@ MOV _CE, EAX
 Label29:
 invoke crt_printf, addr MensajePrintNum, _AE
 Label30:
-invoke crt_printf, addr MensajePrint, addr str_30
-Label31:
 invoke crt_printf, addr MensajePrintNum, _BE
-Label32:
+Label31:
 invoke crt_printf, addr MensajePrintNum, _CE
-Label33:
+Label32:
 MOV EAX, 30
 MOV _CE, EAX
-Label34:
+Label33:
 MOV EAX, 20
 MOV _BE, EAX
-Label35:
+Label34:
 MOV EAX, 10
 MOV _AE, EAX
+Label35:
+invoke crt_printf, addr MensajePrintNum, _AE
 Label36:
+invoke crt_printf, addr MensajePrintNum, _BE
+Label37:
+invoke crt_printf, addr MensajePrintNum, _CE
+Label38:
 MOV EAX, 0
 MOV _JE, EAX
-Label37:
-invoke crt_printf, addr MensajePrintNum, _AE
-Label38:
-invoke crt_printf, addr MensajePrintNum, _BE
 Label39:
-invoke crt_printf, addr MensajePrintNum, _CE
-Label40:
 MOV EAX, 1
 MOV _JE, EAX
+Label40:
+invoke crt_printf, addr MensajePrint, addr str_40
 Label41:
-invoke crt_printf, addr MensajePrint, addr str_41
-Label42:
 RET
-Label43:
+Label42:
 PUSH 11
-Label44:
+Label43:
 CALL _FUNCR
-MOV @aux44, EAX
-Label45:
+MOV @aux43, EAX
+Label44:
 MOV EAX, 20
 MOV _BE, EAX
-Label46:
-MOV EAX, @aux44
+Label45:
+MOV EAX, @aux43
 MOV _AE, EAX
-Label47:
+Label46:
 invoke crt_printf, addr MensajePrintNum, _AE
-Label48:
+Label47:
 invoke crt_printf, addr MensajePrintNum, _BE
 invoke ExitProcess, 0
 Error_DivCero:

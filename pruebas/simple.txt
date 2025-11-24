@@ -12,7 +12,7 @@ MAIN {
     print(C);
 
     @ Prueba de IF
-    if (C > 25UI) {
+    if (C > 100UI) {
         print(&C es mayor a 25&);
     } endif;
 
@@ -33,14 +33,13 @@ MAIN {
     var BE := 2UI;
     var CE := 3UI;
     print(AE);
-    print(&Ae&);
     print(BE);
     print(CE);
     AE,BE,CE = 10UI, 20UI, 30UI;
-    var JE := 0UI;
     print(AE);
     print(BE);
     print(CE);
+    var JE := 0UI;
     uint FUNCR(uint JE) {
         JE := 1UI;
         print(&FUNCION&);
