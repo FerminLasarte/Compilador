@@ -2,7 +2,7 @@ MAIN {
     print(&Prueba de Operaciones&);
 
     var A := 20UI;
-    var B := 5UI;
+    var B := 10UI;
     var FOP1 := 2.0F+10;
     print(FOP1);
 
@@ -20,15 +20,33 @@ MAIN {
     do {
         print(B);
         B := B - 1UI;
-    } while (B > 7UI);
+    } while (B > 5UI);
 
     print(&Fin del programa&);
-
-     FOP1 := 2.0F+10;
-     var FOP2 := 3.0F+5;
-     var FRESPROD := FOP1 * FOP2;
-
-     var FDIV := FOP1 / FOP2;
-     print(FDIV);
-     print(FRESPROD);
+    FOP1 := 2.0F+10;
+    var FOP2 := 3.0F+5;
+    var FRESPROD := FOP1 * FOP2;
+    var FDIV := FOP1 / FOP2;
+    print(FDIV);
+    print(FRESPROD);
+    var Ae := 1UI;
+    var Be := 2UI;
+    var Ce := 3UI;
+    print(Ae);
+    print(&Ae&);
+    print(Be);
+    print(Ce);
+    Ae,Be,Ce = 10UI, 20UI, 30UI;
+    var Je := 0UI;
+    print(Ae);
+    print(Be);
+    print(Ce);
+    uint FUNCR(uint Je) {
+        Je := 1UI;
+        print(&FUNCION&);
+        return (100UI);
+    }
+    Ae,Be = FUNCR(11UI->Je), 20UI;
+    print(Ae);
+    print(Be);
 }

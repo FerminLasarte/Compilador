@@ -15,6 +15,7 @@ MAIN {
     A,B = FUNCR(11UI->J), 20UI;
     A,B = FUNCR(11UI->J), 20UI;
 
+
     var Z := 1UI;
 
     uint FUNCZ(uint Z) {
