@@ -506,7 +506,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 921 "gramatica.y"
+//#line 929 "gramatica.y"
 
 static AnalizadorLexico al;
 static Generador g;
@@ -1098,91 +1098,99 @@ break;
 case 40:
 //#line 341 "gramatica.y"
 {
-                            String lineaActual = String.valueOf(val_peek(1).ival);
-                            int cantIzquierda = listaVariables.size();
-                            int cantDerecha = contadorLadoDerecho;
-                            Stack<String> derechos = g.getPilaLadoDerecho();
+    String lineaActual = String.valueOf(val_peek(1).ival);
+    int cantIzquierda = listaVariables.size();
+    int cantDerecha = contadorLadoDerecho;
+    Stack<String> derechos = g.getPilaLadoDerecho();
 
-                            boolean esFuncion = false;
-                            if (cantDerecha == 1) {
-                                String op = derechos.peek();
-                                if (op.startsWith("[")) {
-                                    try {
-                                        Terceto t = g.getTerceto(Integer.parseInt(op.substring(1, op.length()-1)));
-                                        if (t.getOperador().equals("CALL")) {
-                                            esFuncion = true;
-                                        }
-                                    } catch (Exception e) {
-                                        esFuncion = false;
-                                    }
-                                }
-                            }
+    boolean esFuncion = false;
+    if (cantDerecha == 1) {
+        String op = derechos.peek();
+        if (op.startsWith("[")) {
+            try {
+                Terceto t = g.getTerceto(Integer.parseInt(op.substring(1, op.length()-1)));
+                if (t.getOperador().equals("CALL")) {
+                    esFuncion = true;
+                }
+            } catch (Exception e) {
+                esFuncion = false;
+            }
+        }
+    }
 
-                            if (esFuncion) {
-                                  String funcTerceto = derechos.pop();
-                                  if (funcTerceto.equals("ERROR_CALL") || funcTerceto.equals("ERROR_CALL_PARAMS") || funcTerceto.equals("ERROR_CALL_LAMBDA")) {
-                                  } else {
-                                      String funcName = g.getTerceto(Integer.parseInt(funcTerceto.substring(1, funcTerceto.length()-1))).getOperando1();
-                                      Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
-                                      if (retMultiple == null || !(Boolean)retMultiple) {
-                                          al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple a funcion '" + funcName + "' que no tiene retorno multiple.");
-                                      } else {
-                                          Object rawObj = al.getAtributo(funcName, "TiposRetorno");
-                                          ArrayList<String> tiposRetorno = new ArrayList<String>();
-                                          if (rawObj instanceof ArrayList) {
-                                              for (Object o : (ArrayList<?>) rawObj) {
-                                                  tiposRetorno.add((String) o);
-                                              }
-                                          }
-                                          int cantRetornos = tiposRetorno.size();
-                                          if (cantRetornos < cantIzquierda) {
-                                              al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 21): Asignacion multiple a funcion '" + funcName + "'. Insuficientes valores de retorno. Esperados: " + cantIzquierda + ", Retornados: " + cantRetornos + ".");
-                                          } else {
-                                              if (cantRetornos > cantIzquierda) {
-                                                  al.agregarWarning("Linea "
-                                                  + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero solo se asignan " + cantIzquierda + ". Se descartan los sobrantes.");
-                                              }
-                                              for (int i = 0; i < cantIzquierda; i++) {
-                                                  String var = listaVariables.get(i);
-                                                  String tipoVar = g.getTipo(var);
-                                                  String tipoRet = tiposRetorno.get(i);
-                                                  if (g.chequearAsignacion(tipoVar, tipoRet, Integer.parseInt(lineaActual))) {
-                                                      String retTerceto = g.addTerceto("GET_RET", funcTerceto, String.valueOf(i));
-                                                      g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoRet);
-                                                      g.addTerceto(":=", var, retTerceto);
-                                                  }
-                                              }
-                                              salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') reconocida.");
-                                          }
-                                      }
-                                  }
-                              } else {
-                                  if (cantIzquierda != cantDerecha) {
-                                      al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + cantIzquierda + ") y a la derecha (" + cantDerecha + ").");
-                                  } else {
-                                      for (int i = cantIzquierda - 1; i >= 0; i--) {
-                                          String var = listaVariables.get(i);
-                                          String expr = derechos.pop();
-                                          String tipoVar = g.getTipo(var);
-                                          String tipoExpr = g.getTipo(expr);
-                                          if (g.chequearAsignacion(tipoVar, tipoExpr, Integer.parseInt(lineaActual))) {
-                                              g.addTerceto(":=", var, expr);
-                                          }
-                                      }
-                                      salida.add("Linea " + lineaActual + ": Asignacion multiple (lista) reconocida.");
-                                  }
-                              }
-                            contadorLadoDerecho = 0;
-                            listaVariables.clear();
-                            g.clearLadoDerecho();
+    if (esFuncion) {
+        String funcTerceto = derechos.pop();
+        if (funcTerceto.equals("ERROR_CALL") || funcTerceto.equals("ERROR_CALL_PARAMS") || funcTerceto.equals("ERROR_CALL_LAMBDA")) {
+        } else {
+            String funcName = g.getTerceto(Integer.parseInt(funcTerceto.substring(1, funcTerceto.length()-1))).getOperando1();
+            Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
+            if (retMultiple == null || !(Boolean)retMultiple) {
+                if (cantIzquierda == 1) {
+                    String var = listaVariables.get(0);
+                    String tipoVar = g.getTipo(var);
+                    String tipoRet = (String) al.getAtributo(funcName, "Tipo");
+                    if (g.chequearAsignacion(tipoVar, tipoRet, Integer.parseInt(lineaActual))) {
+                        g.addTerceto(":=", var, funcTerceto);
+                    }
+                } else {
+                    al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple a funcion '" + funcName + "' que no tiene retorno multiple.");
+                }
+            } else {
+                Object rawObj = al.getAtributo(funcName, "TiposRetorno");
+                ArrayList<String> tiposRetorno = new ArrayList<String>();
+                if (rawObj instanceof ArrayList) {
+                    for (Object o : (ArrayList<?>) rawObj) {
+                        tiposRetorno.add((String) o);
+                    }
+                }
+                int cantRetornos = tiposRetorno.size();
+                if (cantRetornos < cantIzquierda) {
+                    al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 21): Asignacion multiple a funcion '" + funcName + "'. Insuficientes valores de retorno. Esperados: " + cantIzquierda + ", Retornados: " + cantRetornos + ".");
+                } else {
+                    if (cantRetornos > cantIzquierda) {
+                        al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero solo se asignan " + cantIzquierda + ". Se descartan los sobrantes.");
+                    }
+                    for (int i = 0; i < cantIzquierda; i++) {
+                        String var = listaVariables.get(i);
+                        String tipoVar = g.getTipo(var);
+                        String tipoRet = tiposRetorno.get(i);
+                        if (g.chequearAsignacion(tipoVar, tipoRet, Integer.parseInt(lineaActual))) {
+                            String retTerceto = g.addTerceto("GET_RET", funcTerceto, String.valueOf(i));
+                            g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoRet);
+                            g.addTerceto(":=", var, retTerceto);
                         }
+                    }
+                    salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') reconocida.");
+                }
+            }
+        }
+    } else {
+        if (cantIzquierda != cantDerecha) {
+            al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + cantIzquierda + ") y a la derecha (" + cantDerecha + ").");
+        } else {
+            for (int i = cantIzquierda - 1; i >= 0; i--) {
+                String var = listaVariables.get(i);
+                String expr = derechos.pop();
+                String tipoVar = g.getTipo(var);
+                String tipoExpr = g.getTipo(expr);
+                if (g.chequearAsignacion(tipoVar, tipoExpr, Integer.parseInt(lineaActual))) {
+                    g.addTerceto(":=", var, expr);
+                }
+            }
+            salida.add("Linea " + lineaActual + ": Asignacion multiple (lista) reconocida.");
+        }
+    }
+    contadorLadoDerecho = 0;
+    listaVariables.clear();
+    g.clearLadoDerecho();
+}
 break;
 case 41:
-//#line 422 "gramatica.y"
+//#line 430 "gramatica.y"
 { g.clearLadoDerecho(); }
 break;
 case 42:
-//#line 423 "gramatica.y"
+//#line 431 "gramatica.y"
 {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho = 1;
@@ -1191,7 +1199,7 @@ case 42:
                           }
 break;
 case 43:
-//#line 431 "gramatica.y"
+//#line 439 "gramatica.y"
 {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho++;
@@ -1199,21 +1207,21 @@ case 43:
                           }
 break;
 case 44:
-//#line 439 "gramatica.y"
+//#line 447 "gramatica.y"
 {
                 yyval.sval = val_peek(2).sval + "." + val_peek(0).sval;
                 yyval.ival = val_peek(2).ival;
             }
 break;
 case 45:
-//#line 445 "gramatica.y"
+//#line 453 "gramatica.y"
 {
                 yyval.sval = val_peek(0).sval;
                 yyval.ival = val_peek(0).ival;
             }
 break;
 case 46:
-//#line 452 "gramatica.y"
+//#line 460 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -1225,7 +1233,7 @@ case 46:
             }
 break;
 case 47:
-//#line 463 "gramatica.y"
+//#line 471 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -1237,11 +1245,11 @@ case 47:
             }
 break;
 case 48:
-//#line 473 "gramatica.y"
+//#line 481 "gramatica.y"
 { yyval.ival = val_peek(0).ival; }
 break;
 case 49:
-//#line 477 "gramatica.y"
+//#line 485 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -1253,7 +1261,7 @@ case 49:
             }
 break;
 case 50:
-//#line 488 "gramatica.y"
+//#line 496 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -1265,17 +1273,17 @@ case 50:
             }
 break;
 case 51:
-//#line 497 "gramatica.y"
+//#line 505 "gramatica.y"
 { yyval.ival = val_peek(0).ival; }
 break;
 case 52:
-//#line 501 "gramatica.y"
+//#line 509 "gramatica.y"
 {
            yyval.ival = val_peek(0).ival;
        }
 break;
 case 53:
-//#line 505 "gramatica.y"
+//#line 513 "gramatica.y"
 {
            yyval.ival = val_peek(0).ival;
            yyval.sval = val_peek(0).sval;
@@ -1283,7 +1291,7 @@ case 53:
        }
 break;
 case 54:
-//#line 513 "gramatica.y"
+//#line 521 "gramatica.y"
 {
                       String varNombre = val_peek(0).sval;
                       String tipoVar = g.getTipo(varNombre);
@@ -1308,18 +1316,18 @@ case 54:
                   }
 break;
 case 55:
-//#line 537 "gramatica.y"
+//#line 545 "gramatica.y"
 {
                       g.apilarOperando(val_peek(0).sval);
                       yyval.ival = val_peek(0).ival;
                   }
 break;
 case 56:
-//#line 543 "gramatica.y"
+//#line 551 "gramatica.y"
 { yyval.ival = val_peek(0).ival; }
 break;
 case 57:
-//#line 547 "gramatica.y"
+//#line 555 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": Conversion explicita (toui).");
                     String op1 = g.desapilarOperando();
@@ -1339,11 +1347,11 @@ case 57:
                 }
 break;
 case 58:
-//#line 566 "gramatica.y"
+//#line 574 "gramatica.y"
 { g.clearParametrosReales(); }
 break;
 case 59:
-//#line 570 "gramatica.y"
+//#line 578 "gramatica.y"
 {
                        String funcName = val_peek(4).sval;
                        int linea = val_peek(4).ival;
@@ -1427,19 +1435,19 @@ case 59:
                    }
 break;
 case 60:
-//#line 654 "gramatica.y"
+//#line 662 "gramatica.y"
 {
                             yyval.ival = val_peek(2).ival + 1;
                         }
 break;
 case 61:
-//#line 659 "gramatica.y"
+//#line 667 "gramatica.y"
 {
                             yyval.ival = 1;
                         }
 break;
 case 62:
-//#line 665 "gramatica.y"
+//#line 673 "gramatica.y"
 {
                    String op1 = val_peek(2).sval;
                    String op2 = val_peek(0).sval;
@@ -1452,28 +1460,28 @@ case 62:
                }
 break;
 case 63:
-//#line 677 "gramatica.y"
+//#line 685 "gramatica.y"
 {
                    g.apilarParametroReal(new ParametroRealInfo(val_peek(0).sval, null));
                    yyval.ival = val_peek(0).ival;
                }
 break;
 case 64:
-//#line 684 "gramatica.y"
+//#line 692 "gramatica.y"
 {
                      yyval.sval = g.desapilarOperando();
                      yyval.ival = val_peek(0).ival;
                  }
 break;
 case 65:
-//#line 690 "gramatica.y"
+//#line 698 "gramatica.y"
 {
                      yyval.sval = val_peek(0).sval;
                      yyval.ival = val_peek(0).ival;
                  }
 break;
 case 66:
-//#line 696 "gramatica.y"
+//#line 704 "gramatica.y"
 {
                          pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
                          int inicioLambda = g.getProximoTerceto();
@@ -1487,7 +1495,7 @@ case 66:
                  }
 break;
 case 67:
-//#line 706 "gramatica.y"
+//#line 714 "gramatica.y"
 {
                          g.addTerceto("RET_LAMBDA", "_", "_");
                          int tercetoFin = g.getProximoTerceto();
@@ -1499,14 +1507,14 @@ case 67:
                  }
 break;
 case 71:
-//#line 726 "gramatica.y"
+//#line 734 "gramatica.y"
 {
                 yyval.sval = val_peek(0).sval;
                 yyval.ival = val_peek(0).ival;
             }
 break;
 case 72:
-//#line 732 "gramatica.y"
+//#line 740 "gramatica.y"
 {
                 String lexemaPositivo = val_peek(0).sval;
                 String lexemaNegativo = "-" + lexemaPositivo;
@@ -1531,7 +1539,7 @@ case 72:
             }
 break;
 case 73:
-//#line 756 "gramatica.y"
+//#line 764 "gramatica.y"
 {
                    String cond = g.desapilarOperando();
                    if (cond.equals("ERROR_CONDICION")) {
@@ -1545,7 +1553,7 @@ case 73:
                }
 break;
 case 74:
-//#line 770 "gramatica.y"
+//#line 778 "gramatica.y"
 {
                    int bfIdx = g.desapilarControl();
                    if (bfIdx != -1) {
@@ -1556,7 +1564,7 @@ case 74:
                }
 break;
 case 75:
-//#line 779 "gramatica.y"
+//#line 787 "gramatica.y"
 {
                    int bfIdx = g.desapilarControl();
                    String bi = g.addTerceto("BI", "_", "_");
@@ -1569,7 +1577,7 @@ case 75:
                }
 break;
 case 76:
-//#line 789 "gramatica.y"
+//#line 797 "gramatica.y"
 {
                    /* Al final del IF-ELSE, resolvemos el BI que saltó el bloque ELSE.*/
                    int biIdx = g.desapilarControl();
@@ -1580,12 +1588,12 @@ case 76:
                }
 break;
 case 77:
-//#line 799 "gramatica.y"
+//#line 807 "gramatica.y"
 { g.apilarControl(g.getProximoTerceto());
                     }
 break;
 case 78:
-//#line 801 "gramatica.y"
+//#line 809 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + val_peek(1).ival + ": Sentencia DO-WHILE reconocida.");
@@ -1599,7 +1607,7 @@ case 78:
                     }
 break;
 case 79:
-//#line 815 "gramatica.y"
+//#line 823 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op = g.desapilarOperando();
@@ -1615,58 +1623,58 @@ case 79:
           }
 break;
 case 80:
-//#line 830 "gramatica.y"
+//#line 838 "gramatica.y"
 { g.apilarOperando(">="); }
 break;
 case 81:
-//#line 832 "gramatica.y"
+//#line 840 "gramatica.y"
 { g.apilarOperando("<="); }
 break;
 case 82:
-//#line 834 "gramatica.y"
+//#line 842 "gramatica.y"
 { g.apilarOperando("=!"); }
 break;
 case 83:
-//#line 836 "gramatica.y"
+//#line 844 "gramatica.y"
 { g.apilarOperando("=="); }
 break;
 case 84:
-//#line 838 "gramatica.y"
+//#line 846 "gramatica.y"
 { g.apilarOperando(">"); }
 break;
 case 85:
-//#line 840 "gramatica.y"
+//#line 848 "gramatica.y"
 { g.apilarOperando("<"); }
 break;
 case 86:
-//#line 843 "gramatica.y"
+//#line 851 "gramatica.y"
 { g.abrirAmbito("bloque_" + g.getProximoTerceto()); }
 break;
 case 87:
-//#line 843 "gramatica.y"
+//#line 851 "gramatica.y"
 { g.cerrarAmbito();
                   }
 break;
 case 89:
-//#line 850 "gramatica.y"
+//#line 858 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con cadena multilinea.");
                     g.addTerceto("PRINT", val_peek(1).sval);
                 }
 break;
 case 90:
-//#line 856 "gramatica.y"
+//#line 864 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con expresion.");
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
 break;
 case 91:
-//#line 862 "gramatica.y"
+//#line 870 "gramatica.y"
 { enSentenciaReturn = true; }
 break;
 case 92:
-//#line 863 "gramatica.y"
+//#line 871 "gramatica.y"
 {
                 enSentenciaReturn = false;
                 ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
@@ -1705,7 +1713,7 @@ case 92:
             }
 break;
 case 93:
-//#line 902 "gramatica.y"
+//#line 910 "gramatica.y"
 {
                   ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
                   ArrayList<String> lista = new ArrayList<String>();
@@ -1717,14 +1725,14 @@ case 93:
               }
 break;
 case 94:
-//#line 913 "gramatica.y"
+//#line 921 "gramatica.y"
 {
                   ArrayList<String> lista = new ArrayList<String>();
                   lista.add(g.desapilarOperando());
                   yyval.obj = lista;
               }
 break;
-//#line 1651 "Parser.java"
+//#line 1659 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

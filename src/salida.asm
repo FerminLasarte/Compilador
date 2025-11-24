@@ -66,6 +66,7 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux48 dd 0
 @aux49 dd 0
 @aux50 dd 0
+@aux51 dd 0
 _A dd 0
 _B dd 0
 _FOP1 dd 0
@@ -263,6 +264,9 @@ PUSH 11
 Label50:
 CALL __FUNCR
 MOV @aux50, EAX
+Label51:
+MOV EAX, @aux50
+MOV _AE, EAX
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
