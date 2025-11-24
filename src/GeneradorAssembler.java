@@ -321,10 +321,17 @@ public class GeneradorAssembler {
                     codigo.append("CALL EAX\n");
                     break;
                 case "PARAM":
+                    // Corregido: Asignación directa a la variable del parámetro en lugar de PUSH
+                    // op1 es el valor a pasar, op2 es el nombre de la variable del parámetro formal
                     if (op1.startsWith("_L")) {
-                        codigo.append("PUSH OFFSET ").append(op1).append("\n");
+                        codigo.append("MOV EAX, OFFSET ").append(op1).append("\n");
+                        codigo.append("MOV ").append(op2).append(", EAX\n");
+                    } else if (isFloatOp) {
+                        loadToFPU(op1);
+                        codigo.append("FSTP ").append(op2).append("\n");
                     } else {
-                        codigo.append("PUSH ").append(op1).append("\n");
+                        codigo.append("MOV EAX, ").append(op1).append("\n");
+                        codigo.append("MOV ").append(op2).append(", EAX\n");
                     }
                     break;
                 case "TOUI":

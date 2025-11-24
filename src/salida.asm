@@ -55,34 +55,22 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux37 dd 0
 @aux38 dd 0
 @aux39 dd 0
-@aux40 dd 0
-@aux41 dd 0
-@aux42 dd 0
-@aux43 dd 0
-@aux44 dd 0
-@aux45 dd 0
-@aux46 dd 0
-@aux47 dd 0
-@aux48 dd 0
-@aux49 dd 0
-@aux50 dd 0
-@aux51 dd 0
 _A dd 0
 _B dd 0
 _FOP1 dd 0
 _C dd 0
-_FOP2 dd 0
-_FRESPROD dd 0
-_FDIV dd 0
 _AE dd 0
 _BE dd 0
 _CE dd 0
-_JE dd 0
+_FOP2 dd 0
+_FRESPROD dd 0
+_FDIV dd 0
 str_0 db "Prueba de Operaciones", 0
 str_7 db "Suma A + B:", 0
 str_11 db "C es mayor a 25", 0
-str_17 db "Fin del programa", 0
-str_41 db "FUNCION", 0
+str_35 db "DIVISION: ", 0
+str_37 db "MULTIPLICATION: ", 0
+str_39 db "Fin del programa", 0
 .code
 start:
 Label0:
@@ -151,31 +139,59 @@ MOV EAX, @aux15
 CMP EAX, 1
 JE Label12
 Label17:
-invoke crt_printf, addr MensajePrint, addr str_17
+MOV EAX, 1
+MOV _AE, EAX
 Label18:
-MOV EAX, 1351942905
+MOV EAX, 2
+MOV _BE, EAX
+Label19:
+MOV EAX, 3
+MOV _CE, EAX
+Label20:
+invoke crt_printf, addr MensajePrintNum, _AE
+Label21:
+invoke crt_printf, addr MensajePrintNum, _BE
+Label22:
+invoke crt_printf, addr MensajePrintNum, _CE
+Label23:
+MOV EAX, 30
+MOV _CE, EAX
+Label24:
+MOV EAX, 20
+MOV _BE, EAX
+Label25:
+MOV EAX, 10
+MOV _AE, EAX
+Label26:
+invoke crt_printf, addr MensajePrintNum, _AE
+Label27:
+invoke crt_printf, addr MensajePrintNum, _BE
+Label28:
+invoke crt_printf, addr MensajePrintNum, _CE
+Label29:
+MOV EAX, 0
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
 FSTP _FOP1
-Label19:
-MOV EAX, 1217559552
+Label30:
+MOV EAX, 0
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
 FSTP _FOP2
-Label20:
+Label31:
 FLD _FOP1
 FLD _FOP2
 FMUL
 FSTSW AX
 TEST AX, 8
 JNZ ErrorOverflow
-FSTP @aux20
-Label21:
-FLD @aux20
+FSTP @aux31
+Label32:
+FLD @aux31
 FSTP _FRESPROD
-Label22:
+Label33:
 FLD _FOP2
 FTST
 FSTSW AX
@@ -185,88 +201,30 @@ FSTP ST(0)
 FLD _FOP1
 FLD _FOP2
 FDIV
-FSTP @aux22
-Label23:
-FLD @aux22
+FSTP @aux33
+Label34:
+FLD @aux33
 FSTP _FDIV
-Label24:
+Label35:
+invoke crt_printf, addr MensajePrint, addr str_35
+Label36:
 FLD _FDIV
 sub esp, 8
 fstp qword ptr [esp]
 push offset MensajePrintFloat
 call crt_printf
 add esp, 12
-Label25:
+Label37:
+invoke crt_printf, addr MensajePrint, addr str_37
+Label38:
 FLD _FRESPROD
 sub esp, 8
 fstp qword ptr [esp]
 push offset MensajePrintFloat
 call crt_printf
 add esp, 12
-Label26:
-MOV EAX, 1
-MOV _AE, EAX
-Label27:
-MOV EAX, 2
-MOV _BE, EAX
-Label28:
-MOV EAX, 3
-MOV _CE, EAX
-Label29:
-invoke crt_printf, addr MensajePrintNum, _AE
-Label30:
-invoke crt_printf, addr MensajePrintNum, _BE
-Label31:
-invoke crt_printf, addr MensajePrintNum, _CE
-Label32:
-MOV EAX, 30
-MOV _CE, EAX
-Label33:
-MOV EAX, 20
-MOV _BE, EAX
-Label34:
-MOV EAX, 10
-MOV _AE, EAX
-Label35:
-invoke crt_printf, addr MensajePrintNum, _AE
-Label36:
-invoke crt_printf, addr MensajePrintNum, _BE
-Label37:
-invoke crt_printf, addr MensajePrintNum, _CE
-Label38:
-MOV EAX, 0
-MOV _JE, EAX
 Label39:
-; JMP UNRESOLVED (_)
-Label40:
-__FUNCR:
-Label41:
-invoke crt_printf, addr MensajePrint, addr str_41
-Label42:
-RET
-Label43:
-PUSH 11
-Label44:
-CALL __FUNCR
-MOV @aux44, EAX
-Label45:
-MOV EAX, 20
-MOV _BE, EAX
-Label46:
-MOV EAX, @aux44
-MOV _AE, EAX
-Label47:
-invoke crt_printf, addr MensajePrintNum, _AE
-Label48:
-invoke crt_printf, addr MensajePrintNum, _BE
-Label49:
-PUSH 11
-Label50:
-CALL __FUNCR
-MOV @aux50, EAX
-Label51:
-MOV EAX, @aux50
-MOV _AE, EAX
+invoke crt_printf, addr MensajePrint, addr str_39
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

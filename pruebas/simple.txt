@@ -22,30 +22,41 @@ MAIN {
         B := B - 1UI;
     } while (B > 5UI);
 
-    print(&Fin del programa&);
-    FOP1 := 2.0F+10;
-    var FOP2 := 3.0F+5;
+    var AE := 1UI;
+        var BE := 2UI;
+        var CE := 3UI;
+        print(AE);
+        print(BE);
+        print(CE);
+        AE,BE,CE = 10UI, 20UI, 30UI;
+        print(AE);
+        print(BE);
+        print(CE);
+
+
+    FOP1 := 0.0F+10;
+    var FOP2 := 0.0F+5;
     var FRESPROD := FOP1 * FOP2;
     var FDIV := FOP1 / FOP2;
+    print(&DIVISION: &);
     print(FDIV);
+    print(&MULTIPLICATION: &);
     print(FRESPROD);
-    var AE := 1UI;
-    var BE := 2UI;
-    var CE := 3UI;
-    print(AE);
-    print(BE);
-    print(CE);
-    AE,BE,CE = 10UI, 20UI, 30UI;
-    print(AE);
-    print(BE);
-    print(CE);
-    var JE := 0UI;
-    uint FUNCR(uint JE) {
-        print(&FUNCION&);
-        return (JE);
-    }
-    AE,BE = FUNCR(11UI->JE), 20UI;
-    print(AE);
-    print(BE);
-    AE = FUNCR(11UI->JE);
+
+
+
+
+
+
+    @var JE := 0UI;
+    @uint FUNCR(uint JE) {
+        @print(&FUNCION&);
+        @return (JE);
+    @}
+    @ AE,BE = FUNCR(11UI->JE), 20UI;
+    @ print(AE);
+    @ print(BE);
+    @ AE = FUNCR(11UI->JE);
+
+    print(&Fin del programa&);
 }
