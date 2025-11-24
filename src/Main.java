@@ -14,8 +14,6 @@ public class Main {
                 System.out.println("Error: Falta ruta del archivo");
                 return;
             }
-
-            // ⬅ Desde acá todo lo que impriman las clases queda guardado
             AnalizadorLexico al = new AnalizadorLexico(args[0]);
             Generador g = Generador.getInstance();
             g.setAnalizadorLexico(al);
