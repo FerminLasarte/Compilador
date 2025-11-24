@@ -101,6 +101,8 @@ MAIN {
         return(5UI);
     }
 
+    print(&holaaaa&);
+
     uint FUNCIONX(uint AA) {
 
         AA := 3UI;
