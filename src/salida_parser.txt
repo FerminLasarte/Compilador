@@ -5,12 +5,91 @@
 Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores logicos si hubo errores de compilacion).
 
 =======================================================
-              REPORTE DE ERRORES
+## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
+No se encontraron errores sintacticos.
 
-Errores Semanticos:
- - Linea 69: Error de Tipos: No se puede operar (+) entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).
- - Linea 69: Error Semantico: No se puede inferir el tipo de 'VARUINTMAX' desde una expresion invalida (Tema 9).
- - Linea 70: Error Semantico: Variable 'VARUINTMAX' no fue declarada (Regla de alcance).
+=======================================================
+## ERRORES LEXICOS DETECTADOS ##
+=======================================================
+No se encontraron errores lexicos.
 
+=======================================================
+## ERRORES SEMANTICOS DETECTADOS ##
+=======================================================
+Linea 69: Error de Tipos: No se puede operar (+) entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).
+Linea 69: Error Semantico: No se puede inferir el tipo de 'VARUINTMAX' desde una expresion invalida (Tema 9).
+Linea 70: Error Semantico: Variable 'VARUINTMAX' no fue declarada (Regla de alcance).
+
+=======================================================
+## WARNINGS DETECTADOS ##
+=======================================================
+No se encontraron warnings.
+
+=======================================================
+## CODIGO INTERMEDIO (TERCETOS) ##
+=======================================================
+0:	(PRINT, &Prueba de Operaciones&, _)
+1:	(:=, A, 20UI)
+2:	(:=, B, 10UI)
+3:	(:=, FOP1, 2.0F+10)
+4:	(PRINT, FOP1, _)
+5:	(+, A, B)
+6:	(:=, C, [5])
+7:	(PRINT, &Suma A + B:&, _)
+8:	(PRINT, C, _)
+9:	(>, C, 100UI)
+10:	(BF, [9], [12])
+11:	(PRINT, &C es mayor a 25&, _)
+12:	(PRINT, B, _)
+13:	(-, B, 1UI)
+14:	(:=, B, [13])
+15:	(>, B, 5UI)
+16:	(BT, [15], [12])
+17:	(:=, AE, 1UI)
+18:	(:=, BE, 2UI)
+19:	(:=, CE, 3UI)
+20:	(PRINT, AE, _)
+21:	(PRINT, BE, _)
+22:	(PRINT, CE, _)
+23:	(:=, CE, 30UI)
+24:	(:=, BE, 20UI)
+25:	(:=, AE, 10UI)
+26:	(PRINT, AE, _)
+27:	(PRINT, BE, _)
+28:	(PRINT, CE, _)
+29:	(:=, FOP1, 2.0F+10)
+30:	(:=, FOP2, 3.0F+5)
+31:	(*, FOP1, FOP2)
+32:	(:=, FRESPROD, [31])
+33:	(/, FOP1, FOP2)
+34:	(:=, FDIV, [33])
+35:	(PRINT, &DIVISION: &, _)
+36:	(PRINT, FDIV, _)
+37:	(PRINT, &MULTIPLICATION: &, _)
+38:	(PRINT, FRESPROD, _)
+39:	(:=, VARFLOAT4, 1.40282347F+38)
+40:	(+, 5UI, VARFLOAT4)
+41:	(PRINT, error_tipo, _)
+42:	(PRINT, &Fin del programa&, _)
+
+=======================================================
+## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
+=======================================================
+| Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN                                | B:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | CE:MAIN                                       | false        | variable           | uint       |
+| MAIN                                | FOP2:MAIN                                     | false        | variable           | float      |
+| MAIN                                | AE:MAIN                                       | false        | variable           | uint       |
+| MAIN                                | FDIV:MAIN                                     | false        | variable           | float      |
+| MAIN                                | MAIN:MAIN                                     | false        | null               | null       |
+| MAIN                                | FOP1:MAIN                                     | false        | variable           | float      |
+| MAIN                                | A:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | C:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | BE:MAIN                                       | false        | variable           | uint       |
+| MAIN                                | FRESPROD:MAIN                                 | false        | variable           | float      |
+| MAIN                                | VARFLOAT4:MAIN                                | false        | variable           | float      |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+=======================================================
 =======================================================

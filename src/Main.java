@@ -32,37 +32,57 @@ public class Main {
             ga.generarAssembler("salida.asm");
             System.out.println("Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores logicos si hubo errores de compilacion).");
 
-            if (!par.erroresSintacticos.isEmpty() ||
-                    !al.getErrores().isEmpty() ||
-                    !al.getErroresSemanticos().isEmpty()) {
-
-                System.out.println("\n=======================================================");
-                System.out.println("              REPORTE DE ERRORES");
-                System.out.println("=======================================================");
-
-                if (!par.erroresSintacticos.isEmpty()) {
-                    System.out.println("\nErrores Sintacticos:");
-                    for (String error : par.erroresSintacticos) {
-                        System.out.println(" - " + error);
-                    }
+            // 1. Errores Sintácticos
+            System.out.println("\n=======================================================");
+            System.out.println("## ERRORES SINTACTICOS DETECTADOS ##");
+            System.out.println("=======================================================");
+            if (par.erroresSintacticos.isEmpty()) {
+                System.out.println("No se encontraron errores sintacticos.");
+            } else {
+                for (String s : par.erroresSintacticos) {
+                    System.out.println(s);
                 }
-
-                if (!al.getErrores().isEmpty()) {
-                    System.out.println("\nErrores Lexicos:");
-                    for (String error : al.getErrores()) {
-                        System.out.println(" - " + error);
-                    }
-                }
-
-                if (!al.getErroresSemanticos().isEmpty()) {
-                    System.out.println("\nErrores Semanticos:");
-                    for (String error : al.getErroresSemanticos()) {
-                        System.out.println(" - " + error);
-                    }
-                }
-
-                System.out.println("\n=======================================================");
             }
+
+            // 2. Errores Léxicos
+            System.out.println("\n=======================================================");
+            System.out.println("## ERRORES LEXICOS DETECTADOS ##");
+            System.out.println("=======================================================");
+            if (al.getErrores().isEmpty()) {
+                System.out.println("No se encontraron errores lexicos.");
+            } else {
+                for (String s : al.getErrores()) {
+                    System.out.println(s);
+                }
+            }
+
+            // 3. Errores Semánticos
+            System.out.println("\n=======================================================");
+            System.out.println("## ERRORES SEMANTICOS DETECTADOS ##");
+            System.out.println("=======================================================");
+            if (al.getErroresSemanticos().isEmpty()) {
+                System.out.println("No se encontraron errores semanticos.");
+            } else {
+                for (String s : al.getErroresSemanticos()) {
+                    System.out.println(s);
+                }
+            }
+
+            // 4. Warnings
+            System.out.println("\n=======================================================");
+            System.out.println("## WARNINGS DETECTADOS ##");
+            System.out.println("=======================================================");
+            if (al.getWarnings() == null || al.getWarnings().isEmpty()) {
+                System.out.println("No se encontraron warnings.");
+            } else {
+                for (String s : al.getWarnings()) {
+                    System.out.println(s);
+                }
+            }
+            g.imprimirTercetos();
+            al.imprimirTablaSimbolos();
+
+            System.out.println("=======================================================");
 
         } catch (Exception e) {
             e.printStackTrace();
