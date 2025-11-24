@@ -66,7 +66,6 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux48 dd 0
 @aux49 dd 0
 @aux50 dd 0
-@aux51 dd 0
 _A dd 0
 _B dd 0
 _FOP1 dd 0
@@ -78,13 +77,11 @@ _AE dd 0
 _BE dd 0
 _CE dd 0
 _JE dd 0
-_FUNCR dd 0
 str_0 db "Prueba de Operaciones", 0
 str_7 db "Suma A + B:", 0
 str_11 db "C es mayor a 25", 0
 str_17 db "Fin del programa", 0
-str_40 db "FUNCION", 0
-str_44 db "IMPRIMIO GATO", 0
+str_41 db "FUNCION", 0
 .code
 start:
 Label0:
@@ -239,36 +236,33 @@ Label38:
 MOV EAX, 0
 MOV _JE, EAX
 Label39:
-MOV EAX, 1
-MOV _JE, EAX
+; JMP UNRESOLVED (_)
 Label40:
-invoke crt_printf, addr MensajePrint, addr str_40
+__FUNCR:
 Label41:
-RET
+invoke crt_printf, addr MensajePrint, addr str_41
 Label42:
-PUSH 11
+RET
 Label43:
-CALL _FUNCR
-MOV @aux43, EAX
-Label44:
-invoke crt_printf, addr MensajePrint, addr str_44
-Label45:
-invoke crt_printf, addr MensajePrintNum, _AE
-Label46:
 PUSH 11
-Label47:
-CALL _FUNCR
-MOV @aux47, EAX
-Label48:
+Label44:
+CALL __FUNCR
+MOV @aux44, EAX
+Label45:
 MOV EAX, 20
 MOV _BE, EAX
-Label49:
-MOV EAX, @aux47
+Label46:
+MOV EAX, @aux44
 MOV _AE, EAX
-Label50:
+Label47:
 invoke crt_printf, addr MensajePrintNum, _AE
-Label51:
+Label48:
 invoke crt_printf, addr MensajePrintNum, _BE
+Label49:
+PUSH 11
+Label50:
+CALL __FUNCR
+MOV @aux50, EAX
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

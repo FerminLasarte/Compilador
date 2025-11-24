@@ -41,14 +41,11 @@ MAIN {
     print(CE);
     var JE := 0UI;
     uint FUNCR(uint JE) {
-        JE := 1UI;
         print(&FUNCION&);
-        return (100UI);
+        return (JE);
     }
-    AE = FUNCR(11UI->JE);
-    print(&IMPRIMIO GATO&);
-    print(AE);
     AE,BE = FUNCR(11UI->JE), 20UI;
     print(AE);
     print(BE);
+    AE = FUNCR(11UI->JE);
 }
