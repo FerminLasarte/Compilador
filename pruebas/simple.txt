@@ -45,6 +45,9 @@ MAIN {
         print(&FUNCION&);
         return (100UI);
     }
+    AE = FUNCR(11UI->JE);
+    print(&IMPRIMIO GATO&);
+    print(AE);
     AE,BE = FUNCR(11UI->JE), 20UI;
     print(AE);
     print(BE);

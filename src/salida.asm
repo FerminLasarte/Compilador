@@ -63,6 +63,10 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux45 dd 0
 @aux46 dd 0
 @aux47 dd 0
+@aux48 dd 0
+@aux49 dd 0
+@aux50 dd 0
+@aux51 dd 0
 _A dd 0
 _B dd 0
 _FOP1 dd 0
@@ -80,6 +84,7 @@ str_7 db "Suma A + B:", 0
 str_11 db "C es mayor a 25", 0
 str_17 db "Fin del programa", 0
 str_40 db "FUNCION", 0
+str_44 db "IMPRIMIO GATO", 0
 .code
 start:
 Label0:
@@ -246,14 +251,23 @@ Label43:
 CALL _FUNCR
 MOV @aux43, EAX
 Label44:
+invoke crt_printf, addr MensajePrint, addr str_44
+Label45:
+invoke crt_printf, addr MensajePrintNum, _AE
+Label46:
+PUSH 11
+Label47:
+CALL _FUNCR
+MOV @aux47, EAX
+Label48:
 MOV EAX, 20
 MOV _BE, EAX
-Label45:
-MOV EAX, @aux43
+Label49:
+MOV EAX, @aux47
 MOV _AE, EAX
-Label46:
+Label50:
 invoke crt_printf, addr MensajePrintNum, _AE
-Label47:
+Label51:
 invoke crt_printf, addr MensajePrintNum, _BE
 invoke ExitProcess, 0
 Error_DivCero:

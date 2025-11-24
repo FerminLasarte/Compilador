@@ -75,8 +75,7 @@ declaracion_var : VAR variable ASIG expresion
                 ;
 
 tipo : UINT { $$.sval = "uint"; }
-     | FLOAT { $$.sval = "float";
-     }
+     | FLOAT { $$.sval = "float"; }
      | LAMBDA { $$.sval = "lambda"; }
      ;
 
@@ -98,6 +97,10 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             String nombreAmbito = nombreFuncion;
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
             pilaInicioFuncion.push(g.getProximoTerceto());
+
+            String jump = g.addTerceto("BI", "_", "_");
+            pilaSaltosFunciones.push(Integer.parseInt(jump.substring(1, jump.length()-1)));
+            g.addTerceto("FUNC_LABEL", nombreFuncion);
 
             ArrayList<String> tiposEsperados = new ArrayList<String>();
             tiposEsperados.add(tipoRetorno);
@@ -135,11 +138,14 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             pilaTiposRetorno.pop();
             boolean huboError = pilaErrorEnFuncion.pop();
             int inicioFunc = pilaInicioFuncion.pop();
+            int jumpIdx = pilaSaltosFunciones.pop();
+
             if (huboError) {
                 al.eliminarLexemaTS($2.sval);
                 g.anularTercetosDesde(inicioFunc);
                 al.eliminarUltimoAmbito();
             } else {
+                g.modificarSaltoTerceto(jumpIdx, "[" + g.getProximoTerceto() + "]");
                 String nombreFuncion = $2.sval;
                 salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno simple.");
             }
@@ -154,6 +160,10 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                 tiposRetorno.add((String) o);
             }
             pilaInicioFuncion.push(g.getProximoTerceto());
+
+            String jump = g.addTerceto("BI", "_", "_");
+            pilaSaltosFunciones.push(Integer.parseInt(jump.substring(1, jump.length()-1)));
+            g.addTerceto("FUNC_LABEL", nombreFuncion);
 
             pilaTiposRetorno.push(tiposRetorno);
             pilaErrorEnFuncion.push(false);
@@ -189,11 +199,14 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             pilaTiposRetorno.pop();
             boolean huboError = pilaErrorEnFuncion.pop();
             int inicioFunc = pilaInicioFuncion.pop();
+            int jumpIdx = pilaSaltosFunciones.pop();
+
             if (huboError) {
                 al.eliminarLexemaTS($2.sval);
                 g.anularTercetosDesde(inicioFunc);
                 al.eliminarUltimoAmbito();
             } else {
+                g.modificarSaltoTerceto(jumpIdx, "[" + g.getProximoTerceto() + "]");
                 String nombreFuncion = $2.sval;
                 salida.add("Linea " + $2.ival + ": Declaracion de Funcion '" + $2.sval + "' con retorno multiple.");
             }
@@ -455,8 +468,7 @@ expresion : expresion '+' termino
                 $$.ival = $1.ival;
             }
           |
-          termino { $$.ival = $1.ival;
-          }
+          termino { $$.ival = $1.ival; }
           ;
 
 termino : termino '*' factor
@@ -480,8 +492,7 @@ termino : termino '*' factor
                 g.apilarOperando(terceto);
                 $$.ival = $1.ival;
             }
-        | factor { $$.ival = $1.ival;
-        }
+        | factor { $$.ival = $1.ival; }
         ;
 
 factor : factor_no_funcion
@@ -527,8 +538,7 @@ factor_no_funcion : variable
                   }
                   |
                   conversion_explicita
-                  { $$.ival = $1.ival;
-                  }
+                  { $$.ival = $1.ival; }
                   ;
 
 conversion_explicita : TOUI '(' expresion ')'
@@ -741,8 +751,6 @@ constante : CTE
             }
           ;
 
-// Nuevo no-terminal para la parte común.
-// Genera el terceto BF y apila su índice.
 if_encabezado : IF '(' condicion ')' {
                    String cond = g.desapilarOperando();
                    if (cond.equals("ERROR_CONDICION")) {
@@ -921,6 +929,7 @@ static boolean enSentenciaReturn = false;
 static Stack<ArrayList<String>> pilaTiposRetorno = new Stack<ArrayList<String>>();
 static Stack<Boolean> pilaErrorEnFuncion = new Stack<Boolean>();
 static Stack<Integer> pilaInicioFuncion = new Stack<Integer>();
+static Stack<Integer> pilaSaltosFunciones = new Stack<Integer>();
 
 int yylex() {
     int token = al.yylex();

@@ -1,3 +1,4 @@
+{
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,6 +58,9 @@ public class GeneradorAssembler {
         for (int i = 0; i < generador.getProximoTerceto(); i++) {
             Terceto t = generador.getTerceto(i);
             if (t != null) {
+                String op = t.getOperador();
+                if (op.equals("FUNC_LABEL") || op.equals("CALL")) continue;
+
                 checkAndAddVariable(t.getOperando1(), variablesDeclaradas);
                 checkAndAddVariable(t.getOperando2(), variablesDeclaradas);
             }
@@ -302,14 +306,14 @@ public class GeneradorAssembler {
                     }
                     break;
                 case "FUNC_LABEL":
-                    codigo.append(op1).append(":\n");
+                    codigo.append("_").append(op1).append(":\n");
                     break;
                 case "RETURN":
                 case "RET_LAMBDA":
                     codigo.append("RET\n");
                     break;
                 case "CALL":
-                    codigo.append("CALL ").append(op1).append("\n");
+                    codigo.append("CALL ").append("_").append(op1).append("\n");
                     codigo.append("MOV ").append(res).append(", EAX\n");
                     break;
                 case "CALL_LAMBDA":
