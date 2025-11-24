@@ -55,6 +55,10 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux37 dd 0
 @aux38 dd 0
 @aux39 dd 0
+@aux40 dd 0
+@aux41 dd 0
+@aux42 dd 0
+@aux43 dd 0
 _A dd 0
 _B dd 0
 _FOP1 dd 0
@@ -65,12 +69,14 @@ _CE dd 0
 _FOP2 dd 0
 _FRESPROD dd 0
 _FDIV dd 0
+_VARUINTMAX dd 0
+_VARFLOAT4 dd 0
 str_0 db "Prueba de Operaciones", 0
 str_7 db "Suma A + B:", 0
 str_11 db "C es mayor a 25", 0
 str_35 db "DIVISION: ", 0
 str_37 db "MULTIPLICATION: ", 0
-str_39 db "Fin del programa", 0
+str_43 db "Fin del programa", 0
 .code
 start:
 Label0:
@@ -169,13 +175,13 @@ invoke crt_printf, addr MensajePrintNum, _BE
 Label28:
 invoke crt_printf, addr MensajePrintNum, _CE
 Label29:
-MOV EAX, 0
+MOV EAX, 1351942905
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
 FSTP _FOP1
 Label30:
-MOV EAX, 0
+MOV EAX, 1217559552
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
@@ -224,7 +230,25 @@ push offset MensajePrintFloat
 call crt_printf
 add esp, 12
 Label39:
-invoke crt_printf, addr MensajePrint, addr str_39
+MOV EAX, 65535
+MOV _VARUINTMAX, EAX
+Label40:
+invoke crt_printf, addr MensajePrintNum, _VARUINTMAX
+Label41:
+MOV EAX, 2139095039
+PUSH EAX
+FLD DWORD PTR [ESP]
+ADD ESP, 4
+FSTP _VARFLOAT4
+Label42:
+FLD _VARFLOAT4
+sub esp, 8
+fstp qword ptr [esp]
+push offset MensajePrintFloat
+call crt_printf
+add esp, 12
+Label43:
+invoke crt_printf, addr MensajePrint, addr str_43
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
