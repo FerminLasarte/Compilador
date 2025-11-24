@@ -15,6 +15,7 @@ MsgErrorRestaNegativa db "Error: Resultado negativo en resta de enteros sin sign
 MensajePrint db "Salida: %s", 10, 0
 MensajePrintNum db "Salida: %d", 10, 0
 MensajePrintFloat db "Salida: %f", 10, 0
+MaxFloatValue dd 2139095039
 @aux0 dd 0
 @aux1 dd 0
 @aux2 dd 0
@@ -58,7 +59,6 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux40 dd 0
 @aux41 dd 0
 @aux42 dd 0
-@aux43 dd 0
 _A dd 0
 _B dd 0
 _FOP1 dd 0
@@ -69,14 +69,14 @@ _CE dd 0
 _FOP2 dd 0
 _FRESPROD dd 0
 _FDIV dd 0
-_VARUINTMAX dd 0
 _VARFLOAT4 dd 0
+_error_tipo dd 0
 str_0 db "Prueba de Operaciones", 0
 str_7 db "Suma A + B:", 0
 str_11 db "C es mayor a 25", 0
 str_35 db "DIVISION: ", 0
 str_37 db "MULTIPLICATION: ", 0
-str_43 db "Fin del programa", 0
+str_42 db "Fin del programa", 0
 .code
 start:
 Label0:
@@ -103,7 +103,8 @@ add esp, 12
 Label5:
 MOV EAX, _A
 ADD EAX, _B
-JC ErrorOverflow
+CMP EAX, 65535
+JA ErrorOverflow
 MOV @aux5, EAX
 Label6:
 MOV EAX, @aux5
@@ -190,9 +191,12 @@ Label31:
 FLD _FOP1
 FLD _FOP2
 FMUL
+FLD ST(0)
+FABS
+FCOMP MaxFloatValue
 FSTSW AX
-TEST AX, 8
-JNZ ErrorOverflow
+SAHF
+JA ErrorOverflow
 FSTP @aux31
 Label32:
 FLD @aux31
@@ -207,6 +211,12 @@ FSTP ST(0)
 FLD _FOP1
 FLD _FOP2
 FDIV
+FLD ST(0)
+FABS
+FCOMP MaxFloatValue
+FSTSW AX
+SAHF
+JA ErrorOverflow
 FSTP @aux33
 Label34:
 FLD @aux33
@@ -230,25 +240,21 @@ push offset MensajePrintFloat
 call crt_printf
 add esp, 12
 Label39:
-MOV EAX, 65535
-MOV _VARUINTMAX, EAX
-Label40:
-invoke crt_printf, addr MensajePrintNum, _VARUINTMAX
-Label41:
-MOV EAX, 2139095039
+MOV EAX, 2127762123
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
 FSTP _VARFLOAT4
+Label40:
+MOV EAX, 5
+ADD EAX, _VARFLOAT4
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux40, EAX
+Label41:
+invoke crt_printf, addr MensajePrintNum, _error_tipo
 Label42:
-FLD _VARFLOAT4
-sub esp, 8
-fstp qword ptr [esp]
-push offset MensajePrintFloat
-call crt_printf
-add esp, 12
-Label43:
-invoke crt_printf, addr MensajePrint, addr str_43
+invoke crt_printf, addr MensajePrint, addr str_42
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

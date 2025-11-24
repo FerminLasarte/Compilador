@@ -1,4 +1,3 @@
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +48,7 @@ public class GeneradorAssembler {
         data.append("MensajePrint db \"Salida: %s\", 10, 0\n");
         data.append("MensajePrintNum db \"Salida: %d\", 10, 0\n");
         data.append("MensajePrintFloat db \"Salida: %f\", 10, 0\n");
+        data.append("MaxFloatValue dd 2139095039\n"); // Representacion entera de 3.40282347E38
 
         for (int i = 0; i < generador.getProximoTerceto(); i++) {
             data.append("@aux").append(i).append(" dd 0\n");
@@ -133,11 +133,18 @@ public class GeneradorAssembler {
                         loadToFPU(op1);
                         loadToFPU(op2);
                         codigo.append("FADD\n");
+                        codigo.append("FLD ST(0)\n");
+                        codigo.append("FABS\n");
+                        codigo.append("FCOMP MaxFloatValue\n");
+                        codigo.append("FSTSW AX\n");
+                        codigo.append("SAHF\n");
+                        codigo.append("JA ErrorOverflow\n");
                         codigo.append("FSTP ").append(res).append("\n");
                     } else {
                         codigo.append("MOV EAX, ").append(op1).append("\n");
                         codigo.append("ADD EAX, ").append(op2).append("\n");
-                        codigo.append("JC ErrorOverflow\n");
+                        codigo.append("CMP EAX, 65535\n");
+                        codigo.append("JA ErrorOverflow\n");
                         codigo.append("MOV ").append(res).append(", EAX\n");
                     }
                     break;
@@ -146,6 +153,12 @@ public class GeneradorAssembler {
                         loadToFPU(op1);
                         loadToFPU(op2);
                         codigo.append("FSUB\n");
+                        codigo.append("FLD ST(0)\n");
+                        codigo.append("FABS\n");
+                        codigo.append("FCOMP MaxFloatValue\n");
+                        codigo.append("FSTSW AX\n");
+                        codigo.append("SAHF\n");
+                        codigo.append("JA ErrorOverflow\n");
                         codigo.append("FSTP ").append(res).append("\n");
                     } else {
                         codigo.append("MOV EAX, ").append(op1).append("\n");
@@ -159,15 +172,20 @@ public class GeneradorAssembler {
                         loadToFPU(op1);
                         loadToFPU(op2);
                         codigo.append("FMUL\n");
+                        codigo.append("FLD ST(0)\n");
+                        codigo.append("FABS\n");
+                        codigo.append("FCOMP MaxFloatValue\n");
                         codigo.append("FSTSW AX\n");
-                        codigo.append("TEST AX, 8\n");
-                        codigo.append("JNZ ErrorOverflow\n");
+                        codigo.append("SAHF\n");
+                        codigo.append("JA ErrorOverflow\n");
                         codigo.append("FSTP ").append(res).append("\n");
                     } else {
                         codigo.append("MOV EAX, ").append(op1).append("\n");
                         codigo.append("MUL ").append(op2).append("\n");
                         codigo.append("CMP EDX, 0\n");
                         codigo.append("JNE ErrorOverflow\n");
+                        codigo.append("CMP EAX, 65535\n");
+                        codigo.append("JA ErrorOverflow\n");
                         codigo.append("MOV ").append(res).append(", EAX\n");
                     }
                     break;
@@ -183,6 +201,12 @@ public class GeneradorAssembler {
                         loadToFPU(op1);
                         loadToFPU(op2);
                         codigo.append("FDIV\n");
+                        codigo.append("FLD ST(0)\n");
+                        codigo.append("FABS\n");
+                        codigo.append("FCOMP MaxFloatValue\n");
+                        codigo.append("FSTSW AX\n");
+                        codigo.append("SAHF\n");
+                        codigo.append("JA ErrorOverflow\n");
                         codigo.append("FSTP ").append(res).append("\n");
                     } else {
                         codigo.append("MOV EAX, ").append(op1).append("\n");
@@ -321,8 +345,6 @@ public class GeneradorAssembler {
                     codigo.append("CALL EAX\n");
                     break;
                 case "PARAM":
-                    // Corregido: Asignación directa a la variable del parámetro en lugar de PUSH
-                    // op1 es el valor a pasar, op2 es el nombre de la variable del parámetro formal
                     if (op1.startsWith("_L")) {
                         codigo.append("MOV EAX, OFFSET ").append(op1).append("\n");
                         codigo.append("MOV ").append(op2).append(", EAX\n");

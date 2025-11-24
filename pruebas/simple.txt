@@ -43,14 +43,17 @@ MAIN {
     print(&MULTIPLICATION: &);
     print(FRESPROD);
 
-    var VARUINTMAX := 65535UI;
-    VARUINTMAX = VARUINTMAX + 1221UI;
-    print(VARUINTMAX);
+    @var VARUINTMAX := 65535UI;
+    @VARUINTMAX := VARUINTMAX + 1221UI;
+    @print(VARUINTMAX);
 
+    @var VARFLOAT4 := 3.40282347F+38;
+    @VARFLOAT4 := VARFLOAT4 * VARFLOAT4;
+    @print(VARFLOAT4);
 
-    var VARFLOAT4 := 3.40282347F+38;
-    VARFLOAT4 = VARFLOAT4 * VARFLOAT4;
-    print(VARFLOAT4);
+    @var VARUINTMAX := 65535UI;
+    @var VARUINTMIN := 1UI - VARUINTMAX ;
+    @print(VARUINTMAX);
 
     @var JE := 0UI;
     @uint FUNCR(uint JE) {
@@ -62,5 +65,8 @@ MAIN {
     @ print(BE);
     @ AE = FUNCR(11UI->JE);
 
+    var VARFLOAT4 := 1.40282347F+38;
+    var VARUINTMAX := 5UI + VARFLOAT4;
+    print(VARUINTMAX);
     print(&Fin del programa&);
 }
