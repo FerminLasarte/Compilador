@@ -29,24 +29,24 @@ MAIN {
     var FDIV := FOP1 / FOP2;
     print(FDIV);
     print(FRESPROD);
-    var Ae := 1UI;
-    var Be := 2UI;
-    var Ce := 3UI;
-    print(Ae);
+    var AE := 1UI;
+    var BE := 2UI;
+    var CE := 3UI;
+    print(AE);
     print(&Ae&);
-    print(Be);
-    print(Ce);
-    Ae,Be,Ce = 10UI, 20UI, 30UI;
-    var Je := 0UI;
-    print(Ae);
-    print(Be);
-    print(Ce);
-    uint FUNCR(uint Je) {
-        Je := 1UI;
+    print(BE);
+    print(CE);
+    AE,BE,CE = 10UI, 20UI, 30UI;
+    var JE := 0UI;
+    print(AE);
+    print(BE);
+    print(CE);
+    uint FUNCR(uint JE) {
+        JE := 1UI;
         print(&FUNCION&);
         return (100UI);
     }
-    Ae,Be = FUNCR(11UI->Je), 20UI;
-    print(Ae);
-    print(Be);
+    AE,BE = FUNCR(11UI->JE), 20UI;
+    print(AE);
+    print(BE);
 }

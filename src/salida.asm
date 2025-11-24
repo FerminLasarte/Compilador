@@ -41,6 +41,29 @@ MensajePrintFloat db "Salida: %f", 10, 0
 @aux23 dd 0
 @aux24 dd 0
 @aux25 dd 0
+@aux26 dd 0
+@aux27 dd 0
+@aux28 dd 0
+@aux29 dd 0
+@aux30 dd 0
+@aux31 dd 0
+@aux32 dd 0
+@aux33 dd 0
+@aux34 dd 0
+@aux35 dd 0
+@aux36 dd 0
+@aux37 dd 0
+@aux38 dd 0
+@aux39 dd 0
+@aux40 dd 0
+@aux41 dd 0
+@aux42 dd 0
+@aux43 dd 0
+@aux44 dd 0
+@aux45 dd 0
+@aux46 dd 0
+@aux47 dd 0
+@aux48 dd 0
 _A dd 0
 _B dd 0
 _FOP1 dd 0
@@ -48,10 +71,17 @@ _C dd 0
 _FOP2 dd 0
 _FRESPROD dd 0
 _FDIV dd 0
+_AE dd 0
+_BE dd 0
+_CE dd 0
+_JE dd 0
+_FUNCR dd 0
 str_0 db "Prueba de Operaciones", 0
 str_7 db "Suma A + B:", 0
 str_11 db "C es mayor a 25", 0
 str_17 db "Fin del programa", 0
+str_30 db "Ae", 0
+str_41 db "FUNCION", 0
 .code
 start:
 Label0:
@@ -60,7 +90,7 @@ Label1:
 MOV EAX, 20
 MOV _A, EAX
 Label2:
-MOV EAX, 100
+MOV EAX, 10
 MOV _B, EAX
 Label3:
 MOV EAX, 1351942905
@@ -172,6 +202,63 @@ fstp qword ptr [esp]
 push offset MensajePrintFloat
 call crt_printf
 add esp, 12
+Label26:
+MOV EAX, 1
+MOV _AE, EAX
+Label27:
+MOV EAX, 2
+MOV _BE, EAX
+Label28:
+MOV EAX, 3
+MOV _CE, EAX
+Label29:
+invoke crt_printf, addr MensajePrintNum, _AE
+Label30:
+invoke crt_printf, addr MensajePrint, addr str_30
+Label31:
+invoke crt_printf, addr MensajePrintNum, _BE
+Label32:
+invoke crt_printf, addr MensajePrintNum, _CE
+Label33:
+MOV EAX, 30
+MOV _CE, EAX
+Label34:
+MOV EAX, 20
+MOV _BE, EAX
+Label35:
+MOV EAX, 10
+MOV _AE, EAX
+Label36:
+MOV EAX, 0
+MOV _JE, EAX
+Label37:
+invoke crt_printf, addr MensajePrintNum, _AE
+Label38:
+invoke crt_printf, addr MensajePrintNum, _BE
+Label39:
+invoke crt_printf, addr MensajePrintNum, _CE
+Label40:
+MOV EAX, 1
+MOV _JE, EAX
+Label41:
+invoke crt_printf, addr MensajePrint, addr str_41
+Label42:
+RET
+Label43:
+PUSH 11
+Label44:
+CALL _FUNCR
+MOV @aux44, EAX
+Label45:
+MOV EAX, 20
+MOV _BE, EAX
+Label46:
+MOV EAX, @aux44
+MOV _AE, EAX
+Label47:
+invoke crt_printf, addr MensajePrintNum, _AE
+Label48:
+invoke crt_printf, addr MensajePrintNum, _BE
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
