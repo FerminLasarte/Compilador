@@ -17,7 +17,7 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 199: Error Semantico (Tema 21): Asignacion multiple a funcion 'FUNCION:MAIN'. Insuficientes valores de retorno. Esperados: 2, Retornados: 0.
+Linea 199: Error Semantico: Asignacion multiple a funcion 'FUNCION:MAIN' que no tiene retorno multiple.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -223,8 +223,8 @@ No se encontraron warnings.
 192:	(:=, GLOBAL:MAIN, [191])
 193:	(PRINT, &MAIN.GLOBAL:&, _)
 194:	(PRINT, GLOBAL:MAIN, _)
-195:	(SET_GLOBAL_RET, 3.14F+0, 1)
-196:	(RETURN, 15UI, _)
+195:	(RETURN, 15UI, _)
+196:	(RETURN, 3.14F+0, _)
 197:	(:=, R1:MAIN, 0UI)
 198:	(:=, R2:MAIN, 1.0F+0)
 199:	(PARAM, 50UI, P1:MAIN:FUNCION)

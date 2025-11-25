@@ -16,16 +16,6 @@ MensajePrint db "Salida: %s", 10, 0
 MensajePrintNum db "Salida: %d", 10, 0
 MensajePrintFloat db "Salida: %f", 10, 0
 MaxFloatValue dd 2139095039
-_RET_VAL_1 dd 0
-_RET_VAL_2 dd 0
-_RET_VAL_3 dd 0
-_RET_VAL_4 dd 0
-_RET_VAL_5 dd 0
-_RET_VAL_6 dd 0
-_RET_VAL_7 dd 0
-_RET_VAL_8 dd 0
-_RET_VAL_9 dd 0
-_RET_VAL_10 dd 0
 @aux0 dd 0
 @aux1 dd 0
 @aux2 dd 0
@@ -883,14 +873,15 @@ invoke crt_printf, addr MensajePrint, addr str_193
 Label194:
 invoke crt_printf, addr MensajePrintNum, _GLOBAL_MAIN
 Label195:
+; -- RETURN --
+MOV EAX, 15
+RET
+Label196:
+; -- RETURN --
 MOV EAX, 1078523331
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
-FSTP _RET_VAL_1
-Label196:
-; -- RETURN --
-MOV EAX, 15
 RET
 Label197:
 MOV EAX, 0
