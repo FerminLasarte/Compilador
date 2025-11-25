@@ -657,7 +657,16 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                       if (real.nombreFormal != null) {
                                           ParametroInfo formal = formales.stream().filter(f -> f.nombre.equals(real.nombreFormal)).findFirst().orElse(null);
                                           if (formal != null && (formal.pasaje.equals("cr_se") || formal.pasaje.equals("cr_le"))) {
-                                              g.addTerceto(":=", real.operando, formal.nombre);
+                                              String mangledFunc = al.getNombreMangled(funcName);
+                                              String nombreParametro = formal.nombre;
+                                              if (mangledFunc.contains(":")) {
+                                                  int firstColon = mangledFunc.indexOf(':');
+                                                  String name = mangledFunc.substring(0, firstColon);
+                                                  String scope = mangledFunc.substring(firstColon + 1);
+                                                  String scopeBody = scope + ":" + name;
+                                                  nombreParametro = formal.nombre + ":" + scopeBody;
+                                              }
+                                              g.addTerceto(":=", real.operando, nombreParametro);
                                           }
                                       }
                                   }
