@@ -135,11 +135,9 @@ MAIN {
     print(&chau chau&);
     var VALOR := 10UI;
     uint PROCESAR(cr se uint OUT, cr le uint INOUT) {
-
         OUT := 99UI;
         INOUT := INOUT + 1UI;
-
-        @ return (1UI);
+        return (1UI);
     }
     print(&chau chau&);
     var BASURA := 0UI;
