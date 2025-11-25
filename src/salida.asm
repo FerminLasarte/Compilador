@@ -874,7 +874,7 @@ Label193:
 invoke crt_printf, addr MensajePrintNum, _GLOBAL_MAIN
 Label194:
 ; -- RETURN --
-MOV EAX, 15
+MOV EAX, 12
 RET
 Label195:
 ; -- RETURN --

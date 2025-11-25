@@ -134,7 +134,7 @@ MAIN {
         } else {
             print(100UI);
         } endif;
-        return (1000UI);
+        return(1000UI);
     }
 
     var VARIABLEXX := 0UI;
@@ -147,7 +147,7 @@ MAIN {
     uint PROCESAR(cr se uint OUT, cr le uint INOUT) {
         OUT := 99UI;
         INOUT := INOUT + 1UI;
-        return (1UI);
+        return(1UI);
     }
     print(&chau chau&);
     var BASURA := 0UI;
@@ -190,7 +190,7 @@ MAIN {
         print(&MAIN.GLOBAL:&);
         print(GLOBAL);
 
-        return(15UI, 15UI);
+        return(12UI,15UI);
     }
 
     var R1 := 0UI;
