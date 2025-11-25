@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -55,6 +54,15 @@ public class Generador {
         if (op.contains(".") && !op.contains("MAIN.") && !Character.isLetter(op.charAt(0))) return op;
 
         String mangled = al.getNombreMangled(op);
+
+        if (op.startsWith("MAIN.")) {
+            if (mangled != null && !mangled.equals(op)) {
+                return mangled;
+            }
+            String varName = op.substring(5);
+            return resolveName(varName);
+        }
+
         return mangled != null ? mangled : op;
     }
 
@@ -222,6 +230,10 @@ public class Generador {
     }
 
     public boolean chequearAsignacion(String tipoVar, String tipoExpr, int linea) {
+        if (tipoVar == null || tipoExpr == null) {
+            return false;
+        }
+
         if (tipoVar.equals(tipoExpr)) {
             return true;
         }

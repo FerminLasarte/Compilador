@@ -70,8 +70,8 @@ MAIN {
         W := MAIN.A;
         print(&W DE FUNCZ TOMA VALOR DE MAIN.A:&);
         print(W);
-        MAIN.A := W;
-        print(&MAIN.A TOMA VALOR DE W:&);
+        MAIN.A := A;
+        print(&MAIN.A TOMA VALOR DE A:&);
         print(MAIN.A);
         print(&IMPRIMO A DE FUNCZ:&);
         print(A);
