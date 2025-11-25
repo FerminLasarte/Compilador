@@ -223,7 +223,7 @@ No se encontraron warnings.
 192:	(PRINT, &MAIN.GLOBAL:&, _)
 193:	(PRINT, GLOBAL:MAIN, _)
 194:	(RETURN, 15UI, _)
-195:	(RETURN, 20UI, _)
+195:	(RETURN, 15UI, _)
 196:	(:=, R1:MAIN, 0UI)
 197:	(:=, R2:MAIN, 0UI)
 198:	(PARAM, 50UI, P1:MAIN:FUNCION)
