@@ -48,7 +48,7 @@ public class GeneradorAssembler {
         data.append("MensajePrint db \"Salida: %s\", 10, 0\n");
         data.append("MensajePrintNum db \"Salida: %d\", 10, 0\n");
         data.append("MensajePrintFloat db \"Salida: %f\", 10, 0\n");
-        data.append("MaxFloatValue dd 2139095039\n"); // Representacion entera de 3.40282347E38
+        data.append("MaxFloatValue dd 2139095039\n");
 
         for (int i = 0; i < generador.getProximoTerceto(); i++) {
             data.append("@aux").append(i).append(" dd 0\n");
@@ -278,7 +278,12 @@ public class GeneradorAssembler {
                 case "BI":
                     String targetBI = rawOp1.replace("[", "Label").replace("]", "");
                     if (targetBI.equals("_") || targetBI.equals("__")) {
-                        codigo.append("; JMP UNRESOLVED (").append(rawOp1).append(")\n");
+                        if (rawOp2 != null && !rawOp2.equals("_")) {
+                            targetBI = rawOp2.replace("[", "Label").replace("]", "");
+                            codigo.append("JMP ").append(targetBI).append("\n");
+                        } else {
+                            codigo.append("; JMP UNRESOLVED (").append(rawOp1).append(")\n");
+                        }
                     } else {
                         codigo.append("JMP ").append(targetBI).append("\n");
                     }

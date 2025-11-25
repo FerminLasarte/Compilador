@@ -53,9 +53,8 @@ MAIN {
     print(A);
 
     uint FUNCZ(uint Z) {
-        print(&AAAAAAA&);
+        print(&A DENTRO DE FUNCZ&);
         print(A);
-
         var W := 2UI;
         print(&W DE FUNCZ:&);
         print(W);
@@ -78,7 +77,6 @@ MAIN {
         print(A);
 
         uint FUNCJ(uint J) {
-
             var W := 22UI;
             print(&W DE FUNCJ:&);
             print(W);
@@ -94,14 +92,12 @@ MAIN {
             FUNCZ.A := W;
             print(&FUNCZ.A TOMA VALOR DE W DE FUNCJ:&);
             print(W);
-
             return(55UI);
         }
-
         return(5UI);
     }
 
-    print(&holaaaa&);
+    print(&intermedio entre funciones&);
 
     uint FUNCIONX(uint AA) {
 
@@ -136,7 +132,7 @@ MAIN {
 
         return (1000UI);
     }
-
+    print(&chau chau&);
     var VALOR := 10UI;
     uint PROCESAR(cr se uint OUT, cr le uint INOUT) {
 
@@ -145,8 +141,9 @@ MAIN {
 
         @ return (1UI);
     }
-
+    print(&chau chau&);
     var BASURA := 0UI;
+    print(BASURA);
     PROCESAR(BASURA->OUT, VALOR->INOUT);
     print(BASURA);
     print(VALOR);
