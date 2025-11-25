@@ -1,4 +1,3 @@
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -340,6 +339,14 @@ public class GeneradorAssembler {
                     break;
                 case "RETURN":
                 case "RET_LAMBDA":
+                    // CORRECCION 1: Cargar el valor de retorno en EAX antes de salir
+                    if (op1 != null && !op1.equals("_")) {
+                        if (isFloatOp) {
+                            loadToFPU(op1);
+                        } else {
+                            codigo.append("MOV EAX, ").append(op1).append("\n");
+                        }
+                    }
                     codigo.append("RET\n");
                     break;
                 case "CALL":
@@ -402,6 +409,9 @@ public class GeneradorAssembler {
 
     private String resolveOperand(String op) {
         if (op == null) return "0";
+        // CORRECCION 2: Si el operando es "_", retornar "_" sin convertirlo a "__"
+        if (op.equals("_")) return "_";
+
         if (op.startsWith("[")) {
             return "@aux" + op.substring(1, op.length() - 1);
         }
