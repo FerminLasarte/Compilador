@@ -176,9 +176,9 @@ MAIN {
     var GLOBAL := 100UI;
     print(&GLOBAL:&);
     print(GLOBAL);
-    uint, float FUNCION(uint P1) {
+    uint, uint FUNCION(uint P1) {
 
-        P1 := 11UI;
+        @ P1 := 11UI;
         var VARLOCAL := 200UI;
         GLOBAL := GLOBAL + 1UI;
         print(&MAIN.GLOBAL:&);
@@ -190,13 +190,13 @@ MAIN {
         print(&MAIN.GLOBAL:&);
         print(GLOBAL);
 
-        return(15UI, 3.14F+0);
+        return(15UI, 20UI);
     }
 
     var R1 := 0UI;
-    var R2 := 1.0F+0;
+    var R2 := 0UI;
 
-    R1,R2 = FUNCION(50UI->P1);
+    R1, R2 = FUNCION(50UI->P1);
     print(&R1:&);
     print(R1);
     print(&R2:&);

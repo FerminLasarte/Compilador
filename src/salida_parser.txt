@@ -17,7 +17,7 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 199: Error Semantico: Asignacion multiple a funcion 'FUNCION:MAIN' que no tiene retorno multiple.
+No se encontraron errores semanticos.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -208,34 +208,33 @@ No se encontraron warnings.
 177:	(:=, GLOBAL:MAIN, 100UI)
 178:	(PRINT, &GLOBAL:&, _)
 179:	(PRINT, GLOBAL:MAIN, _)
-180:	(BI, _, [197])
+180:	(BI, _, [196])
 181:	(FUNC_LABEL, FUNCION:MAIN, _)
-182:	(:=, P1:MAIN:FUNCION, 11UI)
-183:	(:=, VARLOCAL:MAIN:FUNCION, 200UI)
-184:	(+, GLOBAL:MAIN, 1UI)
-185:	(:=, GLOBAL:MAIN, [184])
-186:	(PRINT, &MAIN.GLOBAL:&, _)
-187:	(PRINT, GLOBAL:MAIN, _)
-188:	(:=, VARLOCAL:MAIN:FUNCION, GLOBAL:MAIN)
-189:	(PRINT, &VARLOCAL:&, _)
-190:	(PRINT, VARLOCAL:MAIN:FUNCION, _)
-191:	(+, VARLOCAL:MAIN:FUNCION, 3UI)
-192:	(:=, GLOBAL:MAIN, [191])
-193:	(PRINT, &MAIN.GLOBAL:&, _)
-194:	(PRINT, GLOBAL:MAIN, _)
-195:	(RETURN, 15UI, _)
-196:	(RETURN, 3.14F+0, _)
-197:	(:=, R1:MAIN, 0UI)
-198:	(:=, R2:MAIN, 1.0F+0)
-199:	(PARAM, 50UI, P1:MAIN:FUNCION)
-200:	(CALL, FUNCION:MAIN, _)
-201:	(PRINT, &R1:&, _)
-202:	(PRINT, R1:MAIN, _)
-203:	(PRINT, &R2:&, _)
-204:	(PRINT, R2:MAIN, _)
-205:	(PRINT, &GLOBAL:&, _)
-206:	(PRINT, GLOBAL:MAIN, _)
-207:	(PRINT, &Si ves esto TERMINO EL PROGRAMA&, _)
+182:	(:=, VARLOCAL:MAIN:FUNCION, 200UI)
+183:	(+, GLOBAL:MAIN, 1UI)
+184:	(:=, GLOBAL:MAIN, [183])
+185:	(PRINT, &MAIN.GLOBAL:&, _)
+186:	(PRINT, GLOBAL:MAIN, _)
+187:	(:=, VARLOCAL:MAIN:FUNCION, GLOBAL:MAIN)
+188:	(PRINT, &VARLOCAL:&, _)
+189:	(PRINT, VARLOCAL:MAIN:FUNCION, _)
+190:	(+, VARLOCAL:MAIN:FUNCION, 3UI)
+191:	(:=, GLOBAL:MAIN, [190])
+192:	(PRINT, &MAIN.GLOBAL:&, _)
+193:	(PRINT, GLOBAL:MAIN, _)
+194:	(RETURN, 15UI, _)
+195:	(RETURN, 20UI, _)
+196:	(:=, R1:MAIN, 0UI)
+197:	(:=, R2:MAIN, 0UI)
+198:	(PARAM, 50UI, P1:MAIN:FUNCION)
+199:	(CALL, FUNCION:MAIN, _)
+200:	(PRINT, &R1:&, _)
+201:	(PRINT, R1:MAIN, _)
+202:	(PRINT, &R2:&, _)
+203:	(PRINT, R2:MAIN, _)
+204:	(PRINT, &GLOBAL:&, _)
+205:	(PRINT, GLOBAL:MAIN, _)
+206:	(PRINT, &Si ves esto TERMINO EL PROGRAMA&, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -262,7 +261,7 @@ No se encontraron warnings.
 | MAIN                                | BASURA:MAIN                                   | false        | variable           | uint       |
 | MAIN                                | Z:MAIN                                        | false        | variable           | float      |
 | MAIN                                | FUNCION:MAIN                                  | false        | funcion            | multiple   |
-| MAIN                                | R2:MAIN                                       | false        | variable           | float      |
+| MAIN                                | R2:MAIN                                       | false        | variable           | uint       |
 | MAIN                                | F3:MAIN                                       | false        | variable           | float      |
 | MAIN                                | CONT:MAIN                                     | false        | variable           | uint       |
 | MAIN                                | VARIABLEXX:MAIN                               | false        | variable           | uint       |
