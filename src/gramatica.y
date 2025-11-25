@@ -644,7 +644,16 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                            errorEnParametros = true;
                                        }
                                        if (!errorEnParametros) {
-                                            g.addTerceto("PARAM", real.operando, formal.nombre);
+                                            String mangledFunc = al.getNombreMangled(funcName);
+                                            String nombreParametro = formal.nombre;
+                                            if (mangledFunc.contains(":")) {
+                                                int firstColon = mangledFunc.indexOf(':');
+                                                String name = mangledFunc.substring(0, firstColon);
+                                                String scope = mangledFunc.substring(firstColon + 1);
+                                                String scopeBody = scope + ":" + name;
+                                                nombreParametro = formal.nombre + ":" + scopeBody;
+                                            }
+                                            g.addTerceto("PARAM", real.operando, nombreParametro);
                                        }
                                    }
                                }
