@@ -17,7 +17,7 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 198: Error Semantico: Asignacion de funcion 'FUNCION:MAIN' que no retorna 'multiple' a variable simple.
+No se encontraron errores semanticos.
 
 =======================================================
 ## WARNINGS DETECTADOS ##

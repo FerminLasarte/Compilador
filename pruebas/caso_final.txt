@@ -195,7 +195,7 @@ MAIN {
 
     var R1 := 0UI;
 
-    R1 := FUNCION(50UI->P1);
+    R1 = FUNCION(50UI->P1);
     print(&R1:&);
     print(R1);
     print(&GLOBAL:&);
