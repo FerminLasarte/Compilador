@@ -1710,8 +1710,8 @@ case 92:
                     pilaErrorEnFuncion.push(true);
                 } else {
                     salida.add("Linea " + val_peek(5).ival + ": Sentencia RETURN.");
-                    for (String exprTerceto : expresiones) {
-                        g.addTerceto("RETURN", exprTerceto);
+                    for (int i = 0; i < expresiones.size(); i++) {
+                        g.addTerceto("RETURN", expresiones.get(i), String.valueOf(i));
                     }
                 }
             }
