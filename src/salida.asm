@@ -571,6 +571,7 @@ invoke crt_printf, addr MensajePrint, addr str_88
 Label89:
 invoke crt_printf, addr MensajePrintNum, _W_MAIN_FUNCZ_FUNCJ
 Label90:
+; -- RETURN --
 MOV EAX, 55
 RET
 Label91:
@@ -592,6 +593,7 @@ invoke crt_printf, addr MensajePrintNum, _VARIABLEFERBO_MAIN_FUNCZ
 Label97:
 invoke crt_printf, addr MensajePrint, addr str_97
 Label98:
+; -- RETURN --
 MOV EAX, 5
 RET
 Label99:
@@ -699,6 +701,7 @@ JMP Label133
 Label132:
 invoke crt_printf, addr MensajePrintNum, 100
 Label133:
+; -- RETURN --
 MOV EAX, 1000
 RET
 Label134:
@@ -739,6 +742,7 @@ Label146:
 MOV EAX, @aux145
 MOV _INOUT_MAIN_PROCESAR, EAX
 Label147:
+; -- RETURN --
 MOV EAX, 1
 RET
 Label148:
@@ -786,6 +790,7 @@ Label166:
 MOV EAX, _X_MAIN_F
 CALL EAX
 Label167:
+; -- RETURN --
 MOV EAX, 111
 RET
 Label168:
@@ -796,6 +801,7 @@ invoke crt_printf, addr MensajePrint, addr str_170
 Label171:
 invoke crt_printf, addr MensajePrintNum, _XX_MAIN_lambda_169
 Label172:
+; -- RETURN --
 RET
 Label173:
 MOV EAX, Label169
@@ -857,9 +863,11 @@ invoke crt_printf, addr MensajePrint, addr str_192
 Label193:
 invoke crt_printf, addr MensajePrintNum, _GLOBAL_MAIN
 Label194:
+; -- RETURN --
 MOV EAX, 15
 RET
 Label195:
+; -- RETURN --
 MOV EAX, 1078523331
 PUSH EAX
 FLD DWORD PTR [ESP]

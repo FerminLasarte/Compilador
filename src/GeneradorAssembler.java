@@ -339,6 +339,7 @@ public class GeneradorAssembler {
                     break;
                 case "RETURN":
                 case "RET_LAMBDA":
+                    codigo.append("; -- RETURN --\n"); // Debug info
                     if (op1 != null && !op1.equals("_")) {
                         if (isFloatOp) {
                             loadToFPU(op1);
@@ -350,6 +351,7 @@ public class GeneradorAssembler {
                     break;
                 case "CALL":
                     codigo.append("CALL ").append("_").append(op1).append("\n");
+                    // Si es float, el resultado esta en ST(0), si es int/uint/multiple, esta en EAX
                     if (tipoTerceto.equals("float")) {
                         codigo.append("FSTP ").append(res).append("\n");
                     } else {
@@ -377,16 +379,9 @@ public class GeneradorAssembler {
                     codigo.append("FISTP ").append(res).append("\n");
                     break;
                 case "GET_RET":
-                    // Maneja la recuperación de valores de retorno múltiples (o simples si fuera necesario)
-                    // Esto asume que el valor ya está en EAX o en la pila FPU tras el CALL.
-                    // Sin embargo, como CALL ya mueve EAX a una variable temporal, GET_RET podría ser redundante para un solo valor.
-                    // Pero si CALL retorna múltiples valores (no soportado nativamente en EAX/FPU estándar sin punteros),
-                    // aquí tendrías que manejar esa lógica específica si tu compilador lo soporta.
-                    // Dado que tu gramática usa CALL y asigna el resultado a una variable temporal, GET_RET podría estar accediendo a esa variable.
-                    // Si GET_RET se usa para desestructurar una tupla o similar, necesitarías lógica adicional.
-                    // Por ahora, si es un alias o copia:
+                    // Recupera el valor retornado (que CALL guardo en una variable temporal 'op1')
                     if (tipoTerceto.equals("float")) {
-                        loadToFPU(op1); // op1 sería la variable temporal donde CALL guardó el resultado (o parte de él)
+                        loadToFPU(op1);
                         codigo.append("FSTP ").append(res).append("\n");
                     } else {
                         codigo.append("MOV EAX, ").append(op1).append("\n");
