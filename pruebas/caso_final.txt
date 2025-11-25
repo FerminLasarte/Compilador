@@ -117,7 +117,7 @@ MAIN {
         } while (GCONTADOR < 3UI);
         if (AA < 5UI) {
             print(&PRINT AA &);
-            print(FUNCIONX.A);
+            print(AA);
         } else {
             print(100UI);
         } endif;
@@ -125,15 +125,21 @@ MAIN {
             print(&PRINT A &);
             print(A);
         } endif;
-        if (FUNCIONX.A < 5UI) {
-            print(&PRINT FUNCIONX.A &);
-            print(FUNCIONX.A);
+        if (A > 5UI) {
+            print(&PRINT A &);
+            print(A);
         } else {
             print(100UI);
         } endif;
         return (1000UI);
     }
-    print(&chau chau&);
+
+    var VARIABLEXX := 0UI;
+    VARIABLEXX := FUNCIONX(VARIABLEXX->AA);
+    print(&por entrar FUNCION IF&);
+    print(VARIABLEXX);
+    print(&ENTRO FUNCION IF&);
+
     var VALOR := 10UI;
     uint PROCESAR(cr se uint OUT, cr le uint INOUT) {
         OUT := 99UI;
@@ -142,9 +148,12 @@ MAIN {
     }
     print(&chau chau&);
     var BASURA := 0UI;
+    print(&IMPRIME BASURA 1&);
     print(BASURA);
     PROCESAR(BASURA->OUT, VALOR->INOUT);
+    print(&IMPRIME BASURA 2&);
     print(BASURA);
+    print(&IMPRIME VALOR&);
     print(VALOR);
 
     uint F(lambda X, uint SS) {
