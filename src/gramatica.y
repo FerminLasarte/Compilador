@@ -101,7 +101,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             pilaInicioFuncion.push(g.getProximoTerceto());
             String jump = g.addTerceto("BI", "_", "_");
             pilaSaltosFunciones.push(Integer.parseInt(jump.substring(1, jump.length()-1)));
-            g.addTerceto("FUNC_LABEL", nombreFuncion);
 
             ArrayList<String> tiposEsperados = new ArrayList<String>();
             tiposEsperados.add(tipoRetorno);
@@ -112,6 +111,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
                 g.setGeneracionHabilitada(false);
                 nombreAmbito = "GARBAGE_" + nombreFuncion;
+                g.addTerceto("FUNC_LABEL", nombreFuncion);
             } else {
                 al.agregarLexemaTS(nombreFuncion);
                 al.agregarAtributoLexema(nombreFuncion, "Uso", "funcion");
@@ -119,6 +119,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                 al.agregarAtributoLexema(nombreFuncion, "Tipo", tipoRetorno);
                 al.agregarAtributoLexema(nombreFuncion, "Parametros", parametros);
                 al.agregarAtributoLexema(nombreFuncion, "RetornoMultiple", false);
+                g.addTerceto("FUNC_LABEL", nombreFuncion);
             }
             g.abrirAmbito(nombreAmbito);
             for (ParametroInfo p : parametros) {
@@ -165,7 +166,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
 
             String jump = g.addTerceto("BI", "_", "_");
             pilaSaltosFunciones.push(Integer.parseInt(jump.substring(1, jump.length()-1)));
-            g.addTerceto("FUNC_LABEL", nombreFuncion);
 
             pilaTiposRetorno.push(tiposRetorno);
             pilaErrorEnFuncion.push(false);
@@ -175,6 +175,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
                 g.setGeneracionHabilitada(false);
                 nombreAmbito = "GARBAGE_" + nombreFuncion;
+                g.addTerceto("FUNC_LABEL", nombreFuncion);
             } else {
                 al.agregarLexemaTS(nombreFuncion);
                 al.agregarAtributoLexema(nombreFuncion, "Uso", "funcion");
@@ -182,6 +183,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
                 al.agregarAtributoLexema(nombreFuncion, "TiposRetorno", tiposRetorno);
                 al.agregarAtributoLexema(nombreFuncion, "Parametros", parametros);
                 al.agregarAtributoLexema(nombreFuncion, "RetornoMultiple", true);
+                g.addTerceto("FUNC_LABEL", nombreFuncion);
             }
             g.abrirAmbito(nombreAmbito);
             for (ParametroInfo p : parametros) {
@@ -784,7 +786,8 @@ if_encabezado : IF '(' condicion ')' {
                        int bfIdx = Integer.parseInt(bf.substring(1, bf.length()-1));
                        g.apilarControl(bfIdx);
                    }
-                   $$.ival = $1.ival; /* Preservamos la línea para usarla en las reglas principales*/
+                   $$.ival = $1.ival;
+                   /* Preservamos la línea para usarla en las reglas principales*/
                }
                ;
 
@@ -802,7 +805,8 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    int bfIdx = g.desapilarControl();
                    String bi = g.addTerceto("BI", "_", "_");
                    int biIdx = Integer.parseInt(bi.substring(1, bi.length()-1));
-                   g.apilarControl(biIdx); /* Apilamos el BI para resolverlo al final.*/
+                   g.apilarControl(biIdx);
+                   /* Apilamos el BI para resolverlo al final.*/
                    if (bfIdx != -1) {
                        int inicioElse = g.getProximoTerceto();
                        g.modificarSaltoTerceto(bfIdx, "[" + inicioElse + "]");

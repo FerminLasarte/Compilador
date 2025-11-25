@@ -55,14 +55,6 @@ public class Generador {
 
         String mangled = al.getNombreMangled(op);
 
-        if (op.startsWith("MAIN.")) {
-            if (mangled != null && !mangled.equals(op)) {
-                return mangled;
-            }
-            String varName = op.substring(5);
-            return resolveName(varName);
-        }
-
         return mangled != null ? mangled : op;
     }
 

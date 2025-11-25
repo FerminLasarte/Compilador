@@ -95,12 +95,16 @@ MAIN {
         }
         var VARIABLEFERBO:= 0UI;
         VARIABLEFERBO:= FUNCJ(VARIABLEFERBO->J);
-        print(&le entro a ferbo&);
+        print(&por entrar&);
+        print(VARIABLEFERBO);
+        print(&entro&);
         return(5UI);
     }
     var VARIABLEZ := 0UI;
     VARIABLEZ := FUNCZ(VARIABLEZ->Z);
-    print(&intermedio entre funciones&);
+    print(&por entrar dos&);
+    print(VARIABLEZ);
+    print(&entro toda&);
 
     uint FUNCIONX(uint AA) {
         AA := 3UI;
@@ -126,7 +130,7 @@ MAIN {
             print(FUNCIONX.A);
         } else {
             print(100UI);
-        };
+        } endif;
         return (1000UI);
     }
     print(&chau chau&);
