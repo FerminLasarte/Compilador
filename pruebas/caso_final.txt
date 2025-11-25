@@ -54,7 +54,7 @@ MAIN {
 
     uint FUNCZ(uint Z) {
         print(&A DENTRO DE FUNCZ&);
-        print(A);
+        print(MAIN.A);
         var W := 2UI;
         print(&W DE FUNCZ:&);
         print(W);
@@ -75,7 +75,6 @@ MAIN {
         print(MAIN.A);
         print(&IMPRIMO A DE FUNCZ:&);
         print(A);
-
         uint FUNCJ(uint J) {
             var W := 22UI;
             print(&W DE FUNCJ:&);
@@ -94,42 +93,40 @@ MAIN {
             print(W);
             return(55UI);
         }
+        var VARIABLEFERBO:= 0UI;
+        VARIABLEFERBO:= FUNCJ(VARIABLEFERBO->J);
+        print(&le entro a ferbo&);
         return(5UI);
     }
-
+    var VARIABLEZ := 0UI;
+    VARIABLEZ := FUNCZ(VARIABLEZ->Z);
     print(&intermedio entre funciones&);
 
     uint FUNCIONX(uint AA) {
-
         AA := 3UI;
         var A := 3UI;
         var GCONTADOR := 0UI;
-
         do {
             print(&PRINT GCONTADOR &);
             print(GCONTADOR);
             GCONTADOR := GCONTADOR + 1UI;
         } while (GCONTADOR < 3UI);
-
         if (AA < 5UI) {
             print(&PRINT AA &);
             print(FUNCIONX.A);
         } else {
             print(100UI);
         } endif;
-
         if (A < 5UI) {
             print(&PRINT A &);
             print(A);
         } endif;
-
         if (FUNCIONX.A < 5UI) {
             print(&PRINT FUNCIONX.A &);
             print(FUNCIONX.A);
         } else {
             print(100UI);
         };
-
         return (1000UI);
     }
     print(&chau chau&);

@@ -7,7 +7,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 131: Error de sintaxis. Verifique la estructura del codigo.
+Linea 129: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -22,7 +22,7 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 188 - Columna: 28 - Linea 188: Warning (Tema 21): Funcion 'FUNCION' retorna 2 valores, pero solo se asignan 1. Se descartan los sobrantes.
+Linea: 185 - Columna: 28 - Linea 185: Warning (Tema 21): Funcion 'FUNCION' retorna 2 valores, pero solo se asignan 1. Se descartan los sobrantes.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
@@ -74,10 +74,10 @@ Linea: 188 - Columna: 28 - Linea 188: Warning (Tema 21): Funcion 'FUNCION' retor
 43:	(PRINT, B, _)
 44:	(PRINT, &IMPRIME AAAAA:&, _)
 45:	(PRINT, A, _)
-46:	(BI, _, [89])
+46:	(BI, _, [94])
 47:	(FUNC_LABEL, FUNCZ, _)
 48:	(PRINT, &A DENTRO DE FUNCZ&, _)
-49:	(PRINT, A, _)
+49:	(PRINT, MAIN.A, _)
 50:	(:=, W, 2UI)
 51:	(PRINT, &W DE FUNCZ:&, _)
 52:	(PRINT, W, _)
@@ -116,101 +116,110 @@ Linea: 188 - Columna: 28 - Linea 188: Warning (Tema 21): Funcion 'FUNCION' retor
 85:	(PRINT, &FUNCZ.A TOMA VALOR DE W DE FUNCJ:&, _)
 86:	(PRINT, W, _)
 87:	(RETURN, 55UI, _)
-88:	(RETURN, 5UI, _)
-89:	(PRINT, &intermedio entre funciones&, _)
-90:	(BI, _, [118])
-91:	(FUNC_LABEL, FUNCIONX, _)
-92:	(:=, AA, 3UI)
-93:	(:=, A, 3UI)
-94:	(:=, GCONTADOR, 0UI)
-95:	(PRINT, &PRINT GCONTADOR &, _)
-96:	(PRINT, GCONTADOR, _)
-97:	(+, GCONTADOR, 1UI)
-98:	(:=, GCONTADOR, [97])
-99:	(<, GCONTADOR, 3UI)
-100:	(BT, [99], [95])
-101:	(<, AA, 5UI)
-102:	(BF, [101], [106])
-103:	(PRINT, &PRINT AA &, _)
-104:	(PRINT, FUNCIONX.A, _)
-105:	(BI, _, [107])
-106:	(PRINT, 100UI, _)
-107:	(<, A, 5UI)
-108:	(BF, [107], [111])
-109:	(PRINT, &PRINT A &, _)
-110:	(PRINT, A, _)
-111:	(<, FUNCIONX.A, 5UI)
-112:	(BF, [111], [116])
-113:	(PRINT, &PRINT FUNCIONX.A &, _)
-114:	(PRINT, FUNCIONX.A, _)
-115:	(BI, _, _)
-116:	(PRINT, 100UI, _)
-117:	(RETURN, 1000UI, _)
-118:	(PRINT, &chau chau&, _)
-119:	(:=, VALOR, 10UI)
-120:	(BI, _, [126])
-121:	(FUNC_LABEL, PROCESAR, _)
-122:	(:=, OUT, 99UI)
-123:	(+, INOUT, 1UI)
-124:	(:=, INOUT, [123])
-125:	(RETURN, 1UI, _)
-126:	(PRINT, &chau chau&, _)
-127:	(:=, BASURA, 0UI)
-128:	(PRINT, BASURA, _)
-129:	(PARAM, BASURA, OUT)
-130:	(PARAM, VALOR, INOUT)
-131:	(CALL, PROCESAR, _)
-132:	(:=, BASURA, OUT)
-133:	(:=, VALOR, INOUT)
-134:	(PRINT, BASURA, _)
-135:	(PRINT, VALOR, _)
-136:	(BI, _, [140])
-137:	(FUNC_LABEL, F, _)
-138:	(PARAM_LAMBDA, SS, _)
-139:	(CALL_LAMBDA, X, _)
-140:	(BI, _, [146])
-141:	(DEF_PARAM, XX, _)
-142:	(>, XX, 1UI)
-143:	(BF, [142], [145])
-144:	(PRINT, & PRINT AA &, _)
-145:	(RET_LAMBDA, _, _)
-146:	(PARAM, L141, X)
-147:	(PARAM, 3UI, SS)
-148:	(CALL, F, _)
-149:	(:=, A, 0UI)
-150:	(:=, MAX, 65535UI)
-151:	(+, MAX, 1UI)
-152:	(:=, OVER, [151])
-153:	(:=, GLOBAL, 100UI)
-154:	(PRINT, &GLOBAL:&, _)
-155:	(PRINT, GLOBAL, _)
-156:	(BI, _, [172])
-157:	(FUNC_LABEL, FUNCION, _)
-158:	(:=, VARLOCAL, 200UI)
-159:	(+, GLOBAL, 1UI)
-160:	(:=, GLOBAL, [159])
-161:	(PRINT, &MAIN.GLOBAL:&, _)
-162:	(PRINT, GLOBAL, _)
-163:	(:=, VARLOCAL, GLOBAL)
-164:	(PRINT, &VARLOCAL:&, _)
-165:	(PRINT, VARLOCAL, _)
-166:	(+, VARLOCAL, 3UI)
-167:	(:=, GLOBAL, [166])
-168:	(PRINT, &MAIN.GLOBAL:&, _)
-169:	(PRINT, GLOBAL, _)
-170:	(RETURN, P1, _)
-171:	(RETURN, 3.14F+0, _)
-172:	(:=, R1, 0UI)
-173:	(:=, R2, 0.0F+0)
-174:	(PARAM, 50UI, P1)
-175:	(CALL, FUNCION, _)
-176:	(GET_RET, [175], 0)
-177:	(:=, R1, [176])
-178:	(PRINT, &R1:&, _)
-179:	(PRINT, R1, _)
-180:	(PRINT, &GLOBAL:&, _)
-181:	(PRINT, GLOBAL, _)
-182:	(PRINT, &Si ves esto, el control de overflow fallo&, _)
+88:	(:=, VARIABLEFERBO, 0UI)
+89:	(PARAM, VARIABLEFERBO, J)
+90:	(CALL, FUNCJ, _)
+91:	(:=, VARIABLEFERBO, [90])
+92:	(PRINT, &le entro a ferbo&, _)
+93:	(RETURN, 5UI, _)
+94:	(:=, VARIABLEZ, 0UI)
+95:	(PARAM, VARIABLEZ, Z)
+96:	(CALL, FUNCZ, _)
+97:	(:=, VARIABLEZ, [96])
+98:	(PRINT, &intermedio entre funciones&, _)
+99:	(BI, _, [127])
+100:	(FUNC_LABEL, FUNCIONX, _)
+101:	(:=, AA, 3UI)
+102:	(:=, A, 3UI)
+103:	(:=, GCONTADOR, 0UI)
+104:	(PRINT, &PRINT GCONTADOR &, _)
+105:	(PRINT, GCONTADOR, _)
+106:	(+, GCONTADOR, 1UI)
+107:	(:=, GCONTADOR, [106])
+108:	(<, GCONTADOR, 3UI)
+109:	(BT, [108], [104])
+110:	(<, AA, 5UI)
+111:	(BF, [110], [115])
+112:	(PRINT, &PRINT AA &, _)
+113:	(PRINT, FUNCIONX.A, _)
+114:	(BI, _, [116])
+115:	(PRINT, 100UI, _)
+116:	(<, A, 5UI)
+117:	(BF, [116], [120])
+118:	(PRINT, &PRINT A &, _)
+119:	(PRINT, A, _)
+120:	(<, FUNCIONX.A, 5UI)
+121:	(BF, [120], [125])
+122:	(PRINT, &PRINT FUNCIONX.A &, _)
+123:	(PRINT, FUNCIONX.A, _)
+124:	(BI, _, _)
+125:	(PRINT, 100UI, _)
+126:	(RETURN, 1000UI, _)
+127:	(PRINT, &chau chau&, _)
+128:	(:=, VALOR, 10UI)
+129:	(BI, _, [135])
+130:	(FUNC_LABEL, PROCESAR, _)
+131:	(:=, OUT, 99UI)
+132:	(+, INOUT, 1UI)
+133:	(:=, INOUT, [132])
+134:	(RETURN, 1UI, _)
+135:	(PRINT, &chau chau&, _)
+136:	(:=, BASURA, 0UI)
+137:	(PRINT, BASURA, _)
+138:	(PARAM, BASURA, OUT)
+139:	(PARAM, VALOR, INOUT)
+140:	(CALL, PROCESAR, _)
+141:	(:=, BASURA, OUT)
+142:	(:=, VALOR, INOUT)
+143:	(PRINT, BASURA, _)
+144:	(PRINT, VALOR, _)
+145:	(BI, _, [149])
+146:	(FUNC_LABEL, F, _)
+147:	(PARAM_LAMBDA, SS, _)
+148:	(CALL_LAMBDA, X, _)
+149:	(BI, _, [155])
+150:	(DEF_PARAM, XX, _)
+151:	(>, XX, 1UI)
+152:	(BF, [151], [154])
+153:	(PRINT, & PRINT AA &, _)
+154:	(RET_LAMBDA, _, _)
+155:	(PARAM, L150, X)
+156:	(PARAM, 3UI, SS)
+157:	(CALL, F, _)
+158:	(:=, A, 0UI)
+159:	(:=, MAX, 65535UI)
+160:	(+, MAX, 1UI)
+161:	(:=, OVER, [160])
+162:	(:=, GLOBAL, 100UI)
+163:	(PRINT, &GLOBAL:&, _)
+164:	(PRINT, GLOBAL, _)
+165:	(BI, _, [181])
+166:	(FUNC_LABEL, FUNCION, _)
+167:	(:=, VARLOCAL, 200UI)
+168:	(+, GLOBAL, 1UI)
+169:	(:=, GLOBAL, [168])
+170:	(PRINT, &MAIN.GLOBAL:&, _)
+171:	(PRINT, GLOBAL, _)
+172:	(:=, VARLOCAL, GLOBAL)
+173:	(PRINT, &VARLOCAL:&, _)
+174:	(PRINT, VARLOCAL, _)
+175:	(+, VARLOCAL, 3UI)
+176:	(:=, GLOBAL, [175])
+177:	(PRINT, &MAIN.GLOBAL:&, _)
+178:	(PRINT, GLOBAL, _)
+179:	(RETURN, P1, _)
+180:	(RETURN, 3.14F+0, _)
+181:	(:=, R1, 0UI)
+182:	(:=, R2, 0.0F+0)
+183:	(PARAM, 50UI, P1)
+184:	(CALL, FUNCION, _)
+185:	(GET_RET, [184], 0)
+186:	(:=, R1, [185])
+187:	(PRINT, &R1:&, _)
+188:	(PRINT, R1, _)
+189:	(PRINT, &GLOBAL:&, _)
+190:	(PRINT, GLOBAL, _)
+191:	(PRINT, &Si ves esto, el control de overflow fallo&, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -218,33 +227,35 @@ Linea: 188 - Columna: 28 - Linea 188: Warning (Tema 21): Funcion 'FUNCION' retor
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 | MAIN                                | MAX:MAIN                                      | false        | variable           | uint       |
-| MAIN                                | FUNCIONX:MAIN                                 | false        | funcion            | uint       |
 | MAIN                                | B:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | X:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | F:MAIN                                        | false        | funcion            | uint       |
 | MAIN                                | R1:MAIN                                       | false        | variable           | uint       |
 | MAIN                                | FUNCZ:MAIN                                    | false        | funcion            | uint       |
 | MAIN                                | OVER:MAIN                                     | false        | variable           | uint       |
 | MAIN                                | MAIN:MAIN                                     | false        | null               | null       |
-| MAIN                                | BASURA:MAIN                                   | false        | variable           | uint       |
 | MAIN                                | F1:MAIN                                       | false        | variable           | float      |
 | MAIN                                | Y:MAIN                                        | false        | variable           | float      |
-| MAIN                                | Z:MAIN                                        | false        | variable           | float      |
 | MAIN                                | PROCESAR:MAIN                                 | false        | funcion            | uint       |
 | MAIN                                | GLOBAL:MAIN                                   | false        | variable           | uint       |
 | MAIN                                | A:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | F2:MAIN                                       | false        | variable           | float      |
+| MAIN                                | E:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | FUNCIONX:MAIN                                 | false        | funcion            | uint       |
+| MAIN                                | X:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | F:MAIN                                        | false        | funcion            | uint       |
+| MAIN                                | VARIABLEZ:MAIN                                | false        | variable           | uint       |
+| MAIN                                | BASURA:MAIN                                   | false        | variable           | uint       |
+| MAIN                                | Z:MAIN                                        | false        | variable           | float      |
 | MAIN                                | FUNCION:MAIN                                  | false        | funcion            | multiple   |
 | MAIN                                | R2:MAIN                                       | false        | variable           | float      |
 | MAIN                                | F3:MAIN                                       | false        | variable           | float      |
 | MAIN                                | CONT:MAIN                                     | false        | variable           | uint       |
 | MAIN                                | VALOR:MAIN                                    | false        | variable           | uint       |
-| MAIN                                | F2:MAIN                                       | false        | variable           | float      |
-| MAIN                                | E:MAIN                                        | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 | MAIN:FUNCZ                          | Z:MAIN:FUNCZ                                  | false        | parametro          | uint       |
 | MAIN:FUNCZ                          | W:MAIN:FUNCZ                                  | false        | variable           | uint       |
 | MAIN:FUNCZ                          | A:MAIN:FUNCZ                                  | false        | variable           | uint       |
 | MAIN:FUNCZ                          | FUNCJ:MAIN:FUNCZ                              | false        | funcion            | uint       |
+| MAIN:FUNCZ                          | VARIABLEFERBO:MAIN:FUNCZ                      | false        | variable           | uint       |
 | MAIN:FUNCZ                          | J:MAIN:FUNCZ                                  | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 | MAIN:FUNCZ:FUNCJ                    | J:MAIN:FUNCZ:FUNCJ                            | false        | parametro          | uint       |
@@ -262,7 +273,7 @@ Linea: 188 - Columna: 28 - Linea 188: Warning (Tema 21): Funcion 'FUNCION' retor
 | MAIN:F                              | SS:MAIN:F                                     | false        | parametro          | uint       |
 | MAIN:F                              | X:MAIN:F                                      | false        | parametro          | lambda     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:lambda_141                     | XX:MAIN:lambda_141                            | false        | parametro_lambda   | uint       |
+| MAIN:lambda_150                     | XX:MAIN:lambda_150                            | false        | parametro_lambda   | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 | MAIN:FUNCION                        | P1:MAIN:FUNCION                               | false        | parametro          | uint       |
 | MAIN:FUNCION                        | VARLOCAL:MAIN:FUNCION                         | false        | variable           | uint       |
