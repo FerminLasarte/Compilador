@@ -197,6 +197,8 @@ MaxFloatValue dd 2139095039
 @aux178 dd 0
 @aux179 dd 0
 @aux180 dd 0
+@aux181 dd 0
+@aux182 dd 0
 _A dd 0
 _B dd 0
 _F1 dd 0
@@ -263,14 +265,14 @@ str_109 db "PRINT A ", 0
 str_113 db "PRINT FUNCIONX.A ", 0
 str_118 db "chau chau", 0
 str_126 db "chau chau", 0
-str_142 db " PRINT AA ", 0
-str_152 db "GLOBAL:", 0
-str_159 db "MAIN.GLOBAL:", 0
-str_162 db "VARLOCAL:", 0
-str_166 db "MAIN.GLOBAL:", 0
-str_176 db "R1:", 0
-str_178 db "GLOBAL:", 0
-str_180 db "Si ves esto, el control de overflow fallo", 0
+str_144 db " PRINT AA ", 0
+str_154 db "GLOBAL:", 0
+str_161 db "MAIN.GLOBAL:", 0
+str_164 db "VARLOCAL:", 0
+str_168 db "MAIN.GLOBAL:", 0
+str_178 db "R1:", 0
+str_180 db "GLOBAL:", 0
+str_182 db "Si ves esto, el control de overflow fallo", 0
 .code
 start:
 Label0:
@@ -660,138 +662,144 @@ Label131:
 CALL __PROCESAR
 MOV @aux131, EAX
 Label132:
-invoke crt_printf, addr MensajePrintNum, _BASURA
+MOV EAX, _OUT
+MOV _BASURA, EAX
 Label133:
-invoke crt_printf, addr MensajePrintNum, _VALOR
+MOV EAX, _INOUT
+MOV _VALOR, EAX
 Label134:
-JMP Label138
+invoke crt_printf, addr MensajePrintNum, _BASURA
 Label135:
-__F:
+invoke crt_printf, addr MensajePrintNum, _VALOR
 Label136:
+JMP Label140
 Label137:
+__F:
+Label138:
+Label139:
 MOV EAX, _X
 CALL EAX
-Label138:
-JMP Label144
-Label139:
 Label140:
+JMP Label146
+Label141:
+Label142:
 MOV EAX, _XX
 CMP EAX, 1
 SETA AL
 MOVZX EAX, AL
-MOV @aux140, EAX
-Label141:
-MOV EAX, @aux140
-CMP EAX, 0
-JE Label143
-Label142:
-invoke crt_printf, addr MensajePrint, addr str_142
+MOV @aux142, EAX
 Label143:
-RET
+MOV EAX, @aux142
+CMP EAX, 0
+JE Label145
 Label144:
-MOV EAX, Label139
-MOV _X, EAX
+invoke crt_printf, addr MensajePrint, addr str_144
 Label145:
+RET
+Label146:
+MOV EAX, Label141
+MOV _X, EAX
+Label147:
 MOV EAX, 3
 MOV _SS, EAX
-Label146:
+Label148:
 CALL __F
-MOV @aux146, EAX
-Label147:
+MOV @aux148, EAX
+Label149:
 MOV EAX, 0
 MOV _A, EAX
-Label148:
+Label150:
 MOV EAX, 65535
 MOV _MAX, EAX
-Label149:
+Label151:
 MOV EAX, _MAX
 ADD EAX, 1
 CMP EAX, 65535
 JA ErrorOverflow
-MOV @aux149, EAX
-Label150:
-MOV EAX, @aux149
+MOV @aux151, EAX
+Label152:
+MOV EAX, @aux151
 MOV _OVER, EAX
-Label151:
+Label153:
 MOV EAX, 100
 MOV _GLOBAL, EAX
-Label152:
-invoke crt_printf, addr MensajePrint, addr str_152
-Label153:
-invoke crt_printf, addr MensajePrintNum, _GLOBAL
 Label154:
-JMP Label170
+invoke crt_printf, addr MensajePrint, addr str_154
 Label155:
-__FUNCION:
+invoke crt_printf, addr MensajePrintNum, _GLOBAL
 Label156:
+JMP Label172
+Label157:
+__FUNCION:
+Label158:
 MOV EAX, 200
 MOV _VARLOCAL, EAX
-Label157:
+Label159:
 MOV EAX, _GLOBAL
 ADD EAX, 1
 CMP EAX, 65535
 JA ErrorOverflow
-MOV @aux157, EAX
-Label158:
-MOV EAX, @aux157
-MOV _GLOBAL, EAX
-Label159:
-invoke crt_printf, addr MensajePrint, addr str_159
+MOV @aux159, EAX
 Label160:
-invoke crt_printf, addr MensajePrintNum, _GLOBAL
+MOV EAX, @aux159
+MOV _GLOBAL, EAX
 Label161:
+invoke crt_printf, addr MensajePrint, addr str_161
+Label162:
+invoke crt_printf, addr MensajePrintNum, _GLOBAL
+Label163:
 MOV EAX, _GLOBAL
 MOV _VARLOCAL, EAX
-Label162:
-invoke crt_printf, addr MensajePrint, addr str_162
-Label163:
-invoke crt_printf, addr MensajePrintNum, _VARLOCAL
 Label164:
+invoke crt_printf, addr MensajePrint, addr str_164
+Label165:
+invoke crt_printf, addr MensajePrintNum, _VARLOCAL
+Label166:
 MOV EAX, _VARLOCAL
 ADD EAX, 3
 CMP EAX, 65535
 JA ErrorOverflow
-MOV @aux164, EAX
-Label165:
-MOV EAX, @aux164
-MOV _GLOBAL, EAX
-Label166:
-invoke crt_printf, addr MensajePrint, addr str_166
+MOV @aux166, EAX
 Label167:
-invoke crt_printf, addr MensajePrintNum, _GLOBAL
+MOV EAX, @aux166
+MOV _GLOBAL, EAX
 Label168:
-RET
+invoke crt_printf, addr MensajePrint, addr str_168
 Label169:
-RET
+invoke crt_printf, addr MensajePrintNum, _GLOBAL
 Label170:
+RET
+Label171:
+RET
+Label172:
 MOV EAX, 0
 MOV _R1, EAX
-Label171:
+Label173:
 MOV EAX, 0
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
 FSTP _R2
-Label172:
+Label174:
 MOV EAX, 50
 MOV _P1, EAX
-Label173:
-CALL __FUNCION
-MOV @aux173, EAX
-Label174:
 Label175:
-MOV EAX, @aux174
-MOV _R1, EAX
+CALL __FUNCION
+MOV @aux175, EAX
 Label176:
-invoke crt_printf, addr MensajePrint, addr str_176
 Label177:
-invoke crt_printf, addr MensajePrintNum, _R1
+MOV EAX, @aux176
+MOV _R1, EAX
 Label178:
 invoke crt_printf, addr MensajePrint, addr str_178
 Label179:
-invoke crt_printf, addr MensajePrintNum, _GLOBAL
+invoke crt_printf, addr MensajePrintNum, _R1
 Label180:
 invoke crt_printf, addr MensajePrint, addr str_180
+Label181:
+invoke crt_printf, addr MensajePrintNum, _GLOBAL
+Label182:
+invoke crt_printf, addr MensajePrint, addr str_182
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

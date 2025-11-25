@@ -75,7 +75,8 @@ declaracion_var : VAR variable ASIG expresion
                 ;
 
 tipo : UINT { $$.sval = "uint"; }
-     | FLOAT { $$.sval = "float"; }
+     | FLOAT { $$.sval = "float";
+     }
      | LAMBDA { $$.sval = "lambda"; }
      ;
 
@@ -98,7 +99,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             String nombreAmbito = nombreFuncion;
             ArrayList<ParametroInfo> parametros = g.getListaParametros();
             pilaInicioFuncion.push(g.getProximoTerceto());
-
             String jump = g.addTerceto("BI", "_", "_");
             pilaSaltosFunciones.push(Integer.parseInt(jump.substring(1, jump.length()-1)));
             g.addTerceto("FUNC_LABEL", nombreFuncion);
@@ -427,7 +427,8 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
 }
 ;
 
-lado_derecho_multiple : { g.clearLadoDerecho(); } factor
+lado_derecho_multiple : { g.clearLadoDerecho();
+} factor
                           {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho = 1;
@@ -445,7 +446,8 @@ lado_derecho_multiple : { g.clearLadoDerecho(); } factor
 
 variable : ID PUNTO ID
             {
-                $$.sval = $1.sval + "." + $3.sval;
+                $$.sval = $1.sval + "."
+                + $3.sval;
                 $$.ival = $1.ival;
             }
          |
@@ -478,7 +480,8 @@ expresion : expresion '+' termino
                 $$.ival = $1.ival;
             }
           |
-          termino { $$.ival = $1.ival; }
+          termino { $$.ival = $1.ival;
+          }
           ;
 
 termino : termino '*' factor
@@ -502,7 +505,8 @@ termino : termino '*' factor
                 g.apilarOperando(terceto);
                 $$.ival = $1.ival;
             }
-        | factor { $$.ival = $1.ival; }
+        | factor { $$.ival = $1.ival;
+        }
         ;
 
 factor : factor_no_funcion
@@ -548,7 +552,8 @@ factor_no_funcion : variable
                   }
                   |
                   conversion_explicita
-                  { $$.ival = $1.ival; }
+                  { $$.ival = $1.ival;
+                  }
                   ;
 
 conversion_explicita : TOUI '(' expresion ')'
@@ -643,8 +648,17 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                }
                                if (!errorEnParametros) {
                                   String terceto = g.addTerceto("CALL", funcName);
-                                   g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(al.getAtributo(funcName, "Tipo").toString());
-                                   $$.sval = terceto;
+                                  g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(al.getAtributo(funcName, "Tipo").toString());
+                                  $$.sval = terceto;
+
+                                  for (ParametroRealInfo real : reales) {
+                                      if (real.nombreFormal != null) {
+                                          ParametroInfo formal = formales.stream().filter(f -> f.nombre.equals(real.nombreFormal)).findFirst().orElse(null);
+                                          if (formal != null && (formal.pasaje.equals("cr_se") || formal.pasaje.equals("cr_le"))) {
+                                              g.addTerceto(":=", real.operando, formal.nombre);
+                                          }
+                                      }
+                                  }
                                } else {
                                    $$.sval = "ERROR_CALL_PARAMS";
                                }
