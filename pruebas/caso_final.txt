@@ -159,17 +159,19 @@ MAIN {
     print(&IMPRIME VALOR&);
     print(VALOR);
 
+    var VARPARALAMBDA := 5UI;
+
     uint F(lambda X, uint SS) {
-        print(&ENTRO LAMBDA&);
+        print(&IMPRIMO SS LAMBDA&);
         print(SS);
         X(SS);
-        return (111UI);
+        return(111UI);
     }
 
-    F((uint XX) {
-        print(&IMPRIMO XX DE LAMBDA&);
-        print(XX);
-    }->X,3UI->SS);
+    F((uint VARPARALAMBDA) {
+        print(&IMPRIMO VARPARALAMBDA DE LAMBDA&);
+        print(MAIN.VARPARALAMBDA);
+    }->X,33UI->SS);
 
     var GLOBAL := 100UI;
     print(&GLOBAL:&);
