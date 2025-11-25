@@ -171,13 +171,6 @@ MAIN {
         print(XX);
     }->X,3UI->SS);
 
-    A := 0UI;
-
-    @ var DIV := 10UI / A;
-
-    @ var MAX := 65535UI;
-    @ var OVER := MAX + 1UI;
-
     var GLOBAL := 100UI;
     print(&GLOBAL:&);
     print(GLOBAL);
@@ -195,17 +188,21 @@ MAIN {
         print(&MAIN.GLOBAL:&);
         print(GLOBAL);
 
-        return (P1, 3.14F+0);
+        return(15UI, 3.14F+0);
     }
 
     var R1 := 0UI;
-    var R2 := 0.0F+0;
 
-    R1 = FUNCION(50UI->P1);
+    R1 := FUNCION(50UI->P1);
     print(&R1:&);
     print(R1);
     print(&GLOBAL:&);
     print(GLOBAL);
 
     print(&Si ves esto TERMINO EL PROGRAMA&);
+
+    @ var DIV := 10UI / A;
+
+    @ var MAX := 65535UI;
+    @ var OVER := MAX + 1UI;
 }
