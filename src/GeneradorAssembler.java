@@ -1,3 +1,4 @@
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -414,12 +415,6 @@ public class GeneradorAssembler {
             } catch (NumberFormatException e) {
             }
         }
-        if (op.startsWith("MAIN.")) {
-            op = op.substring(5);
-        }
-        if (Character.isLetter(op.charAt(0))) {
-            return "_" + op.replace(".", "_");
-        }
 
         if (isFloatLiteral(op)) {
             try {
@@ -430,6 +425,10 @@ public class GeneradorAssembler {
             } catch(Exception e) {
                 return "0";
             }
+        }
+
+        if (op.contains(":")) {
+            return "_" + op.replace(":", "_").replace(".", "_");
         }
 
         if (!Character.isDigit(op.charAt(0)) && !op.startsWith("'") && !op.startsWith("&") && !op.startsWith("-")) {

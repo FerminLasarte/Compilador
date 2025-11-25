@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -45,11 +46,25 @@ public class Generador {
         this.generacionHabilitada = habilitada;
     }
 
+    private String resolveName(String op) {
+        if (op == null) return null;
+        if (op.matches("^[0-9].*") || op.startsWith("&") || op.startsWith("[") ||
+                op.equals("_") || op.startsWith("'") || op.startsWith("-") || op.endsWith("UI")) {
+            return op;
+        }
+        if (op.contains(".") && !op.contains("MAIN.") && !Character.isLetter(op.charAt(0))) return op;
+
+        String mangled = al.getNombreMangled(op);
+        return mangled != null ? mangled : op;
+    }
+
     public String addTerceto(String operador, String operando1, String operando2) {
         if (!generacionHabilitada) {
             return "[-1]";
         }
-        Terceto t = new Terceto(operador, operando1, operando2);
+        String op1 = resolveName(operando1);
+        String op2 = resolveName(operando2);
+        Terceto t = new Terceto(operador, op1, op2);
         this.tercetos.add(t);
         return "[" + (this.tercetos.size() - 1) + "]";
     }
@@ -153,6 +168,11 @@ public class Generador {
             } catch (Exception e) {
                 return "error_tipo";
             }
+        }
+
+        if (operando.contains(":")) {
+            Object tipo = al.getAtributoMangled(operando, "Tipo");
+            if (tipo != null) return tipo.toString();
         }
 
         Object tipo;

@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -382,6 +383,49 @@ public class AnalizadorLexico {
                 idx = (Integer) ambitoMap.get("__METADATA__").get("PARENT");
             } else {
                 idx = -1;
+            }
+        }
+        return null;
+    }
+
+    public String getNombreMangled(String lexema) {
+        if (lexema.contains(".")) {
+            String[] parts = lexema.split("\\.");
+            String scopeName = parts[0];
+            String varName = parts[1];
+            for (Pair<String, HashMap<String, HashMap<String, Object>>> p : tablaSimbolos) {
+                String ambito = p.getKey();
+                if (ambito.equals(scopeName) || ambito.endsWith(":" + scopeName)) {
+                    String candidate = varName + ":" + ambito;
+                    if (p.getValue().containsKey(candidate)) {
+                        return candidate;
+                    }
+                }
+            }
+            return lexema;
+        }
+        int idx = indiceAmbitoActual;
+        while (idx != -1) {
+            Pair<String, HashMap<String, HashMap<String, Object>>> scope = tablaSimbolos.get(idx);
+            String ambitoNombre = scope.getKey();
+            String lexemaMangled = lexema + ":" + ambitoNombre;
+            HashMap<String, HashMap<String, Object>> ambitoMap = scope.getValue();
+            if (ambitoMap.containsKey(lexemaMangled)) {
+                return lexemaMangled;
+            }
+            if (ambitoMap.containsKey("__METADATA__") && ambitoMap.get("__METADATA__").containsKey("PARENT")) {
+                idx = (Integer) ambitoMap.get("__METADATA__").get("PARENT");
+            } else {
+                idx = -1;
+            }
+        }
+        return lexema;
+    }
+
+    public Object getAtributoMangled(String lexemaMangled, String atributo) {
+        for (Pair<String, HashMap<String, HashMap<String, Object>>> scope : tablaSimbolos) {
+            if (scope.getValue().containsKey(lexemaMangled)) {
+                return scope.getValue().get(lexemaMangled).get(atributo);
             }
         }
         return null;
