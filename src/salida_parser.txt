@@ -17,7 +17,7 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores semanticos.
+Linea 199: Error Semantico (Tema 21): Asignacion multiple a funcion 'FUNCION:MAIN'. Insuficientes valores de retorno. Esperados: 2, Retornados: 0.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -223,16 +223,19 @@ No se encontraron warnings.
 192:	(:=, GLOBAL:MAIN, [191])
 193:	(PRINT, &MAIN.GLOBAL:&, _)
 194:	(PRINT, GLOBAL:MAIN, _)
-195:	(RETURN, 15UI, _)
-196:	(RETURN, 3.14F+0, _)
+195:	(SET_GLOBAL_RET, 3.14F+0, 1)
+196:	(RETURN, 15UI, _)
 197:	(:=, R1:MAIN, 0UI)
-198:	(PARAM, 50UI, P1:MAIN:FUNCION)
-199:	(CALL, FUNCION:MAIN, _)
-200:	(PRINT, &R1:&, _)
-201:	(PRINT, R1:MAIN, _)
-202:	(PRINT, &GLOBAL:&, _)
-203:	(PRINT, GLOBAL:MAIN, _)
-204:	(PRINT, &Si ves esto TERMINO EL PROGRAMA&, _)
+198:	(:=, R2:MAIN, 1.0F+0)
+199:	(PARAM, 50UI, P1:MAIN:FUNCION)
+200:	(CALL, FUNCION:MAIN, _)
+201:	(PRINT, &R1:&, _)
+202:	(PRINT, R1:MAIN, _)
+203:	(PRINT, &R2:&, _)
+204:	(PRINT, R2:MAIN, _)
+205:	(PRINT, &GLOBAL:&, _)
+206:	(PRINT, GLOBAL:MAIN, _)
+207:	(PRINT, &Si ves esto TERMINO EL PROGRAMA&, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -259,6 +262,7 @@ No se encontraron warnings.
 | MAIN                                | BASURA:MAIN                                   | false        | variable           | uint       |
 | MAIN                                | Z:MAIN                                        | false        | variable           | float      |
 | MAIN                                | FUNCION:MAIN                                  | false        | funcion            | multiple   |
+| MAIN                                | R2:MAIN                                       | false        | variable           | float      |
 | MAIN                                | F3:MAIN                                       | false        | variable           | float      |
 | MAIN                                | CONT:MAIN                                     | false        | variable           | uint       |
 | MAIN                                | VARIABLEXX:MAIN                               | false        | variable           | uint       |

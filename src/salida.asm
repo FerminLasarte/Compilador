@@ -16,6 +16,16 @@ MensajePrint db "Salida: %s", 10, 0
 MensajePrintNum db "Salida: %d", 10, 0
 MensajePrintFloat db "Salida: %f", 10, 0
 MaxFloatValue dd 2139095039
+_RET_VAL_1 dd 0
+_RET_VAL_2 dd 0
+_RET_VAL_3 dd 0
+_RET_VAL_4 dd 0
+_RET_VAL_5 dd 0
+_RET_VAL_6 dd 0
+_RET_VAL_7 dd 0
+_RET_VAL_8 dd 0
+_RET_VAL_9 dd 0
+_RET_VAL_10 dd 0
 @aux0 dd 0
 @aux1 dd 0
 @aux2 dd 0
@@ -221,6 +231,9 @@ MaxFloatValue dd 2139095039
 @aux202 dd 0
 @aux203 dd 0
 @aux204 dd 0
+@aux205 dd 0
+@aux206 dd 0
+@aux207 dd 0
 _A_MAIN dd 0
 _B_MAIN dd 0
 _F1_MAIN dd 0
@@ -258,6 +271,7 @@ _GLOBAL_MAIN dd 0
 _P1_MAIN_FUNCION dd 0
 _VARLOCAL_MAIN_FUNCION dd 0
 _R1_MAIN dd 0
+_R2_MAIN dd 0
 str_1 db "A:", 0
 str_4 db "B:", 0
 str_7 db "F1:", 0
@@ -307,9 +321,10 @@ str_178 db "GLOBAL:", 0
 str_186 db "MAIN.GLOBAL:", 0
 str_189 db "VARLOCAL:", 0
 str_193 db "MAIN.GLOBAL:", 0
-str_200 db "R1:", 0
-str_202 db "GLOBAL:", 0
-str_204 db "Si ves esto TERMINO EL PROGRAMA", 0
+str_201 db "R1:", 0
+str_203 db "R2:", 0
+str_205 db "GLOBAL:", 0
+str_207 db "Si ves esto TERMINO EL PROGRAMA", 0
 .code
 start:
 Label0:
@@ -868,35 +883,49 @@ invoke crt_printf, addr MensajePrint, addr str_193
 Label194:
 invoke crt_printf, addr MensajePrintNum, _GLOBAL_MAIN
 Label195:
-; -- RETURN --
-MOV EAX, 15
-RET
-Label196:
-; -- RETURN --
 MOV EAX, 1078523331
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
+FSTP _RET_VAL_1
+Label196:
+; -- RETURN --
+MOV EAX, 15
 RET
 Label197:
 MOV EAX, 0
 MOV _R1_MAIN, EAX
 Label198:
+MOV EAX, 1065353216
+PUSH EAX
+FLD DWORD PTR [ESP]
+ADD ESP, 4
+FSTP _R2_MAIN
+Label199:
 MOV EAX, 50
 MOV _P1_MAIN_FUNCION, EAX
-Label199:
-CALL __FUNCION_MAIN
-MOV @aux199, EAX
 Label200:
-invoke crt_printf, addr MensajePrint, addr str_200
+CALL __FUNCION_MAIN
+MOV @aux200, EAX
 Label201:
-invoke crt_printf, addr MensajePrintNum, _R1_MAIN
+invoke crt_printf, addr MensajePrint, addr str_201
 Label202:
-invoke crt_printf, addr MensajePrint, addr str_202
+invoke crt_printf, addr MensajePrintNum, _R1_MAIN
 Label203:
-invoke crt_printf, addr MensajePrintNum, _GLOBAL_MAIN
+invoke crt_printf, addr MensajePrint, addr str_203
 Label204:
-invoke crt_printf, addr MensajePrint, addr str_204
+FLD _R2_MAIN
+sub esp, 8
+fstp qword ptr [esp]
+push offset MensajePrintFloat
+call crt_printf
+add esp, 12
+Label205:
+invoke crt_printf, addr MensajePrint, addr str_205
+Label206:
+invoke crt_printf, addr MensajePrintNum, _GLOBAL_MAIN
+Label207:
+invoke crt_printf, addr MensajePrint, addr str_207
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

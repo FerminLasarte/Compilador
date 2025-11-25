@@ -194,10 +194,13 @@ MAIN {
     }
 
     var R1 := 0UI;
+    var R2 := 1.0F+0;
 
-    R1 = FUNCION(50UI->P1);
+    R1,R2 = FUNCION(50UI->P1);
     print(&R1:&);
     print(R1);
+    print(&R2:&);
+    print(R2);
     print(&GLOBAL:&);
     print(GLOBAL);
 
