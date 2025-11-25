@@ -218,7 +218,6 @@ _Y dd 0
 _Z dd 0
 _E dd 0
 _CONT dd 0
-_MAIN_A dd 0
 _W dd 0
 _J dd 0
 _P dd 0
@@ -454,7 +453,7 @@ __FUNCZ:
 Label48:
 invoke crt_printf, addr MensajePrint, addr str_48
 Label49:
-invoke crt_printf, addr MensajePrintNum, _MAIN_A
+invoke crt_printf, addr MensajePrintNum, _A
 Label50:
 MOV EAX, 2
 MOV _W, EAX
@@ -484,7 +483,7 @@ invoke crt_printf, addr MensajePrint, addr str_60
 Label61:
 invoke crt_printf, addr MensajePrintNum, _W
 Label62:
-MOV EAX, _MAIN_A
+MOV EAX, _A
 MOV _W, EAX
 Label63:
 invoke crt_printf, addr MensajePrint, addr str_63
@@ -492,11 +491,11 @@ Label64:
 invoke crt_printf, addr MensajePrintNum, _W
 Label65:
 MOV EAX, _W
-MOV _MAIN_A, EAX
+MOV _A, EAX
 Label66:
 invoke crt_printf, addr MensajePrint, addr str_66
 Label67:
-invoke crt_printf, addr MensajePrintNum, _MAIN_A
+invoke crt_printf, addr MensajePrintNum, _A
 Label68:
 invoke crt_printf, addr MensajePrint, addr str_68
 Label69:
@@ -527,7 +526,7 @@ invoke crt_printf, addr MensajePrint, addr str_79
 Label80:
 invoke crt_printf, addr MensajePrintNum, _A
 Label81:
-MOV EAX, _MAIN_A
+MOV EAX, _A
 MOV _W, EAX
 Label82:
 invoke crt_printf, addr MensajePrint, addr str_82

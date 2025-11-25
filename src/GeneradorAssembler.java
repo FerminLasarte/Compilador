@@ -414,6 +414,9 @@ public class GeneradorAssembler {
             } catch (NumberFormatException e) {
             }
         }
+        if (op.startsWith("MAIN.")) {
+            op = op.substring(5);
+        }
         if (Character.isLetter(op.charAt(0))) {
             return "_" + op.replace(".", "_");
         }
