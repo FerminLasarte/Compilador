@@ -279,6 +279,7 @@ asignacion : variable ASIG expresion
                String tipoVar = g.getTipo(op1_var);
                String tipoExpr = g.getTipo(op2_terceto);
                int linea = $1.ival;
+
                if (tipoVar.equals("indefinido")) {
                    if (op1_var.contains(".")) {
                        String[] parts = op1_var.split("\\.", 2);
@@ -301,11 +302,11 @@ asignacion : variable ASIG expresion
                             g.addTerceto(":=", op1_var, op2_terceto);
                         }
                    } else {
-                       Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
+                       Object retMultiple = al.getAtributoMangled(funcName, "RetornoMultiple");
                        if (retMultiple == null || !(Boolean)retMultiple) {
                             al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Asignacion de funcion '" + funcName + "' que no retorna 'multiple' a variable simple.");
                        } else {
-                           Object rawObj = al.getAtributo(funcName, "TiposRetorno");
+                           Object rawObj = al.getAtributoMangled(funcName, "TiposRetorno");
                            ArrayList<String> tiposRetorno = new ArrayList<String>();
                            if (rawObj instanceof ArrayList) {
                                for (Object o : (ArrayList<?>) rawObj) {
@@ -314,8 +315,7 @@ asignacion : variable ASIG expresion
                            }
 
                            if (tiposRetorno.isEmpty()) {
-                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName +
-                               "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
+                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName + "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
                            } else {
                                String tipoPrimerRetorno = tiposRetorno.get(0);
                                if (g.chequearAsignacion(tipoVar, tipoPrimerRetorno, linea)) {
@@ -329,7 +329,6 @@ asignacion : variable ASIG expresion
                                }
                            }
                        }
-
                    }
                } else {
                    if (g.chequearAsignacion(tipoVar, tipoExpr, linea)) {
@@ -366,12 +365,12 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
         if (funcTerceto.equals("ERROR_CALL") || funcTerceto.equals("ERROR_CALL_PARAMS") || funcTerceto.equals("ERROR_CALL_LAMBDA")) {
         } else {
             String funcName = g.getTerceto(Integer.parseInt(funcTerceto.substring(1, funcTerceto.length()-1))).getOperando1();
-            Object retMultiple = al.getAtributo(funcName, "RetornoMultiple");
+            Object retMultiple = al.getAtributoMangled(funcName, "RetornoMultiple");
             if (retMultiple == null || !(Boolean)retMultiple) {
                 if (cantIzquierda == 1) {
                     String var = listaVariables.get(0);
                     String tipoVar = g.getTipo(var);
-                    String tipoRet = (String) al.getAtributo(funcName, "Tipo");
+                    String tipoRet = (String) al.getAtributoMangled(funcName, "Tipo");
                     if (g.chequearAsignacion(tipoVar, tipoRet, Integer.parseInt(lineaActual))) {
                         g.addTerceto(":=", var, funcTerceto);
                     }
@@ -379,7 +378,7 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                     al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple a funcion '" + funcName + "' que no tiene retorno multiple.");
                 }
             } else {
-                Object rawObj = al.getAtributo(funcName, "TiposRetorno");
+                Object rawObj = al.getAtributoMangled(funcName, "TiposRetorno");
                 ArrayList<String> tiposRetorno = new ArrayList<String>();
                 if (rawObj instanceof ArrayList) {
                     for (Object o : (ArrayList<?>) rawObj) {
@@ -448,8 +447,7 @@ lado_derecho_multiple : { g.clearLadoDerecho();
 
 variable : ID PUNTO ID
             {
-                $$.sval = $1.sval + "."
-                + $3.sval;
+                $$.sval = $1.sval + "." + $3.sval;
                 $$.ival = $1.ival;
             }
          |
@@ -805,7 +803,6 @@ if_encabezado : IF '(' condicion ')' {
                        g.apilarControl(bfIdx);
                    }
                    $$.ival = $1.ival;
-                   /* Preservamos la línea para usarla en las reglas principales*/
                }
                ;
 
@@ -824,14 +821,12 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    String bi = g.addTerceto("BI", "_", "_");
                    int biIdx = Integer.parseInt(bi.substring(1, bi.length()-1));
                    g.apilarControl(biIdx);
-                   /* Apilamos el BI para resolverlo al final.*/
                    if (bfIdx != -1) {
                        int inicioElse = g.getProximoTerceto();
                        g.modificarSaltoTerceto(bfIdx, "[" + inicioElse + "]");
                    }
                } bloque_ejecutable ENDIF ';'
                {
-                   /* Al final del IF-ELSE, resolvemos el BI que saltó el bloque ELSE.*/
                    int biIdx = g.desapilarControl();
                    int finElse = g.getProximoTerceto();
                    g.modificarSaltoTerceto(biIdx, "[" + finElse + "]");
@@ -904,7 +899,7 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 ;
 
 retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')' ';'
-            {
+                {
                 enSentenciaReturn = false;
                 ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
                 ArrayList<?> rawList = (ArrayList<?>) $4.obj;

@@ -223,6 +223,10 @@ MaxFloatValue dd 2139095039
 @aux204 dd 0
 @aux205 dd 0
 @aux206 dd 0
+@aux207 dd 0
+@aux208 dd 0
+@aux209 dd 0
+@aux210 dd 0
 _A_MAIN dd 0
 _B_MAIN dd 0
 _F1_MAIN dd 0
@@ -310,10 +314,10 @@ str_178 db "GLOBAL:", 0
 str_185 db "MAIN.GLOBAL:", 0
 str_188 db "VARLOCAL:", 0
 str_192 db "MAIN.GLOBAL:", 0
-str_200 db "R1:", 0
-str_202 db "R2:", 0
-str_204 db "GLOBAL:", 0
-str_206 db "Si ves esto TERMINO EL PROGRAMA", 0
+str_204 db "R1:", 0
+str_206 db "R2:", 0
+str_208 db "GLOBAL:", 0
+str_210 db "Si ves esto TERMINO EL PROGRAMA", 0
 .code
 start:
 Label0:
@@ -889,19 +893,31 @@ Label199:
 CALL __FUNCION_MAIN
 MOV @aux199, EAX
 Label200:
-invoke crt_printf, addr MensajePrint, addr str_200
+MOV EAX, @aux199
+MOV @aux200, EAX
 Label201:
-invoke crt_printf, addr MensajePrintNum, _R1_MAIN
+MOV EAX, @aux200
+MOV _R1_MAIN, EAX
 Label202:
-invoke crt_printf, addr MensajePrint, addr str_202
+MOV EAX, @aux199
+MOV @aux202, EAX
 Label203:
-invoke crt_printf, addr MensajePrintNum, _R2_MAIN
+MOV EAX, @aux202
+MOV _R2_MAIN, EAX
 Label204:
 invoke crt_printf, addr MensajePrint, addr str_204
 Label205:
-invoke crt_printf, addr MensajePrintNum, _GLOBAL_MAIN
+invoke crt_printf, addr MensajePrintNum, _R1_MAIN
 Label206:
 invoke crt_printf, addr MensajePrint, addr str_206
+Label207:
+invoke crt_printf, addr MensajePrintNum, _R2_MAIN
+Label208:
+invoke crt_printf, addr MensajePrint, addr str_208
+Label209:
+invoke crt_printf, addr MensajePrintNum, _GLOBAL_MAIN
+Label210:
+invoke crt_printf, addr MensajePrint, addr str_210
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
