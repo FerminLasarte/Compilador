@@ -23,6 +23,9 @@ MAIN {
     var X := 10UI;
     print(&X:&);
     print(X);
+    var XX := 1000UI;
+    print(&XX:&);
+    print(XX);
     var Y := 2.5F+1;
     print(&Y:&);
     print(Y);
@@ -157,27 +160,30 @@ MAIN {
     print(VALOR);
 
     uint F(lambda X, uint SS) {
+        print(&ENTRO LAMBDA&);
+        print(SS);
         X(SS);
+        return (111UI);
     }
 
     F((uint XX) {
-        if (XX>1UI) {
-            print(& PRINT AA &);
-        } endif;
+        print(&IMPRIMO XX DE LAMBDA&);
+        print(XX);
     }->X,3UI->SS);
 
     A := 0UI;
 
     @ var DIV := 10UI / A;
 
-    var MAX := 65535UI;
-    var OVER := MAX + 1UI;
+    @ var MAX := 65535UI;
+    @ var OVER := MAX + 1UI;
 
     var GLOBAL := 100UI;
     print(&GLOBAL:&);
     print(GLOBAL);
     uint, float FUNCION(uint P1) {
 
+        P1 := 11UI;
         var VARLOCAL := 200UI;
         GLOBAL := GLOBAL + 1UI;
         print(&MAIN.GLOBAL:&);
@@ -195,11 +201,11 @@ MAIN {
     var R1 := 0UI;
     var R2 := 0.0F+0;
 
-    R1 = FUNCION(50UI -> P1);
+    R1 = FUNCION(50UI->P1);
     print(&R1:&);
     print(R1);
     print(&GLOBAL:&);
     print(GLOBAL);
 
-    print(&Si ves esto, el control de overflow fallo&);
+    print(&Si ves esto TERMINO EL PROGRAMA&);
 }
