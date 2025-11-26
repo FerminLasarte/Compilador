@@ -103,6 +103,7 @@ MAIN {
         print(&entro&);
         return(5UI);
     }
+    
     var VARIABLEZ := 0UI;
     VARIABLEZ := FUNCZ(VARIABLEZ->Z);
     print(&por entrar dos&);
