@@ -733,24 +733,27 @@ parametro_simple : expresion
                  }
                  ;
 
-lambda_expresion : '(' tipo ID ')' '{' {
-                         pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
-                         int inicioLambda = g.getProximoTerceto();
-                         $$.sval = "L" + String.valueOf(inicioLambda);
-                         g.abrirAmbito("lambda_" + inicioLambda);
-                         al.agregarLexemaTS($3.sval);
-                         al.agregarAtributoLexema($3.sval, "Uso", "parametro_lambda");
-                         al.agregarAtributoLexema($3.sval, "Tipo", $2.sval);
-                         g.addTerceto("DEF_PARAM", $3.sval, "_");
-                         $$.ival = $1.ival;
-                 } cuerpo_lambda '}' {
-                         g.addTerceto("RET_LAMBDA", "_", "_");
-                         int tercetoFin = g.getProximoTerceto();
-                         String saltoIncondicional = pilaSaltosLambda.pop();
-                         g.modificarSaltoTerceto(Integer.parseInt(saltoIncondicional.substring(1, saltoIncondicional.length()-1)), "[" + tercetoFin + "]");
-                         g.cerrarAmbito();
-                         $$.sval = $6.sval;
-                         $$.ival = $1.ival;
+lambda_expresion : '(' tipo ID ')' '{'
+                 {
+                    pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
+                    int inicioLambda = g.getProximoTerceto();
+                    $$.sval = "L" + String.valueOf(inicioLambda);
+                    g.abrirAmbito("lambda_" + inicioLambda);
+                    al.agregarLexemaTS($3.sval);
+                    al.agregarAtributoLexema($3.sval, "Uso", "parametro_lambda");
+                    al.agregarAtributoLexema($3.sval, "Tipo", $2.sval);
+                    g.addTerceto("DEF_PARAM", $3.sval, "_");
+                    $$.ival = $1.ival;
+                 }
+                 cuerpo_lambda '}'
+                 {
+                    g.addTerceto("RET_LAMBDA", "_", "_");
+                    int tercetoFin = g.getProximoTerceto();
+                    String saltoIncondicional = pilaSaltosLambda.pop();
+                    g.modificarSaltoTerceto(Integer.parseInt(saltoIncondicional.substring(1, saltoIncondicional.length()-1)), "[" + tercetoFin + "]");
+                    g.cerrarAmbito();
+                    $$.sval = $6.sval;
+                    $$.ival = $1.ival;
                  }
                  ;
 
@@ -835,8 +838,11 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                }
                ;
 
-condicional_do_while: DO { g.apilarControl(g.getProximoTerceto());
-                    } bloque_ejecutable WHILE '(' condicion ')' ';'
+condicional_do_while: DO
+                    {
+                        g.apilarControl(g.getProximoTerceto());
+                    }
+                    bloque_ejecutable WHILE '(' condicion ')' ';'
                     {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + $7.ival + ": Sentencia DO-WHILE reconocida.");
