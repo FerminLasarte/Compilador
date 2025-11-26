@@ -1,27 +1,22 @@
-/**
- * Clase para representar un Terceto (Triple) del código intermedio.
- * Almacena un operador y hasta dos operandos.
- * También almacena el tipo de dato del resultado de la operación.
- */
 public class Terceto {
     private String operador;
     private String operando1;
     private String operando2;
-    private String tipo; // Tipo del resultado (ej: "uint", "float", "void")
+    private String tipo;
 
     // Constructor para operaciones binarias (ej: +, -, :=)
     public Terceto(String operador, String operando1, String operando2) {
         this.operador = operador;
         this.operando1 = operando1;
         this.operando2 = operando2;
-        this.tipo = "void"; // Se define después del chequeo semántico
+        this.tipo = "void";
     }
 
     // Constructor para operaciones unarias (ej: toui, RETURN)
     public Terceto(String operador, String operando1) {
         this.operador = operador;
         this.operando1 = operando1;
-        this.operando2 = null; // Sin segundo operando
+        this.operando2 = null;
         this.tipo = "void";
     }
 

@@ -450,13 +450,13 @@ variable : ID PUNTO ID
                 $$.sval = $1.sval + "." + $3.sval;
                 $$.ival = $1.ival;
             }
-         |
-         ID
+            |
+            ID
             {
                 $$.sval = $1.sval;
                 $$.ival = $1.ival;
             }
-         ;
+            ;
 
 expresion : expresion '+' termino
             {
