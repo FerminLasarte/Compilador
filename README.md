@@ -30,8 +30,7 @@ Para compilar el proyecto, generar el código ensamblador y crear el ejecutable 
 
 > **Nota:** Asegúrate de tener instalado **Masm32** en la ruta `C:\masm32` para los pasos de ensamblado y linkeo.
 
-### 1. Generación y Compilación del Compilador
-Genera el analizador sintáctico y compila los archivos Java:
+### Generación y Compilación del Compilador
 
 ```bash
 yacc -J -v gramatica.y  
