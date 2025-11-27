@@ -1,8 +1,10 @@
 MAIN {
+    A := 0UI;
     var A := 0UI;
+    var A := 0UI;
+    A := 0UI
     print(&A:&);
     print(A);
-    @ var A := 1UI;
     var B := 65535UI;
     print(&B:&);
     print(B);
@@ -17,9 +19,6 @@ MAIN {
     print(&F3:&);
     print(F3);
 
-    print(&cadena
-    multilinea&);
-
     var X := 10UI;
     print(&X:&);
     print(X);
@@ -32,8 +31,10 @@ MAIN {
     var Z := Y;
     print(&Z:&);
     print(Z);
+    X := Y;
+    X := toui(Y);
 
-    @ var E := 10UI + 2.5F+1;
+    var E := 10UI + 2.5F+1;
     var E := 10UI + toui(2.5F+1);
     print(&E:&);
     print(E);
@@ -45,12 +46,21 @@ MAIN {
         print(CONT);
     } while (CONT < 5UI);
 
+    do {
+        CONT := CONT + 1UI;
+        print(&CONT:&);
+        print(CONT);
+    } while (CONTADOR < 5UI);
+
     print(&#ASIGNACION MULTIPLE IGUAL DE LADOS#&);
     A, B = 10UI, 20UI;
     print(&A:&);
     print(A);
     print(&B:&);
     print(B);
+    A, B := 10UI, 20UI;
+    A= 10UI, 20UI;
+    A, B = 10UI;
 
     print(&IMPRIME AAAAA:&);
     print(A);
@@ -78,6 +88,7 @@ MAIN {
         print(MAIN.A);
         print(&IMPRIMO A DE FUNCZ:&);
         print(A);
+        print(MAIN.J);
         uint FUNCJ(uint J) {
             var W := 22UI;
             print(&W DE FUNCJ:&);
@@ -85,6 +96,7 @@ MAIN {
             var P := 33UI;
             print(&P DE FUNCJ:&);
             print(P);
+            print(FUNCZ.P)
             var A := 44UI;
             print(&A DE FUNCJ:&);
             print(A);
@@ -96,16 +108,17 @@ MAIN {
             print(W);
             return(55UI);
         }
-        var VARIABLEFERBO:= 0UI;
-        VARIABLEFERBO:= FUNCJ(VARIABLEFERBO->J);
+        var VARIABLEOTRA:= 0UI;
+        VARIABLEOTRA:= FUNCJ(VARIABLEOTRA->J);
         print(&por entrar&);
-        print(VARIABLEFERBO);
+        print(VARIABLEOTRA);
         print(&entro&);
         return(5UI);
     }
 
     var VARIABLEZ := 0UI;
     VARIABLEZ := FUNCZ(VARIABLEZ->Z);
+    VARIABLEZ := FUNCZ(Z->VARIABLEZ);
     print(&por entrar dos&);
     print(VARIABLEZ);
     print(&entro toda&);
@@ -113,6 +126,8 @@ MAIN {
     uint FUNCIONX(uint AA) {
         AA := 3UI;
         var A := 3UI;
+        var A := 99UI;
+        A := &error semantico&;
         var GCONTADOR := 0UI;
         do {
             print(&PRINT GCONTADOR &);
@@ -128,17 +143,19 @@ MAIN {
         if (A < 5UI) {
             print(&PRINT A &);
             print(A);
-        } endif;
+        endif;
         if (A > 5UI) {
             print(&PRINT A &);
             print(A);
         } else {
             print(100UI);
-        } endif;
+        };
         return(1000UI);
     }
+    print(GCONTADOR);
 
     var VARIABLEXX := 0UI;
+    VARIABLEXX := FUNCIONX(VARIABLEXX->BB);
     VARIABLEXX := FUNCIONX(VARIABLEXX->AA);
     print(&por entrar FUNCION IF&);
     print(VARIABLEXX);
@@ -150,7 +167,7 @@ MAIN {
         INOUT := INOUT + 1UI;
         return(1UI);
     }
-    print(&chau chau&);
+
     var BASURA := 0UI;
     print(&IMPRIME BASURA 1&);
     print(BASURA);
@@ -159,20 +176,6 @@ MAIN {
     print(BASURA);
     print(&IMPRIME VALOR&);
     print(VALOR);
-
-    var VARPARALAMBDA := 5UI;
-
-    uint F(lambda X, uint SS) {
-        print(&IMPRIMO SS LAMBDA&);
-        print(SS);
-        X(SS);
-        return(111UI);
-    }
-
-    F((uint VARPARALAMBDA) {
-        print(&IMPRIMO VARPARALAMBDA DE LAMBDA&);
-        print(MAIN.VARPARALAMBDA);
-    }->X,33UI->SS);
 
     var GLOBAL := 100UI;
     print(&GLOBAL:&);
@@ -196,7 +199,12 @@ MAIN {
 
     var R1 := 0UI;
     var R2 := 0UI;
+    var R3 := 0UI;
+    var RSTRING := &es string&;
 
+    R1, RSTRING = FUNCION(50UI->P1);
+    R1, R2, R3 = FUNCION(50UI->P1);
+    R1, R2 = FUNCION(50UI->P2);
     R1, R2 = FUNCION(50UI->P1);
     print(&R1:&);
     print(R1);
@@ -205,10 +213,38 @@ MAIN {
     print(&GLOBAL:&);
     print(GLOBAL);
 
+    var VARPARALAMBDA := 5UI;
+    var VARLOCALNOVISIBLE := 10UI;
+
+    uint F(lambda X, uint SS) {
+        print(&IMPRIMO SS LAMBDA&);
+        print(SS);
+        X(SS);
+        return(111UI);
+    }
+
+    F((uint VARPARALAMBDA) {
+        print(&IMPRIMO VARPARALAMBDA DE LAMBDA&);
+        print(VARPARALAMBDA);
+    }->X,33UI->SS);
+
+    F((float VARPARALAMBDA) {
+        print(&SOY FLOAT&);
+    }->X, 33UI->SS);
+
+    F((uint VARPARALAMBDA) {
+        print(VARLOCALNOVISIBLE);
+    }->X, 33UI->SS);
+
+    F((uint A, uint B) {
+        print(A);
+    }->X, 33UI->SS);
+
+
+
     print(&Si ves esto TERMINO EL PROGRAMA&);
 
-    @ var DIV := 10UI / A;
-
-    @ var MAX := 65535UI;
-    @ var OVER := MAX + 1UI;
+    var MAX := 65535UI;
+    var OVER := MAX + 1UI;
+    GLOBAL := GLOBAL - 200UI;
 }
