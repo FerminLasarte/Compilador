@@ -16,9 +16,11 @@ Este proyecto corresponde al **Trabajo de Diseño de Compiladores** de la Univer
 
 La rama principal (`main`) contiene la **entrega final** del proyecto, que incluye:
 
+* El **Analizador Léxico**.
 * El **Parser** generado con Yacc.
-* La etapa de **Generación de Código** (Assembler).
-* Los **casos de prueba** asociados.
+* La generación de **Código Intermedio**.
+* La generación de **Código Assembler**.
+* El **caso de prueba** asociado.
 
 ---
 
@@ -34,3 +36,7 @@ Genera el analizador sintáctico y compila los archivos Java:
 ```bash
 yacc -J -v gramatica.y  
 javac *.java
+java Main ..\pruebas\caso_final.txt
+C:\masm32\bin\ml /c /Zd /coff salida.asm
+C:\masm32\bin\Link /SUBSYSTEM:CONSOLE salida.obj
+.\salida.exe
