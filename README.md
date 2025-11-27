@@ -14,33 +14,28 @@ Este proyecto corresponde al **Trabajo de Diseño de Compiladores** de la Univer
 
 ## 🌳 Repositorio
 
-La rama principal (`main`) contiene la **entrega actual** del proyecto, que incluye:
+La rama principal (`main`) contiene la **entrega final** del proyecto, que incluye:
 
-* El **Parser** (Analizador Sintáctico).
-* Los **casos de prueba** asociados.
-* Un consumidor de **Tokens** para visualizar la salida del Analizador Léxico.
+* El **Analizador Léxico**.
+* El **Parser** generado con Yacc.
+* La generación de **Código Intermedio**.
+* La generación de **Código Assembler**.
+* El **caso de prueba** asociado.
 
 ---
 
 ## 🚀 Ejecución
 
-Para ejecutar los distintos componentes del compilador, utiliza los siguientes comandos en tu terminal.
+Para compilar el proyecto, generar el código ensamblador y crear el ejecutable final, sigue la siguiente secuencia de comandos en tu terminal.
 
-### Para la compilación del proyecto
+> **Nota:** Asegúrate de tener instalado **Masm32** en la ruta `C:\masm32` para los pasos de ensamblado y linkeo.
+
+### Generación y Compilación del Compilador
+
 ```bash
+yacc -J -v gramatica.y  
 javac *.java
-```
-
-**Nota:** Reemplaza `<ruta>` con la ruta asociada a donde se descargue el proyecto.
-
-### Analizador Léxico (Lexer)
-
-```bash
-java Main.java "ruta/pruebas/TP1/caso_tp1.txt"
-```
-
-### Analizador Sintáctico (Parser)
-
-```bash
-java Parser.java "ruta/pruebas/TP2/caso_tp2.txt"
-```
+java Main ..\pruebas\caso_final.txt
+C:\masm32\bin\ml /c /Zd /coff salida.asm
+C:\masm32\bin\Link /SUBSYSTEM:CONSOLE salida.obj
+.\salida.exe
