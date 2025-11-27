@@ -195,7 +195,7 @@ MAIN {
         print(&MAIN.GLOBAL:&);
         print(GLOBAL);
 
-        return(12UI,15UI);
+        return(12UI,12UI);
     }
 
     var R1 := 0UI;
