@@ -2,10 +2,9 @@ MAIN {
     A := 0UI;
     var A := 0UI;
     var A := 0UI;
-    A := 0UI
     print(&A:&);
     print(A);
-    var B := 65535UI;
+    var B := 1UI;
     print(&B:&);
     print(B);
 
@@ -31,10 +30,16 @@ MAIN {
     var Z := Y;
     print(&Z:&);
     print(Z);
-    X := Y;
     X := toui(Y);
+    print(&Z:&);
+    print(Z);
+    @ X := 2.5F+1; DA ERROR POR FALTA DE CONVERSION EXPLICITA
+    @ X := Y; DA ERROR POR FALTA DE CONVERSION EXPLICITA
+    X := toui(2.5F+1);
+    print(&X CON CONVERSION EXPLICITA:&);
+    print(X);
 
-    var E := 10UI + 2.5F+1;
+    @ var E := 10UI + 1.0F+0; ERROR DE OVERFLOW
     var E := 10UI + toui(2.5F+1);
     print(&E:&);
     print(E);
@@ -59,7 +64,7 @@ MAIN {
     print(&B:&);
     print(B);
     A, B := 10UI, 20UI;
-    A= 10UI, 20UI;
+    A = 10UI, 20UI;
     A, B = 10UI;
 
     print(&IMPRIME AAAAA:&);
@@ -96,7 +101,7 @@ MAIN {
             var P := 33UI;
             print(&P DE FUNCJ:&);
             print(P);
-            print(FUNCZ.P)
+            print(FUNCZ.P);
             var A := 44UI;
             print(&A DE FUNCJ:&);
             print(A);
@@ -121,13 +126,13 @@ MAIN {
     VARIABLEZ := FUNCZ(Z->VARIABLEZ);
     print(&por entrar dos&);
     print(VARIABLEZ);
-    print(&entro toda&);
+    print(&entro&);
 
     uint FUNCIONX(uint AA) {
         AA := 3UI;
         var A := 3UI;
         var A := 99UI;
-        A := &error semantico&;
+        A := &error sintacto es uint&;
         var GCONTADOR := 0UI;
         do {
             print(&PRINT GCONTADOR &);
@@ -140,16 +145,12 @@ MAIN {
         } else {
             print(100UI);
         } endif;
-        if (A < 5UI) {
-            print(&PRINT A &);
-            print(A);
-        endif;
         if (A > 5UI) {
             print(&PRINT A &);
             print(A);
         } else {
             print(100UI);
-        };
+        } endif;
         return(1000UI);
     }
     print(GCONTADOR);
@@ -200,9 +201,8 @@ MAIN {
     var R1 := 0UI;
     var R2 := 0UI;
     var R3 := 0UI;
-    var RSTRING := &es string&;
 
-    R1, RSTRING = FUNCION(50UI->P1);
+    R1 = FUNCION(50UI->P1);
     R1, R2, R3 = FUNCION(50UI->P1);
     R1, R2 = FUNCION(50UI->P2);
     R1, R2 = FUNCION(50UI->P1);
@@ -214,7 +214,6 @@ MAIN {
     print(GLOBAL);
 
     var VARPARALAMBDA := 5UI;
-    var VARLOCALNOVISIBLE := 10UI;
 
     uint F(lambda X, uint SS) {
         print(&IMPRIMO SS LAMBDA&);
@@ -225,26 +224,17 @@ MAIN {
 
     F((uint VARPARALAMBDA) {
         print(&IMPRIMO VARPARALAMBDA DE LAMBDA&);
-        print(VARPARALAMBDA);
+        print(MAIN.VARPARALAMBDA);
     }->X,33UI->SS);
-
-    F((float VARPARALAMBDA) {
-        print(&SOY FLOAT&);
-    }->X, 33UI->SS);
-
-    F((uint VARPARALAMBDA) {
-        print(VARLOCALNOVISIBLE);
-    }->X, 33UI->SS);
 
     F((uint A, uint B) {
         print(A);
     }->X, 33UI->SS);
 
-
-
-    print(&Si ves esto TERMINO EL PROGRAMA&);
-
     var MAX := 65535UI;
+    var RESTA := 1UI;
     var OVER := MAX + 1UI;
-    GLOBAL := GLOBAL - 200UI;
+    var NEGATIVO := RESTA - 200UI;
+    var TECHO := 3.40282347F+38;
+    var FLOATOVER := TECHO * TECHO;
 }

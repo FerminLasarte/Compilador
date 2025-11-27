@@ -7,15 +7,12 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 6: Error de sintaxis. Verifique la estructura del codigo.
-Linea 61: Error de sintaxis. Verifique la estructura del codigo.
-Linea 100: Error de sintaxis. Verifique la estructura del codigo.
-Linea 130: Error de sintaxis. Verifique la estructura del codigo.
-Linea 146: Error de sintaxis. Verifique la estructura del codigo.
-Linea 152: Error de sintaxis. Verifique la estructura del codigo.
-Linea 203: Error de sintaxis. Verifique la estructura del codigo.
-Linea 239: Error de sintaxis. Verifique la estructura del codigo.
-Linea 241: Error de sintaxis. Verifique la estructura del codigo.
+Linea 66: Error de sintaxis. Verifique la estructura del codigo.
+Linea 105: Error de sintaxis. Verifique la estructura del codigo.
+Linea 135: Error de sintaxis. Verifique la estructura del codigo.
+Linea 204: Error de sintaxis. Verifique la estructura del codigo.
+Linea 231: Error de sintaxis. Verifique la estructura del codigo.
+Linea 233: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -27,21 +24,19 @@ No se encontraron errores lexicos.
 =======================================================
 Linea 2: Error Semantico: Variable 'A' no fue declarada (Regla de alcance).
 Linea 4: Error Semantico: Redeclaracion de variable 'A' en el mismo ambito (Tema 9).
-Linea 34: Error de Tipos: Asignacion incompatible. No se puede asignar 'float' a 'uint' sin 'toui' (Tema 31).
-Linea 37: Error de Tipos: No se puede operar (+) entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).
-Linea 37: Error Semantico: No se puede inferir el tipo de 'E' desde una expresion invalida (Tema 9).
-Linea 53: Error Semantico: Variable 'CONTADOR' no fue declarada (Regla de alcance).
-Linea 53: Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.
-Linea 62: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (1) y a la derecha (2).
-Linea 63: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (2) y a la derecha (1).
-Linea 91: Error Semantico: Variable 'J' no existe en el ambito 'MAIN' o el ambito no es visible (Tema 23).
-Linea 99: Error Semantico: Variable 'P' no existe en el ambito 'FUNCZ' o el ambito no es visible (Tema 23).
-Linea 121: Error Semantico: Invocacion a 'FUNCZ': no existe el parametro formal '->VARIABLEZ'.
-Linea 129: Error Semantico: Redeclaracion de variable 'A' en el mismo ambito (Tema 9).
-Linea 158: Error Semantico: Invocacion a 'FUNCIONX': no existe el parametro formal '->BB'.
-Linea 206: Error Semantico (Tema 21): Asignacion multiple a funcion 'FUNCION:MAIN:FUNCIONX'. Insuficientes valores de retorno. Esperados: 3, Retornados: 2.
-Linea 207: Error Semantico: Invocacion a 'FUNCION': no existe el parametro formal '->P2'.
-Linea 207: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (2) y a la derecha (1).
+Linea 58: Error Semantico: Variable 'CONTADOR' no fue declarada (Regla de alcance).
+Linea 58: Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.
+Linea 67: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (1) y a la derecha (2).
+Linea 68: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (2) y a la derecha (1).
+Linea 96: Error Semantico: Variable 'J' no existe en el ambito 'MAIN' o el ambito no es visible (Tema 23).
+Linea 104: Error Semantico: Variable 'P' no existe en el ambito 'FUNCZ' o el ambito no es visible (Tema 23).
+Linea 126: Error Semantico: Invocacion a 'FUNCZ': no existe el parametro formal '->VARIABLEZ'.
+Linea 134: Error Semantico: Redeclaracion de variable 'A' en el mismo ambito (Tema 9).
+Linea 156: Error Semantico: Variable 'GCONTADOR' no fue declarada (Regla de alcance).
+Linea 159: Error Semantico: Invocacion a 'FUNCIONX': no existe el parametro formal '->BB'.
+Linea 207: Error Semantico (Tema 21): Asignacion multiple a funcion 'FUNCION:MAIN'. Insuficientes valores de retorno. Esperados: 3, Retornados: 2.
+Linea 208: Error Semantico: Invocacion a 'FUNCION': no existe el parametro formal '->P2'.
+Linea 208: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (2) y a la derecha (1).
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -52,260 +47,262 @@ No se encontraron warnings.
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
 0:	(:=, A:MAIN, 0UI)
-1:	(PRINT, A:MAIN, _)
-2:	(:=, B:MAIN, 65535UI)
-3:	(PRINT, &B:&, _)
-4:	(PRINT, B:MAIN, _)
-5:	(:=, F1:MAIN, 1.5F+2)
-6:	(PRINT, &F1:&, _)
-7:	(PRINT, F1:MAIN, _)
-8:	(:=, F2:MAIN, .5F-1)
-9:	(PRINT, &F2:&, _)
-10:	(PRINT, F2:MAIN, _)
-11:	(:=, F3:MAIN, 10.F+0)
-12:	(PRINT, &F3:&, _)
-13:	(PRINT, F3:MAIN, _)
-14:	(:=, X:MAIN, 10UI)
-15:	(PRINT, &X:&, _)
-16:	(PRINT, X:MAIN, _)
-17:	(:=, XX:MAIN, 1000UI)
-18:	(PRINT, &XX:&, _)
-19:	(PRINT, XX:MAIN, _)
-20:	(:=, Y:MAIN, 2.5F+1)
-21:	(PRINT, &Y:&, _)
-22:	(PRINT, Y:MAIN, _)
-23:	(:=, Z:MAIN, Y:MAIN)
-24:	(PRINT, &Z:&, _)
-25:	(PRINT, Z:MAIN, _)
-26:	(TOUI, Y:MAIN, _)
-27:	(:=, X:MAIN, [26])
-28:	(+, 10UI, 2.5F+1)
-29:	(TOUI, 2.5F+1, _)
-30:	(+, 10UI, [29])
-31:	(:=, E:MAIN, [30])
-32:	(PRINT, &E:&, _)
-33:	(PRINT, E:MAIN, _)
-34:	(:=, CONT:MAIN, 0UI)
-35:	(+, CONT:MAIN, 1UI)
-36:	(:=, CONT:MAIN, [35])
-37:	(PRINT, &CONT:&, _)
-38:	(PRINT, CONT:MAIN, _)
-39:	(<, CONT:MAIN, 5UI)
-40:	(BT, [39], [35])
+1:	(PRINT, &A:&, _)
+2:	(PRINT, A:MAIN, _)
+3:	(:=, B:MAIN, 1UI)
+4:	(PRINT, &B:&, _)
+5:	(PRINT, B:MAIN, _)
+6:	(:=, F1:MAIN, 1.5F+2)
+7:	(PRINT, &F1:&, _)
+8:	(PRINT, F1:MAIN, _)
+9:	(:=, F2:MAIN, .5F-1)
+10:	(PRINT, &F2:&, _)
+11:	(PRINT, F2:MAIN, _)
+12:	(:=, F3:MAIN, 10.F+0)
+13:	(PRINT, &F3:&, _)
+14:	(PRINT, F3:MAIN, _)
+15:	(:=, X:MAIN, 10UI)
+16:	(PRINT, &X:&, _)
+17:	(PRINT, X:MAIN, _)
+18:	(:=, XX:MAIN, 1000UI)
+19:	(PRINT, &XX:&, _)
+20:	(PRINT, XX:MAIN, _)
+21:	(:=, Y:MAIN, 2.5F+1)
+22:	(PRINT, &Y:&, _)
+23:	(PRINT, Y:MAIN, _)
+24:	(:=, Z:MAIN, Y:MAIN)
+25:	(PRINT, &Z:&, _)
+26:	(PRINT, Z:MAIN, _)
+27:	(TOUI, Y:MAIN, _)
+28:	(:=, X:MAIN, [27])
+29:	(PRINT, &Z:&, _)
+30:	(PRINT, Z:MAIN, _)
+31:	(TOUI, 2.5F+1, _)
+32:	(:=, X:MAIN, [31])
+33:	(PRINT, &X CON CONVERSION EXPLICITA:&, _)
+34:	(PRINT, X:MAIN, _)
+35:	(TOUI, 2.5F+1, _)
+36:	(+, 10UI, [35])
+37:	(:=, E:MAIN, [36])
+38:	(PRINT, &E:&, _)
+39:	(PRINT, E:MAIN, _)
+40:	(:=, CONT:MAIN, 0UI)
 41:	(+, CONT:MAIN, 1UI)
 42:	(:=, CONT:MAIN, [41])
 43:	(PRINT, &CONT:&, _)
 44:	(PRINT, CONT:MAIN, _)
-45:	(PRINT, &#ASIGNACION MULTIPLE IGUAL DE LADOS#&, _)
-46:	(:=, B:MAIN, 20UI)
-47:	(:=, A:MAIN, 10UI)
-48:	(PRINT, &A:&, _)
-49:	(PRINT, A:MAIN, _)
-50:	(PRINT, &B:&, _)
-51:	(PRINT, B:MAIN, _)
-52:	(PRINT, &IMPRIME AAAAA:&, _)
-53:	(PRINT, A:MAIN, _)
-54:	(BI, _, [105])
-55:	(FUNC_LABEL, FUNCZ:MAIN, _)
-56:	(PRINT, &A DENTRO DE FUNCZ&, _)
-57:	(PRINT, A:MAIN, _)
-58:	(:=, W:MAIN:FUNCZ, 2UI)
-59:	(PRINT, &W DE FUNCZ:&, _)
-60:	(PRINT, W:MAIN:FUNCZ, _)
-61:	(:=, J:MAIN:FUNCZ, 3UI)
-62:	(PRINT, &J DE FUNCZ:&, _)
-63:	(PRINT, J:MAIN:FUNCZ, _)
-64:	(:=, A:MAIN:FUNCZ, 4UI)
-65:	(PRINT, &A DE FUNCZ:&, _)
-66:	(PRINT, A:MAIN:FUNCZ, _)
-67:	(:=, W:MAIN:FUNCZ, A:MAIN:FUNCZ)
-68:	(PRINT, &W DE FUNCZ TOMA VALOR DE A DE FUNCZ:&, _)
-69:	(PRINT, W:MAIN:FUNCZ, _)
-70:	(:=, W:MAIN:FUNCZ, A:MAIN)
-71:	(PRINT, &W DE FUNCZ TOMA VALOR DE MAIN.A:&, _)
-72:	(PRINT, W:MAIN:FUNCZ, _)
-73:	(:=, A:MAIN, A:MAIN:FUNCZ)
-74:	(PRINT, &MAIN.A TOMA VALOR DE A:&, _)
-75:	(PRINT, A:MAIN, _)
-76:	(PRINT, &IMPRIMO A DE FUNCZ:&, _)
-77:	(PRINT, A:MAIN:FUNCZ, _)
-78:	(PRINT, error_tipo, _)
-79:	(BI, _, [97])
-80:	(FUNC_LABEL, FUNCJ:MAIN:FUNCZ, _)
-81:	(:=, W:MAIN:FUNCZ:FUNCJ, 22UI)
-82:	(PRINT, &W DE FUNCJ:&, _)
-83:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
-84:	(:=, P:MAIN:FUNCZ:FUNCJ, 33UI)
-85:	(PRINT, &P DE FUNCJ:&, _)
-86:	(PRINT, P:MAIN:FUNCZ:FUNCJ, _)
-87:	(PRINT, error_tipo, _)
-88:	(PRINT, &A DE FUNCJ:&, _)
-89:	(PRINT, A:MAIN:FUNCZ, _)
-90:	(:=, W:MAIN:FUNCZ:FUNCJ, A:MAIN)
-91:	(PRINT, &W DE FUNCJ TOMA VALOR DE MAIN.A:&, _)
-92:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
-93:	(:=, A:MAIN:FUNCZ, W:MAIN:FUNCZ:FUNCJ)
-94:	(PRINT, &FUNCZ.A TOMA VALOR DE W DE FUNCJ:&, _)
-95:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
-96:	(RETURN, 55UI, _)
-97:	(:=, VARIABLEOTRA:MAIN:FUNCZ, 0UI)
-98:	(PARAM, VARIABLEOTRA:MAIN:FUNCZ, J:MAIN:FUNCZ:FUNCJ)
-99:	(CALL, FUNCJ:MAIN:FUNCZ, _)
-100:	(:=, VARIABLEOTRA:MAIN:FUNCZ, [99])
-101:	(PRINT, &por entrar&, _)
-102:	(PRINT, VARIABLEOTRA:MAIN:FUNCZ, _)
-103:	(PRINT, &entro&, _)
-104:	(RETURN, 5UI, _)
-105:	(:=, VARIABLEZ:MAIN, 0UI)
-106:	(PARAM, VARIABLEZ:MAIN, Z:MAIN:FUNCZ)
-107:	(CALL, FUNCZ:MAIN, _)
-108:	(:=, VARIABLEZ:MAIN, [107])
-109:	(PRINT, &por entrar dos&, _)
-110:	(PRINT, VARIABLEZ:MAIN, _)
-111:	(PRINT, &entro toda&, _)
-112:	(BI, _, [136])
-113:	(FUNC_LABEL, FUNCIONX:MAIN, _)
-114:	(:=, AA:MAIN:FUNCIONX, 3UI)
-115:	(:=, A:MAIN:FUNCIONX, 3UI)
-116:	(:=, GCONTADOR:MAIN:FUNCIONX, 0UI)
-117:	(PRINT, &PRINT GCONTADOR &, _)
-118:	(PRINT, GCONTADOR:MAIN:FUNCIONX, _)
-119:	(+, GCONTADOR:MAIN:FUNCIONX, 1UI)
-120:	(:=, GCONTADOR:MAIN:FUNCIONX, [119])
-121:	(<, GCONTADOR:MAIN:FUNCIONX, 3UI)
-122:	(BT, [121], [117])
-123:	(<, AA:MAIN:FUNCIONX, 5UI)
-124:	(BF, [123], [128])
-125:	(PRINT, &PRINT AA &, _)
-126:	(PRINT, AA:MAIN:FUNCIONX, _)
-127:	(BI, _, [129])
-128:	(PRINT, 100UI, _)
-129:	(<, A:MAIN:FUNCIONX, 5UI)
+45:	(<, CONT:MAIN, 5UI)
+46:	(BT, [45], [41])
+47:	(+, CONT:MAIN, 1UI)
+48:	(:=, CONT:MAIN, [47])
+49:	(PRINT, &CONT:&, _)
+50:	(PRINT, CONT:MAIN, _)
+51:	(PRINT, &#ASIGNACION MULTIPLE IGUAL DE LADOS#&, _)
+52:	(:=, B:MAIN, 20UI)
+53:	(:=, A:MAIN, 10UI)
+54:	(PRINT, &A:&, _)
+55:	(PRINT, A:MAIN, _)
+56:	(PRINT, &B:&, _)
+57:	(PRINT, B:MAIN, _)
+58:	(PRINT, &IMPRIME AAAAA:&, _)
+59:	(PRINT, A:MAIN, _)
+60:	(BI, _, [111])
+61:	(FUNC_LABEL, FUNCZ:MAIN, _)
+62:	(PRINT, &A DENTRO DE FUNCZ&, _)
+63:	(PRINT, A:MAIN, _)
+64:	(:=, W:MAIN:FUNCZ, 2UI)
+65:	(PRINT, &W DE FUNCZ:&, _)
+66:	(PRINT, W:MAIN:FUNCZ, _)
+67:	(:=, J:MAIN:FUNCZ, 3UI)
+68:	(PRINT, &J DE FUNCZ:&, _)
+69:	(PRINT, J:MAIN:FUNCZ, _)
+70:	(:=, A:MAIN:FUNCZ, 4UI)
+71:	(PRINT, &A DE FUNCZ:&, _)
+72:	(PRINT, A:MAIN:FUNCZ, _)
+73:	(:=, W:MAIN:FUNCZ, A:MAIN:FUNCZ)
+74:	(PRINT, &W DE FUNCZ TOMA VALOR DE A DE FUNCZ:&, _)
+75:	(PRINT, W:MAIN:FUNCZ, _)
+76:	(:=, W:MAIN:FUNCZ, A:MAIN)
+77:	(PRINT, &W DE FUNCZ TOMA VALOR DE MAIN.A:&, _)
+78:	(PRINT, W:MAIN:FUNCZ, _)
+79:	(:=, A:MAIN, A:MAIN:FUNCZ)
+80:	(PRINT, &MAIN.A TOMA VALOR DE A:&, _)
+81:	(PRINT, A:MAIN, _)
+82:	(PRINT, &IMPRIMO A DE FUNCZ:&, _)
+83:	(PRINT, A:MAIN:FUNCZ, _)
+84:	(PRINT, error_tipo, _)
+85:	(BI, _, [103])
+86:	(FUNC_LABEL, FUNCJ:MAIN:FUNCZ, _)
+87:	(:=, W:MAIN:FUNCZ:FUNCJ, 22UI)
+88:	(PRINT, &W DE FUNCJ:&, _)
+89:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
+90:	(:=, P:MAIN:FUNCZ:FUNCJ, 33UI)
+91:	(PRINT, &P DE FUNCJ:&, _)
+92:	(PRINT, P:MAIN:FUNCZ:FUNCJ, _)
+93:	(PRINT, error_tipo, _)
+94:	(PRINT, &A DE FUNCJ:&, _)
+95:	(PRINT, A:MAIN:FUNCZ, _)
+96:	(:=, W:MAIN:FUNCZ:FUNCJ, A:MAIN)
+97:	(PRINT, &W DE FUNCJ TOMA VALOR DE MAIN.A:&, _)
+98:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
+99:	(:=, A:MAIN:FUNCZ, W:MAIN:FUNCZ:FUNCJ)
+100:	(PRINT, &FUNCZ.A TOMA VALOR DE W DE FUNCJ:&, _)
+101:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
+102:	(RETURN, 55UI, _)
+103:	(:=, VARIABLEOTRA:MAIN:FUNCZ, 0UI)
+104:	(PARAM, VARIABLEOTRA:MAIN:FUNCZ, J:MAIN:FUNCZ:FUNCJ)
+105:	(CALL, FUNCJ:MAIN:FUNCZ, _)
+106:	(:=, VARIABLEOTRA:MAIN:FUNCZ, [105])
+107:	(PRINT, &por entrar&, _)
+108:	(PRINT, VARIABLEOTRA:MAIN:FUNCZ, _)
+109:	(PRINT, &entro&, _)
+110:	(RETURN, 5UI, _)
+111:	(:=, VARIABLEZ:MAIN, 0UI)
+112:	(PARAM, VARIABLEZ:MAIN, Z:MAIN:FUNCZ)
+113:	(CALL, FUNCZ:MAIN, _)
+114:	(:=, VARIABLEZ:MAIN, [113])
+115:	(PRINT, &por entrar dos&, _)
+116:	(PRINT, VARIABLEZ:MAIN, _)
+117:	(PRINT, &entro toda&, _)
+118:	(BI, _, [142])
+119:	(FUNC_LABEL, FUNCIONX:MAIN, _)
+120:	(:=, AA:MAIN:FUNCIONX, 3UI)
+121:	(:=, A:MAIN:FUNCIONX, 3UI)
+122:	(:=, GCONTADOR:MAIN:FUNCIONX, 0UI)
+123:	(PRINT, &PRINT GCONTADOR &, _)
+124:	(PRINT, GCONTADOR:MAIN:FUNCIONX, _)
+125:	(+, GCONTADOR:MAIN:FUNCIONX, 1UI)
+126:	(:=, GCONTADOR:MAIN:FUNCIONX, [125])
+127:	(<, GCONTADOR:MAIN:FUNCIONX, 3UI)
+128:	(BT, [127], [123])
+129:	(<, AA:MAIN:FUNCIONX, 5UI)
 130:	(BF, [129], [134])
-131:	(PRINT, &PRINT A &, _)
-132:	(PRINT, A:MAIN:FUNCIONX, _)
-133:	(BI, _, _)
+131:	(PRINT, &PRINT AA &, _)
+132:	(PRINT, AA:MAIN:FUNCIONX, _)
+133:	(BI, _, [135])
 134:	(PRINT, 100UI, _)
-135:	(RETURN, 1000UI, _)
-136:	(PRINT, GCONTADOR:MAIN:FUNCIONX, _)
-137:	(:=, VARIABLEXX:MAIN:FUNCIONX, 0UI)
-138:	(PARAM, VARIABLEXX:MAIN:FUNCIONX, AA:MAIN:FUNCIONX)
-139:	(CALL, FUNCIONX:MAIN, _)
-140:	(:=, VARIABLEXX:MAIN:FUNCIONX, [139])
-141:	(PRINT, &por entrar FUNCION IF&, _)
-142:	(PRINT, VARIABLEXX:MAIN:FUNCIONX, _)
-143:	(PRINT, &ENTRO FUNCION IF&, _)
-144:	(:=, VALOR:MAIN:FUNCIONX, 10UI)
-145:	(BI, _, [151])
-146:	(FUNC_LABEL, PROCESAR:MAIN:FUNCIONX, _)
-147:	(:=, OUT:MAIN:FUNCIONX:PROCESAR, 99UI)
-148:	(+, INOUT:MAIN:FUNCIONX:PROCESAR, 1UI)
-149:	(:=, INOUT:MAIN:FUNCIONX:PROCESAR, [148])
-150:	(RETURN, 1UI, _)
-151:	(:=, BASURA:MAIN:FUNCIONX, 0UI)
-152:	(PRINT, &IMPRIME BASURA 1&, _)
-153:	(PRINT, BASURA:MAIN:FUNCIONX, _)
-154:	(PARAM, BASURA:MAIN:FUNCIONX, OUT:MAIN:FUNCIONX:PROCESAR)
-155:	(PARAM, VALOR:MAIN:FUNCIONX, INOUT:MAIN:FUNCIONX:PROCESAR)
-156:	(CALL, PROCESAR:MAIN:FUNCIONX, _)
-157:	(:=, BASURA:MAIN:FUNCIONX, OUT:MAIN:FUNCIONX:PROCESAR)
-158:	(:=, VALOR:MAIN:FUNCIONX, INOUT:MAIN:FUNCIONX:PROCESAR)
-159:	(PRINT, &IMPRIME BASURA 2&, _)
-160:	(PRINT, BASURA:MAIN:FUNCIONX, _)
-161:	(PRINT, &IMPRIME VALOR&, _)
-162:	(PRINT, VALOR:MAIN:FUNCIONX, _)
-163:	(:=, GLOBAL:MAIN:FUNCIONX, 100UI)
-164:	(PRINT, &GLOBAL:&, _)
-165:	(PRINT, GLOBAL:MAIN:FUNCIONX, _)
-166:	(BI, _, [182])
-167:	(FUNC_LABEL, FUNCION:MAIN:FUNCIONX, _)
-168:	(:=, VARLOCAL:MAIN:FUNCIONX:FUNCION, 200UI)
-169:	(+, GLOBAL:MAIN:FUNCIONX, 1UI)
-170:	(:=, GLOBAL:MAIN:FUNCIONX, [169])
-171:	(PRINT, &MAIN.GLOBAL:&, _)
-172:	(PRINT, GLOBAL:MAIN:FUNCIONX, _)
-173:	(:=, VARLOCAL:MAIN:FUNCIONX:FUNCION, GLOBAL:MAIN:FUNCIONX)
-174:	(PRINT, &VARLOCAL:&, _)
-175:	(PRINT, VARLOCAL:MAIN:FUNCIONX:FUNCION, _)
-176:	(+, VARLOCAL:MAIN:FUNCIONX:FUNCION, 3UI)
-177:	(:=, GLOBAL:MAIN:FUNCIONX, [176])
-178:	(PRINT, &MAIN.GLOBAL:&, _)
-179:	(PRINT, GLOBAL:MAIN:FUNCIONX, _)
-180:	(RETURN, 12UI, _)
-181:	(RETURN, 15UI, _)
-182:	(:=, R1:MAIN:FUNCIONX, 0UI)
-183:	(:=, R2:MAIN:FUNCIONX, 0UI)
-184:	(:=, R3:MAIN:FUNCIONX, 0UI)
-185:	(PARAM, 50UI, P1:MAIN:FUNCIONX:FUNCION)
-186:	(CALL, FUNCION:MAIN:FUNCIONX, _)
-187:	(GET_RET, [186], 0)
-188:	(:=, R1:MAIN:FUNCIONX, [187])
-189:	(PARAM, 50UI, P1:MAIN:FUNCIONX:FUNCION)
-190:	(CALL, FUNCION:MAIN:FUNCIONX, _)
-191:	(PARAM, 50UI, P1:MAIN:FUNCIONX:FUNCION)
-192:	(CALL, FUNCION:MAIN:FUNCIONX, _)
+135:	(>, A:MAIN:FUNCIONX, 5UI)
+136:	(BF, [135], [140])
+137:	(PRINT, &PRINT A &, _)
+138:	(PRINT, A:MAIN:FUNCIONX, _)
+139:	(BI, _, [141])
+140:	(PRINT, 100UI, _)
+141:	(RETURN, 1000UI, _)
+142:	(PRINT, error_tipo, _)
+143:	(:=, VARIABLEXX:MAIN, 0UI)
+144:	(PARAM, VARIABLEXX:MAIN, AA:MAIN:FUNCIONX)
+145:	(CALL, FUNCIONX:MAIN, _)
+146:	(:=, VARIABLEXX:MAIN, [145])
+147:	(PRINT, &por entrar FUNCION IF&, _)
+148:	(PRINT, VARIABLEXX:MAIN, _)
+149:	(PRINT, &ENTRO FUNCION IF&, _)
+150:	(:=, VALOR:MAIN, 10UI)
+151:	(BI, _, [157])
+152:	(FUNC_LABEL, PROCESAR:MAIN, _)
+153:	(:=, OUT:MAIN:PROCESAR, 99UI)
+154:	(+, INOUT:MAIN:PROCESAR, 1UI)
+155:	(:=, INOUT:MAIN:PROCESAR, [154])
+156:	(RETURN, 1UI, _)
+157:	(:=, BASURA:MAIN, 0UI)
+158:	(PRINT, &IMPRIME BASURA 1&, _)
+159:	(PRINT, BASURA:MAIN, _)
+160:	(PARAM, BASURA:MAIN, OUT:MAIN:PROCESAR)
+161:	(PARAM, VALOR:MAIN, INOUT:MAIN:PROCESAR)
+162:	(CALL, PROCESAR:MAIN, _)
+163:	(:=, BASURA:MAIN, OUT:MAIN:PROCESAR)
+164:	(:=, VALOR:MAIN, INOUT:MAIN:PROCESAR)
+165:	(PRINT, &IMPRIME BASURA 2&, _)
+166:	(PRINT, BASURA:MAIN, _)
+167:	(PRINT, &IMPRIME VALOR&, _)
+168:	(PRINT, VALOR:MAIN, _)
+169:	(:=, GLOBAL:MAIN, 100UI)
+170:	(PRINT, &GLOBAL:&, _)
+171:	(PRINT, GLOBAL:MAIN, _)
+172:	(BI, _, [188])
+173:	(FUNC_LABEL, FUNCION:MAIN, _)
+174:	(:=, VARLOCAL:MAIN:FUNCION, 200UI)
+175:	(+, GLOBAL:MAIN, 1UI)
+176:	(:=, GLOBAL:MAIN, [175])
+177:	(PRINT, &MAIN.GLOBAL:&, _)
+178:	(PRINT, GLOBAL:MAIN, _)
+179:	(:=, VARLOCAL:MAIN:FUNCION, GLOBAL:MAIN)
+180:	(PRINT, &VARLOCAL:&, _)
+181:	(PRINT, VARLOCAL:MAIN:FUNCION, _)
+182:	(+, VARLOCAL:MAIN:FUNCION, 3UI)
+183:	(:=, GLOBAL:MAIN, [182])
+184:	(PRINT, &MAIN.GLOBAL:&, _)
+185:	(PRINT, GLOBAL:MAIN, _)
+186:	(RETURN, 12UI, _)
+187:	(RETURN, 15UI, _)
+188:	(:=, R1:MAIN, 0UI)
+189:	(:=, R2:MAIN, 0UI)
+190:	(:=, R3:MAIN, 0UI)
+191:	(PARAM, 50UI, P1:MAIN:FUNCION)
+192:	(CALL, FUNCION:MAIN, _)
 193:	(GET_RET, [192], 0)
-194:	(:=, R1:MAIN:FUNCIONX, [193])
-195:	(GET_RET, [192], 1)
-196:	(:=, R2:MAIN:FUNCIONX, [195])
-197:	(PRINT, &R1:&, _)
-198:	(PRINT, R1:MAIN:FUNCIONX, _)
-199:	(PRINT, &R2:&, _)
-200:	(PRINT, R2:MAIN:FUNCIONX, _)
-201:	(PRINT, &GLOBAL:&, _)
-202:	(PRINT, GLOBAL:MAIN:FUNCIONX, _)
-203:	(:=, VARPARALAMBDA:MAIN:FUNCIONX, 5UI)
-204:	(:=, VARLOCALNOVISIBLE:MAIN:FUNCIONX, 10UI)
-205:	(BI, _, [212])
-206:	(FUNC_LABEL, F:MAIN:FUNCIONX, _)
-207:	(PRINT, &IMPRIMO SS LAMBDA&, _)
-208:	(PRINT, SS:MAIN:FUNCIONX:F, _)
-209:	(PARAM_LAMBDA, SS:MAIN:FUNCIONX:F, _)
-210:	(CALL_LAMBDA, X:MAIN:FUNCIONX:F, _)
-211:	(RETURN, 111UI, _)
-212:	(BI, _, [217])
-213:	(DEF_PARAM, VARPARALAMBDA:MAIN:FUNCIONX:lambda_213, _)
-214:	(PRINT, &IMPRIMO VARPARALAMBDA DE LAMBDA&, _)
-215:	(PRINT, VARPARALAMBDA:MAIN:FUNCIONX:lambda_213, _)
-216:	(RET_LAMBDA, _, _)
-217:	(PARAM, L213, X:MAIN:FUNCIONX:F)
-218:	(PARAM, 33UI, SS:MAIN:FUNCIONX:F)
-219:	(CALL, F:MAIN:FUNCIONX, _)
-220:	(BI, _, [224])
-221:	(DEF_PARAM, VARPARALAMBDA:MAIN:FUNCIONX:lambda_221, _)
-222:	(PRINT, &SOY FLOAT&, _)
-223:	(RET_LAMBDA, _, _)
-224:	(PARAM, L221, X:MAIN:FUNCIONX:F)
-225:	(PARAM, 33UI, SS:MAIN:FUNCIONX:F)
-226:	(CALL, F:MAIN:FUNCIONX, _)
-227:	(BI, _, [231])
-228:	(DEF_PARAM, VARPARALAMBDA:MAIN:FUNCIONX:lambda_228, _)
-229:	(PRINT, VARLOCALNOVISIBLE:MAIN:FUNCIONX, _)
-230:	(RET_LAMBDA, _, _)
-231:	(PARAM, L228, X:MAIN:FUNCIONX:F)
-232:	(PARAM, 33UI, SS:MAIN:FUNCIONX:F)
-233:	(CALL, F:MAIN:FUNCIONX, _)
+194:	(:=, R1:MAIN, [193])
+195:	(PARAM, 50UI, P1:MAIN:FUNCION)
+196:	(CALL, FUNCION:MAIN, _)
+197:	(PARAM, 50UI, P1:MAIN:FUNCION)
+198:	(CALL, FUNCION:MAIN, _)
+199:	(GET_RET, [198], 0)
+200:	(:=, R1:MAIN, [199])
+201:	(GET_RET, [198], 1)
+202:	(:=, R2:MAIN, [201])
+203:	(PRINT, &R1:&, _)
+204:	(PRINT, R1:MAIN, _)
+205:	(PRINT, &R2:&, _)
+206:	(PRINT, R2:MAIN, _)
+207:	(PRINT, &GLOBAL:&, _)
+208:	(PRINT, GLOBAL:MAIN, _)
+209:	(:=, VARPARALAMBDA:MAIN, 5UI)
+210:	(BI, _, [217])
+211:	(FUNC_LABEL, F:MAIN, _)
+212:	(PRINT, &IMPRIMO SS LAMBDA&, _)
+213:	(PRINT, SS:MAIN:F, _)
+214:	(PARAM_LAMBDA, SS:MAIN:F, _)
+215:	(CALL_LAMBDA, X:MAIN:F, _)
+216:	(RETURN, 111UI, _)
+217:	(BI, _, [222])
+218:	(DEF_PARAM, VARPARALAMBDA:MAIN:lambda_218, _)
+219:	(PRINT, &IMPRIMO VARPARALAMBDA DE LAMBDA&, _)
+220:	(PRINT, VARPARALAMBDA:MAIN, _)
+221:	(RET_LAMBDA, _, _)
+222:	(PARAM, L218, X:MAIN:F)
+223:	(PARAM, 33UI, SS:MAIN:F)
+224:	(CALL, F:MAIN, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN                                | FUNCIONX:MAIN                                 | false        | funcion            | uint       |
 | MAIN                                | B:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | X:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | R1:MAIN                                       | false        | variable           | uint       |
 | MAIN                                | FUNCZ:MAIN                                    | false        | funcion            | uint       |
-| MAIN                                | VARIABLEZ:MAIN                                | false        | variable           | uint       |
 | MAIN                                | MAIN:MAIN                                     | false        | null               | null       |
 | MAIN                                | F1:MAIN                                       | false        | variable           | float      |
 | MAIN                                | Y:MAIN                                        | false        | variable           | float      |
-| MAIN                                | Z:MAIN                                        | false        | variable           | float      |
+| MAIN                                | PROCESAR:MAIN                                 | false        | funcion            | uint       |
+| MAIN                                | GLOBAL:MAIN                                   | false        | variable           | uint       |
 | MAIN                                | A:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | F3:MAIN                                       | false        | variable           | float      |
 | MAIN                                | XX:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | CONT:MAIN                                     | false        | variable           | uint       |
 | MAIN                                | F2:MAIN                                       | false        | variable           | float      |
 | MAIN                                | E:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | FUNCIONX:MAIN                                 | false        | funcion            | uint       |
+| MAIN                                | VARPARALAMBDA:MAIN                            | false        | variable           | uint       |
+| MAIN                                | X:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | F:MAIN                                        | false        | funcion            | uint       |
+| MAIN                                | R3:MAIN                                       | false        | variable           | uint       |
+| MAIN                                | VARIABLEZ:MAIN                                | false        | variable           | uint       |
+| MAIN                                | BASURA:MAIN                                   | false        | variable           | uint       |
+| MAIN                                | Z:MAIN                                        | false        | variable           | float      |
+| MAIN                                | FUNCION:MAIN                                  | false        | funcion            | multiple   |
+| MAIN                                | R2:MAIN                                       | false        | variable           | uint       |
+| MAIN                                | F3:MAIN                                       | false        | variable           | float      |
+| MAIN                                | CONT:MAIN                                     | false        | variable           | uint       |
+| MAIN                                | VARIABLEXX:MAIN                               | false        | variable           | uint       |
+| MAIN                                | VALOR:MAIN                                    | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 | MAIN:FUNCZ                          | VARIABLEOTRA:MAIN:FUNCZ                       | false        | variable           | uint       |
 | MAIN:FUNCZ                          | Z:MAIN:FUNCZ                                  | false        | parametro          | uint       |
@@ -318,36 +315,20 @@ No se encontraron warnings.
 | MAIN:FUNCZ:FUNCJ                    | P:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
 | MAIN:FUNCZ:FUNCJ                    | W:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX                       | BASURA:MAIN:FUNCIONX                          | false        | variable           | uint       |
-| MAIN:FUNCIONX                       | PROCESAR:MAIN:FUNCIONX                        | false        | funcion            | uint       |
-| MAIN:FUNCIONX                       | R3:MAIN:FUNCIONX                              | false        | variable           | uint       |
-| MAIN:FUNCIONX                       | F:MAIN:FUNCIONX                               | false        | funcion            | uint       |
-| MAIN:FUNCIONX                       | VARLOCALNOVISIBLE:MAIN:FUNCIONX               | false        | variable           | uint       |
-| MAIN:FUNCIONX                       | VALOR:MAIN:FUNCIONX                           | false        | variable           | uint       |
 | MAIN:FUNCIONX                       | GCONTADOR:MAIN:FUNCIONX                       | false        | variable           | uint       |
-| MAIN:FUNCIONX                       | VARPARALAMBDA:MAIN:FUNCIONX                   | false        | variable           | uint       |
 | MAIN:FUNCIONX                       | AA:MAIN:FUNCIONX                              | false        | parametro          | uint       |
-| MAIN:FUNCIONX                       | R2:MAIN:FUNCIONX                              | false        | variable           | uint       |
-| MAIN:FUNCIONX                       | VARIABLEXX:MAIN:FUNCIONX                      | false        | variable           | uint       |
-| MAIN:FUNCIONX                       | FUNCION:MAIN:FUNCIONX                         | false        | funcion            | multiple   |
 | MAIN:FUNCIONX                       | A:MAIN:FUNCIONX                               | false        | variable           | uint       |
-| MAIN:FUNCIONX                       | GLOBAL:MAIN:FUNCIONX                          | false        | variable           | uint       |
-| MAIN:FUNCIONX                       | R1:MAIN:FUNCIONX                              | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:PROCESAR              | OUT:MAIN:FUNCIONX:PROCESAR                    | false        | parametro          | uint       |
-| MAIN:FUNCIONX:PROCESAR              | INOUT:MAIN:FUNCIONX:PROCESAR                  | false        | parametro          | uint       |
+| MAIN:PROCESAR                       | OUT:MAIN:PROCESAR                             | false        | parametro          | uint       |
+| MAIN:PROCESAR                       | INOUT:MAIN:PROCESAR                           | false        | parametro          | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:FUNCION               | VARLOCAL:MAIN:FUNCIONX:FUNCION                | false        | variable           | uint       |
-| MAIN:FUNCIONX:FUNCION               | P1:MAIN:FUNCIONX:FUNCION                      | false        | parametro          | uint       |
+| MAIN:FUNCION                        | P1:MAIN:FUNCION                               | false        | parametro          | uint       |
+| MAIN:FUNCION                        | VARLOCAL:MAIN:FUNCION                         | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:F                     | SS:MAIN:FUNCIONX:F                            | false        | parametro          | uint       |
-| MAIN:FUNCIONX:F                     | X:MAIN:FUNCIONX:F                             | false        | parametro          | lambda     |
+| MAIN:F                              | SS:MAIN:F                                     | false        | parametro          | uint       |
+| MAIN:F                              | X:MAIN:F                                      | false        | parametro          | lambda     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:lambda_213            | VARPARALAMBDA:MAIN:FUNCIONX:lambda_213        | false        | parametro_lambda   | uint       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:lambda_221            | VARPARALAMBDA:MAIN:FUNCIONX:lambda_221        | false        | parametro_lambda   | float      |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:lambda_228            | VARPARALAMBDA:MAIN:FUNCIONX:lambda_228        | false        | parametro_lambda   | uint       |
+| MAIN:lambda_218                     | VARPARALAMBDA:MAIN:lambda_218                 | false        | parametro_lambda   | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================
