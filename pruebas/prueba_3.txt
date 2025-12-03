@@ -21,17 +21,17 @@ PRUEBA3 { @1
     var X := 5UI;
  @21
     @ Definicion de Lambda en el paso de parametros @22
-    var J := EJECUTARLAMBDA((uint X) { @23
+    EJECUTARLAMBDA((uint X) { @23
         print(&Valor recibido en Lambda:&); @24
-        print(X); @25
+        print(PRUEBA3.X); @25
          @26
-        if (MAIN.X > 2UI) { @27
+        if (PRUEBA3.X > 2UI) { @27
             print(&Condicion Lambda Cumplida (X > 2)&); @28
         } else { @29
             print(&Condicion Lambda NO Cumplida&); @30
         } endif; @31
  @32
-    }->L, DATA->VALOR); @33
+    }->VARL, DATA->VALOR); @33
  @34
     print(& @35
     ----------------------------- @36

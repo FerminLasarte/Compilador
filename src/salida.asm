@@ -35,62 +35,114 @@ MaxFloatValue dd 2139095039
 @aux16 dd 0
 @aux17 dd 0
 @aux18 dd 0
-_DATA_PRUEBA3 dd 0
-_VALOR_PRUEBA3_EJECUTARLAMBDA dd 0
-_VARL_PRUEBA3_EJECUTARLAMBDA dd 0
-_X_PRUEBA3 dd 0
-_X_PRUEBA3_lambda_11 dd 0
-str_0 db " @3", 13, 10, "    ----------------------------- @4", 13, 10, "    Inicio Test 3: Lambdas @5", 13, 10, "    y Strings Multilinea @6", 13, 10, "    ----------------------------- @7", 13, 10, "    ", 0
-str_4 db "Dentro de funcion, invocando lambda...", 0
-str_8 db "Llamando con lambda que imprime si es > 2", 0
-str_12 db "Valor recibido en Lambda:", 0
-str_14 db "Condicion Lambda Cumplida (X > 2)", 0
-str_16 db "Condicion Lambda NO Cumplida", 0
-str_18 db " @35", 13, 10, "    ----------------------------- @36", 13, 10, "    Fin del Test 3 @37", 13, 10, "    ----------------------------- @38", 13, 10, "    ", 0
+@aux19 dd 0
+@aux20 dd 0
+@aux21 dd 0
+@aux22 dd 0
+@aux23 dd 0
+@aux24 dd 0
+@aux25 dd 0
+@aux26 dd 0
+@aux27 dd 0
+@aux28 dd 0
+_CONTADOR_PRUEBA2 dd 0
+_EXTERNA_PRUEBA2 dd 0
+_SALIDA_PRUEBA2_FUNCTEST dd 0
+_R1_PRUEBA2 dd 0
+_R2_PRUEBA2 dd 0
+str_0 db "Inicio Test 2: Control y Funciones", 0
+str_11 db "Ciclo Do-While nro:", 0
+str_20 db "Retornos recibidos:", 0
+str_27 db "Valor de EXTERNA tras Copia-Resultado (Debe ser 99):", 0
 .code
 start:
 Label0:
 invoke crt_printf, addr MensajePrint, addr str_0
 Label1:
-MOV EAX, 5
-MOV _DATA_PRUEBA3, EAX
+MOV EAX, 0
+MOV _CONTADOR_PRUEBA2, EAX
 Label2:
-JMP Label8
+MOV EAX, 10
+MOV _EXTERNA_PRUEBA2, EAX
 Label3:
-__EJECUTARLAMBDA_PRUEBA3:
+JMP Label9
 Label4:
-invoke crt_printf, addr MensajePrint, addr str_4
+__FUNCTEST_PRUEBA2:
 Label5:
+MOV EAX, 99
+MOV _SALIDA_PRUEBA2_FUNCTEST, EAX
 Label6:
-MOV EAX, _VARL_PRUEBA3_EJECUTARLAMBDA
-CALL EAX
+; -- RETURN --
+MOV EAX, 10
+RET
 Label7:
 ; -- RETURN --
-MOV EAX, 1
+MOV EAX, 20
 RET
 Label8:
-invoke crt_printf, addr MensajePrint, addr str_8
-Label9:
-MOV EAX, 5
-MOV _X_PRUEBA3, EAX
-Label10:
-JMP Label18
-Label11:
-Label12:
-invoke crt_printf, addr MensajePrint, addr str_12
-Label13:
-invoke crt_printf, addr MensajePrintNum, _X_PRUEBA3_lambda_11
-Label14:
-invoke crt_printf, addr MensajePrint, addr str_14
-Label15:
-JMP Label17
-Label16:
-invoke crt_printf, addr MensajePrint, addr str_16
-Label17:
 ; -- RETURN --
+MOV EAX, 30
 RET
+Label9:
+MOV EAX, 0
+MOV _R1_PRUEBA2, EAX
+Label10:
+MOV EAX, 0
+MOV _R2_PRUEBA2, EAX
+Label11:
+invoke crt_printf, addr MensajePrint, addr str_11
+Label12:
+invoke crt_printf, addr MensajePrintNum, _CONTADOR_PRUEBA2
+Label13:
+MOV EAX, _EXTERNA_PRUEBA2
+MOV _SALIDA_PRUEBA2_FUNCTEST, EAX
+Label14:
+CALL __FUNCTEST_PRUEBA2
+MOV @aux14, EAX
+Label15:
+MOV EAX, _SALIDA_PRUEBA2_FUNCTEST
+MOV _EXTERNA_PRUEBA2, EAX
+Label16:
+MOV EAX, @aux14
+MOV @aux16, EAX
+Label17:
+MOV EAX, @aux16
+MOV _R1_PRUEBA2, EAX
 Label18:
-invoke crt_printf, addr MensajePrint, addr str_18
+MOV EAX, @aux14
+MOV @aux18, EAX
+Label19:
+MOV EAX, @aux18
+MOV _R2_PRUEBA2, EAX
+Label20:
+invoke crt_printf, addr MensajePrint, addr str_20
+Label21:
+invoke crt_printf, addr MensajePrintNum, _R1_PRUEBA2
+Label22:
+invoke crt_printf, addr MensajePrintNum, _R2_PRUEBA2
+Label23:
+MOV EAX, _CONTADOR_PRUEBA2
+ADD EAX, 1
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux23, EAX
+Label24:
+MOV EAX, @aux23
+MOV _CONTADOR_PRUEBA2, EAX
+Label25:
+MOV EAX, _CONTADOR_PRUEBA2
+CMP EAX, 2
+SETB AL
+MOVZX EAX, AL
+MOV @aux25, EAX
+Label26:
+MOV EAX, @aux25
+CMP EAX, 1
+JE Label11
+Label27:
+invoke crt_printf, addr MensajePrint, addr str_27
+Label28:
+invoke crt_printf, addr MensajePrintNum, _EXTERNA_PRUEBA2
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

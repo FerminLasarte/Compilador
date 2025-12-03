@@ -17,61 +17,59 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 28: Error Semantico: Variable 'X' no existe en el ambito 'MAIN' o el ambito no es visible (Tema 23).
-Linea 24: Error Semantico: Invocacion a 'EJECUTARLAMBDA': no existe el parametro formal '->L'.
-Linea 24: Error Semantico: No se puede inferir el tipo de 'J' desde una expresion invalida (Tema 9).
+No se encontraron errores semanticos.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-No se encontraron warnings.
+Linea: 27 - Columna: 52 - Linea 27: Warning (Tema 21): Funcion 'FUNCTEST:PRUEBA2' retorna 3 valores, pero solo se asignan 2. Se descartan los sobrantes.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(PRINT, & @3
-    ----------------------------- @4
-    Inicio Test 3: Lambdas @5
-    y Strings Multilinea @6
-    ----------------------------- @7
-    &, _)
-1:	(:=, DATA:PRUEBA3, 5UI)
-2:	(BI, _, [8])
-3:	(FUNC_LABEL, EJECUTARLAMBDA:PRUEBA3, _)
-4:	(PRINT, &Dentro de funcion, invocando lambda...&, _)
-5:	(PARAM_LAMBDA, VALOR:PRUEBA3:EJECUTARLAMBDA, _)
-6:	(CALL_LAMBDA, VARL:PRUEBA3:EJECUTARLAMBDA, _)
-7:	(RETURN, 1UI, _)
-8:	(PRINT, &Llamando con lambda que imprime si es > 2&, _)
-9:	(:=, X:PRUEBA3, 5UI)
-10:	(BI, _, [18])
-11:	(DEF_PARAM, X:PRUEBA3:lambda_11, _)
-12:	(PRINT, &Valor recibido en Lambda:&, _)
-13:	(PRINT, X:PRUEBA3:lambda_11, _)
-14:	(PRINT, &Condicion Lambda Cumplida (X > 2)&, _)
-15:	(BI, _, [17])
-16:	(PRINT, &Condicion Lambda NO Cumplida&, _)
-17:	(RET_LAMBDA, _, _)
-18:	(PRINT, & @35
-    ----------------------------- @36
-    Fin del Test 3 @37
-    ----------------------------- @38
-    &, _)
+0:	(PRINT, &Inicio Test 2: Control y Funciones&, _)
+1:	(:=, CONTADOR:PRUEBA2, 0UI)
+2:	(:=, EXTERNA:PRUEBA2, 10UI)
+3:	(BI, _, [9])
+4:	(FUNC_LABEL, FUNCTEST:PRUEBA2, _)
+5:	(:=, SALIDA:PRUEBA2:FUNCTEST, 99UI)
+6:	(RETURN, 10UI, _)
+7:	(RETURN, 20UI, _)
+8:	(RETURN, 30UI, _)
+9:	(:=, R1:PRUEBA2, 0UI)
+10:	(:=, R2:PRUEBA2, 0UI)
+11:	(PRINT, &Ciclo Do-While nro:&, _)
+12:	(PRINT, CONTADOR:PRUEBA2, _)
+13:	(PARAM, EXTERNA:PRUEBA2, SALIDA:PRUEBA2:FUNCTEST)
+14:	(CALL, FUNCTEST:PRUEBA2, _)
+15:	(:=, EXTERNA:PRUEBA2, SALIDA:PRUEBA2:FUNCTEST)
+16:	(GET_RET, [14], 0)
+17:	(:=, R1:PRUEBA2, [16])
+18:	(GET_RET, [14], 1)
+19:	(:=, R2:PRUEBA2, [18])
+20:	(PRINT, &Retornos recibidos:&, _)
+21:	(PRINT, R1:PRUEBA2, _)
+22:	(PRINT, R2:PRUEBA2, _)
+23:	(+, CONTADOR:PRUEBA2, 1UI)
+24:	(:=, CONTADOR:PRUEBA2, [23])
+25:	(<, CONTADOR:PRUEBA2, 2UI)
+26:	(BT, [25], [11])
+27:	(PRINT, &Valor de EXTERNA tras Copia-Resultado (Debe ser 99):&, _)
+28:	(PRINT, EXTERNA:PRUEBA2, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PRUEBA3                             | PRUEBA3:PRUEBA3                               | false        | null               | null       |
-| PRUEBA3                             | X:PRUEBA3                                     | false        | variable           | uint       |
-| PRUEBA3                             | DATA:PRUEBA3                                  | false        | variable           | uint       |
-| PRUEBA3                             | EJECUTARLAMBDA:PRUEBA3                        | false        | funcion            | uint       |
+| PRUEBA2                             | R2:PRUEBA2                                    | false        | variable           | uint       |
+| PRUEBA2                             | PRUEBA2:PRUEBA2                               | false        | null               | null       |
+| PRUEBA2                             | FUNCTEST:PRUEBA2                              | false        | funcion            | multiple   |
+| PRUEBA2                             | R1:PRUEBA2                                    | false        | variable           | uint       |
+| PRUEBA2                             | CONTADOR:PRUEBA2                              | false        | variable           | uint       |
+| PRUEBA2                             | EXTERNA:PRUEBA2                               | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PRUEBA3:EJECUTARLAMBDA              | VALOR:PRUEBA3:EJECUTARLAMBDA                  | false        | parametro          | uint       |
-| PRUEBA3:EJECUTARLAMBDA              | VARL:PRUEBA3:EJECUTARLAMBDA                   | false        | parametro          | lambda     |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PRUEBA3:lambda_11                   | X:PRUEBA3:lambda_11                           | false        | parametro_lambda   | uint       |
+| PRUEBA2:FUNCTEST                    | SALIDA:PRUEBA2:FUNCTEST                       | false        | parametro          | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================

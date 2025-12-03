@@ -216,24 +216,10 @@ MAIN { @1
     print(GLOBAL); @216
     var VARPARALAMBDA := 5UI; @217
  @218
-    uint F(lambda X, uint SS) { @219
-        print(&IMPRIMO SS LAMBDA&); @220
-        print(SS); @221
-        X(SS); @222
-        return(111UI); @223
-    } @224
- @225
-    F((uint VARPARALAMBDA) { @226
-        print(&IMPRIMO VARPARALAMBDA DE LAMBDA&); @227
-        print(MAIN.VARPARALAMBDA); @228
-    }->X,33UI->SS); @229
-    F((uint A, uint B) { @230
-        print(A); @231
-    }->X, 33UI->SS); @232
-    var MAX := 65535UI; @233
-    var RESTA := 1UI; @234
-    var OVER := MAX + 1UI; @235
-    var NEGATIVO := RESTA - 200UI; @236
-    var TECHO := 3.40282347F+38; @237
-    var FLOATOVER := TECHO * TECHO; @238
-} @239
+    var MAX := 65535UI; @219
+    var RESTA := 1UI; @220
+    var OVER := MAX + 1UI; @221
+    var NEGATIVO := RESTA - 200UI; @222
+    var TECHO := 3.40282347F+38; @223
+    var FLOATOVER := TECHO * TECHO; @224
+} @225
