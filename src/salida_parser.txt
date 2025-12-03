@@ -22,7 +22,7 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 27 - Columna: 52 - Linea 27: Warning (Tema 21): Funcion 'FUNCTEST:PRUEBA2' retorna 3 valores, pero solo se asignan 2. Se descartan los sobrantes.
+No se encontraron warnings.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
@@ -33,29 +33,34 @@ Linea: 27 - Columna: 52 - Linea 27: Warning (Tema 21): Funcion 'FUNCTEST:PRUEBA2
 3:	(BI, _, [9])
 4:	(FUNC_LABEL, FUNCTEST:PRUEBA2, _)
 5:	(:=, SALIDA:PRUEBA2:FUNCTEST, 99UI)
-6:	(RETURN, 10UI, _)
-7:	(RETURN, 20UI, _)
-8:	(RETURN, 30UI, _)
+6:	(RETURN, 10UI, 0/3)
+7:	(RETURN, 20UI, 1/3)
+8:	(RETURN, 30UI, 2/3)
 9:	(:=, R1:PRUEBA2, 0UI)
 10:	(:=, R2:PRUEBA2, 0UI)
-11:	(PRINT, &Ciclo Do-While nro:&, _)
-12:	(PRINT, CONTADOR:PRUEBA2, _)
-13:	(PARAM, EXTERNA:PRUEBA2, SALIDA:PRUEBA2:FUNCTEST)
-14:	(CALL, FUNCTEST:PRUEBA2, _)
-15:	(:=, EXTERNA:PRUEBA2, SALIDA:PRUEBA2:FUNCTEST)
-16:	(GET_RET, [14], 0)
-17:	(:=, R1:PRUEBA2, [16])
-18:	(GET_RET, [14], 1)
-19:	(:=, R2:PRUEBA2, [18])
-20:	(PRINT, &Retornos recibidos:&, _)
-21:	(PRINT, R1:PRUEBA2, _)
-22:	(PRINT, R2:PRUEBA2, _)
-23:	(+, CONTADOR:PRUEBA2, 1UI)
-24:	(:=, CONTADOR:PRUEBA2, [23])
-25:	(<, CONTADOR:PRUEBA2, 2UI)
-26:	(BT, [25], [11])
-27:	(PRINT, &Valor de EXTERNA tras Copia-Resultado (Debe ser 99):&, _)
-28:	(PRINT, EXTERNA:PRUEBA2, _)
+11:	(:=, R3:PRUEBA2, 0UI)
+12:	(PRINT, &Ciclo Do-While nro:&, _)
+13:	(PRINT, CONTADOR:PRUEBA2, _)
+14:	(PARAM, EXTERNA:PRUEBA2, SALIDA:PRUEBA2:FUNCTEST)
+15:	(CALL, FUNCTEST:PRUEBA2, _)
+16:	(:=, EXTERNA:PRUEBA2, SALIDA:PRUEBA2:FUNCTEST)
+17:	(GET_RET, [15], 0)
+18:	(:=, R1:PRUEBA2, [17])
+19:	(GET_RET, [15], 1)
+20:	(:=, R2:PRUEBA2, [19])
+21:	(GET_RET, [15], 2)
+22:	(:=, R3:PRUEBA2, [21])
+23:	(PRINT, &Retornos recibidos:&, _)
+24:	(PRINT, &R1:&, _)
+25:	(PRINT, R1:PRUEBA2, _)
+26:	(PRINT, &R2:&, _)
+27:	(PRINT, R2:PRUEBA2, _)
+28:	(+, CONTADOR:PRUEBA2, 1UI)
+29:	(:=, CONTADOR:PRUEBA2, [28])
+30:	(<, CONTADOR:PRUEBA2, 2UI)
+31:	(BT, [30], [12])
+32:	(PRINT, &Valor de EXTERNA tras Copia-Resultado (Debe ser 99):&, _)
+33:	(PRINT, EXTERNA:PRUEBA2, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -65,6 +70,7 @@ Linea: 27 - Columna: 52 - Linea 27: Warning (Tema 21): Funcion 'FUNCTEST:PRUEBA2
 | PRUEBA2                             | R2:PRUEBA2                                    | false        | variable           | uint       |
 | PRUEBA2                             | PRUEBA2:PRUEBA2                               | false        | null               | null       |
 | PRUEBA2                             | FUNCTEST:PRUEBA2                              | false        | funcion            | multiple   |
+| PRUEBA2                             | R3:PRUEBA2                                    | false        | variable           | uint       |
 | PRUEBA2                             | R1:PRUEBA2                                    | false        | variable           | uint       |
 | PRUEBA2                             | CONTADOR:PRUEBA2                              | false        | variable           | uint       |
 | PRUEBA2                             | EXTERNA:PRUEBA2                               | false        | variable           | uint       |

@@ -75,8 +75,7 @@ declaracion_var : VAR variable ASIG expresion
                 ;
 
 tipo : UINT { $$.sval = "uint"; }
-     | FLOAT { $$.sval = "float";
-     }
+     | FLOAT { $$.sval = "float"; }
      | LAMBDA { $$.sval = "lambda"; }
      ;
 
@@ -428,8 +427,7 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
 }
 ;
 
-lado_derecho_multiple : { g.clearLadoDerecho();
-} factor
+lado_derecho_multiple : { g.clearLadoDerecho(); } factor
                           {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho = 1;
@@ -480,8 +478,7 @@ expresion : expresion '+' termino
                 $$.ival = $1.ival;
             }
           |
-          termino { $$.ival = $1.ival;
-          }
+          termino { $$.ival = $1.ival; }
           ;
 
 termino : termino '*' factor
@@ -505,8 +502,7 @@ termino : termino '*' factor
                 g.apilarOperando(terceto);
                 $$.ival = $1.ival;
             }
-        | factor { $$.ival = $1.ival;
-        }
+        | factor { $$.ival = $1.ival; }
         ;
 
 factor : factor_no_funcion
@@ -552,8 +548,7 @@ factor_no_funcion : variable
                   }
                   |
                   conversion_explicita
-                  { $$.ival = $1.ival;
-                  }
+                  { $$.ival = $1.ival; }
                   ;
 
 conversion_explicita : TOUI '(' expresion ')'
@@ -905,7 +900,7 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 ;
 
 retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')' ';'
-                {
+            {
                 enSentenciaReturn = false;
                 ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
                 ArrayList<?> rawList = (ArrayList<?>) $4.obj;
@@ -936,8 +931,9 @@ retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')'
                     pilaErrorEnFuncion.push(true);
                 } else {
                     salida.add("Linea " + $1.ival + ": Sentencia RETURN.");
-                    for (String exprTerceto : expresiones) {
-                        g.addTerceto("RETURN", exprTerceto);
+                    int total = expresiones.size();
+                    for (int i = 0; i < total; i++) {
+                        g.addTerceto("RETURN", expresiones.get(i), i + "/" + total);
                     }
                 }
             }

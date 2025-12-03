@@ -45,15 +45,33 @@ MaxFloatValue dd 2139095039
 @aux26 dd 0
 @aux27 dd 0
 @aux28 dd 0
+@aux29 dd 0
+@aux30 dd 0
+@aux31 dd 0
+@aux32 dd 0
+@aux33 dd 0
+_RET_VAL_0 dd 0
+_RET_VAL_1 dd 0
+_RET_VAL_2 dd 0
+_RET_VAL_3 dd 0
+_RET_VAL_4 dd 0
+_RET_VAL_5 dd 0
+_RET_VAL_6 dd 0
+_RET_VAL_7 dd 0
+_RET_VAL_8 dd 0
+_RET_VAL_9 dd 0
 _CONTADOR_PRUEBA2 dd 0
 _EXTERNA_PRUEBA2 dd 0
 _SALIDA_PRUEBA2_FUNCTEST dd 0
 _R1_PRUEBA2 dd 0
 _R2_PRUEBA2 dd 0
+_R3_PRUEBA2 dd 0
 str_0 db "Inicio Test 2: Control y Funciones", 0
-str_11 db "Ciclo Do-While nro:", 0
-str_20 db "Retornos recibidos:", 0
-str_27 db "Valor de EXTERNA tras Copia-Resultado (Debe ser 99):", 0
+str_12 db "Ciclo Do-While nro:", 0
+str_23 db "Retornos recibidos:", 0
+str_24 db "R1:", 0
+str_26 db "R2:", 0
+str_32 db "Valor de EXTERNA tras Copia-Resultado (Debe ser 99):", 0
 .code
 start:
 Label0:
@@ -74,14 +92,15 @@ MOV _SALIDA_PRUEBA2_FUNCTEST, EAX
 Label6:
 ; -- RETURN --
 MOV EAX, 10
-RET
+MOV _RET_VAL_0, EAX
 Label7:
 ; -- RETURN --
 MOV EAX, 20
-RET
+MOV _RET_VAL_1, EAX
 Label8:
 ; -- RETURN --
 MOV EAX, 30
+MOV _RET_VAL_2, EAX
 RET
 Label9:
 MOV EAX, 0
@@ -90,58 +109,71 @@ Label10:
 MOV EAX, 0
 MOV _R2_PRUEBA2, EAX
 Label11:
-invoke crt_printf, addr MensajePrint, addr str_11
+MOV EAX, 0
+MOV _R3_PRUEBA2, EAX
 Label12:
-invoke crt_printf, addr MensajePrintNum, _CONTADOR_PRUEBA2
+invoke crt_printf, addr MensajePrint, addr str_12
 Label13:
+invoke crt_printf, addr MensajePrintNum, _CONTADOR_PRUEBA2
+Label14:
 MOV EAX, _EXTERNA_PRUEBA2
 MOV _SALIDA_PRUEBA2_FUNCTEST, EAX
-Label14:
-CALL __FUNCTEST_PRUEBA2
-MOV @aux14, EAX
 Label15:
+CALL __FUNCTEST_PRUEBA2
+MOV @aux15, EAX
+Label16:
 MOV EAX, _SALIDA_PRUEBA2_FUNCTEST
 MOV _EXTERNA_PRUEBA2, EAX
-Label16:
-MOV EAX, @aux14
-MOV @aux16, EAX
 Label17:
-MOV EAX, @aux16
-MOV _R1_PRUEBA2, EAX
+MOV EAX, _RET_VAL_0
+MOV @aux17, EAX
 Label18:
-MOV EAX, @aux14
-MOV @aux18, EAX
+MOV EAX, @aux17
+MOV _R1_PRUEBA2, EAX
 Label19:
-MOV EAX, @aux18
-MOV _R2_PRUEBA2, EAX
+MOV EAX, _RET_VAL_1
+MOV @aux19, EAX
 Label20:
-invoke crt_printf, addr MensajePrint, addr str_20
+MOV EAX, @aux19
+MOV _R2_PRUEBA2, EAX
 Label21:
-invoke crt_printf, addr MensajePrintNum, _R1_PRUEBA2
+MOV EAX, _RET_VAL_2
+MOV @aux21, EAX
 Label22:
-invoke crt_printf, addr MensajePrintNum, _R2_PRUEBA2
+MOV EAX, @aux21
+MOV _R3_PRUEBA2, EAX
 Label23:
+invoke crt_printf, addr MensajePrint, addr str_23
+Label24:
+invoke crt_printf, addr MensajePrint, addr str_24
+Label25:
+invoke crt_printf, addr MensajePrintNum, _R1_PRUEBA2
+Label26:
+invoke crt_printf, addr MensajePrint, addr str_26
+Label27:
+invoke crt_printf, addr MensajePrintNum, _R2_PRUEBA2
+Label28:
 MOV EAX, _CONTADOR_PRUEBA2
 ADD EAX, 1
 CMP EAX, 65535
 JA ErrorOverflow
-MOV @aux23, EAX
-Label24:
-MOV EAX, @aux23
+MOV @aux28, EAX
+Label29:
+MOV EAX, @aux28
 MOV _CONTADOR_PRUEBA2, EAX
-Label25:
+Label30:
 MOV EAX, _CONTADOR_PRUEBA2
 CMP EAX, 2
 SETB AL
 MOVZX EAX, AL
-MOV @aux25, EAX
-Label26:
-MOV EAX, @aux25
+MOV @aux30, EAX
+Label31:
+MOV EAX, @aux30
 CMP EAX, 1
-JE Label11
-Label27:
-invoke crt_printf, addr MensajePrint, addr str_27
-Label28:
+JE Label12
+Label32:
+invoke crt_printf, addr MensajePrint, addr str_32
+Label33:
 invoke crt_printf, addr MensajePrintNum, _EXTERNA_PRUEBA2
 invoke ExitProcess, 0
 Error_DivCero:

@@ -54,6 +54,11 @@ public class GeneradorAssembler {
             data.append("@aux").append(i).append(" dd 0\n");
         }
 
+        // Variables globales para retornos multiples (soporte hasta 10 valores)
+        for (int i = 0; i < 10; i++) {
+            data.append("_RET_VAL_").append(i).append(" dd 0\n");
+        }
+
         Set<String> variablesDeclaradas = new HashSet<>();
         for (int i = 0; i < generador.getProximoTerceto(); i++) {
             Terceto t = generador.getTerceto(i);
@@ -340,14 +345,37 @@ public class GeneradorAssembler {
                 case "RETURN":
                 case "RET_LAMBDA":
                     codigo.append("; -- RETURN --\n"); // Debug info
+                    int idx = 0;
+                    int total = 1;
+                    // Detectar si hay información de índice (formato "idx/total")
+                    if (rawOp2 != null && rawOp2.contains("/")) {
+                        String[] parts = rawOp2.split("/");
+                        try {
+                            idx = Integer.parseInt(parts[0]);
+                            total = Integer.parseInt(parts[1]);
+                        } catch (NumberFormatException e) { }
+                    }
+
                     if (op1 != null && !op1.equals("_")) {
                         if (isFloatOp) {
                             loadToFPU(op1);
+                            // Guardar en la variable global de retorno correspondiente
+                            codigo.append("FSTP _RET_VAL_").append(idx).append("\n");
+                            // Si es el primer retorno (índice 0), dejar también en ST(0) para compatibilidad simple
+                            if (idx == 0) {
+                                codigo.append("FLD _RET_VAL_0\n");
+                            }
                         } else {
                             codigo.append("MOV EAX, ").append(op1).append("\n");
+                            // Guardar en variable global
+                            codigo.append("MOV _RET_VAL_").append(idx).append(", EAX\n");
                         }
                     }
-                    codigo.append("RET\n");
+
+                    // Solo emitir RET si es el último valor del conjunto o si es retorno simple
+                    if (idx == total - 1) {
+                        codigo.append("RET\n");
+                    }
                     break;
                 case "CALL":
                     codigo.append("CALL ").append("_").append(op1).append("\n");
@@ -379,12 +407,18 @@ public class GeneradorAssembler {
                     codigo.append("FISTP ").append(res).append("\n");
                     break;
                 case "GET_RET":
-                    // Recupera el valor retornado (que CALL guardo en una variable temporal 'op1')
+                    // Recupera el valor retornado desde las variables globales
+                    // rawOp2 contiene el índice
+                    int retIdx = 0;
+                    try {
+                        retIdx = Integer.parseInt(rawOp2);
+                    } catch (Exception e) {}
+
                     if (tipoTerceto.equals("float")) {
-                        loadToFPU(op1);
+                        codigo.append("FLD _RET_VAL_").append(retIdx).append("\n");
                         codigo.append("FSTP ").append(res).append("\n");
                     } else {
-                        codigo.append("MOV EAX, ").append(op1).append("\n");
+                        codigo.append("MOV EAX, _RET_VAL_").append(retIdx).append("\n");
                         codigo.append("MOV ").append(res).append(", EAX\n");
                     }
                     break;

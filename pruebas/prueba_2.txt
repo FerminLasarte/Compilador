@@ -15,6 +15,7 @@ PRUEBA2 { @1
  @15
     var R1 := 0UI; @16
     var R2 := 0UI; @17
+    var R3 := 0UI; @17
     @ TEMA 14: Sentencia DO-WHILE @18
     do { @19
         print(&Ciclo Do-While nro:&); @20
@@ -24,10 +25,12 @@ PRUEBA2 { @1
         @ TEMA 19: Asignacion multiple (variables = funcion) @24
         @ TEMA 21: Retornos multiples (Funcion devuelve 3, asignamos a 2 -> Warning y descarta el 3ro) @25
         @ TEMA 23: Prefijado Opcional (PRUEBA2.EXTERNA) @26
-        R1, R2 = FUNCTEST(PRUEBA2.EXTERNA -> SALIDA); @27 R2 toma el valor de R1
+        R1, R2, R3 = FUNCTEST(PRUEBA2.EXTERNA -> SALIDA); @27 R2 toma el valor de R1
  @28
         print(&Retornos recibidos:&); @29
+        print(&R1:&);
         print(R1); @30
+        print(&R2:&);
         print(R2); @31
  @32
         CONTADOR := CONTADOR + 1UI; @33
