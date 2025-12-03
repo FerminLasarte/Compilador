@@ -34,7 +34,7 @@ PRUEBA2 { @1
         print(R2); @31
  @32
         CONTADOR := CONTADOR + 1UI; @33
-    } while (CONTADOR < 2UI); @34
+    } while (CONTADOR < 10UI); @34
  @35
     print(&Valor de EXTERNA tras Copia-Resultado (Debe ser 99):&); @36
     @ TEMA 23: Uso explicito de ambito @37

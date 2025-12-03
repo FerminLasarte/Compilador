@@ -989,7 +989,11 @@ int yylex() {
 }
 
 public void yyerror(String e) {
-   erroresSintacticos.add("Linea " + (al.getContadorFila() + 1) + ": Error de sintaxis. Verifique la estructura del codigo.");
+   int lineaError = al.getContadorFila() + 1;
+   if (valptr >= 0) {
+       lineaError = val_peek(0).ival;
+   }
+   erroresSintacticos.add("Linea " + lineaError + ": Error de sintaxis. Verifique la estructura del codigo.");
 }
 
 public static void main(String args[]){

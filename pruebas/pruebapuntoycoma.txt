@@ -1,0 +1,5 @@
+MAIN { @1
+    A := 0UI @2
+    print(A); @3
+    print(&HOLA&);
+    }@4
