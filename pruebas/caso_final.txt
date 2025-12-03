@@ -1,243 +1,239 @@
-MAIN {
-    A := 0UI;
-    var A := 0UI;
-    var A := 0UI;
-    print(&A:&);
-    print(A);
-    var B := 1UI;
-    print(&B:&);
-    print(B);
-
-    print(&cadena
-    multilinea&);
-
-    var F1 := 1.5F+2;
-    print(&F1:&);
-    print(F1);
-    var F2 := .5F-1;
-    print(&F2:&);
-    print(F2);
-    var F3 := 10.F+0;
-    print(&F3:&);
-    print(F3);
-
-    var X := 10UI;
-    print(&X:&);
-    print(X);
-    var XX := 1000UI;
-    print(&XX:&);
-    print(XX);
-    var Y := 2.5F+1;
-    print(&Y:&);
-    print(Y);
-    var Z := Y;
-    print(&Z:&);
-    print(Z);
-    X := toui(Y);
-    print(&Z:&);
-    print(Z);
-    @ X := 2.5F+1; DA ERROR POR FALTA DE CONVERSION EXPLICITA
-    @ X := Y; DA ERROR POR FALTA DE CONVERSION EXPLICITA
-    X := toui(2.5F+1);
-    print(&X CON CONVERSION EXPLICITA:&);
-    print(X);
-
-    @ var E := 10UI + 1.0F+0; ERROR DE OVERFLOW
-    var E := 10UI + toui(2.5F+1);
-    print(&E:&);
-    print(E);
-
-    var CONT := 0UI;
-    do {
-        CONT := CONT + 1UI;
-        print(&CONT:&);
-        print(CONT);
-    } while (CONT < 5UI);
-
-    do {
-        CONT := CONT + 1UI;
-        print(&CONT:&);
-        print(CONT);
-    } while (CONTADOR < 5UI);
-
-    print(&#ASIGNACION MULTIPLE IGUAL DE LADOS#&);
-    A, B = 10UI, 20UI;
-    print(&A:&);
-    print(A);
-    print(&B:&);
-    print(B);
-    A, B := 10UI, 20UI;
-    A = 10UI, 20UI;
-    A, B = 10UI;
-
-    print(&IMPRIME AAAAA:&);
-    print(A);
-
-    uint FUNCZ(uint Z) {
-        print(&A DENTRO DE FUNCZ&);
-        print(MAIN.A);
-        var W := 2UI;
-        print(&W DE FUNCZ:&);
-        print(W);
-        var J := 3UI;
-        print(&J DE FUNCZ:&);
-        print(J);
-        var A := 4UI;
-        print(&A DE FUNCZ:&);
-        print(A);
-        W := A;
-        print(&W DE FUNCZ TOMA VALOR DE A DE FUNCZ:&);
-        print(W);
-        W := MAIN.A;
-        print(&W DE FUNCZ TOMA VALOR DE MAIN.A:&);
-        print(W);
-        MAIN.A := A;
-        print(&MAIN.A TOMA VALOR DE A:&);
-        print(MAIN.A);
-        print(&IMPRIMO A DE FUNCZ:&);
-        print(A);
-        print(MAIN.J);
-        uint FUNCJ(uint J) {
-            var W := 22UI;
-            print(&W DE FUNCJ:&);
-            print(W);
-            var P := 33UI;
-            print(&P DE FUNCJ:&);
-            print(P);
-            print(FUNCZ.P);
-            var A := 44UI;
-            print(&A DE FUNCJ:&);
-            print(A);
-            W := MAIN.A;
-            print(&W DE FUNCJ TOMA VALOR DE MAIN.A:&);
-            print(W);
-            FUNCZ.A := W;
-            print(&FUNCZ.A TOMA VALOR DE W DE FUNCJ:&);
-            print(W);
-            return(55UI);
-        }
-        var VARIABLEOTRA:= 0UI;
-        VARIABLEOTRA:= FUNCJ(VARIABLEOTRA->J);
-        print(&por entrar&);
-        print(VARIABLEOTRA);
-        print(&entro&);
-        return(5UI);
-    }
-
-    var VARIABLEZ := 0UI;
-    VARIABLEZ := FUNCZ(VARIABLEZ->Z);
-    VARIABLEZ := FUNCZ(Z->VARIABLEZ);
-    print(&por entrar dos&);
-    print(VARIABLEZ);
-    print(&entro&);
-
-    uint FUNCIONX(uint AA) {
-        AA := 3UI;
-        var A := 3UI;
-        var A := 99UI;
-        A := &error sintacto es uint&;
-        var GCONTADOR := 0UI;
-        do {
-            print(&PRINT GCONTADOR &);
-            print(GCONTADOR);
-            GCONTADOR := GCONTADOR + 1UI;
-        } while (GCONTADOR < 3UI);
-        if (AA < 5UI) {
-            print(&PRINT AA &);
-            print(AA);
-        } else {
-            print(100UI);
-        } endif;
-        if (A > 5UI) {
-            print(&PRINT A &);
-            print(A);
-        } else {
-            print(100UI);
-        } endif;
-        return(1000UI);
-    }
-    print(GCONTADOR);
-
-    var VARIABLEXX := 0UI;
-    VARIABLEXX := FUNCIONX(VARIABLEXX->BB);
-    VARIABLEXX := FUNCIONX(VARIABLEXX->AA);
-    print(&por entrar FUNCION IF&);
-    print(VARIABLEXX);
-    print(&ENTRO FUNCION IF&);
-
-    var VALOR := 10UI;
-    uint PROCESAR(cr se uint OUT, cr le uint INOUT) {
-        OUT := 99UI;
-        INOUT := INOUT + 1UI;
-        return(1UI);
-    }
-
-    var BASURA := 0UI;
-    print(&IMPRIME BASURA 1&);
-    print(BASURA);
-    PROCESAR(BASURA->OUT, VALOR->INOUT);
-    print(&IMPRIME BASURA 2&);
-    print(BASURA);
-    print(&IMPRIME VALOR&);
-    print(VALOR);
-
-    var GLOBAL := 100UI;
-    print(&GLOBAL:&);
-    print(GLOBAL);
-    uint, uint FUNCION(uint P1) {
-
-        @ P1 := 11UI;
-        var VARLOCAL := 200UI;
-        GLOBAL := GLOBAL + 1UI;
-        print(&MAIN.GLOBAL:&);
-        print(GLOBAL);
-        VARLOCAL := GLOBAL;
-        print(&VARLOCAL:&);
-        print(VARLOCAL);
-        GLOBAL := VARLOCAL + 3UI;
-        print(&MAIN.GLOBAL:&);
-        print(GLOBAL);
-
-        return(12UI,12UI);
-    }
-
-    var R1 := 0UI;
-    var R2 := 0UI;
-    var R3 := 0UI;
-
-    R1 = FUNCION(50UI->P1);
-    R1, R2, R3 = FUNCION(50UI->P1);
-    R1, R2 = FUNCION(50UI->P2);
-    R1, R2 = FUNCION(50UI->P1);
-    print(&R1:&);
-    print(R1);
-    print(&R2:&);
-    print(R2);
-    print(&GLOBAL:&);
-    print(GLOBAL);
-
-    var VARPARALAMBDA := 5UI;
-
-    uint F(lambda X, uint SS) {
-        print(&IMPRIMO SS LAMBDA&);
-        print(SS);
-        X(SS);
-        return(111UI);
-    }
-
-    F((uint VARPARALAMBDA) {
-        print(&IMPRIMO VARPARALAMBDA DE LAMBDA&);
-        print(MAIN.VARPARALAMBDA);
-    }->X,33UI->SS);
-
-    F((uint A, uint B) {
-        print(A);
-    }->X, 33UI->SS);
-
-    var MAX := 65535UI;
-    var RESTA := 1UI;
-    var OVER := MAX + 1UI;
-    var NEGATIVO := RESTA - 200UI;
-    var TECHO := 3.40282347F+38;
-    var FLOATOVER := TECHO * TECHO;
-}
+MAIN { @1
+    A := 0UI; @2
+    var A := 0UI; @3
+    var A := 0UI; @4
+    print(&A:&); @5
+    print(A); @6
+    var B := 1UI; @7
+    print(&B:&); @8
+    print(B); @9
+ @10
+    print(&cadena @11
+    multilinea&); @12
+ @13
+    var F1 := 1.5F+2; @14
+    print(&F1:&); @15
+    print(F1); @16
+    var F2 := .5F-1; @17
+    print(&F2:&); @18
+    print(F2); @19
+    var F3 := 10.F+0; @20
+    print(&F3:&); @21
+    print(F3); @22
+ @23
+    var X := 10UI; @24
+    print(&X:&); @25
+    print(X); @26
+    var XX := 1000UI; @27
+    print(&XX:&); @28
+    print(XX); @29
+    var Y := 2.5F+1; @30
+    print(&Y:&); @31
+    print(Y); @32
+    var Z := Y; @33
+    print(&Z:&); @34
+    print(Z); @35
+    X := toui(Y); @36
+    print(&Z:&); @37
+    print(Z); @38
+    @ X := 2.5F+1; DA ERROR POR FALTA DE CONVERSION EXPLICITA @39
+    @ X := Y; @40
+    DA ERROR POR FALTA DE CONVERSION EXPLICITA @41
+    X := toui(2.5F+1); @42
+    print(&X CON CONVERSION EXPLICITA:&); @43
+    print(X); @44
+    @ var E := 10UI + 1.0F+0; ERROR DE OVERFLOW @45
+    var E := 10UI + toui(2.5F+1); @46
+    print(&E:&); @47
+    print(E); @48
+ @49
+    var CONT := 0UI; @50
+    do { @51
+        CONT := CONT + 1UI; @52
+        print(&CONT:&); @53
+        print(CONT); @54
+    } while (CONT < 5UI); @55
+ @56
+    do { @57
+        CONT := CONT + 1UI; @58
+        print(&CONT:&); @59
+        print(CONT); @60
+    } while (CONTADOR < 5UI); @61
+ @62
+    print(&#ASIGNACION MULTIPLE IGUAL DE LADOS#&); @63
+    A, B = 10UI, 20UI; @64
+    print(&A:&); @65
+    print(A); @66
+    print(&B:&); @67
+    print(B); @68
+    A, B := 10UI, 20UI; @69
+    A = 10UI, 20UI; @70
+    A, B = 10UI; @71
+ @72
+    print(&IMPRIME AAAAA:&); @73
+    print(A); @74
+    uint FUNCZ(uint Z) { @75
+        print(&A DENTRO DE FUNCZ&); @76
+        print(MAIN.A); @77
+        var W := 2UI; @78
+        print(&W DE FUNCZ:&); @79
+        print(W); @80
+        var J := 3UI; @81
+        print(&J DE FUNCZ:&); @82
+        print(J); @83
+        var A := 4UI; @84
+        print(&A DE FUNCZ:&); @85
+        print(A); @86
+        W := A; @87
+        print(&W DE FUNCZ TOMA VALOR DE A DE FUNCZ:&); @88
+        print(W); @89
+        W := MAIN.A; @90
+        print(&W DE FUNCZ TOMA VALOR DE MAIN.A:&); @91
+        print(W); @92
+        MAIN.A := A; @93
+        print(&MAIN.A TOMA VALOR DE A:&); @94
+        print(MAIN.A); @95
+        print(&IMPRIMO A DE FUNCZ:&); @96
+        print(A); @97
+        print(MAIN.J); @98
+        uint FUNCJ(uint J) { @99
+            var W := 22UI; @100
+            print(&W DE FUNCJ:&); @101
+            print(W); @102
+            var P := 33UI; @103
+            print(&P DE FUNCJ:&); @104
+            print(P); @105
+            print(FUNCZ.P); @106
+            var A := 44UI; @107
+            print(&A DE FUNCJ:&); @108
+            print(A); @109
+            W := MAIN.A; @110
+            print(&W DE FUNCJ TOMA VALOR DE MAIN.A:&); @111
+            print(W); @112
+            FUNCZ.A := W; @113
+            print(&FUNCZ.A TOMA VALOR DE W DE FUNCJ:&); @114
+            print(W); @115
+            return(55UI); @116
+        } @117
+        var VARIABLEOTRA:= 0UI; @118
+        VARIABLEOTRA:= FUNCJ(VARIABLEOTRA->J); @119
+        print(&por entrar&); @120
+        print(VARIABLEOTRA); @121
+        print(&entro&); @122
+        return(5UI); @123
+    } @124
+ @125
+    var VARIABLEZ := 0UI; @126
+    VARIABLEZ := FUNCZ(VARIABLEZ->Z); @127
+    VARIABLEZ := FUNCZ(Z->VARIABLEZ); @128
+    print(&por entrar dos&); @129
+    print(VARIABLEZ); @130
+    print(&entro&); @131
+ @132
+    uint FUNCIONX(uint AA) { @133
+        AA := 3UI; @134
+        var A := 3UI; @135
+        var A := 99UI; @136
+        A := &error sintacto es uint&; @137
+        var GCONTADOR := 0UI; @138
+        do { @139
+            print(&PRINT GCONTADOR &); @140
+            print(GCONTADOR); @141
+            GCONTADOR := GCONTADOR + 1UI; @142
+        } while (GCONTADOR < 3UI); @143
+        if (AA < 5UI) { @144
+            print(&PRINT AA &); @145
+            print(AA); @146
+        } else { @147
+            print(100UI); @148
+        } endif; @149
+        if (A > 5UI) { @150
+            print(&PRINT A &); @151
+            print(A); @152
+        } else { @153
+            print(100UI); @154
+        } endif; @155
+        return(1000UI); @156
+    } @157
+    print(GCONTADOR); @158
+ @159
+    var VARIABLEXX := 0UI; @160
+    VARIABLEXX := FUNCIONX(VARIABLEXX->BB); @161
+    VARIABLEXX := FUNCIONX(VARIABLEXX->AA); @162
+    print(&por entrar FUNCION IF&); @163
+    print(VARIABLEXX); @164
+    print(&ENTRO FUNCION IF&); @165
+ @166
+    var VALOR := 10UI; @167
+    uint PROCESAR(cr se uint OUT, cr le uint INOUT) { @168
+        OUT := 99UI; @169
+        INOUT := INOUT + 1UI; @170
+        return(1UI); @171
+    } @172
+ @173
+    var BASURA := 0UI; @174
+    print(&IMPRIME BASURA 1&); @175
+    print(BASURA); @176
+    PROCESAR(BASURA->OUT, VALOR->INOUT); @177
+    print(&IMPRIME BASURA 2&); @178
+    print(BASURA); @179
+    print(&IMPRIME VALOR&); @180
+    print(VALOR); @181
+ @182
+    var GLOBAL := 100UI; @183
+    print(&GLOBAL:&); @184
+    print(GLOBAL); @185
+    uint, uint FUNCION(uint P1) { @186
+ @187
+        @ P1 := 11UI; @188
+        var VARLOCAL := 200UI; @189
+        GLOBAL := GLOBAL + 1UI; @190
+        print(&MAIN.GLOBAL:&); @191
+        print(GLOBAL); @192
+        VARLOCAL := GLOBAL; @193
+        print(&VARLOCAL:&); @194
+        print(VARLOCAL); @195
+        GLOBAL := VARLOCAL + 3UI; @196
+        print(&MAIN.GLOBAL:&); @197
+        print(GLOBAL); @198
+ @199
+        return(12UI,12UI); @200
+    } @201
+ @202
+    var R1 := 0UI; @203
+    var R2 := 0UI; @204
+    var R3 := 0UI; @205
+ @206
+    R1 = FUNCION(50UI->P1); @207
+    R1, R2, R3 = FUNCION(50UI->P1); @208
+    R1, R2 = FUNCION(50UI->P2); @209
+    R1, R2 = FUNCION(50UI->P1); @210
+    print(&R1:&); @211
+    print(R1); @212
+    print(&R2:&); @213
+    print(R2); @214
+    print(&GLOBAL:&); @215
+    print(GLOBAL); @216
+    var VARPARALAMBDA := 5UI; @217
+ @218
+    uint F(lambda X, uint SS) { @219
+        print(&IMPRIMO SS LAMBDA&); @220
+        print(SS); @221
+        X(SS); @222
+        return(111UI); @223
+    } @224
+ @225
+    F((uint VARPARALAMBDA) { @226
+        print(&IMPRIMO VARPARALAMBDA DE LAMBDA&); @227
+        print(MAIN.VARPARALAMBDA); @228
+    }->X,33UI->SS); @229
+    F((uint A, uint B) { @230
+        print(A); @231
+    }->X, 33UI->SS); @232
+    var MAX := 65535UI; @233
+    var RESTA := 1UI; @234
+    var OVER := MAX + 1UI; @235
+    var NEGATIVO := RESTA - 200UI; @236
+    var TECHO := 3.40282347F+38; @237
+    var FLOATOVER := TECHO * TECHO; @238
+} @239
