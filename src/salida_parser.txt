@@ -7,11 +7,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 41: Error de sintaxis. Verifique la estructura del codigo.
-Linea 69: Error de sintaxis. Verifique la estructura del codigo.
-Linea 137: Error de sintaxis. Verifique la estructura del codigo.
-Linea 230: Error de sintaxis. Verifique la estructura del codigo.
-Linea 232: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -21,315 +17,61 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 2: Error Semantico: Variable 'A' no fue declarada (Regla de alcance).
-Linea 4: Error Semantico: Redeclaracion de variable 'A' en el mismo ambito (Tema 9).
-Linea 61: Error Semantico: Variable 'CONTADOR' no fue declarada (Regla de alcance).
-Linea 61: Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.
-Linea 70: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (1) y a la derecha (2).
-Linea 71: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (2) y a la derecha (1).
-Linea 98: Error Semantico: Variable 'J' no existe en el ambito 'MAIN' o el ambito no es visible (Tema 23).
-Linea 106: Error Semantico: Variable 'P' no existe en el ambito 'FUNCZ' o el ambito no es visible (Tema 23).
-Linea 128: Error Semantico: Invocacion a 'FUNCZ': no existe el parametro formal '->VARIABLEZ'.
-Linea 136: Error Semantico: Redeclaracion de variable 'A' en el mismo ambito (Tema 9).
-Linea 158: Error Semantico: Variable 'GCONTADOR' no fue declarada (Regla de alcance).
-Linea 161: Error Semantico: Invocacion a 'FUNCIONX': no existe el parametro formal '->BB'.
-Linea 208: Error Semantico (Tema 21): Asignacion multiple a funcion 'FUNCION:MAIN'. Insuficientes valores de retorno. Esperados: 3, Retornados: 2.
-Linea 209: Error Semantico: Invocacion a 'FUNCION': no existe el parametro formal '->P2'.
-Linea 209: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (2) y a la derecha (1).
+Linea 28: Error Semantico: Variable 'X' no existe en el ambito 'MAIN' o el ambito no es visible (Tema 23).
+Linea 24: Error Semantico: Invocacion a 'EJECUTARLAMBDA': no existe el parametro formal '->L'.
+Linea 24: Error Semantico: No se puede inferir el tipo de 'J' desde una expresion invalida (Tema 9).
 
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 207 - Columna: 26 - Linea 207: Warning (Tema 21): Funcion 'FUNCION:MAIN' retorna 2 valores, pero solo se asignan 1. Se descartan los sobrantes.
+No se encontraron warnings.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:MAIN, 0UI)
-1:	(PRINT, &A:&, _)
-2:	(PRINT, A:MAIN, _)
-3:	(:=, B:MAIN, 1UI)
-4:	(PRINT, &B:&, _)
-5:	(PRINT, B:MAIN, _)
-6:	(PRINT, &cadena @11
-    multilinea&, _)
-7:	(:=, F1:MAIN, 1.5F+2)
-8:	(PRINT, &F1:&, _)
-9:	(PRINT, F1:MAIN, _)
-10:	(:=, F2:MAIN, .5F-1)
-11:	(PRINT, &F2:&, _)
-12:	(PRINT, F2:MAIN, _)
-13:	(:=, F3:MAIN, 10.F+0)
-14:	(PRINT, &F3:&, _)
-15:	(PRINT, F3:MAIN, _)
-16:	(:=, X:MAIN, 10UI)
-17:	(PRINT, &X:&, _)
-18:	(PRINT, X:MAIN, _)
-19:	(:=, XX:MAIN, 1000UI)
-20:	(PRINT, &XX:&, _)
-21:	(PRINT, XX:MAIN, _)
-22:	(:=, Y:MAIN, 2.5F+1)
-23:	(PRINT, &Y:&, _)
-24:	(PRINT, Y:MAIN, _)
-25:	(:=, Z:MAIN, Y:MAIN)
-26:	(PRINT, &Z:&, _)
-27:	(PRINT, Z:MAIN, _)
-28:	(TOUI, Y:MAIN, _)
-29:	(:=, X:MAIN, [28])
-30:	(PRINT, &Z:&, _)
-31:	(PRINT, Z:MAIN, _)
-32:	(PRINT, &X CON CONVERSION EXPLICITA:&, _)
-33:	(PRINT, X:MAIN, _)
-34:	(TOUI, 2.5F+1, _)
-35:	(+, 10UI, [34])
-36:	(:=, E:MAIN, [35])
-37:	(PRINT, &E:&, _)
-38:	(PRINT, E:MAIN, _)
-39:	(:=, CONT:MAIN, 0UI)
-40:	(+, CONT:MAIN, 1UI)
-41:	(:=, CONT:MAIN, [40])
-42:	(PRINT, &CONT:&, _)
-43:	(PRINT, CONT:MAIN, _)
-44:	(<, CONT:MAIN, 5UI)
-45:	(BT, [44], [40])
-46:	(+, CONT:MAIN, 1UI)
-47:	(:=, CONT:MAIN, [46])
-48:	(PRINT, &CONT:&, _)
-49:	(PRINT, CONT:MAIN, _)
-50:	(PRINT, &#ASIGNACION MULTIPLE IGUAL DE LADOS#&, _)
-51:	(:=, B:MAIN, 20UI)
-52:	(:=, A:MAIN, 10UI)
-53:	(PRINT, &A:&, _)
-54:	(PRINT, A:MAIN, _)
-55:	(PRINT, &B:&, _)
-56:	(PRINT, B:MAIN, _)
-57:	(PRINT, &IMPRIME AAAAA:&, _)
-58:	(PRINT, A:MAIN, _)
-59:	(BI, _, [111])
-60:	(FUNC_LABEL, FUNCZ:MAIN, _)
-61:	(PRINT, &A DENTRO DE FUNCZ&, _)
-62:	(PRINT, A:MAIN, _)
-63:	(:=, W:MAIN:FUNCZ, 2UI)
-64:	(PRINT, &W DE FUNCZ:&, _)
-65:	(PRINT, W:MAIN:FUNCZ, _)
-66:	(:=, J:MAIN:FUNCZ, 3UI)
-67:	(PRINT, &J DE FUNCZ:&, _)
-68:	(PRINT, J:MAIN:FUNCZ, _)
-69:	(:=, A:MAIN:FUNCZ, 4UI)
-70:	(PRINT, &A DE FUNCZ:&, _)
-71:	(PRINT, A:MAIN:FUNCZ, _)
-72:	(:=, W:MAIN:FUNCZ, A:MAIN:FUNCZ)
-73:	(PRINT, &W DE FUNCZ TOMA VALOR DE A DE FUNCZ:&, _)
-74:	(PRINT, W:MAIN:FUNCZ, _)
-75:	(:=, W:MAIN:FUNCZ, A:MAIN)
-76:	(PRINT, &W DE FUNCZ TOMA VALOR DE MAIN.A:&, _)
-77:	(PRINT, W:MAIN:FUNCZ, _)
-78:	(:=, A:MAIN, A:MAIN:FUNCZ)
-79:	(PRINT, &MAIN.A TOMA VALOR DE A:&, _)
-80:	(PRINT, A:MAIN, _)
-81:	(PRINT, &IMPRIMO A DE FUNCZ:&, _)
-82:	(PRINT, A:MAIN:FUNCZ, _)
-83:	(PRINT, error_tipo, _)
-84:	(BI, _, [103])
-85:	(FUNC_LABEL, FUNCJ:MAIN:FUNCZ, _)
-86:	(:=, W:MAIN:FUNCZ:FUNCJ, 22UI)
-87:	(PRINT, &W DE FUNCJ:&, _)
-88:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
-89:	(:=, P:MAIN:FUNCZ:FUNCJ, 33UI)
-90:	(PRINT, &P DE FUNCJ:&, _)
-91:	(PRINT, P:MAIN:FUNCZ:FUNCJ, _)
-92:	(PRINT, error_tipo, _)
-93:	(:=, A:MAIN:FUNCZ:FUNCJ, 44UI)
-94:	(PRINT, &A DE FUNCJ:&, _)
-95:	(PRINT, A:MAIN:FUNCZ:FUNCJ, _)
-96:	(:=, W:MAIN:FUNCZ:FUNCJ, A:MAIN)
-97:	(PRINT, &W DE FUNCJ TOMA VALOR DE MAIN.A:&, _)
-98:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
-99:	(:=, A:MAIN:FUNCZ, W:MAIN:FUNCZ:FUNCJ)
-100:	(PRINT, &FUNCZ.A TOMA VALOR DE W DE FUNCJ:&, _)
-101:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
-102:	(RETURN, 55UI, _)
-103:	(:=, VARIABLEOTRA:MAIN:FUNCZ, 0UI)
-104:	(PARAM, VARIABLEOTRA:MAIN:FUNCZ, J:MAIN:FUNCZ:FUNCJ)
-105:	(CALL, FUNCJ:MAIN:FUNCZ, _)
-106:	(:=, VARIABLEOTRA:MAIN:FUNCZ, [105])
-107:	(PRINT, &por entrar&, _)
-108:	(PRINT, VARIABLEOTRA:MAIN:FUNCZ, _)
-109:	(PRINT, &entro&, _)
-110:	(RETURN, 5UI, _)
-111:	(:=, VARIABLEZ:MAIN, 0UI)
-112:	(PARAM, VARIABLEZ:MAIN, Z:MAIN:FUNCZ)
-113:	(CALL, FUNCZ:MAIN, _)
-114:	(:=, VARIABLEZ:MAIN, [113])
-115:	(PRINT, &por entrar dos&, _)
-116:	(PRINT, VARIABLEZ:MAIN, _)
-117:	(PRINT, &entro&, _)
-118:	(BI, _, [142])
-119:	(FUNC_LABEL, FUNCIONX:MAIN, _)
-120:	(:=, AA:MAIN:FUNCIONX, 3UI)
-121:	(:=, A:MAIN:FUNCIONX, 3UI)
-122:	(:=, GCONTADOR:MAIN:FUNCIONX, 0UI)
-123:	(PRINT, &PRINT GCONTADOR &, _)
-124:	(PRINT, GCONTADOR:MAIN:FUNCIONX, _)
-125:	(+, GCONTADOR:MAIN:FUNCIONX, 1UI)
-126:	(:=, GCONTADOR:MAIN:FUNCIONX, [125])
-127:	(<, GCONTADOR:MAIN:FUNCIONX, 3UI)
-128:	(BT, [127], [123])
-129:	(<, AA:MAIN:FUNCIONX, 5UI)
-130:	(BF, [129], [134])
-131:	(PRINT, &PRINT AA &, _)
-132:	(PRINT, AA:MAIN:FUNCIONX, _)
-133:	(BI, _, [135])
-134:	(PRINT, 100UI, _)
-135:	(>, A:MAIN:FUNCIONX, 5UI)
-136:	(BF, [135], [140])
-137:	(PRINT, &PRINT A &, _)
-138:	(PRINT, A:MAIN:FUNCIONX, _)
-139:	(BI, _, [141])
-140:	(PRINT, 100UI, _)
-141:	(RETURN, 1000UI, _)
-142:	(PRINT, error_tipo, _)
-143:	(:=, VARIABLEXX:MAIN, 0UI)
-144:	(PARAM, VARIABLEXX:MAIN, AA:MAIN:FUNCIONX)
-145:	(CALL, FUNCIONX:MAIN, _)
-146:	(:=, VARIABLEXX:MAIN, [145])
-147:	(PRINT, &por entrar FUNCION IF&, _)
-148:	(PRINT, VARIABLEXX:MAIN, _)
-149:	(PRINT, &ENTRO FUNCION IF&, _)
-150:	(:=, VALOR:MAIN, 10UI)
-151:	(BI, _, [157])
-152:	(FUNC_LABEL, PROCESAR:MAIN, _)
-153:	(:=, OUT:MAIN:PROCESAR, 99UI)
-154:	(+, INOUT:MAIN:PROCESAR, 1UI)
-155:	(:=, INOUT:MAIN:PROCESAR, [154])
-156:	(RETURN, 1UI, _)
-157:	(:=, BASURA:MAIN, 0UI)
-158:	(PRINT, &IMPRIME BASURA 1&, _)
-159:	(PRINT, BASURA:MAIN, _)
-160:	(PARAM, BASURA:MAIN, OUT:MAIN:PROCESAR)
-161:	(PARAM, VALOR:MAIN, INOUT:MAIN:PROCESAR)
-162:	(CALL, PROCESAR:MAIN, _)
-163:	(:=, BASURA:MAIN, OUT:MAIN:PROCESAR)
-164:	(:=, VALOR:MAIN, INOUT:MAIN:PROCESAR)
-165:	(PRINT, &IMPRIME BASURA 2&, _)
-166:	(PRINT, BASURA:MAIN, _)
-167:	(PRINT, &IMPRIME VALOR&, _)
-168:	(PRINT, VALOR:MAIN, _)
-169:	(:=, GLOBAL:MAIN, 100UI)
-170:	(PRINT, &GLOBAL:&, _)
-171:	(PRINT, GLOBAL:MAIN, _)
-172:	(BI, _, [188])
-173:	(FUNC_LABEL, FUNCION:MAIN, _)
-174:	(:=, VARLOCAL:MAIN:FUNCION, 200UI)
-175:	(+, GLOBAL:MAIN, 1UI)
-176:	(:=, GLOBAL:MAIN, [175])
-177:	(PRINT, &MAIN.GLOBAL:&, _)
-178:	(PRINT, GLOBAL:MAIN, _)
-179:	(:=, VARLOCAL:MAIN:FUNCION, GLOBAL:MAIN)
-180:	(PRINT, &VARLOCAL:&, _)
-181:	(PRINT, VARLOCAL:MAIN:FUNCION, _)
-182:	(+, VARLOCAL:MAIN:FUNCION, 3UI)
-183:	(:=, GLOBAL:MAIN, [182])
-184:	(PRINT, &MAIN.GLOBAL:&, _)
-185:	(PRINT, GLOBAL:MAIN, _)
-186:	(RETURN, 12UI, _)
-187:	(RETURN, 12UI, _)
-188:	(:=, R1:MAIN, 0UI)
-189:	(:=, R2:MAIN, 0UI)
-190:	(:=, R3:MAIN, 0UI)
-191:	(PARAM, 50UI, P1:MAIN:FUNCION)
-192:	(CALL, FUNCION:MAIN, _)
-193:	(GET_RET, [192], 0)
-194:	(:=, R1:MAIN, [193])
-195:	(PARAM, 50UI, P1:MAIN:FUNCION)
-196:	(CALL, FUNCION:MAIN, _)
-197:	(PARAM, 50UI, P1:MAIN:FUNCION)
-198:	(CALL, FUNCION:MAIN, _)
-199:	(GET_RET, [198], 0)
-200:	(:=, R1:MAIN, [199])
-201:	(GET_RET, [198], 1)
-202:	(:=, R2:MAIN, [201])
-203:	(PRINT, &R1:&, _)
-204:	(PRINT, R1:MAIN, _)
-205:	(PRINT, &R2:&, _)
-206:	(PRINT, R2:MAIN, _)
-207:	(PRINT, &GLOBAL:&, _)
-208:	(PRINT, GLOBAL:MAIN, _)
-209:	(:=, VARPARALAMBDA:MAIN, 5UI)
-210:	(BI, _, [217])
-211:	(FUNC_LABEL, F:MAIN, _)
-212:	(PRINT, &IMPRIMO SS LAMBDA&, _)
-213:	(PRINT, SS:MAIN:F, _)
-214:	(PARAM_LAMBDA, SS:MAIN:F, _)
-215:	(CALL_LAMBDA, X:MAIN:F, _)
-216:	(RETURN, 111UI, _)
-217:	(BI, _, [222])
-218:	(DEF_PARAM, VARPARALAMBDA:MAIN:lambda_218, _)
-219:	(PRINT, &IMPRIMO VARPARALAMBDA DE LAMBDA&, _)
-220:	(PRINT, VARPARALAMBDA:MAIN, _)
-221:	(RET_LAMBDA, _, _)
-222:	(PARAM, L218, X:MAIN:F)
-223:	(PARAM, 33UI, SS:MAIN:F)
-224:	(CALL, F:MAIN, _)
+0:	(PRINT, & @3
+    ----------------------------- @4
+    Inicio Test 3: Lambdas @5
+    y Strings Multilinea @6
+    ----------------------------- @7
+    &, _)
+1:	(:=, DATA:PRUEBA3, 5UI)
+2:	(BI, _, [8])
+3:	(FUNC_LABEL, EJECUTARLAMBDA:PRUEBA3, _)
+4:	(PRINT, &Dentro de funcion, invocando lambda...&, _)
+5:	(PARAM_LAMBDA, VALOR:PRUEBA3:EJECUTARLAMBDA, _)
+6:	(CALL_LAMBDA, VARL:PRUEBA3:EJECUTARLAMBDA, _)
+7:	(RETURN, 1UI, _)
+8:	(PRINT, &Llamando con lambda que imprime si es > 2&, _)
+9:	(:=, X:PRUEBA3, 5UI)
+10:	(BI, _, [18])
+11:	(DEF_PARAM, X:PRUEBA3:lambda_11, _)
+12:	(PRINT, &Valor recibido en Lambda:&, _)
+13:	(PRINT, X:PRUEBA3:lambda_11, _)
+14:	(PRINT, &Condicion Lambda Cumplida (X > 2)&, _)
+15:	(BI, _, [17])
+16:	(PRINT, &Condicion Lambda NO Cumplida&, _)
+17:	(RET_LAMBDA, _, _)
+18:	(PRINT, & @35
+    ----------------------------- @36
+    Fin del Test 3 @37
+    ----------------------------- @38
+    &, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN                                | B:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | R1:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | FUNCZ:MAIN                                    | false        | funcion            | uint       |
-| MAIN                                | MAIN:MAIN                                     | false        | null               | null       |
-| MAIN                                | F1:MAIN                                       | false        | variable           | float      |
-| MAIN                                | Y:MAIN                                        | false        | variable           | float      |
-| MAIN                                | PROCESAR:MAIN                                 | false        | funcion            | uint       |
-| MAIN                                | GLOBAL:MAIN                                   | false        | variable           | uint       |
-| MAIN                                | A:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | XX:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | F2:MAIN                                       | false        | variable           | float      |
-| MAIN                                | E:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | FUNCIONX:MAIN                                 | false        | funcion            | uint       |
-| MAIN                                | VARPARALAMBDA:MAIN                            | false        | variable           | uint       |
-| MAIN                                | X:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | F:MAIN                                        | false        | funcion            | uint       |
-| MAIN                                | R3:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | VARIABLEZ:MAIN                                | false        | variable           | uint       |
-| MAIN                                | BASURA:MAIN                                   | false        | variable           | uint       |
-| MAIN                                | Z:MAIN                                        | false        | variable           | float      |
-| MAIN                                | FUNCION:MAIN                                  | false        | funcion            | multiple   |
-| MAIN                                | R2:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | F3:MAIN                                       | false        | variable           | float      |
-| MAIN                                | CONT:MAIN                                     | false        | variable           | uint       |
-| MAIN                                | VARIABLEXX:MAIN                               | false        | variable           | uint       |
-| MAIN                                | VALOR:MAIN                                    | false        | variable           | uint       |
+| PRUEBA3                             | PRUEBA3:PRUEBA3                               | false        | null               | null       |
+| PRUEBA3                             | X:PRUEBA3                                     | false        | variable           | uint       |
+| PRUEBA3                             | DATA:PRUEBA3                                  | false        | variable           | uint       |
+| PRUEBA3                             | EJECUTARLAMBDA:PRUEBA3                        | false        | funcion            | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCZ                          | VARIABLEOTRA:MAIN:FUNCZ                       | false        | variable           | uint       |
-| MAIN:FUNCZ                          | Z:MAIN:FUNCZ                                  | false        | parametro          | uint       |
-| MAIN:FUNCZ                          | W:MAIN:FUNCZ                                  | false        | variable           | uint       |
-| MAIN:FUNCZ                          | A:MAIN:FUNCZ                                  | false        | variable           | uint       |
-| MAIN:FUNCZ                          | FUNCJ:MAIN:FUNCZ                              | false        | funcion            | uint       |
-| MAIN:FUNCZ                          | J:MAIN:FUNCZ                                  | false        | variable           | uint       |
+| PRUEBA3:EJECUTARLAMBDA              | VALOR:PRUEBA3:EJECUTARLAMBDA                  | false        | parametro          | uint       |
+| PRUEBA3:EJECUTARLAMBDA              | VARL:PRUEBA3:EJECUTARLAMBDA                   | false        | parametro          | lambda     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCZ:FUNCJ                    | J:MAIN:FUNCZ:FUNCJ                            | false        | parametro          | uint       |
-| MAIN:FUNCZ:FUNCJ                    | P:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
-| MAIN:FUNCZ:FUNCJ                    | W:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
-| MAIN:FUNCZ:FUNCJ                    | A:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX                       | GCONTADOR:MAIN:FUNCIONX                       | false        | variable           | uint       |
-| MAIN:FUNCIONX                       | AA:MAIN:FUNCIONX                              | false        | parametro          | uint       |
-| MAIN:FUNCIONX                       | A:MAIN:FUNCIONX                               | false        | variable           | uint       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:PROCESAR                       | OUT:MAIN:PROCESAR                             | false        | parametro          | uint       |
-| MAIN:PROCESAR                       | INOUT:MAIN:PROCESAR                           | false        | parametro          | uint       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCION                        | P1:MAIN:FUNCION                               | false        | parametro          | uint       |
-| MAIN:FUNCION                        | VARLOCAL:MAIN:FUNCION                         | false        | variable           | uint       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:F                              | SS:MAIN:F                                     | false        | parametro          | uint       |
-| MAIN:F                              | X:MAIN:F                                      | false        | parametro          | lambda     |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:lambda_218                     | VARPARALAMBDA:MAIN:lambda_218                 | false        | parametro_lambda   | uint       |
+| PRUEBA3:lambda_11                   | X:PRUEBA3:lambda_11                           | false        | parametro_lambda   | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================
