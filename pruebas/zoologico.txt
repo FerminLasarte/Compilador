@@ -1,0 +1,56 @@
+ZOOLOGICO { @1
+    print(& @2
+    === INICIO TEST ZOOLOGICO === @3
+    Temas: 2,5,8,9,14,19,21,23,25,28,31,32 @4
+    Checks Runtime: b, e, f @5
+    &); @6
+    var VARLEON := 10UI; @7
+    var TIGRE := 20UI; @8
+    var AGUILA := 5.5F+0; @9
+    var HALCON := 2.0F+0; @10
+    var PINGUINO := toui(AGUILA); @11
+    print(&Conversion toui (PINGUINO):&); @12
+    print(PINGUINO); @13
+    print(&Do-While (VARLEON):&); @14
+    do { @15
+        print(VARLEON); @16
+        VARLEON := VARLEON + 1UI; @17
+    } while (VARLEON < 13UI); @18
+    var JIRAFA := 0UI; @19
+    var ELEFANTE := 0UI; @20
+    print(&Asignacion Multiple (JIRAFA, ELEFANTE):&); @21
+    JIRAFA, ELEFANTE = VARLEON, TIGRE; @22
+    print(JIRAFA); @23
+    print(ELEFANTE); @24
+    uint, uint ALIMENTAR(cr se uint COMIDA, cr le uint AGUA) { @25
+        print(&Dentro de ALIMENTAR&); @26
+        print(&Acceso explicito a ambito:&); @27
+        print(ZOOLOGICO.VARLEON); @28
+        COMIDA := 100UI; @29
+        AGUA := AGUA + 1UI; @30
+        return(COMIDA, AGUA); @31
+    } @32
+    var OSO := 0UI; @33
+    var KOALA := 10UI; @34
+    print(&Llamada a funcion con retornos multiples y CR-SE/LE:&); @35
+    OSO, KOALA = ALIMENTAR(OSO->COMIDA, KOALA->AGUA); @36
+    print(OSO); @37
+    var PACIENTE := 65UI; @38
+    uint CUIDAR(lambda VETERINARIO, uint MEDICINA) { @39
+        print(&Ejecutando Lambda (VETERINARIO)...&); @40
+        VETERINARIO(MEDICINA); @41
+        return(1UI); @42
+    } @43
+    CUIDAR((uint PACIENTE){ @44
+        print(&Valor en Lambda (PACIENTE):&); @45
+        print(ZOOLOGICO.PACIENTE); @46
+    }->VETERINARIO, 50UI->MEDICINA); @47
+    print(&Probando chequeos runtime (operaciones validas):&); @48
+    LEON := LEON + 1UI; @49
+    if (LEON > 0UI) { @50
+        LEON := LEON - 1UI; @51
+    } endif; @52
+    AGUILA := AGUILA * HALCON; @53
+    print(AGUILA); @54
+    print(&=== FIN TEST ZOOLOGICO ===&); @55
+} @56
