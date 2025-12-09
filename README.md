@@ -29,7 +29,7 @@ La rama principal (`main`) contiene la **entrega final** del proyecto, que inclu
 Para compilar el proyecto, generar el código ensamblador y crear el ejecutable final, sigue la siguiente secuencia de comandos en tu terminal.
 
 > **Nota:** Se debe tener instalado **Masm32** en la ruta `C:\masm32` para los pasos de ensamblado y linkeo.
-> **Nota:** Se debe utilizar el JDK 25 correspondiente a Java.
+>> **Nota:** Se debe utilizar el JDK 25 correspondiente a Java.
 
 ### Generación y Compilación del Compilador
 
