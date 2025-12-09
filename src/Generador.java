@@ -242,25 +242,20 @@ public class Generador {
         if (tipoVar == null || tipoExpr == null) {
             return false;
         }
-
         if (tipoVar.equals(tipoExpr)) {
             return true;
         }
-
         if (tipoVar.equals("indefinido") || tipoExpr.equals("indefinido")) {
             return false;
         }
-
         if (tipoVar.equals("uint") && tipoExpr.equals("float")) {
             al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Asignacion incompatible. No se puede asignar 'float' a 'uint' sin 'toui' (Tema 31).");
             return false;
         }
-
         if (tipoVar.equals("float") && tipoExpr.equals("uint")) {
             al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Asignacion incompatible. No se puede asignar 'uint' a 'float' (Tema 31).");
             return false;
         }
-
         al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Asignacion incompatible. No se puede asignar '" + tipoExpr + "' a '" + tipoVar + "'.");
         return false;
     }

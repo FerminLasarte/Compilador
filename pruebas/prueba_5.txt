@@ -1,104 +1,104 @@
-PRUEBA5 { @1
-    @ TEMA 8: Cadenas Multilinea @2
-    print(& @3
-    ******************************** @4
-    * INICIO TEST INTEGRAL GRUPO 10 * @5
-    ******************************** @6
-    &); @7
- @8
-    @ TEMA 9: Inferencia de tipos (VAR) @9
-    @ TEMA 2: Enteros sin signo (16 bits - Sufijo UI) @10
-    var A := 10UI; @11
-    var B := 20UI; @12
-    var X := 0UI; @13
-    @ TEMA 5: Punto flotante (32 bits - Exponente F) @14
-    var F1 := 1.5F+1; @15
-    var F2 := 0.5F-0; @16
- @17
-    @ TEMA 31: Conversion Explicita (toui) @18
-    @ Convierte float a uint para poder operar o asignar @19
-    var CONV := toui(F1); @20
-    print(&Conversion de 15.0 a entero:&); @21
-    print(CONV); @22
- @23
-    @ TEMA 14: Sentencia DO-WHILE @24
-    print(&Probando DO-WHILE:&); @25
-    do { @26
-        print(A); @27
-        A := A - 1UI; @28
-    } while (A > 5UI); @29
- @30
-    @ TEMA 19: Asignacion Multiple (Misma cantidad de lados) @31
-    print(&Probando Asignacion Multiple:&); @32
-    A, B = 100UI, 200UI; @33
-    print(A); @34
-    print(B); @35
- @36
-    @ --- DEFINICION DE FUNCIONES --- @37
- @38
-    @ TEMA 21: Retornos Multiples (3 tipos) @39
-    @ TEMA 25: Semantica de pasaje 'cr se' (Copia Resultado - Solo Escritura) @40
-    @ TEMA 25: Semantica de pasaje 'cr le' (Copia Resultado - Lectura Escritura) @41
-    uint, uint, uint PROCESARDATOS(cr se uint SALIDA, cr le uint ACUM) { @42
-        @ 'SALIDA' es Solo Escritura: No podemos leerla, solo asignar @43
-        SALIDA := 999UI; @44
- @45
-        @ 'ACUM' es Lectura/Escritura: Leemos el valor copiado y escribimos el resultado @46
-        ACUM := ACUM + 1UI; @47
- @48
-        @ Retornamos 3 valores @49
-        return(1UI, 2UI, 3UI); @50
-    } @51
- @52
-    @ TEMA 28: Lambda como parametro @53
-    uint EJECUTARLAMBDA(lambda VARLAMBDA, uint VAL) { @54
-        print(&Ejecutando Lambda interna...&); @55
-        VARLAMBDA(VAL); @56
-        return(0UI); @57
-    } @58
- @59
-    @ --- INVOCACIONES Y PRUEBAS DE ALCANCE --- @60
- @61
-    var R1 := 0UI; @62
-    var R2 := 0UI; @63
- @64
-    @ TEMA 21: Asignacion de retorno multiple (Descarte de sobrantes con Warning) @65
-    @ TEMA 23: Prefijado Opcional (PRUEBA5.A) @66
-    print(&Llamando funcion con CR-SE y CR-LE:&); @67
+PRUEBA5 { @Numero de linea: 1
+    @ TEMA 8: Cadenas Multilinea @Numero de linea: 2
+    print(& @Numero de linea: 3
+    ******************************** @Numero de linea: 4
+    * INICIO TEST INTEGRAL GRUPO 10 * @Numero de linea: 5
+    ******************************** @Numero de linea: 6
+    &); @Numero de linea: 7
+ @Numero de linea: 8
+    @ TEMA 9: Inferencia de tipos (VAR) @Numero de linea: 9
+    @ TEMA 2: Enteros sin signo (16 bits - Sufijo UI) @Numero de linea: 10
+    var A := 10UI; @Numero de linea: 11
+    var B := 20UI; @Numero de linea: 12
+    var X := 0UI; @Numero de linea: 13
+    @ TEMA 5: Punto flotante (32 bits - Exponente F) @Numero de linea: 14
+    var F1 := 1.5F+1; @Numero de linea: 15
+    var F2 := 0.5F-0; @Numero de linea: 16
+ @Numero de linea: 17
+    @ TEMA 31: Conversion Explicita (toui) @Numero de linea: 18
+    @ Convierte float a uint para poder operar o asignar @Numero de linea: 19
+    var CONV := toui(F1); @Numero de linea: 20
+    print(&Conversion de 15.0 a entero:&); @Numero de linea: 21
+    print(CONV); @Numero de linea: 22
+ @Numero de linea: 23
+    @ TEMA 14: Sentencia DO-WHILE @Numero de linea: 24
+    print(&Probando DO-WHILE:&); @Numero de linea: 25
+    do { @Numero de linea: 26
+        print(A); @Numero de linea: 27
+        A := A - 1UI; @Numero de linea: 28
+    } while (A > 5UI); @Numero de linea: 29
+ @Numero de linea: 30
+    @ TEMA 19: Asignacion Multiple (Misma cantidad de lados) @Numero de linea: 31
+    print(&Probando Asignacion Multiple:&); @Numero de linea: 32
+    A, B = 100UI, 200UI; @Numero de linea: 33
+    print(A); @Numero de linea: 34
+    print(B); @Numero de linea: 35
+ @Numero de linea: 36
+    @ --- DEFINICION DE FUNCIONES --- @Numero de linea: 37
+ @Numero de linea: 38
+    @ TEMA 21: Retornos Multiples (3 tipos) @Numero de linea: 39
+    @ TEMA 25: Semantica de pasaje 'cr se' (Copia Resultado - Solo Escritura) @Numero de linea: 40
+    @ TEMA 25: Semantica de pasaje 'cr le' (Copia Resultado - Lectura Escritura) @Numero de linea: 41
+    uint, uint, uint PROCESARDATOS(cr se uint SALIDA, cr le uint ACUM) { @Numero de linea: 42
+        @ 'SALIDA' es Solo Escritura: No podemos leerla, solo asignar @Numero de linea: 43
+        SALIDA := 999UI; @Numero de linea: 44
+ @Numero de linea: 45
+        @ 'ACUM' es Lectura/Escritura: Leemos el valor copiado y escribimos el resultado @Numero de linea: 46
+        ACUM := ACUM + 1UI; @Numero de linea: 47
+ @Numero de linea: 48
+        @ Retornamos 3 valores @Numero de linea: 49
+        return(1UI, 2UI, 3UI); @Numero de linea: 50
+    } @Numero de linea: 51
+ @Numero de linea: 52
+    @ TEMA 28: Lambda como parametro @Numero de linea: 53
+    uint EJECUTARLAMBDA(lambda VARLAMBDA, uint VAL) { @Numero de linea: 54
+        print(&Ejecutando Lambda interna...&); @Numero de linea: 55
+        VARLAMBDA(VAL); @Numero de linea: 56
+        return(0UI); @Numero de linea: 57
+    } @Numero de linea: 58
+ @Numero de linea: 59
+    @ --- INVOCACIONES Y PRUEBAS DE ALCANCE --- @Numero de linea: 60
+ @Numero de linea: 61
+    var R1 := 0UI; @Numero de linea: 62
+    var R2 := 0UI; @Numero de linea: 63
+ @Numero de linea: 64
+    @ TEMA 21: Asignacion de retorno multiple (Descarte de sobrantes con Warning) @Numero de linea: 65
+    @ TEMA 23: Prefijado Opcional (PRUEBA5.A) @Numero de linea: 66
+    print(&Llamando funcion con CR-SE y CR-LE:&); @Numero de linea: 67
 
-    @ A se pasa a SALIDA (se escribira 999 en A) @68
-    @ B se pasa a ACUM (valia 200, se le suma 1 -> 201 en B) @69
-    R1, R2 = PROCESARDATOS(A -> SALIDA, B -> ACUM); @70
- @71
-    print(&Resultados Retorno (1 y 2):&); @72
-    print(R1); @73
-    print(R2); @74
+    @ A se pasa a SALIDA (se escribira 999 en A) @Numero de linea: 68
+    @ B se pasa a ACUM (valia 200, se le suma 1 -> 201 en B) @Numero de linea: 69
+    R1, R2 = PROCESARDATOS(A -> SALIDA, B -> ACUM); @Numero de linea: 70
+ @Numero de linea: 71
+    print(&Resultados Retorno (1 y 2):&); @Numero de linea: 72
+    print(R1); @Numero de linea: 73
+    print(R2); @Numero de linea: 74
 
-    print(&Efecto colateral Copia-Resultado en A (Esperado 999):&); @75
-    print(A); @76
-    print(&Efecto colateral Copia-Resultado en B (Esperado 201):&); @77
-    print(B); @78
- @79
-    @ TEMA 28: Prueba de Lambda @80
-    print(&Probando Lambda:&); @81
-    EJECUTARLAMBDA((uint X) { @82
+    print(&Efecto colateral Copia-Resultado en A (Esperado 999):&); @Numero de linea: 75
+    print(A); @Numero de linea: 76
+    print(&Efecto colateral Copia-Resultado en B (Esperado 201):&); @Numero de linea: 77
+    print(B); @Numero de linea: 78
+ @Numero de linea: 79
+    @ TEMA 28: Prueba de Lambda @Numero de linea: 80
+    print(&Probando Lambda:&); @Numero de linea: 81
+    EJECUTARLAMBDA((uint X) { @Numero de linea: 82
         do {
             print(PRUEBA5.X);
             PRUEBA5.X := PRUEBA5.X + 1UI;
         } while (PRUEBA5.X < 2UI);
-    }->VARLAMBDA, 100UI->VAL); @88
- @89
-    @ --- CHEQUEOS ASSEMBLER (Descomentar para probar errores en runtime) --- @90
- @91
-    @ CHEQUEO (f): Resta negativa en enteros sin signo @92
-    @ var NEG := 10UI - 20UI; @93
- @94
-    @ CHEQUEO (b): Overflow suma enteros (Limite 65535) @95
-    @ var OVERINT := 65535UI + 1UI; @96
- @97
-    @ CHEQUEO (e): Overflow producto punto flotante @98
-    @ var MAXFLOAT := 3.40282347F+38; @99
-    @ var OVERFLOAT := MAXFLOAT * 1.1F+0; @100
- @101
-    print(&Fin del Test Exitoso&); @102
-} @103
+    }->VARLAMBDA, 100UI->VAL); @Numero de linea: 88
+ @Numero de linea: 89
+    @ --- CHEQUEOS ASSEMBLER (Descomentar para probar errores en runtime) --- @Numero de linea: 90
+ @Numero de linea: 91
+    @ CHEQUEO (f): Resta negativa en enteros sin signo @Numero de linea: 92
+    @ var NEG := 10UI - 20UI; @Numero de linea: 93
+ @Numero de linea: 94
+    @ CHEQUEO (b): Overflow suma enteros (Limite 65535) @Numero de linea: 95
+    @ var OVERINT := 65535UI + 1UI; @Numero de linea: 96
+ @Numero de linea: 97
+    @ CHEQUEO (e): Overflow producto punto flotante @Numero de linea: 98
+    @ var MAXFLOAT := 3.40282347F+38; @Numero de linea: 99
+    @ var OVERFLOAT := MAXFLOAT * 1.1F+0; @Numero de linea: 100
+ @Numero de linea: 101
+    print(&Fin del Test Exitoso&); @Numero de linea: 102
+} @Numero de linea: 103

@@ -1,77 +1,77 @@
-PRUEBA4 { @1
-    print(&Inicio de la @2
-    Bateria de Pruebas&); @3
- @4
-    var A := 10UI; @5
-    var B := 20UI; @6
- @7
-    var F1 := 12.5F+0; @8
-    var F2 := 2.5F+0; @9
- @10
-    var CONV := 0UI; @11
-    CONV := toui(F1); @12
-    print(&Conversion toui(12.5) -> 12:&); @13
-    print(CONV); @14
- @15
-    var I := 0UI; @16
-    print(&Probando Do-While (0 a 2):&); @17
-    do { @18
-        print(I); @19
-        I := I + 1UI; @20
-    } while (I < 3UI); @21
- @22
-    print(&Asignacion Multiple A=100, B=200:&); @23
-    A, B = 100UI, 200UI; @24
-    print(A); @25
-    print(B); @26
- @27
-    print(&Acceso con Prefijo PRUEBA4.A:&); @28
-    print(PRUEBA4.A); @29
- @30
-    uint, uint, uint FUNCTEST(cr se uint SALIDA) { @31
-        SALIDA := 999UI; @32
-        return(1UI, 2UI, 3UI); @33
-    } @34
- @35
-    uint RUNLAMBDA(lambda VARLAM, uint VALOR) { @36
-        print(&Ejecutando Lambda interna...&); @37
-        VARLAM(VALOR); @38
-        return(1UI); @39
-    } @40
- @41
-    var R1 := 0UI; @42
-    var R2 := 0UI; @43
-    var OUTPARAM := 10UI; @44
- @45
-    R1, R2 = FUNCTEST(OUTPARAM -> SALIDA); @46
- @47
-    print(&Retornos Multiples (1 y 2):&); @48
-    print(R1); @49
-    print(R2); @50
- @51
-    print(&Valor OUTPARAM post ejecucion (Esperado 999):&); @52
-    print(OUTPARAM); @53
-    var X := 3UI; @54
-    RUNLAMBDA((uint X) { @55
-        print(&Valor en Lambda:&); @56
-        print(PRUEBA4.X); @57
-        if (PRUEBA4.X > 5UI) { @58
-            print(&Condicion Lambda OK&); @59
-        } else { @60
-            print(&Condicion Lambda FAIL&); @61
-        } endif; @62
-    } -> VARLAM, 10UI -> VALOR); @63
- @64
-    print(&Fin de Pruebas Exitoso&); @65
- @66
-    @ var ERROR_F := 10UI; @67
-    @ ERROR_F := ERROR_F - 20UI; @68
- @69
-    @ TERCETO b: Overflow en suma de enteros (Max 65535) @70
-    @ var ERROR_B := 65530UI + 10UI; @71
- @72
-    @ TERCETO e: Overflow en producto de flotantes @73
-    @ var ERROR_E := 1.0F+30 * 1.0F+10; @74
- @75
-    print(&Fin de Pruebas Exitoso&); @76
-} @77
+PRUEBA4 { @Numero de linea: 1
+    print(&Inicio de la @Numero de linea: 2
+    Bateria de Pruebas&); @Numero de linea: 3
+ @Numero de linea: 4
+    var A := 10UI; @Numero de linea: 5
+    var B := 20UI; @Numero de linea: 6
+ @Numero de linea: 7
+    var F1 := 12.5F+0; @Numero de linea: 8
+    var F2 := 2.5F+0; @Numero de linea: 9
+ @Numero de linea: 10
+    var CONV := 0UI; @Numero de linea: 11
+    CONV := toui(F1); @Numero de linea: 12
+    print(&Conversion toui(12.5) -> 12:&); @Numero de linea: 13
+    print(CONV); @Numero de linea: 14
+ @Numero de linea: 15
+    var I := 0UI; @Numero de linea: 16
+    print(&Probando Do-While (0 a 2):&); @Numero de linea: 17
+    do { @Numero de linea: 18
+        print(I); @Numero de linea: 19
+        I := I + 1UI; @Numero de linea: 20
+    } while (I < 3UI); @Numero de linea: 21
+ @Numero de linea: 22
+    print(&Asignacion Multiple A=100, B=200:&); @Numero de linea: 23
+    A, B = 100UI, 200UI; @Numero de linea: 24
+    print(A); @Numero de linea: 25
+    print(B); @Numero de linea: 26
+ @Numero de linea: 27
+    print(&Acceso con Prefijo PRUEBA4.A:&); @Numero de linea: 28
+    print(PRUEBA4.A); @Numero de linea: 29
+ @Numero de linea: 30
+    uint, uint, uint FUNCTEST(cr se uint SALIDA) { @Numero de linea: 31
+        SALIDA := 999UI; @Numero de linea: 32
+        return(1UI, 2UI, 3UI); @Numero de linea: 33
+    } @Numero de linea: 34
+ @Numero de linea: 35
+    uint RUNLAMBDA(lambda VARLAM, uint VALOR) { @Numero de linea: 36
+        print(&Ejecutando Lambda interna...&); @Numero de linea: 37
+        VARLAM(VALOR); @Numero de linea: 38
+        return(1UI); @Numero de linea: 39
+    } @Numero de linea: 40
+ @Numero de linea: 41
+    var R1 := 0UI; @Numero de linea: 42
+    var R2 := 0UI; @Numero de linea: 43
+    var OUTPARAM := 10UI; @Numero de linea: 44
+ @Numero de linea: 45
+    R1, R2 = FUNCTEST(OUTPARAM -> SALIDA); @Numero de linea: 46
+ @Numero de linea: 47
+    print(&Retornos Multiples (1 y 2):&); @Numero de linea: 48
+    print(R1); @Numero de linea: 49
+    print(R2); @Numero de linea: 50
+ @Numero de linea: 51
+    print(&Valor OUTPARAM post ejecucion (Esperado 999):&); @Numero de linea: 52
+    print(OUTPARAM); @Numero de linea: 53
+    var X := 3UI; @Numero de linea: 54
+    RUNLAMBDA((uint X) { @Numero de linea: 55
+        print(&Valor en Lambda:&); @Numero de linea: 56
+        print(PRUEBA4.X); @Numero de linea: 57
+        if (PRUEBA4.X > 5UI) { @Numero de linea: 58
+            print(&Condicion Lambda OK&); @Numero de linea: 59
+        } else { @Numero de linea: 60
+            print(&Condicion Lambda FAIL&); @Numero de linea: 61
+        } endif; @Numero de linea: 62
+    } -> VARLAM, 10UI -> VALOR); @Numero de linea: 63
+ @Numero de linea: 64
+    print(&Fin de Pruebas Exitoso&); @Numero de linea: 65
+ @Numero de linea: 66
+    @ var ERROR_F := 10UI; @Numero de linea: 67
+    @ ERROR_F := ERROR_F - 20UI; @Numero de linea: 68
+ @Numero de linea: 69
+    @ TERCETO b: Overflow en suma de enteros (Max 65535) @Numero de linea: 70
+    @ var ERROR_B := 65530UI + 10UI; @Numero de linea: 71
+ @Numero de linea: 72
+    @ TERCETO e: Overflow en producto de flotantes @Numero de linea: 73
+    @ var ERROR_E := 1.0F+30 * 1.0F+10; @Numero de linea: 74
+ @Numero de linea: 75
+    print(&Fin de Pruebas Exitoso&); @Numero de linea: 76
+} @Numero de linea: 77

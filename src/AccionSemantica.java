@@ -23,7 +23,6 @@ public abstract class AccionSemantica{
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.disminuirContador();
             String lexemaActual = al.getLexema();
-
             if (al.isAllLowerCase(lexemaActual)) {
                 if (al.esPalabraReservada(lexemaActual)) {
                     return "ID";
@@ -32,7 +31,6 @@ public abstract class AccionSemantica{
                     return "ERROR";
                 }
             }
-
             char primerChar = lexemaActual.charAt(0);
             if (Character.isUpperCase(primerChar)) {
                 for (int i = 1; i < lexemaActual.length(); i++) {
@@ -42,7 +40,6 @@ public abstract class AccionSemantica{
                         return "ERROR";
                     }
                 }
-
                 if (lexemaActual.length() > 20) {
                     String original = lexemaActual;
                     lexemaActual = lexemaActual.substring(0, 20);
@@ -51,7 +48,6 @@ public abstract class AccionSemantica{
                 }
                 return "ID";
             }
-
             al.agregarError("Identificador '" + lexemaActual + "' mal formado. Debe comenzar con mayuscula o ser una palabra reservada en minusculas.");
             return "ERROR";
         }
@@ -61,14 +57,11 @@ public abstract class AccionSemantica{
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.disminuirContador();
             String lexemaConSufijo = al.getLexema();
-
             if (!lexemaConSufijo.endsWith("UI")) {
                 al.agregarError("Constante mal formada, se esperaba el sufijo 'UI': " + lexemaConSufijo);
                 return "ERROR"; // Esto está bien, es un error de token.
             }
-
             String soloEnteros = lexemaConSufijo.substring(0, lexemaConSufijo.length() - 2);
-
             try {
                 BigDecimal bd = new BigDecimal(soloEnteros);
                 BigDecimal limiteSuperior = new BigDecimal("65536"); // 2^16
@@ -98,7 +91,6 @@ public abstract class AccionSemantica{
             al.disminuirContador();
             String lexemaActual = al.getLexema();
             String valor = lexemaActual.replace('F', 'E');
-
             try {
                 BigDecimal bd = new BigDecimal(valor);
                 BigDecimal limiteInferiorPositivo = new BigDecimal("1.17549435E-38");
@@ -110,7 +102,6 @@ public abstract class AccionSemantica{
                 if (enRangoPositivo || esCero) {
                     return "CTE";
                 }
-
                 al.agregarError("Constante flotante fuera de rango.");
                 return "CTE"; // Esto ya lo hicimos
 

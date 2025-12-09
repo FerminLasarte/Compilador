@@ -1,42 +1,42 @@
-PRUEBA2 { @1
-    print(&Inicio Test 2: Control y Funciones&); @2
- @3
-    var CONTADOR := 0UI; @4
-    var EXTERNA := 10UI; @5
- @6
-    @ TEMA 21: Funcion con 3 retornos @7
-    @ TEMA 25: Parametro 'cr se' (Copia-Resultado Solo Escritura) @8
-    uint, uint, uint FUNCTEST(cr se uint SALIDA) { @9
-        @ Modificamos el parametro. Al volver, EXTERNA debe valer 99 @10
-        SALIDA := 99UI; @11
-         @12
-        return(10UI, 20UI, 30UI); @13
-    } @14
- @15
-    var R1 := 0UI; @16
-    var R2 := 0UI; @17
-    var R3 := 0UI; @17
-    @ TEMA 14: Sentencia DO-WHILE @18
-    do { @19
-        print(&Ciclo Do-While nro:&); @20
-        print(CONTADOR); @21
- @22
- @23
-        @ TEMA 19: Asignacion multiple (variables = funcion) @24
-        @ TEMA 21: Retornos multiples (Funcion devuelve 3, asignamos a 2 -> Warning y descarta el 3ro) @25
-        @ TEMA 23: Prefijado Opcional (PRUEBA2.EXTERNA) @26
-        R1, R2, R3 = FUNCTEST(PRUEBA2.EXTERNA -> SALIDA); @27 R2 toma el valor de R1
- @28
-        print(&Retornos recibidos:&); @29
+PRUEBA2 { @Numero de linea: 1
+    print(&Inicio Test 2: Control y Funciones&); @Numero de linea: 2
+ @Numero de linea: 3
+    var CONTADOR := 0UI; @Numero de linea: 4
+    var EXTERNA := 10UI; @Numero de linea: 5
+ @Numero de linea: 6
+    @ TEMA 21: Funcion con 3 retornos @Numero de linea: 7
+    @ TEMA 25: Parametro 'cr se' (Copia-Resultado Solo Escritura) @Numero de linea: 8
+    uint, uint, uint FUNCTEST(cr se uint SALIDA) { @Numero de linea: 9
+        @ Modificamos el parametro. Al volver, EXTERNA debe valer 99 @Numero de linea: 10
+        SALIDA := 99UI; @Numero de linea: 11
+         @Numero de linea: 12
+        return(10UI, 20UI, 30UI); @Numero de linea: 13
+    } @Numero de linea: 14
+ @Numero de linea: 15
+    var R1 := 0UI; @Numero de linea: 16
+    var R2 := 0UI; @Numero de linea: 17
+    var R3 := 0UI; @Numero de linea: 17
+    @ TEMA 14: Sentencia DO-WHILE @Numero de linea: 18
+    do { @Numero de linea: 19
+        print(&Ciclo Do-While nro:&); @Numero de linea: 20
+        print(CONTADOR); @Numero de linea: 21
+ @Numero de linea: 22
+ @Numero de linea: 23
+        @ TEMA 19: Asignacion multiple (variables = funcion) @Numero de linea: 24
+        @ TEMA 21: Retornos multiples (Funcion devuelve 3, asignamos a 2 -> Warning y descarta el 3ro) @Numero de linea: 25
+        @ TEMA 23: Prefijado Opcional (PRUEBA2.EXTERNA) @Numero de linea: 26
+        R1, R2, R3 = FUNCTEST(PRUEBA2.EXTERNA -> SALIDA); @Numero de linea: 27 R2 toma el valor de R1
+ @Numero de linea: 28
+        print(&Retornos recibidos:&); @Numero de linea: 29
         print(&R1:&);
-        print(R1); @30
+        print(R1); @Numero de linea: 30
         print(&R2:&);
-        print(R2); @31
- @32
-        CONTADOR := CONTADOR + 1UI; @33
-    } while (CONTADOR < 10UI); @34
- @35
-    print(&Valor de EXTERNA tras Copia-Resultado (Debe ser 99):&); @36
-    @ TEMA 23: Uso explicito de ambito @37
-    print(PRUEBA2.EXTERNA); @38
-} @39
+        print(R2); @Numero de linea: 31
+ @Numero de linea: 32
+        CONTADOR := CONTADOR + 1UI; @Numero de linea: 33
+    } while (CONTADOR < 10UI); @Numero de linea: 34
+ @Numero de linea: 35
+    print(&Valor de EXTERNA tras Copia-Resultado (Debe ser 99):&); @Numero de linea: 36
+    @ TEMA 23: Uso explicito de ambito @Numero de linea: 37
+    print(PRUEBA2.EXTERNA); @Numero de linea: 38
+} @Numero de linea: 39
