@@ -37,5 +37,5 @@ PRUEBA1 { @1
     @ var OFFLOAT := 1.0F+30; @37
     @ OFFLOAT := OFFLOAT * 1.0F+10; @38
      @39
-    print(&Fin Test 1 sin errores fatales&); @40
+    @print(&Fin Test 1 sin errores fatales&); @40
 } @41
