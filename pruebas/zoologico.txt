@@ -46,9 +46,9 @@ ZOOLOGICO { @1
         print(ZOOLOGICO.PACIENTE); @46
     }->VETERINARIO, 50UI->MEDICINA); @47
     print(&Probando chequeos runtime (operaciones validas):&); @48
-    LEON := LEON + 1UI; @49
-    if (LEON > 0UI) { @50
-        LEON := LEON - 1UI; @51
+    VARLEON := VARLEON + 1UI; @49
+    if (VARLEON > 0UI) { @50
+        VARLEON := VARLEON - 1UI; @51
     } endif; @52
     AGUILA := AGUILA * HALCON; @53
     print(AGUILA); @54
