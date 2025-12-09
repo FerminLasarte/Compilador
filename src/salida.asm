@@ -226,15 +226,6 @@ MaxFloatValue dd 2139095039
 @aux207 dd 0
 @aux208 dd 0
 @aux209 dd 0
-@aux210 dd 0
-@aux211 dd 0
-@aux212 dd 0
-@aux213 dd 0
-@aux214 dd 0
-@aux215 dd 0
-@aux216 dd 0
-@aux217 dd 0
-@aux218 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -282,12 +273,6 @@ _R2_MAIN dd 0
 _R3_MAIN dd 0
 _P1_MAIN_FUNCION dd 0
 _VARPARALAMBDA_MAIN dd 0
-_MAX_MAIN dd 0
-_RESTA_MAIN dd 0
-_OVER_MAIN dd 0
-_NEGATIVO_MAIN dd 0
-_TECHO_MAIN dd 0
-_FLOATOVER_MAIN dd 0
 str_1 db "A:", 0
 str_4 db "B:", 0
 str_6 db "cadena @11", 13, 10, "    multilinea", 0
@@ -950,49 +935,6 @@ invoke crt_printf, addr MensajePrintNum, _GLOBAL_MAIN
 Label209:
 MOV EAX, 5
 MOV _VARPARALAMBDA_MAIN, EAX
-Label210:
-MOV EAX, 65535
-MOV _MAX_MAIN, EAX
-Label211:
-MOV EAX, 1
-MOV _RESTA_MAIN, EAX
-Label212:
-MOV EAX, _MAX_MAIN
-ADD EAX, 1
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux212, EAX
-Label213:
-MOV EAX, @aux212
-MOV _OVER_MAIN, EAX
-Label214:
-MOV EAX, _RESTA_MAIN
-SUB EAX, 200
-JC ErrorRestaNegativa
-MOV @aux214, EAX
-Label215:
-MOV EAX, @aux214
-MOV _NEGATIVO_MAIN, EAX
-Label216:
-MOV EAX, 2139095039
-PUSH EAX
-FLD DWORD PTR [ESP]
-ADD ESP, 4
-FSTP _TECHO_MAIN
-Label217:
-FLD _TECHO_MAIN
-FLD _TECHO_MAIN
-FMUL
-FLD ST(0)
-FABS
-FCOMP MaxFloatValue
-FSTSW AX
-SAHF
-JA ErrorOverflow
-FSTP @aux217
-Label218:
-FLD @aux217
-FSTP _FLOATOVER_MAIN
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

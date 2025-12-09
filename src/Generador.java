@@ -66,7 +66,13 @@ public class Generador {
         String op2 = resolveName(operando2);
         Terceto t = new Terceto(operador, op1, op2);
         this.tercetos.add(t);
-        return "[" + (this.tercetos.size() - 1) + "]";
+        int index = this.tercetos.size() - 1;
+        String nombreVarAux = "@aux" + index;
+        if (al != null) {
+            al.agregarLexemaTS(nombreVarAux);
+            al.agregarAtributoLexema(nombreVarAux, "Uso", "variable_auxiliar");
+        }
+        return "[" + index + "]";
     }
 
     public String addTerceto(String operador, String operando1) {
@@ -140,10 +146,21 @@ public class Generador {
         return -1;
     }
 
-    public void abrirAmbito(String nombre) { al.abrirAmbito(nombre); }
-    public void cerrarAmbito() { al.cerrarAmbito(); }
-    public boolean existeEnAmbitoActual(String lexema) { return al.existeEnAmbitoActual(lexema); }
-    public String getAmbitoActual() { return al.getAmbitoActual(); }
+    public void abrirAmbito(String nombre) {
+        al.abrirAmbito(nombre);
+    }
+
+    public void cerrarAmbito() {
+        al.cerrarAmbito();
+    }
+
+    public boolean existeEnAmbitoActual(String lexema) {
+        return al.existeEnAmbitoActual(lexema);
+    }
+
+    public String getAmbitoActual() {
+        return al.getAmbitoActual();
+    }
 
     public String getTipo(String operando) {
         if (operando == null) return "void";
@@ -213,11 +230,11 @@ public class Generador {
         }
 
         if ((tipo1.equals("uint") && tipo2.equals("float")) || (tipo1.equals("float") && tipo2.equals("uint"))) {
-            al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: No se puede operar ("+op+") entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).");
+            al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: No se puede operar (" + op + ") entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).");
             return "error_tipo";
         }
 
-        al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Operacion ("+op+") entre tipos incompatibles: " + tipo1 + " y " + tipo2);
+        al.agregarErrorSemantico("Linea " + linea + ": Error de Tipos: Operacion (" + op + ") entre tipos incompatibles: " + tipo1 + " y " + tipo2);
         return "error_tipo";
     }
 
@@ -248,7 +265,9 @@ public class Generador {
         return false;
     }
 
-    public void apilarParametro(ParametroInfo p) { this.pilaParametros.push(p); }
+    public void apilarParametro(ParametroInfo p) {
+        this.pilaParametros.push(p);
+    }
 
     public ArrayList<ParametroInfo> getListaParametros() {
         ArrayList<ParametroInfo> lista = new ArrayList<>(pilaParametros);
@@ -256,7 +275,9 @@ public class Generador {
         return lista;
     }
 
-    public void apilarParametroReal(ParametroRealInfo p) { this.pilaParametrosReales.push(p); }
+    public void apilarParametroReal(ParametroRealInfo p) {
+        this.pilaParametrosReales.push(p);
+    }
 
     public ArrayList<ParametroRealInfo> getListaParametrosReales(int count) {
         ArrayList<ParametroRealInfo> lista = new ArrayList<>();
@@ -268,10 +289,19 @@ public class Generador {
         return lista;
     }
 
-    public int getCountParametrosReales() { return pilaParametrosReales.size(); }
-    public void clearParametrosReales() { pilaParametrosReales.clear(); }
+    public void clearParametrosReales() {
+        pilaParametrosReales.clear();
+    }
 
-    public void apilarLadoDerecho(String s) { this.pilaLadoDerecho.push(s); }
-    public Stack<String> getPilaLadoDerecho() { return this.pilaLadoDerecho; }
-    public void clearLadoDerecho() { this.pilaLadoDerecho.clear(); }
+    public void apilarLadoDerecho(String s) {
+        this.pilaLadoDerecho.push(s);
+    }
+
+    public Stack<String> getPilaLadoDerecho() {
+        return this.pilaLadoDerecho;
+    }
+
+    public void clearLadoDerecho() {
+        this.pilaLadoDerecho.clear();
+    }
 }

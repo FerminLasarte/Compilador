@@ -254,74 +254,276 @@ Linea: 207 - Columna: 26 - Linea 207: Warning (Tema 21): Funcion 'FUNCION:MAIN' 
 207:	(PRINT, &GLOBAL:&, _)
 208:	(PRINT, GLOBAL:MAIN, _)
 209:	(:=, VARPARALAMBDA:MAIN, 5UI)
-210:	(:=, MAX:MAIN, 65535UI)
-211:	(:=, RESTA:MAIN, 1UI)
-212:	(+, MAX:MAIN, 1UI)
-213:	(:=, OVER:MAIN, [212])
-214:	(-, RESTA:MAIN, 200UI)
-215:	(:=, NEGATIVO:MAIN, [214])
-216:	(:=, TECHO:MAIN, 3.40282347F+38)
-217:	(*, TECHO:MAIN, TECHO:MAIN)
-218:	(:=, FLOATOVER:MAIN, [217])
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN                                | MAX:MAIN                                      | false        | variable           | uint       |
+| MAIN                                | @aux189:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux39:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux144:MAIN                                  | false        | variable_auxiliar  | null       |
 | MAIN                                | B:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | TECHO:MAIN                                    | false        | variable           | float      |
-| MAIN                                | R1:MAIN                                       | false        | variable           | uint       |
 | MAIN                                | FUNCZ:MAIN                                    | false        | funcion            | uint       |
-| MAIN                                | OVER:MAIN                                     | false        | variable           | uint       |
+| MAIN                                | @aux55:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux191:MAIN                                  | false        | variable_auxiliar  | null       |
 | MAIN                                | MAIN:MAIN                                     | false        | null               | null       |
-| MAIN                                | F1:MAIN                                       | false        | variable           | float      |
 | MAIN                                | Y:MAIN                                        | false        | variable           | float      |
-| MAIN                                | PROCESAR:MAIN                                 | false        | funcion            | uint       |
-| MAIN                                | GLOBAL:MAIN                                   | false        | variable           | uint       |
+| MAIN                                | @aux114:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux159:MAIN                                  | false        | variable_auxiliar  | null       |
 | MAIN                                | A:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | NEGATIVO:MAIN                                 | false        | variable           | uint       |
-| MAIN                                | XX:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | F2:MAIN                                       | false        | variable           | float      |
-| MAIN                                | E:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | FUNCIONX:MAIN                                 | false        | funcion            | uint       |
-| MAIN                                | VARPARALAMBDA:MAIN                            | false        | variable           | uint       |
-| MAIN                                | RESTA:MAIN                                    | false        | variable           | uint       |
-| MAIN                                | X:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | R3:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | VARIABLEZ:MAIN                                | false        | variable           | uint       |
-| MAIN                                | BASURA:MAIN                                   | false        | variable           | uint       |
+| MAIN                                | @aux10:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux11:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux56:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux192:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux161:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux0:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux145:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux200:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux25:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux57:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux193:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux115:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux112:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux24:MAIN                                   | false        | variable_auxiliar  | null       |
 | MAIN                                | Z:MAIN                                        | false        | variable           | float      |
-| MAIN                                | FUNCION:MAIN                                  | false        | funcion            | multiple   |
-| MAIN                                | R2:MAIN                                       | false        | variable           | uint       |
+| MAIN                                | @aux27:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux160:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux163:MAIN                                  | false        | variable_auxiliar  | null       |
 | MAIN                                | F3:MAIN                                       | false        | variable           | float      |
-| MAIN                                | FLOATOVER:MAIN                                | false        | variable           | float      |
+| MAIN                                | @aux188:MAIN                                  | false        | variable_auxiliar  | null       |
 | MAIN                                | CONT:MAIN                                     | false        | variable           | uint       |
+| MAIN                                | @aux8:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux38:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux158:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux208:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux54:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux190:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux147:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux36:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux2:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux30:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux13:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux58:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux45:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux195:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux142:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux52:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux207:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | XX:MAIN                                       | false        | variable           | uint       |
+| MAIN                                | @aux3:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux164:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux14:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux148:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | F2:MAIN                                       | false        | variable           | float      |
+| MAIN                                | FUNCIONX:MAIN                                 | false        | funcion            | uint       |
+| MAIN                                | @aux23:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux151:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux9:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux173:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux170:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | R3:MAIN                                       | false        | variable           | uint       |
+| MAIN                                | @aux201:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux26:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux29:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux157:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux204:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux20:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux113:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux116:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux33:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux205:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux119:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | R1:MAIN                                       | false        | variable           | uint       |
+| MAIN                                | @aux5:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux50:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux152:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux16:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux167:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux197:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux198:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | PROCESAR:MAIN                                 | false        | funcion            | uint       |
+| MAIN                                | @aux118:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux6:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux17:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux51:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | VARPARALAMBDA:MAIN                            | false        | variable           | uint       |
+| MAIN                                | @aux196:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux32:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | VARIABLEZ:MAIN                                | false        | variable           | uint       |
+| MAIN                                | @aux199:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | BASURA:MAIN                                   | false        | variable           | uint       |
+| MAIN                                | @aux21:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | FUNCION:MAIN                                  | false        | funcion            | multiple   |
+| MAIN                                | @aux171:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux35:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | R2:MAIN                                       | false        | variable           | uint       |
+| MAIN                                | @aux19:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux169:MAIN                                  | false        | variable_auxiliar  | null       |
 | MAIN                                | VARIABLEXX:MAIN                               | false        | variable           | uint       |
+| MAIN                                | @aux166:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux202:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux44:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux172:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux194:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux53:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | F1:MAIN                                       | false        | variable           | float      |
+| MAIN                                | @aux117:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | GLOBAL:MAIN                                   | false        | variable           | uint       |
+| MAIN                                | @aux59:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux111:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux60:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux28:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux203:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux22:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux150:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | E:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | @aux15:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux168:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux165:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux18:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux12:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | X:MAIN                                        | false        | variable           | uint       |
+| MAIN                                | @aux143:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux206:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux209:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux37:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux146:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux34:MAIN                                   | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux149:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux162:MAIN                                  | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux7:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux4:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux1:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux31:MAIN                                   | false        | variable_auxiliar  | null       |
 | MAIN                                | VALOR:MAIN                                    | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCZ                          | VARIABLEOTRA:MAIN:FUNCZ                       | false        | variable           | uint       |
+| MAIN:bloque_40                      | @aux42:MAIN:bloque_40                         | false        | variable_auxiliar  | null       |
+| MAIN:bloque_40                      | @aux40:MAIN:bloque_40                         | false        | variable_auxiliar  | null       |
+| MAIN:bloque_40                      | @aux43:MAIN:bloque_40                         | false        | variable_auxiliar  | null       |
+| MAIN:bloque_40                      | @aux41:MAIN:bloque_40                         | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN:bloque_46                      | @aux46:MAIN:bloque_46                         | false        | variable_auxiliar  | null       |
+| MAIN:bloque_46                      | @aux49:MAIN:bloque_46                         | false        | variable_auxiliar  | null       |
+| MAIN:bloque_46                      | @aux48:MAIN:bloque_46                         | false        | variable_auxiliar  | null       |
+| MAIN:bloque_46                      | @aux47:MAIN:bloque_46                         | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN:FUNCZ                          | @aux77:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux80:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux106:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux73:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux110:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux61:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux67:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux63:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux68:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux109:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux78:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux83:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | A:MAIN:FUNCZ                                  | false        | variable           | uint       |
+| MAIN:FUNCZ                          | @aux84:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux105:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | FUNCJ:MAIN:FUNCZ                              | false        | funcion            | uint       |
+| MAIN:FUNCZ                          | @aux74:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux70:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux64:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux62:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux69:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux72:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux108:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux79:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux82:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux85:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
 | MAIN:FUNCZ                          | Z:MAIN:FUNCZ                                  | false        | parametro          | uint       |
 | MAIN:FUNCZ                          | W:MAIN:FUNCZ                                  | false        | variable           | uint       |
-| MAIN:FUNCZ                          | A:MAIN:FUNCZ                                  | false        | variable           | uint       |
-| MAIN:FUNCZ                          | FUNCJ:MAIN:FUNCZ                              | false        | funcion            | uint       |
+| MAIN:FUNCZ                          | @aux65:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux75:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux104:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux71:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux81:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | VARIABLEOTRA:MAIN:FUNCZ                       | false        | variable           | uint       |
+| MAIN:FUNCZ                          | @aux107:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux76:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
 | MAIN:FUNCZ                          | J:MAIN:FUNCZ                                  | false        | variable           | uint       |
+| MAIN:FUNCZ                          | @aux66:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ                          | @aux103:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCZ:FUNCJ                    | J:MAIN:FUNCZ:FUNCJ                            | false        | parametro          | uint       |
-| MAIN:FUNCZ:FUNCJ                    | P:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
+| MAIN:FUNCZ:FUNCJ                    | @aux97:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux86:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux89:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux99:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux102:MAIN:FUNCZ:FUNCJ                      | false        | variable_auxiliar  | null       |
 | MAIN:FUNCZ:FUNCJ                    | W:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
+| MAIN:FUNCZ:FUNCJ                    | @aux95:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux100:MAIN:FUNCZ:FUNCJ                      | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux93:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux91:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux96:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux98:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | J:MAIN:FUNCZ:FUNCJ                            | false        | parametro          | uint       |
+| MAIN:FUNCZ:FUNCJ                    | @aux88:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux87:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux94:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | P:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
+| MAIN:FUNCZ:FUNCJ                    | @aux101:MAIN:FUNCZ:FUNCJ                      | false        | variable_auxiliar  | null       |
+| MAIN:FUNCZ:FUNCJ                    | @aux90:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
 | MAIN:FUNCZ:FUNCJ                    | A:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
+| MAIN:FUNCZ:FUNCJ                    | @aux92:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN:FUNCIONX                       | @aux139:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX                       | @aux141:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX                       | @aux120:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX                       | @aux127:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX                       | @aux133:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX                       | @aux122:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX                       | @aux128:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX                       | @aux136:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
 | MAIN:FUNCIONX                       | GCONTADOR:MAIN:FUNCIONX                       | false        | variable           | uint       |
+| MAIN:FUNCIONX                       | @aux130:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX                       | @aux135:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
 | MAIN:FUNCIONX                       | AA:MAIN:FUNCIONX                              | false        | parametro          | uint       |
+| MAIN:FUNCIONX                       | @aux129:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX                       | @aux121:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
 | MAIN:FUNCIONX                       | A:MAIN:FUNCIONX                               | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN:FUNCIONX:bloque_123            | @aux124:MAIN:FUNCIONX:bloque_123              | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX:bloque_123            | @aux126:MAIN:FUNCIONX:bloque_123              | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX:bloque_123            | @aux123:MAIN:FUNCIONX:bloque_123              | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX:bloque_123            | @aux125:MAIN:FUNCIONX:bloque_123              | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN:FUNCIONX:bloque_131            | @aux131:MAIN:FUNCIONX:bloque_131              | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX:bloque_131            | @aux132:MAIN:FUNCIONX:bloque_131              | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN:FUNCIONX:bloque_134            | @aux134:MAIN:FUNCIONX:bloque_134              | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN:FUNCIONX:bloque_137            | @aux137:MAIN:FUNCIONX:bloque_137              | false        | variable_auxiliar  | null       |
+| MAIN:FUNCIONX:bloque_137            | @aux138:MAIN:FUNCIONX:bloque_137              | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN:FUNCIONX:bloque_140            | @aux140:MAIN:FUNCIONX:bloque_140              | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN:PROCESAR                       | @aux153:MAIN:PROCESAR                         | false        | variable_auxiliar  | null       |
+| MAIN:PROCESAR                       | @aux155:MAIN:PROCESAR                         | false        | variable_auxiliar  | null       |
+| MAIN:PROCESAR                       | @aux154:MAIN:PROCESAR                         | false        | variable_auxiliar  | null       |
 | MAIN:PROCESAR                       | OUT:MAIN:PROCESAR                             | false        | parametro          | uint       |
+| MAIN:PROCESAR                       | @aux156:MAIN:PROCESAR                         | false        | variable_auxiliar  | null       |
 | MAIN:PROCESAR                       | INOUT:MAIN:PROCESAR                           | false        | parametro          | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| MAIN:FUNCION                        | @aux177:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux182:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux178:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux183:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux176:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux180:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux185:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux174:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux179:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux175:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux184:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux181:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
 | MAIN:FUNCION                        | P1:MAIN:FUNCION                               | false        | parametro          | uint       |
 | MAIN:FUNCION                        | VARLOCAL:MAIN:FUNCION                         | false        | variable           | uint       |
+| MAIN:FUNCION                        | @aux187:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| MAIN:FUNCION                        | @aux186:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================

@@ -216,10 +216,10 @@ MAIN { @1
     print(GLOBAL); @216
     var VARPARALAMBDA := 5UI; @217
  @218
-    var MAX := 65535UI; @219
-    var RESTA := 1UI; @220
-    var OVER := MAX + 1UI; @221
-    var NEGATIVO := RESTA - 200UI; @222
-    var TECHO := 3.40282347F+38; @223
-    var FLOATOVER := TECHO * TECHO; @224
+    @var MAX := 65535UI; @219
+    @var RESTA := 1UI; @220
+    @var OVER := MAX + 1UI; @221
+    @var NEGATIVO := RESTA - 200UI; @222
+    @var TECHO := 3.40282347F+38; @223
+    @var FLOATOVER := TECHO * TECHO; @224
 } @225
