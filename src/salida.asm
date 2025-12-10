@@ -43,6 +43,7 @@ MaxFloatValue dd 2139095039
 @aux24 dd 0
 @aux25 dd 0
 @aux26 dd 0
+@aux27 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -61,7 +62,7 @@ _PLAMBDA_PRUEBA1_PROCESARCOMPLEJO dd 0
 _PVAL_PRUEBA1_PROCESARCOMPLEJO dd 0
 _RESF_PRUEBA1 dd 0
 _ITERACION_PRUEBA1_lambda_21 dd 0
-str_0 db "=== TEST AL LIMITE: STRESS TEST ===", 0
+str_0 db "=== PRUEBA DIFICIL ===", 0
 str_6 db "[FUNC] Entrando a funcion compleja...", 0
 str_18 db "1. Probando Scope y Lambdas anidadas:", 0
 str_22 db "  [LAMBDA] Iteracion:", 0
@@ -157,6 +158,7 @@ Label25:
 JMP Label27
 Label26:
 invoke crt_printf, addr MensajePrint, addr str_26
+Label27:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

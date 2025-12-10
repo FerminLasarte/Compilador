@@ -1,5 +1,5 @@
 PRUEBA1 {
-    print(&=== TEST AL LIMITE: STRESS TEST ===&);
+    print(&=== PRUEBA DIFICIL ===&);
 
     @ TEMA 9 y 2: Variables Globales
     var GLOBALU := 10UI;

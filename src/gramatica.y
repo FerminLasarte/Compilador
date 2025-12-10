@@ -812,6 +812,7 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                        g.modificarSaltoTerceto(bfIdx, "[" + finIf + "]");
                    }
                    salida.add("Linea " + $1.ival + ": Sentencia IF reconocida.");
+                   g.addTerceto("NOP", "_", "_");
                }
                |
                if_encabezado bloque_ejecutable ELSE {
@@ -830,6 +831,7 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    g.modificarSaltoTerceto(biIdx, "[" + finElse + "]");
 
                    salida.add("Linea " + $1.ival + ": Sentencia IF-ELSE reconocida.");
+                   g.addTerceto("NOP", "_", "_");
                }
                ;
 

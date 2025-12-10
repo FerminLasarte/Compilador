@@ -29,7 +29,7 @@ No se encontraron warnings.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(PRINT, &=== TEST AL LIMITE: STRESS TEST ===&, _)
+0:	(PRINT, &=== PRUEBA DIFICIL ===&, _)
 1:	(:=, GLOBALU:PRUEBA1, 10UI)
 2:	(:=, GLOBALF:PRUEBA1, 25.5F+0)
 3:	(:=, ACUMULADOR:PRUEBA1, 0UI)
@@ -56,6 +56,7 @@ No se encontraron warnings.
 24:	(PRINT, &  [LAMBDA] Calculo > 25 (Correcto)&, _)
 25:	(BI, _, [27])
 26:	(PRINT, &  [LAMBDA] Calculo <= 25 (Error logico)&, _)
+27:	(NOP, _, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -100,6 +101,7 @@ No se encontraron warnings.
 | PRUEBA1:lambda_21                   | @aux25:PRUEBA1:lambda_21                      | false        | variable_auxiliar  | null       |
 | PRUEBA1:lambda_21                   | @aux22:PRUEBA1:lambda_21                      | false        | variable_auxiliar  | null       |
 | PRUEBA1:lambda_21                   | ITERACION:PRUEBA1:lambda_21                   | false        | parametro_lambda   | uint       |
+| PRUEBA1:lambda_21                   | @aux27:PRUEBA1:lambda_21                      | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 | PRUEBA1:lambda_21:bloque_24         | @aux24:PRUEBA1:lambda_21:bloque_24            | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
