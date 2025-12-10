@@ -119,6 +119,12 @@ public class GeneradorAssembler {
             codigo.append("Label").append(numTerceto).append(":\n");
 
             String op = tercetoActual.getOperador();
+
+            if (op.equals("NOP")) {
+                numTerceto++;
+                continue;
+            }
+
             String rawOp1 = tercetoActual.getOperando1();
             String rawOp2 = tercetoActual.getOperando2();
             String op1 = resolveOperand(rawOp1);
