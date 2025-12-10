@@ -44,6 +44,33 @@ MaxFloatValue dd 2139095039
 @aux25 dd 0
 @aux26 dd 0
 @aux27 dd 0
+@aux28 dd 0
+@aux29 dd 0
+@aux30 dd 0
+@aux31 dd 0
+@aux32 dd 0
+@aux33 dd 0
+@aux34 dd 0
+@aux35 dd 0
+@aux36 dd 0
+@aux37 dd 0
+@aux38 dd 0
+@aux39 dd 0
+@aux40 dd 0
+@aux41 dd 0
+@aux42 dd 0
+@aux43 dd 0
+@aux44 dd 0
+@aux45 dd 0
+@aux46 dd 0
+@aux47 dd 0
+@aux48 dd 0
+@aux49 dd 0
+@aux50 dd 0
+@aux51 dd 0
+@aux52 dd 0
+@aux53 dd 0
+@aux54 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -61,13 +88,20 @@ _VARLOCALI_PRUEBA1_PROCESARCOMPLEJO dd 0
 _PLAMBDA_PRUEBA1_PROCESARCOMPLEJO dd 0
 _PVAL_PRUEBA1_PROCESARCOMPLEJO dd 0
 _RESF_PRUEBA1 dd 0
-_ITERACION_PRUEBA1_lambda_21 dd 0
+_CALC_PRUEBA1 dd 0
+_ITERACION_PRUEBA1_lambda_22 dd 0
+_VARLIMITE_PRUEBA1 dd 0
+_COMPLEJO_PRUEBA1 dd 0
 str_0 db "=== PRUEBA DIFICIL ===", 0
 str_6 db "[FUNC] Entrando a funcion compleja...", 0
 str_18 db "1. Probando Scope y Lambdas anidadas:", 0
-str_22 db "  [LAMBDA] Iteracion:", 0
-str_24 db "  [LAMBDA] Calculo > 25 (Correcto)", 0
-str_26 db "  [LAMBDA] Calculo <= 25 (Error logico)", 0
+str_23 db "  [LAMBDA] Iteracion:", 0
+str_30 db "  [LAMBDA] Calculo > 25 (Correcto)", 0
+str_32 db "  [LAMBDA] Calculo <= 25 (Error logico)", 0
+str_42 db "2. Verificando efecto colateral CR LE (Esperado: 10 + 30 = 40):", 0
+str_44 db "3. Stress Aritmetico y Bordes:", 0
+str_52 db "Calculo dentro de rango 16 bits OK:", 0
+str_54 db "=== FIN TEST LIMITE EXITOSO ===", 0
 .code
 start:
 Label0:
@@ -146,19 +180,118 @@ FLD DWORD PTR [ESP]
 ADD ESP, 4
 FSTP _RESF_PRUEBA1
 Label20:
-; JMP UNRESOLVED (_)
+MOV EAX, 0
+MOV _CALC_PRUEBA1, EAX
 Label21:
+JMP Label34
 Label22:
-invoke crt_printf, addr MensajePrint, addr str_22
 Label23:
-invoke crt_printf, addr MensajePrintNum, _ITERACION_PRUEBA1_lambda_21
+invoke crt_printf, addr MensajePrint, addr str_23
 Label24:
-invoke crt_printf, addr MensajePrint, addr str_24
+invoke crt_printf, addr MensajePrintNum, _ITERACION_PRUEBA1_lambda_22
 Label25:
-JMP Label27
+FLD _GLOBALF_PRUEBA1
+FISTP @aux25
 Label26:
-invoke crt_printf, addr MensajePrint, addr str_26
+MOV EAX, @aux25
+ADD EAX, _ITERACION_PRUEBA1_lambda_22
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux26, EAX
 Label27:
+MOV EAX, @aux26
+MOV _CALC_PRUEBA1, EAX
+Label28:
+MOV EAX, _CALC_PRUEBA1
+CMP EAX, 25
+SETA AL
+MOVZX EAX, AL
+MOV @aux28, EAX
+Label29:
+MOV EAX, @aux28
+CMP EAX, 0
+JE Label32
+Label30:
+invoke crt_printf, addr MensajePrint, addr str_30
+Label31:
+JMP Label33
+Label32:
+invoke crt_printf, addr MensajePrint, addr str_32
+Label33:
+; -- RETURN --
+RET
+Label34:
+MOV EAX, _GLOBALU_PRUEBA1
+MOV _PVAL_PRUEBA1_PROCESARCOMPLEJO, EAX
+Label35:
+MOV EAX, Label22
+MOV _PLAMBDA_PRUEBA1_PROCESARCOMPLEJO, EAX
+Label36:
+CALL __PROCESARCOMPLEJO_PRUEBA1
+MOV @aux36, EAX
+Label37:
+MOV EAX, _PVAL_PRUEBA1_PROCESARCOMPLEJO
+MOV _GLOBALU_PRUEBA1, EAX
+Label38:
+MOV EAX, _RET_VAL_0
+MOV @aux38, EAX
+Label39:
+MOV EAX, @aux38
+MOV _GLOBALU_PRUEBA1, EAX
+Label40:
+FLD _RET_VAL_1
+FSTP @aux40
+Label41:
+FLD @aux40
+FSTP _RESF_PRUEBA1
+Label42:
+invoke crt_printf, addr MensajePrint, addr str_42
+Label43:
+invoke crt_printf, addr MensajePrintNum, _GLOBALU_PRUEBA1
+Label44:
+invoke crt_printf, addr MensajePrint, addr str_44
+Label45:
+MOV EAX, 100
+MOV _VARLIMITE_PRUEBA1, EAX
+Label46:
+MOV EAX, 1103626240
+PUSH EAX
+FLD DWORD PTR [ESP]
+ADD ESP, 4
+FISTP @aux46
+Label47:
+MOV EAX, _GLOBALU_PRUEBA1
+MUL 2
+CMP EDX, 0
+JNE ErrorOverflow
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux47, EAX
+Label48:
+MOV EAX, @aux46
+ADD EAX, @aux47
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux48, EAX
+Label49:
+MOV EAX, @aux48
+MOV _COMPLEJO_PRUEBA1, EAX
+Label50:
+MOV EAX, _COMPLEJO_PRUEBA1
+CMP EAX, 65535
+SETB AL
+MOVZX EAX, AL
+MOV @aux50, EAX
+Label51:
+MOV EAX, @aux50
+CMP EAX, 0
+JE Label54
+Label52:
+invoke crt_printf, addr MensajePrint, addr str_52
+Label53:
+invoke crt_printf, addr MensajePrintNum, _COMPLEJO_PRUEBA1
+Label54:
+invoke crt_printf, addr MensajePrint, addr str_54
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

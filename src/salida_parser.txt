@@ -7,9 +7,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 40: Error de sintaxis. Verifique la estructura del codigo.
-Linea 1: Error de sintaxis. Verifique la estructura del codigo.
-Linea 51: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -19,7 +17,7 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 46: Error Semantico: Variable 'CALC' no fue declarada (Regla de alcance).
+No se encontraron errores semanticos.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -49,35 +47,85 @@ No se encontraron warnings.
 17:	(RETURN, 99.9F+0, 1/2)
 18:	(PRINT, &1. Probando Scope y Lambdas anidadas:&, _)
 19:	(:=, RESF:PRUEBA1, 0.0F+0)
-20:	(BI, _, _)
-21:	(DEF_PARAM, ITERACION:PRUEBA1:lambda_21, _)
-22:	(PRINT, &  [LAMBDA] Iteracion:&, _)
-23:	(PRINT, ITERACION:PRUEBA1:lambda_21, _)
-24:	(PRINT, &  [LAMBDA] Calculo > 25 (Correcto)&, _)
-25:	(BI, _, [27])
-26:	(PRINT, &  [LAMBDA] Calculo <= 25 (Error logico)&, _)
-27:	(NOP, _, _)
+20:	(:=, CALC:PRUEBA1, 0UI)
+21:	(BI, _, [34])
+22:	(DEF_PARAM, ITERACION:PRUEBA1:lambda_22, _)
+23:	(PRINT, &  [LAMBDA] Iteracion:&, _)
+24:	(PRINT, ITERACION:PRUEBA1:lambda_22, _)
+25:	(TOUI, GLOBALF:PRUEBA1, _)
+26:	(+, [25], ITERACION:PRUEBA1:lambda_22)
+27:	(:=, CALC:PRUEBA1, [26])
+28:	(>, CALC:PRUEBA1, 25UI)
+29:	(BF, [28], [32])
+30:	(PRINT, &  [LAMBDA] Calculo > 25 (Correcto)&, _)
+31:	(BI, _, [33])
+32:	(PRINT, &  [LAMBDA] Calculo <= 25 (Error logico)&, _)
+33:	(RET_LAMBDA, _, _)
+34:	(PARAM, GLOBALU:PRUEBA1, PVAL:PRUEBA1:PROCESARCOMPLEJO)
+35:	(PARAM, L22, PLAMBDA:PRUEBA1:PROCESARCOMPLEJO)
+36:	(CALL, PROCESARCOMPLEJO:PRUEBA1, _)
+37:	(:=, GLOBALU:PRUEBA1, PVAL:PRUEBA1:PROCESARCOMPLEJO)
+38:	(GET_RET, [36], 0)
+39:	(:=, GLOBALU:PRUEBA1, [38])
+40:	(GET_RET, [36], 1)
+41:	(:=, RESF:PRUEBA1, [40])
+42:	(PRINT, &2. Verificando efecto colateral CR LE (Esperado: 10 + 30 = 40):&, _)
+43:	(PRINT, GLOBALU:PRUEBA1, _)
+44:	(PRINT, &3. Stress Aritmetico y Bordes:&, _)
+45:	(:=, VARLIMITE:PRUEBA1, 100UI)
+46:	(TOUI, 2.5F+1, _)
+47:	(*, GLOBALU:PRUEBA1, 2UI)
+48:	(+, [46], [47])
+49:	(:=, COMPLEJO:PRUEBA1, [48])
+50:	(<, COMPLEJO:PRUEBA1, 65535UI)
+51:	(BF, [50], [54])
+52:	(PRINT, &Calculo dentro de rango 16 bits OK:&, _)
+53:	(PRINT, COMPLEJO:PRUEBA1, _)
+54:	(PRINT, &=== FIN TEST LIMITE EXITOSO ===&, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PRUEBA1                             | GLOBALU:PRUEBA1                               | false        | variable           | uint       |
-| PRUEBA1                             | PRUEBA1:PRUEBA1                               | false        | null               | null       |
+| PRUEBA1                             | @aux47:PRUEBA1                                | false        | variable_auxiliar  | null       |
 | PRUEBA1                             | ACUMULADOR:PRUEBA1                            | false        | variable           | uint       |
 | PRUEBA1                             | @aux18:PRUEBA1                                | false        | variable_auxiliar  | null       |
-| PRUEBA1                             | @aux2:PRUEBA1                                 | false        | variable_auxiliar  | null       |
-| PRUEBA1                             | @aux4:PRUEBA1                                 | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux46:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux44:PRUEBA1                                | false        | variable_auxiliar  | null       |
 | PRUEBA1                             | @aux19:PRUEBA1                                | false        | variable_auxiliar  | null       |
-| PRUEBA1                             | @aux3:PRUEBA1                                 | false        | variable_auxiliar  | null       |
 | PRUEBA1                             | RESF:PRUEBA1                                  | false        | variable           | float      |
+| PRUEBA1                             | @aux45:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux36:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux50:PRUEBA1                                | false        | variable_auxiliar  | null       |
 | PRUEBA1                             | @aux20:PRUEBA1                                | false        | variable_auxiliar  | null       |
 | PRUEBA1                             | @aux5:PRUEBA1                                 | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux21:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux35:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux49:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux51:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux34:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux48:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | GLOBALU:PRUEBA1                               | false        | variable           | uint       |
+| PRUEBA1                             | @aux54:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | PRUEBA1:PRUEBA1                               | false        | null               | null       |
+| PRUEBA1                             | CALC:PRUEBA1                                  | false        | variable           | uint       |
+| PRUEBA1                             | COMPLEJO:PRUEBA1                              | false        | variable           | uint       |
+| PRUEBA1                             | @aux2:PRUEBA1                                 | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux38:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux40:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux4:PRUEBA1                                 | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux3:PRUEBA1                                 | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux37:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | VARLIMITE:PRUEBA1                             | false        | variable           | uint       |
+| PRUEBA1                             | @aux43:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux41:PRUEBA1                                | false        | variable_auxiliar  | null       |
 | PRUEBA1                             | @aux0:PRUEBA1                                 | false        | variable_auxiliar  | null       |
 | PRUEBA1                             | PROCESARCOMPLEJO:PRUEBA1                      | false        | funcion            | multiple   |
 | PRUEBA1                             | @aux1:PRUEBA1                                 | false        | variable_auxiliar  | null       |
 | PRUEBA1                             | GLOBALF:PRUEBA1                               | false        | variable           | float      |
+| PRUEBA1                             | @aux39:PRUEBA1                                | false        | variable_auxiliar  | null       |
+| PRUEBA1                             | @aux42:PRUEBA1                                | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 | PRUEBA1:PROCESARCOMPLEJO            | @aux6:PRUEBA1:PROCESARCOMPLEJO                | false        | variable_auxiliar  | null       |
 | PRUEBA1:PROCESARCOMPLEJO            | @aux16:PRUEBA1:PROCESARCOMPLEJO               | false        | variable_auxiliar  | null       |
@@ -96,16 +144,24 @@ No se encontraron warnings.
 | PRUEBA1:PROCESARCOMPLEJO:bloque_8   | @aux8:PRUEBA1:PROCESARCOMPLEJO:bloque_8       | false        | variable_auxiliar  | null       |
 | PRUEBA1:PROCESARCOMPLEJO:bloque_8   | @aux12:PRUEBA1:PROCESARCOMPLEJO:bloque_8      | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PRUEBA1:lambda_21                   | @aux23:PRUEBA1:lambda_21                      | false        | variable_auxiliar  | null       |
-| PRUEBA1:lambda_21                   | @aux21:PRUEBA1:lambda_21                      | false        | variable_auxiliar  | null       |
-| PRUEBA1:lambda_21                   | @aux25:PRUEBA1:lambda_21                      | false        | variable_auxiliar  | null       |
-| PRUEBA1:lambda_21                   | @aux22:PRUEBA1:lambda_21                      | false        | variable_auxiliar  | null       |
-| PRUEBA1:lambda_21                   | ITERACION:PRUEBA1:lambda_21                   | false        | parametro_lambda   | uint       |
-| PRUEBA1:lambda_21                   | @aux27:PRUEBA1:lambda_21                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22                   | @aux31:PRUEBA1:lambda_22                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22                   | @aux23:PRUEBA1:lambda_22                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22                   | @aux28:PRUEBA1:lambda_22                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22                   | @aux33:PRUEBA1:lambda_22                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22                   | @aux26:PRUEBA1:lambda_22                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22                   | @aux22:PRUEBA1:lambda_22                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22                   | @aux25:PRUEBA1:lambda_22                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22                   | @aux29:PRUEBA1:lambda_22                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22                   | @aux24:PRUEBA1:lambda_22                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22                   | ITERACION:PRUEBA1:lambda_22                   | false        | parametro_lambda   | uint       |
+| PRUEBA1:lambda_22                   | @aux27:PRUEBA1:lambda_22                      | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PRUEBA1:lambda_21:bloque_24         | @aux24:PRUEBA1:lambda_21:bloque_24            | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22:bloque_30         | @aux30:PRUEBA1:lambda_22:bloque_30            | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PRUEBA1:lambda_21:bloque_26         | @aux26:PRUEBA1:lambda_21:bloque_26            | false        | variable_auxiliar  | null       |
+| PRUEBA1:lambda_22:bloque_32         | @aux32:PRUEBA1:lambda_22:bloque_32            | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PRUEBA1:bloque_52                   | @aux52:PRUEBA1:bloque_52                      | false        | variable_auxiliar  | null       |
+| PRUEBA1:bloque_52                   | @aux53:PRUEBA1:bloque_52                      | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================

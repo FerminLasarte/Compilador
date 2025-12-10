@@ -32,6 +32,7 @@ PRUEBA1 {
     print(&1. Probando Scope y Lambdas anidadas:&);
 
     var RESF := 0.0F+0;
+    var CALC := 0UI;
 
     @ TEMA 19 y 28: Asignacion multiple recibiendo de funcion con Lambda inline
     @ La lambda accede a una global explicita (PRUEBA1.GLOBALF) y usa toui en una expresion
@@ -41,7 +42,7 @@ PRUEBA1 {
             print(ITERACION);
 
             @ TEMA 31 y 5: toui en expresion compleja + acceso a global
-            var CALC := toui(PRUEBA1.GLOBALF) + ITERACION;
+            CALC := toui(PRUEBA1.GLOBALF) + ITERACION;
 
             if (CALC > 25UI) {
                 print(&  [LAMBDA] Calculo > 25 (Correcto)&);

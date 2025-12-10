@@ -506,7 +506,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 964 "gramatica.y"
+//#line 962 "gramatica.y"
 
 static AnalizadorLexico al;
 static Generador g;
@@ -1565,11 +1565,10 @@ case 74:
                        g.modificarSaltoTerceto(bfIdx, "[" + finIf + "]");
                    }
                    salida.add("Linea " + val_peek(3).ival + ": Sentencia IF reconocida.");
-                   g.addTerceto("NOP", "_", "_");
                }
 break;
 case 75:
-//#line 818 "gramatica.y"
+//#line 817 "gramatica.y"
 {
                    int bfIdx = g.desapilarControl();
                    String bi = g.addTerceto("BI", "_", "_");
@@ -1582,24 +1581,23 @@ case 75:
                }
 break;
 case 76:
-//#line 828 "gramatica.y"
+//#line 827 "gramatica.y"
 {
                    int biIdx = g.desapilarControl();
                    int finElse = g.getProximoTerceto();
                    g.modificarSaltoTerceto(biIdx, "[" + finElse + "]");
 
                    salida.add("Linea " + val_peek(6).ival + ": Sentencia IF-ELSE reconocida.");
-                   g.addTerceto("NOP", "_", "_");
                }
 break;
 case 77:
-//#line 839 "gramatica.y"
+//#line 837 "gramatica.y"
 {
                         g.apilarControl(g.getProximoTerceto());
                     }
 break;
 case 78:
-//#line 843 "gramatica.y"
+//#line 841 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + val_peek(1).ival + ": Sentencia DO-WHILE reconocida.");
@@ -1613,7 +1611,7 @@ case 78:
                     }
 break;
 case 79:
-//#line 857 "gramatica.y"
+//#line 855 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op = g.desapilarOperando();
@@ -1629,58 +1627,58 @@ case 79:
           }
 break;
 case 80:
-//#line 872 "gramatica.y"
+//#line 870 "gramatica.y"
 { g.apilarOperando(">="); }
 break;
 case 81:
-//#line 874 "gramatica.y"
+//#line 872 "gramatica.y"
 { g.apilarOperando("<="); }
 break;
 case 82:
-//#line 876 "gramatica.y"
+//#line 874 "gramatica.y"
 { g.apilarOperando("=!"); }
 break;
 case 83:
-//#line 878 "gramatica.y"
+//#line 876 "gramatica.y"
 { g.apilarOperando("=="); }
 break;
 case 84:
-//#line 880 "gramatica.y"
+//#line 878 "gramatica.y"
 { g.apilarOperando(">"); }
 break;
 case 85:
-//#line 882 "gramatica.y"
+//#line 880 "gramatica.y"
 { g.apilarOperando("<"); }
 break;
 case 86:
-//#line 885 "gramatica.y"
+//#line 883 "gramatica.y"
 { g.abrirAmbito("bloque_" + g.getProximoTerceto()); }
 break;
 case 87:
-//#line 885 "gramatica.y"
+//#line 883 "gramatica.y"
 { g.cerrarAmbito();
                   }
 break;
 case 89:
-//#line 892 "gramatica.y"
+//#line 890 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con cadena multilinea.");
                     g.addTerceto("PRINT", val_peek(1).sval);
                 }
 break;
 case 90:
-//#line 898 "gramatica.y"
+//#line 896 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con expresion.");
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
 break;
 case 91:
-//#line 904 "gramatica.y"
+//#line 902 "gramatica.y"
 { enSentenciaReturn = true; }
 break;
 case 92:
-//#line 905 "gramatica.y"
+//#line 903 "gramatica.y"
 {
                 enSentenciaReturn = false;
                 ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
@@ -1720,7 +1718,7 @@ case 92:
             }
 break;
 case 93:
-//#line 945 "gramatica.y"
+//#line 943 "gramatica.y"
 {
                   ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
                   ArrayList<String> lista = new ArrayList<String>();
@@ -1732,14 +1730,14 @@ case 93:
               }
 break;
 case 94:
-//#line 956 "gramatica.y"
+//#line 954 "gramatica.y"
 {
                   ArrayList<String> lista = new ArrayList<String>();
                   lista.add(g.desapilarOperando());
                   yyval.obj = lista;
               }
 break;
-//#line 1666 "Parser.java"
+//#line 1664 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
