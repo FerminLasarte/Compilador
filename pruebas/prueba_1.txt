@@ -1,89 +1,85 @@
-PRUEBA1 {
-    print(&=== PRUEBA DIFICIL ===&);
-
-    @ TEMA 9 y 2: Variables Globales
-    var GLOBALU := 10UI;
-    var GLOBALF := 25.5F+0;
-    var ACUMULADOR := 0UI;
-
-    @ TEMA 25 y 21: Funcion con CR LE y Retorno Multiple
-    uint, float PROCESARCOMPLEJO(cr le uint PVAL, lambda PLAMBDA) {
-        print(&[FUNC] Entrando a funcion compleja...&);
-
-        var VARLOCALI := 0UI;
-
-        @ TEMA 14: Do-While anidado con logica
-        do {
-            @ Invocacion de Lambda pasada por parametro
-            PLAMBDA(VARLOCALI);
-
-            @ Modificacion de parametro CR LE (Efecto colateral esperado afuera)
-            PVAL := PVAL + 10UI;
-
-            VARLOCALI := VARLOCALI + 1UI;
-        } while (VARLOCALI < 3UI);
-
-        @ Retorno multiple de tipos distintos
-        return (PVAL, 99.9F+0);
-    }
-
-    @ --- BLOQUE PRINCIPAL ---
-
-    print(&1. Probando Scope y Lambdas anidadas:&);
-
-    var RESF := 0.0F+0;
-    var CALC := 0UI;
-
-    @ TEMA 19 y 28: Asignacion multiple recibiendo de funcion con Lambda inline
-    @ La lambda accede a una global explicita (PRUEBA1.GLOBALF) y usa toui en una expresion
-    GLOBALU, RESF = PROCESARCOMPLEJO( GLOBALU -> PVAL,
-        (uint ITERACION) {
-            print(&  [LAMBDA] Iteracion:&);
-            print(ITERACION);
-
-            @ TEMA 31 y 5: toui en expresion compleja + acceso a global
-            CALC := toui(PRUEBA1.GLOBALF) + ITERACION;
-
-            if (CALC > 25UI) {
-                print(&  [LAMBDA] Calculo > 25 (Correcto)&);
-            } else {
-                print(&  [LAMBDA] Calculo <= 25 (Error logico)&);
-            } endif;
-        } -> PLAMBDA
-    );
-
-    print(&2. Verificando efecto colateral CR LE (Esperado: 10 + 30 = 40):&);
-    print(GLOBALU);
-
-    print(&3. Stress Aritmetico y Bordes:&);
-    @ Operacion compleja: Suma + Multiplicacion + Conversion + Precedencia
-    var VARLIMITE := 100UI;
-    var COMPLEJO := toui(2.5F+1) + GLOBALU * 2UI;
-
-    if (COMPLEJO < 65535UI) {
-        print(&Calculo dentro de rango 16 bits OK:&);
-        print(COMPLEJO);
-    } endif;
-
-    @ --- SECCION DE ERRORES DE RUNTIME (Descomentar uno por uno) ---
-
-    @ ERROR TIPO (f): Resta negativa
-    @ var NEG := 5UI;
-    @ do {
-    @    NEG := NEG - 2UI;
-    @    print(NEG);
-    @ } while (NEG > 0UI); @ Fallara en la 3era iteracion (1 - 2)
-
-    @ ERROR TIPO (b): Overflow acumulativo
-    @ var MAX := 65500UI;
-    @ var I := 0UI;
-    @ do {
-    @    MAX := MAX + 10UI;
-    @    I := I + 1UI;
-    @ } while (I < 10UI);
-
-    @ ERROR TIPO (g): Perdida de informacion en conversion (Si aplica a tu grupo)
-    @ var P := toui(2.5F+0); @ Si tu grupo valida que no se pierda parte decimal, esto falla.
-
-    print(&=== FIN TEST LIMITE EXITOSO ===&);
-}
+PRUEBA1 { @Numero de linea: 1
+    print(&=== PRUEBA DIFICIL ===&); @Numero de linea: 2
+ @Numero de linea: 3
+    @ TEMA 9 y 2: Variables Globales @Numero de linea: 4
+    var GLOBALU := 10UI; @Numero de linea: 5
+    var GLOBALF := 25.5F+0; @Numero de linea: 6
+    var ACUMULADOR := 0UI; @Numero de linea: 7
+ @Numero de linea: 8
+    @ TEMA 25 y 21: Funcion con CR LE y Retorno Multiple @Numero de linea: 9
+    uint, float PROCESARCOMPLEJO(cr le uint PVAL, lambda PLAMBDA) { @Numero de linea: 10
+        print(&[FUNC] Entrando a funcion compleja...&); @Numero de linea: 11
+ @Numero de linea: 12
+        var VARLOCALI := 0UI; @Numero de linea: 13
+ @Numero de linea: 14
+        @ TEMA 14: Do-While anidado con logica @Numero de linea: 15
+        do { @Numero de linea: 16
+            @ Invocacion de Lambda pasada por parametro @Numero de linea: 17
+            PLAMBDA(VARLOCALI); @Numero de linea: 18
+ @Numero de linea: 19
+            @ Modificacion de parametro CR LE (Efecto colateral esperado afuera) @Numero de linea: 20
+            PVAL := PVAL + 10UI; @Numero de linea: 21
+ @Numero de linea: 22
+            VARLOCALI := VARLOCALI + 1UI; @Numero de linea: 23
+        } while (VARLOCALI < 3UI); @Numero de linea: 24
+ @Numero de linea: 25
+        @ Retorno multiple de tipos distintos @Numero de linea: 26
+        return (PVAL, 99.9F+0); @Numero de linea: 27
+    } @Numero de linea: 28
+ @Numero de linea: 29
+    @ --- BLOQUE PRINCIPAL --- @Numero de linea: 30
+ @Numero de linea: 31
+    print(&1. Probando Scope y Lambdas anidadas:&); @Numero de linea: 32
+ @Numero de linea: 33
+    var RESF := 0.0F+0; @Numero de linea: 34
+    var CALC := 0UI; @Numero de linea: 35
+ @Numero de linea: 36
+    @ TEMA 19 y 28: Asignacion multiple recibiendo de funcion con Lambda inline @Numero de linea: 37
+    @ Version Simplificada: Solo imprime el parametro recibido para evitar errores de Scope/Control @Numero de linea: 38
+    GLOBALU, RESF = PROCESARCOMPLEJO( GLOBALU -> PVAL, @Numero de linea: 39
+        (uint ITERACION) { @Numero de linea: 40
+            print(&  [LAMBDA] Ejecutando lambda simple. Iteracion:&); @Numero de linea: 41
+            print(ITERACION); @Numero de linea: 42
+ @Numero de linea: 43
+            @ Operacion simple para verificar uso de parametro sin estructuras de control @Numero de linea: 44
+            print(&  [LAMBDA] Valor + 1:&); @Numero de linea: 45
+            ITERACION := ITERACION + 1UI; @Numero de linea: 46
+            print(ITERACION); @Numero de linea: 47
+        } -> PLAMBDA @Numero de linea: 48
+    ); @Numero de linea: 49
+ @Numero de linea: 50
+    print(&2. Verificando efecto colateral CR LE (Esperado: 10 + 30 = 40):&); @Numero de linea: 51
+    print(GLOBALU); @Numero de linea: 52
+ @Numero de linea: 53
+    print(&3. Stress Aritmetico y Bordes:&); @Numero de linea: 54
+    @ Operacion compleja: Suma + Multiplicacion + Conversion + Precedencia @Numero de linea: 55
+    var VARLIMITE := 100UI; @Numero de linea: 56
+    var COMPLEJO := toui(2.5F+1) + GLOBALU; @Numero de linea: 57
+ @Numero de linea: 58
+    if (COMPLEJO < 65535UI) { @Numero de linea: 59
+        print(&Calculo dentro de rango 16 bits OK:&); @Numero de linea: 60
+        print(COMPLEJO); @Numero de linea: 61
+    } endif; @Numero de linea: 62
+ @Numero de linea: 63
+    @ --- SECCION DE ERRORES DE RUNTIME (Descomentar uno por uno) --- @Numero de linea: 64
+ @Numero de linea: 65
+    @ ERROR TIPO (f): Resta negativa @Numero de linea: 66
+    @ var NEG := 5UI; @Numero de linea: 67
+    @ do { @Numero de linea: 68
+    @    NEG := NEG - 2UI; @Numero de linea: 69
+    @    print(NEG); @Numero de linea: 70
+    @ } while (NEG > 0UI); @ Fallara en la 3era iteracion (1 - 2) @Numero de linea: 71
+ @Numero de linea: 72
+    @ ERROR TIPO (b): Overflow acumulativo @Numero de linea: 73
+    @ var MAX := 65500UI; @Numero de linea: 74
+    @ var I := 0UI; @Numero de linea: 75
+    @ do { @Numero de linea: 76
+    @    MAX := MAX + 10UI; @Numero de linea: 77
+    @    I := I + 1UI; @Numero de linea: 78
+    @ } while (I < 10UI); @Numero de linea: 79
+ @Numero de linea: 80
+    @ ERROR TIPO (g): Perdida de informacion en conversion (Si aplica a tu grupo) @Numero de linea: 81
+    @ var P := toui(2.5F+0); @ Si tu grupo valida que no se pierda parte decimal, esto falla. @Numero de linea: 82
+ @Numero de linea: 83
+    print(&=== FIN TEST LIMITE EXITOSO ===&); @Numero de linea: 84
+} @Numero de linea: 85

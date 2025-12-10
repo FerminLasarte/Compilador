@@ -66,11 +66,6 @@ MaxFloatValue dd 2139095039
 @aux47 dd 0
 @aux48 dd 0
 @aux49 dd 0
-@aux50 dd 0
-@aux51 dd 0
-@aux52 dd 0
-@aux53 dd 0
-@aux54 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -95,13 +90,12 @@ _COMPLEJO_PRUEBA1 dd 0
 str_0 db "=== PRUEBA DIFICIL ===", 0
 str_6 db "[FUNC] Entrando a funcion compleja...", 0
 str_18 db "1. Probando Scope y Lambdas anidadas:", 0
-str_23 db "  [LAMBDA] Iteracion:", 0
-str_30 db "  [LAMBDA] Calculo > 25 (Correcto)", 0
-str_32 db "  [LAMBDA] Calculo <= 25 (Error logico)", 0
-str_42 db "2. Verificando efecto colateral CR LE (Esperado: 10 + 30 = 40):", 0
-str_44 db "3. Stress Aritmetico y Bordes:", 0
-str_52 db "Calculo dentro de rango 16 bits OK:", 0
-str_54 db "=== FIN TEST LIMITE EXITOSO ===", 0
+str_23 db "  [LAMBDA] Ejecutando lambda simple. Iteracion:", 0
+str_25 db "  [LAMBDA] Valor + 1:", 0
+str_38 db "2. Verificando efecto colateral CR LE (Esperado: 10 + 30 = 40):", 0
+str_40 db "3. Stress Aritmetico y Bordes:", 0
+str_47 db "Calculo dentro de rango 16 bits OK:", 0
+str_49 db "=== FIN TEST LIMITE EXITOSO ===", 0
 .code
 start:
 Label0:
@@ -183,115 +177,92 @@ Label20:
 MOV EAX, 0
 MOV _CALC_PRUEBA1, EAX
 Label21:
-JMP Label34
+JMP Label30
 Label22:
 Label23:
 invoke crt_printf, addr MensajePrint, addr str_23
 Label24:
 invoke crt_printf, addr MensajePrintNum, _ITERACION_PRUEBA1_lambda_22
 Label25:
-FLD _GLOBALF_PRUEBA1
-FISTP @aux25
+invoke crt_printf, addr MensajePrint, addr str_25
 Label26:
-MOV EAX, @aux25
-ADD EAX, _ITERACION_PRUEBA1_lambda_22
+MOV EAX, _ITERACION_PRUEBA1_lambda_22
+ADD EAX, 1
 CMP EAX, 65535
 JA ErrorOverflow
 MOV @aux26, EAX
 Label27:
 MOV EAX, @aux26
-MOV _CALC_PRUEBA1, EAX
+MOV _ITERACION_PRUEBA1_lambda_22, EAX
 Label28:
-MOV EAX, _CALC_PRUEBA1
-CMP EAX, 25
-SETA AL
-MOVZX EAX, AL
-MOV @aux28, EAX
+invoke crt_printf, addr MensajePrintNum, _ITERACION_PRUEBA1_lambda_22
 Label29:
-MOV EAX, @aux28
-CMP EAX, 0
-JE Label32
-Label30:
-invoke crt_printf, addr MensajePrint, addr str_30
-Label31:
-JMP Label33
-Label32:
-invoke crt_printf, addr MensajePrint, addr str_32
-Label33:
 ; -- RETURN --
 RET
-Label34:
+Label30:
 MOV EAX, _GLOBALU_PRUEBA1
 MOV _PVAL_PRUEBA1_PROCESARCOMPLEJO, EAX
-Label35:
+Label31:
 MOV EAX, Label22
 MOV _PLAMBDA_PRUEBA1_PROCESARCOMPLEJO, EAX
-Label36:
+Label32:
 CALL __PROCESARCOMPLEJO_PRUEBA1
-MOV @aux36, EAX
-Label37:
+MOV @aux32, EAX
+Label33:
 MOV EAX, _PVAL_PRUEBA1_PROCESARCOMPLEJO
 MOV _GLOBALU_PRUEBA1, EAX
-Label38:
+Label34:
 MOV EAX, _RET_VAL_0
-MOV @aux38, EAX
-Label39:
-MOV EAX, @aux38
+MOV @aux34, EAX
+Label35:
+MOV EAX, @aux34
 MOV _GLOBALU_PRUEBA1, EAX
-Label40:
+Label36:
 FLD _RET_VAL_1
-FSTP @aux40
-Label41:
-FLD @aux40
+FSTP @aux36
+Label37:
+FLD @aux36
 FSTP _RESF_PRUEBA1
-Label42:
-invoke crt_printf, addr MensajePrint, addr str_42
-Label43:
+Label38:
+invoke crt_printf, addr MensajePrint, addr str_38
+Label39:
 invoke crt_printf, addr MensajePrintNum, _GLOBALU_PRUEBA1
-Label44:
-invoke crt_printf, addr MensajePrint, addr str_44
-Label45:
+Label40:
+invoke crt_printf, addr MensajePrint, addr str_40
+Label41:
 MOV EAX, 100
 MOV _VARLIMITE_PRUEBA1, EAX
-Label46:
+Label42:
 MOV EAX, 1103626240
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
-FISTP @aux46
-Label47:
-MOV EAX, _GLOBALU_PRUEBA1
-MUL 2
-CMP EDX, 0
-JNE ErrorOverflow
+FISTP @aux42
+Label43:
+MOV EAX, @aux42
+ADD EAX, _GLOBALU_PRUEBA1
 CMP EAX, 65535
 JA ErrorOverflow
-MOV @aux47, EAX
-Label48:
-MOV EAX, @aux46
-ADD EAX, @aux47
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux48, EAX
-Label49:
-MOV EAX, @aux48
+MOV @aux43, EAX
+Label44:
+MOV EAX, @aux43
 MOV _COMPLEJO_PRUEBA1, EAX
-Label50:
+Label45:
 MOV EAX, _COMPLEJO_PRUEBA1
 CMP EAX, 65535
 SETB AL
 MOVZX EAX, AL
-MOV @aux50, EAX
-Label51:
-MOV EAX, @aux50
+MOV @aux45, EAX
+Label46:
+MOV EAX, @aux45
 CMP EAX, 0
-JE Label54
-Label52:
-invoke crt_printf, addr MensajePrint, addr str_52
-Label53:
+JE Label49
+Label47:
+invoke crt_printf, addr MensajePrint, addr str_47
+Label48:
 invoke crt_printf, addr MensajePrintNum, _COMPLEJO_PRUEBA1
-Label54:
-invoke crt_printf, addr MensajePrint, addr str_54
+Label49:
+invoke crt_printf, addr MensajePrint, addr str_49
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
