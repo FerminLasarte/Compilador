@@ -66,6 +66,25 @@ MaxFloatValue dd 2139095039
 @aux47 dd 0
 @aux48 dd 0
 @aux49 dd 0
+@aux50 dd 0
+@aux51 dd 0
+@aux52 dd 0
+@aux53 dd 0
+@aux54 dd 0
+@aux55 dd 0
+@aux56 dd 0
+@aux57 dd 0
+@aux58 dd 0
+@aux59 dd 0
+@aux60 dd 0
+@aux61 dd 0
+@aux62 dd 0
+@aux63 dd 0
+@aux64 dd 0
+@aux65 dd 0
+@aux66 dd 0
+@aux67 dd 0
+@aux68 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -76,193 +95,244 @@ _RET_VAL_6 dd 0
 _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
-_GLOBALU_PRUEBA1 dd 0
-_GLOBALF_PRUEBA1 dd 0
-_ACUMULADOR_PRUEBA1 dd 0
-_VARLOCALI_PRUEBA1_PROCESARCOMPLEJO dd 0
-_PLAMBDA_PRUEBA1_PROCESARCOMPLEJO dd 0
-_PVAL_PRUEBA1_PROCESARCOMPLEJO dd 0
-_RESF_PRUEBA1 dd 0
-_CALC_PRUEBA1 dd 0
-_ITERACION_PRUEBA1_lambda_22 dd 0
-_VARLIMITE_PRUEBA1 dd 0
-_COMPLEJO_PRUEBA1 dd 0
-str_0 db "=== PRUEBA DIFICIL ===", 0
-str_6 db "[FUNC] Entrando a funcion compleja...", 0
-str_18 db "1. Probando Scope y Lambdas anidadas:", 0
-str_23 db "  [LAMBDA] Ejecutando lambda simple. Iteracion:", 0
-str_25 db "  [LAMBDA] Valor + 1:", 0
-str_38 db "2. Verificando efecto colateral CR LE (Esperado: 10 + 30 = 40):", 0
-str_40 db "3. Stress Aritmetico y Bordes:", 0
-str_47 db "Calculo dentro de rango 16 bits OK:", 0
-str_49 db "=== FIN TEST LIMITE EXITOSO ===", 0
+_CONTADOR_CASOSINERRORES dd 0
+_NUMFLOAT_CASOSINERRORES dd 0
+_RES_CASOSINERRORES dd 0
+_VARD_CASOSINERRORES dd 0
+_SALIDA_CASOSINERRORES_FUNCSOLOESCRITURA dd 0
+_VALOR_CASOSINERRORES_EJECUTORLAMBDA dd 0
+_FUNCL_CASOSINERRORES_EJECUTORLAMBDA dd 0
+_A_CASOSINERRORES dd 0
+_B_CASOSINERRORES dd 0
+_X_CASOSINERRORES_FUNCRETORNODOBLE dd 0
+_CONV_CASOSINERRORES dd 0
+_X_CASOSINERRORES dd 0
+_X_CASOSINERRORES_lambda_61 dd 0
+str_6 db "  [FUNC] Ejecutando FUNCSOLOESCRITURA...", 0
+str_11 db "  [FUNC] Ejecutando FUNCRETORNODOBLE...", 0
+str_16 db "  [FUNC] Dentro de EJECUTORLAMBDA. Invocando lambda...", 0
+str_20 db "=== INICIO DEL PROGRAMA DE PRUEBA ===", 0
+str_21 db "--- Prueba 1: Parametros CR SE ---", 0
+str_26 db "Valor de VARD despues de la funcion (Esperado: 100):", 0
+str_28 db "--- Prueba 2: Asignacion Multiple ---", 0
+str_37 db "Valores recibidos de funcion (Esperado: 50, 9.99):", 0
+str_42 db "Valores asignados manualmente (Esperado: 10, 205.0):", 0
+str_45 db "--- Prueba 3: Conversion TOUI ---", 0
+str_49 db "Resultado de toui(20.5):", 0
+str_51 db "--- Prueba 4: Bucle DO-WHILE ---", 0
+str_52 db "Iteracion numero:", 0
+str_58 db "--- Prueba 5: Lambdas ---", 0
+str_62 db "    [LAMBDA] Recibi:", 0
+str_68 db "=== FIN DEL PROGRAMA === @Numero de linea: 113", 13, 10, "           Ejecucion Exitosa", 0
 .code
 start:
 Label0:
-invoke crt_printf, addr MensajePrint, addr str_0
+MOV EAX, 3
+MOV _CONTADOR_CASOSINERRORES, EAX
 Label1:
-MOV EAX, 10
-MOV _GLOBALU_PRUEBA1, EAX
-Label2:
-MOV EAX, 1103888384
+MOV EAX, 1103626240
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
-FSTP _GLOBALF_PRUEBA1
+FSTP _NUMFLOAT_CASOSINERRORES
+Label2:
+MOV EAX, 0
+MOV _RES_CASOSINERRORES, EAX
 Label3:
 MOV EAX, 0
-MOV _ACUMULADOR_PRUEBA1, EAX
+MOV _VARD_CASOSINERRORES, EAX
 Label4:
-JMP Label18
+JMP Label9
 Label5:
-__PROCESARCOMPLEJO_PRUEBA1:
+__FUNCSOLOESCRITURA_CASOSINERRORES:
 Label6:
 invoke crt_printf, addr MensajePrint, addr str_6
 Label7:
-MOV EAX, 0
-MOV _VARLOCALI_PRUEBA1_PROCESARCOMPLEJO, EAX
+MOV EAX, 100
+MOV _SALIDA_CASOSINERRORES_FUNCSOLOESCRITURA, EAX
 Label8:
-Label9:
-MOV EAX, _PLAMBDA_PRUEBA1_PROCESARCOMPLEJO
-CALL EAX
-Label10:
-MOV EAX, _PVAL_PRUEBA1_PROCESARCOMPLEJO
-ADD EAX, 10
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux10, EAX
-Label11:
-MOV EAX, @aux10
-MOV _PVAL_PRUEBA1_PROCESARCOMPLEJO, EAX
-Label12:
-MOV EAX, _VARLOCALI_PRUEBA1_PROCESARCOMPLEJO
-ADD EAX, 1
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux12, EAX
-Label13:
-MOV EAX, @aux12
-MOV _VARLOCALI_PRUEBA1_PROCESARCOMPLEJO, EAX
-Label14:
-MOV EAX, _VARLOCALI_PRUEBA1_PROCESARCOMPLEJO
-CMP EAX, 3
-SETB AL
-MOVZX EAX, AL
-MOV @aux14, EAX
-Label15:
-MOV EAX, @aux14
-CMP EAX, 1
-JE Label8
-Label16:
 ; -- RETURN --
-MOV EAX, _PVAL_PRUEBA1_PROCESARCOMPLEJO
+MOV EAX, 1
 MOV _RET_VAL_0, EAX
-Label17:
+RET
+Label9:
+JMP Label14
+Label10:
+__FUNCRETORNODOBLE_CASOSINERRORES:
+Label11:
+invoke crt_printf, addr MensajePrint, addr str_11
+Label12:
 ; -- RETURN --
-MOV EAX, 1120390349
+MOV EAX, 50
+MOV _RET_VAL_0, EAX
+Label13:
+; -- RETURN --
+MOV EAX, 1120272384
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
 FSTP _RET_VAL_1
 RET
+Label14:
+JMP Label20
+Label15:
+__EJECUTORLAMBDA_CASOSINERRORES:
+Label16:
+invoke crt_printf, addr MensajePrint, addr str_16
+Label17:
 Label18:
-invoke crt_printf, addr MensajePrint, addr str_18
+MOV EAX, _FUNCL_CASOSINERRORES_EJECUTORLAMBDA
+CALL EAX
 Label19:
+; -- RETURN --
+MOV EAX, 0
+MOV _RET_VAL_0, EAX
+RET
+Label20:
+invoke crt_printf, addr MensajePrint, addr str_20
+Label21:
+invoke crt_printf, addr MensajePrint, addr str_21
+Label22:
+MOV EAX, _VARD_CASOSINERRORES
+MOV _SALIDA_CASOSINERRORES_FUNCSOLOESCRITURA, EAX
+Label23:
+CALL __FUNCSOLOESCRITURA_CASOSINERRORES
+MOV @aux23, EAX
+Label24:
+MOV EAX, _SALIDA_CASOSINERRORES_FUNCSOLOESCRITURA
+MOV _VARD_CASOSINERRORES, EAX
+Label25:
+MOV EAX, @aux23
+MOV _RES_CASOSINERRORES, EAX
+Label26:
+invoke crt_printf, addr MensajePrint, addr str_26
+Label27:
+invoke crt_printf, addr MensajePrintNum, _VARD_CASOSINERRORES
+Label28:
+invoke crt_printf, addr MensajePrint, addr str_28
+Label29:
+MOV EAX, 0
+MOV _A_CASOSINERRORES, EAX
+Label30:
 MOV EAX, 0
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
-FSTP _RESF_PRUEBA1
-Label20:
-MOV EAX, 0
-MOV _CALC_PRUEBA1, EAX
-Label21:
-JMP Label30
-Label22:
-Label23:
-invoke crt_printf, addr MensajePrint, addr str_23
-Label24:
-invoke crt_printf, addr MensajePrintNum, _ITERACION_PRUEBA1_lambda_22
-Label25:
-invoke crt_printf, addr MensajePrint, addr str_25
-Label26:
-MOV EAX, _ITERACION_PRUEBA1_lambda_22
-ADD EAX, 1
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux26, EAX
-Label27:
-MOV EAX, @aux26
-MOV _ITERACION_PRUEBA1_lambda_22, EAX
-Label28:
-invoke crt_printf, addr MensajePrintNum, _ITERACION_PRUEBA1_lambda_22
-Label29:
-; -- RETURN --
-RET
-Label30:
-MOV EAX, _GLOBALU_PRUEBA1
-MOV _PVAL_PRUEBA1_PROCESARCOMPLEJO, EAX
+FSTP _B_CASOSINERRORES
 Label31:
-MOV EAX, Label22
-MOV _PLAMBDA_PRUEBA1_PROCESARCOMPLEJO, EAX
+MOV EAX, 2
+MOV _X_CASOSINERRORES_FUNCRETORNODOBLE, EAX
 Label32:
-CALL __PROCESARCOMPLEJO_PRUEBA1
+CALL __FUNCRETORNODOBLE_CASOSINERRORES
 MOV @aux32, EAX
 Label33:
-MOV EAX, _PVAL_PRUEBA1_PROCESARCOMPLEJO
-MOV _GLOBALU_PRUEBA1, EAX
-Label34:
 MOV EAX, _RET_VAL_0
-MOV @aux34, EAX
+MOV @aux33, EAX
+Label34:
+MOV EAX, @aux33
+MOV _A_CASOSINERRORES, EAX
 Label35:
-MOV EAX, @aux34
-MOV _GLOBALU_PRUEBA1, EAX
-Label36:
 FLD _RET_VAL_1
-FSTP @aux36
+FSTP @aux35
+Label36:
+FLD @aux35
+FSTP _B_CASOSINERRORES
 Label37:
-FLD @aux36
-FSTP _RESF_PRUEBA1
+invoke crt_printf, addr MensajePrint, addr str_37
 Label38:
-invoke crt_printf, addr MensajePrint, addr str_38
+invoke crt_printf, addr MensajePrintNum, _A_CASOSINERRORES
 Label39:
-invoke crt_printf, addr MensajePrintNum, _GLOBALU_PRUEBA1
+FLD _B_CASOSINERRORES
+sub esp, 8
+fstp qword ptr [esp]
+push offset MensajePrintFloat
+call crt_printf
+add esp, 12
 Label40:
-invoke crt_printf, addr MensajePrint, addr str_40
-Label41:
-MOV EAX, 100
-MOV _VARLIMITE_PRUEBA1, EAX
-Label42:
-MOV EAX, 1103626240
+MOV EAX, 1129119744
 PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
-FISTP @aux42
+FSTP _B_CASOSINERRORES
+Label41:
+MOV EAX, 10
+MOV _A_CASOSINERRORES, EAX
+Label42:
+invoke crt_printf, addr MensajePrint, addr str_42
 Label43:
-MOV EAX, @aux42
-ADD EAX, _GLOBALU_PRUEBA1
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux43, EAX
+invoke crt_printf, addr MensajePrintNum, _A_CASOSINERRORES
 Label44:
-MOV EAX, @aux43
-MOV _COMPLEJO_PRUEBA1, EAX
+FLD _B_CASOSINERRORES
+sub esp, 8
+fstp qword ptr [esp]
+push offset MensajePrintFloat
+call crt_printf
+add esp, 12
 Label45:
-MOV EAX, _COMPLEJO_PRUEBA1
-CMP EAX, 65535
-SETB AL
-MOVZX EAX, AL
-MOV @aux45, EAX
+invoke crt_printf, addr MensajePrint, addr str_45
 Label46:
-MOV EAX, @aux45
-CMP EAX, 0
-JE Label49
+MOV EAX, 0
+MOV _CONV_CASOSINERRORES, EAX
 Label47:
-invoke crt_printf, addr MensajePrint, addr str_47
+FLD _B_CASOSINERRORES
+FISTP @aux47
 Label48:
-invoke crt_printf, addr MensajePrintNum, _COMPLEJO_PRUEBA1
+MOV EAX, @aux47
+MOV _CONV_CASOSINERRORES, EAX
 Label49:
 invoke crt_printf, addr MensajePrint, addr str_49
+Label50:
+invoke crt_printf, addr MensajePrintNum, _CONV_CASOSINERRORES
+Label51:
+invoke crt_printf, addr MensajePrint, addr str_51
+Label52:
+invoke crt_printf, addr MensajePrint, addr str_52
+Label53:
+invoke crt_printf, addr MensajePrintNum, _CONTADOR_CASOSINERRORES
+Label54:
+MOV EAX, _CONTADOR_CASOSINERRORES
+SUB EAX, 1
+JC ErrorRestaNegativa
+MOV @aux54, EAX
+Label55:
+MOV EAX, @aux54
+MOV _CONTADOR_CASOSINERRORES, EAX
+Label56:
+MOV EAX, _CONTADOR_CASOSINERRORES
+CMP EAX, 0
+SETA AL
+MOVZX EAX, AL
+MOV @aux56, EAX
+Label57:
+MOV EAX, @aux56
+CMP EAX, 1
+JE Label52
+Label58:
+invoke crt_printf, addr MensajePrint, addr str_58
+Label59:
+MOV EAX, 987
+MOV _X_CASOSINERRORES, EAX
+Label60:
+JMP Label65
+Label61:
+Label62:
+invoke crt_printf, addr MensajePrint, addr str_62
+Label63:
+invoke crt_printf, addr MensajePrintNum, _X_CASOSINERRORES
+Label64:
+; -- RETURN --
+RET
+Label65:
+MOV EAX, Label61
+MOV _FUNCL_CASOSINERRORES_EJECUTORLAMBDA, EAX
+Label66:
+MOV EAX, 777
+MOV _VALOR_CASOSINERRORES_EJECUTORLAMBDA, EAX
+Label67:
+CALL __EJECUTORLAMBDA_CASOSINERRORES
+MOV @aux67, EAX
+Label68:
+invoke crt_printf, addr MensajePrint, addr str_68
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
