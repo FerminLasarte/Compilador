@@ -1,10 +1,10 @@
-PROGRAMAEXITOSO {
+CASOSINERRORES {
     @ ---------------------------------------------------------
     @ DECLARACION DE VARIABLES GLOBALES (Temas Generales)
     @ ---------------------------------------------------------
     var CONTADOR := 3UI;
-    var NUMFLOAT := 2.5F;
-    var RESUI := 0UI;
+    var NUMFLOAT := 2.5F+1;
+    var RES := 0UI;
     var VARD := 0UI;
 
     @ ---------------------------------------------------------
@@ -22,9 +22,9 @@ PROGRAMAEXITOSO {
     @ ---------------------------------------------------------
     @ TEMA 21: RETORNO MULTIPLE
     @ ---------------------------------------------------------
-    uint, float FUNCRETORNODOBLE() {
+    uint, float FUNCRETORNODOBLE(uint X) {
         print(&  [FUNC] Ejecutando FUNCRETORNODOBLE...&);
-        return(50UI, 9.99F);
+        return(50UI, 9.9F+1);
     }
 
     @ ---------------------------------------------------------
@@ -47,7 +47,7 @@ PROGRAMAEXITOSO {
     print(&--- Prueba 1: Parametros CR SE ---&);
 
     @ Pasamos VARD al parametro SALIDA. Al volver, VARD debe valer 100.
-    RESUI := FUNCSOLOESCRITURA(VARD -> SALIDA);
+    RES := FUNCSOLOESCRITURA(VARD -> SALIDA);
 
     print(&Valor de VARD despues de la funcion (Esperado: 100):&);
     print(VARD);
@@ -58,17 +58,17 @@ PROGRAMAEXITOSO {
     print(&--- Prueba 2: Asignacion Multiple ---&);
 
     var A := 0UI;
-    var B := 0.0F;
+    var B := 0.0F+1;
 
     @ Caso A: Desde funcion
-    A, B = FUNCRETORNODOBLE();
+    A, B = FUNCRETORNODOBLE(2UI -> X);
     print(&Valores recibidos de funcion (Esperado: 50, 9.99):&);
     print(A);
     print(B);
 
     @ Caso B: Manual (Lista de expresiones)
-    A, B = 10UI, 20.5F;
-    print(&Valores asignados manualmente (Esperado: 10, 20.5):&);
+    A, B = 10UI, 20.5F+1;
+    print(&Valores asignados manualmente (Esperado: 10, 205.0):&);
     print(A);
     print(B);
 
@@ -78,7 +78,7 @@ PROGRAMAEXITOSO {
     print(&--- Prueba 3: Conversion TOUI ---&);
 
     var CONV := 0UI;
-    @ Convertimos 20.5F a UInt (truncado o redondeado segun tu implementacion)
+    @ Convertimos 20.5F+1 a UInt (truncado o redondeado segun tu implementacion)
     CONV := toui(B);
     print(&Resultado de toui(20.5):&);
     print(CONV);
@@ -100,10 +100,11 @@ PROGRAMAEXITOSO {
     print(&--- Prueba 5: Lambdas ---&);
 
     @ Definimos la lambda &inline& y la pasamos al parametro LFUNC
+    var X := 987UI;
     EJECUTORLAMBDA(
         (uint X) {
             print(&    [LAMBDA] Recibi:&);
-            print(X);
+            print(CASOSINERRORES.X);
         } -> FUNCL,
         777UI -> VALOR
     );

@@ -3,6 +3,10 @@ CASOERRORES {
     @ 1. ERRORES LEXICOS
     @ ---------------------------------------------------------
 
+    @ Error: Suma de uint con cadena
+    var HOLA :=
+    var SUMA := 1UI + HOLA;
+
     @ Error: Identificador comienza con minúscula (Solo mayúsculas permitidas)
     var variable := 10UI;
 
@@ -24,7 +28,7 @@ CASOERRORES {
     var A = 20UI;
 
     @ Error: Falta punto y coma
-    var B := 10UI;
+    var B := 10UI
 
     @ TEMA 14: Error en estructura DO-WHILE (Falta parentesis en condicion)
     @ Error de alcance en variable A
