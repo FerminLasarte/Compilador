@@ -34,6 +34,7 @@ Para compilar el proyecto, generar el código ensamblador y crear el ejecutable 
 ### Generación y Compilación del Compilador para .jar
 
 ```bash
+yacc -J -v gramatica.y
 java -jar C:\GitHub\Compilador\out\artifacts\Compilador_jar3\Compilador.jar C:\GitHub\Compilador\pruebas\caso_final.txt
 C:\masm32\bin\ml /c /Zd /coff salida.asm
 C:\masm32\bin\Link /SUBSYSTEM:CONSOLE salida.obj
