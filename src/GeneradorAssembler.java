@@ -111,12 +111,13 @@ public class GeneradorAssembler {
         Terceto tercetoActual;
 
         while ((tercetoActual = generador.getTerceto(numTerceto)) != null) {
+
+            codigo.append("Label").append(numTerceto).append(":\n");
+
             if (tercetoActual.getOperador().equals("DUMMY")) {
                 numTerceto++;
                 continue;
             }
-
-            codigo.append("Label").append(numTerceto).append(":\n");
 
             String op = tercetoActual.getOperador();
             String rawOp1 = tercetoActual.getOperando1();

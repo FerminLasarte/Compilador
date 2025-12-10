@@ -1,0 +1,114 @@
+PROGRAMAEXITOSO {
+    @ ---------------------------------------------------------
+    @ DECLARACION DE VARIABLES GLOBALES (Temas Generales)
+    @ ---------------------------------------------------------
+    var CONTADOR := 3UI;
+    var NUMFLOAT := 2.5F;
+    var RESUI := 0UI;
+    var VARD := 0UI;
+
+    @ ---------------------------------------------------------
+    @ TEMA 25: PARAMETRO 'CR SE' (Copia Resultado Solo Escritura)
+    @ ---------------------------------------------------------
+    uint FUNCSOLOESCRITURA(cr se uint SALIDA) {
+        print(&  [FUNC] Ejecutando FUNCSOLOESCRITURA...&);
+
+        @ Correcto: Escritura en variable 'cr se'. No la leemos.
+        SALIDA := 100UI;
+
+        return(1UI);
+    }
+
+    @ ---------------------------------------------------------
+    @ TEMA 21: RETORNO MULTIPLE
+    @ ---------------------------------------------------------
+    uint, float FUNCRETORNODOBLE() {
+        print(&  [FUNC] Ejecutando FUNCRETORNODOBLE...&);
+        return(50UI, 9.99F);
+    }
+
+    @ ---------------------------------------------------------
+    @ TEMA 28: EXPRESIONES LAMBDA (Como Parametro)
+    @ ---------------------------------------------------------
+    uint EJECUTORLAMBDA(lambda FUNCL, uint VALOR) {
+        print(&  [FUNC] Dentro de EJECUTORLAMBDA. Invocando lambda...&);
+        FUNCL(VALOR);
+        return(0UI);
+    }
+
+    @ ---------------------------------------------------------
+    @ BLOQUE PRINCIPAL
+    @ ---------------------------------------------------------
+    print(&=== INICIO DEL PROGRAMA DE PRUEBA ===&);
+
+    @ ---------------------------------------------------------
+    @ PRUEBA 1: LLAMADA CON PARAMETROS NOMBRADOS Y CR SE
+    @ ---------------------------------------------------------
+    print(&--- Prueba 1: Parametros CR SE ---&);
+
+    @ Pasamos VARD al parametro SALIDA. Al volver, VARD debe valer 100.
+    RESUI := FUNCSOLOESCRITURA(VARD -> SALIDA);
+
+    print(&Valor de VARD despues de la funcion (Esperado: 100):&);
+    print(VARD);
+
+    @ ---------------------------------------------------------
+    @ PRUEBA 2: ASIGNACION MULTIPLE (TEMA 19 y 21)
+    @ ---------------------------------------------------------
+    print(&--- Prueba 2: Asignacion Multiple ---&);
+
+    var A := 0UI;
+    var B := 0.0F;
+
+    @ Caso A: Desde funcion
+    A, B = FUNCRETORNODOBLE();
+    print(&Valores recibidos de funcion (Esperado: 50, 9.99):&);
+    print(A);
+    print(B);
+
+    @ Caso B: Manual (Lista de expresiones)
+    A, B = 10UI, 20.5F;
+    print(&Valores asignados manualmente (Esperado: 10, 20.5):&);
+    print(A);
+    print(B);
+
+    @ ---------------------------------------------------------
+    @ PRUEBA 3: CONVERSION EXPLICITA (TEMA 31 - TOUI)
+    @ ---------------------------------------------------------
+    print(&--- Prueba 3: Conversion TOUI ---&);
+
+    var CONV := 0UI;
+    @ Convertimos 20.5F a UInt (truncado o redondeado segun tu implementacion)
+    CONV := toui(B);
+    print(&Resultado de toui(20.5):&);
+    print(CONV);
+
+    @ ---------------------------------------------------------
+    @ PRUEBA 4: ESTRUCTURA DO-WHILE (TEMA 14)
+    @ ---------------------------------------------------------
+    print(&--- Prueba 4: Bucle DO-WHILE ---&);
+
+    do {
+        print(&Iteracion numero:&);
+        print(CONTADOR);
+        CONTADOR := CONTADOR - 1UI;
+    } while (CONTADOR > 0UI);
+
+    @ ---------------------------------------------------------
+    @ PRUEBA 5: LAMBDAS (TEMA 28)
+    @ ---------------------------------------------------------
+    print(&--- Prueba 5: Lambdas ---&);
+
+    @ Definimos la lambda &inline& y la pasamos al parametro LFUNC
+    EJECUTORLAMBDA(
+        (uint X) {
+            print(&    [LAMBDA] Recibi:&);
+            print(X);
+        } -> FUNCL,
+        777UI -> VALOR
+    );
+
+    @ TEMA 8: CADENA MULTILINEA
+    print(&=== FIN DEL PROGRAMA ===
+           Ejecucion Exitosa&);
+}

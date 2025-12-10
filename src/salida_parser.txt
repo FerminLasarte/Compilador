@@ -7,12 +7,16 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores sintacticos.
+Linea 6: Error de sintaxis. Verifique la estructura del codigo.
+Linea 25: Error de sintaxis. Verifique la estructura del codigo.
+Linea 27: Error de sintaxis. Verifique la estructura del codigo.
+Linea 33: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
 =======================================================
-No se encontraron errores lexicos.
+Linea: 6 - Columna: 25 - Caracter ; invalido 
+Linea: 27 - Columna: 27 - Caracter ) invalido 
 
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
@@ -27,179 +31,32 @@ No se encontraron warnings.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(PRINT, & @Numero de linea: 2
-    === INICIO TEST ZOOLOGICO === @Numero de linea: 3
-    &, _)
-1:	(:=, VARLEON:ZOOLOGICO, 10UI)
-2:	(:=, TIGRE:ZOOLOGICO, 20UI)
-3:	(:=, AGUILA:ZOOLOGICO, 5.5F+0)
-4:	(:=, HALCON:ZOOLOGICO, 2.0F+0)
-5:	(TOUI, AGUILA:ZOOLOGICO, _)
-6:	(:=, PINGUINO:ZOOLOGICO, [5])
-7:	(PRINT, &Conversion toui (PINGUINO):&, _)
-8:	(PRINT, PINGUINO:ZOOLOGICO, _)
-9:	(PRINT, &Do-While (VARLEON):&, _)
-10:	(PRINT, VARLEON:ZOOLOGICO, _)
-11:	(+, VARLEON:ZOOLOGICO, 1UI)
-12:	(:=, VARLEON:ZOOLOGICO, [11])
-13:	(<, VARLEON:ZOOLOGICO, 13UI)
-14:	(BT, [13], [10])
-15:	(:=, JIRAFA:ZOOLOGICO, 0UI)
-16:	(:=, ELEFANTE:ZOOLOGICO, 0UI)
-17:	(PRINT, &Asignacion Multiple (JIRAFA, ELEFANTE):&, _)
-18:	(:=, ELEFANTE:ZOOLOGICO, TIGRE:ZOOLOGICO)
-19:	(:=, JIRAFA:ZOOLOGICO, VARLEON:ZOOLOGICO)
-20:	(PRINT, JIRAFA:ZOOLOGICO, _)
-21:	(PRINT, ELEFANTE:ZOOLOGICO, _)
-22:	(BI, _, [32])
-23:	(FUNC_LABEL, ALIMENTAR:ZOOLOGICO, _)
-24:	(PRINT, &Dentro de ALIMENTAR&, _)
-25:	(PRINT, &Acceso explicito a ambito:&, _)
-26:	(PRINT, VARLEON:ZOOLOGICO, _)
-27:	(:=, COMIDA:ZOOLOGICO:ALIMENTAR, 100UI)
-28:	(+, AGUA:ZOOLOGICO:ALIMENTAR, 1UI)
-29:	(:=, AGUA:ZOOLOGICO:ALIMENTAR, [28])
-30:	(RETURN, COMIDA:ZOOLOGICO:ALIMENTAR, 0/2)
-31:	(RETURN, AGUA:ZOOLOGICO:ALIMENTAR, 1/2)
-32:	(:=, OSO:ZOOLOGICO, 0UI)
-33:	(:=, KOALA:ZOOLOGICO, 10UI)
-34:	(PRINT, &Llamada a funcion con retornos multiples y CR-SE/LE:&, _)
-35:	(PARAM, OSO:ZOOLOGICO, COMIDA:ZOOLOGICO:ALIMENTAR)
-36:	(PARAM, KOALA:ZOOLOGICO, AGUA:ZOOLOGICO:ALIMENTAR)
-37:	(CALL, ALIMENTAR:ZOOLOGICO, _)
-38:	(:=, OSO:ZOOLOGICO, COMIDA:ZOOLOGICO:ALIMENTAR)
-39:	(:=, KOALA:ZOOLOGICO, AGUA:ZOOLOGICO:ALIMENTAR)
-40:	(GET_RET, [37], 0)
-41:	(:=, OSO:ZOOLOGICO, [40])
-42:	(GET_RET, [37], 1)
-43:	(:=, KOALA:ZOOLOGICO, [42])
-44:	(PRINT, OSO:ZOOLOGICO, _)
-45:	(:=, PACIENTE:ZOOLOGICO, 65UI)
-46:	(BI, _, [52])
-47:	(FUNC_LABEL, CUIDAR:ZOOLOGICO, _)
-48:	(PRINT, &Ejecutando Lambda (VETERINARIO)...&, _)
-49:	(PARAM_LAMBDA, MEDICINA:ZOOLOGICO:CUIDAR, _)
-50:	(CALL_LAMBDA, VETERINARIO:ZOOLOGICO:CUIDAR, _)
-51:	(RETURN, 1UI, 0/1)
-52:	(BI, _, [57])
-53:	(DEF_PARAM, PACIENTE:ZOOLOGICO:lambda_53, _)
-54:	(PRINT, &Valor en Lambda (PACIENTE):&, _)
-55:	(PRINT, PACIENTE:ZOOLOGICO, _)
-56:	(RET_LAMBDA, _, _)
-57:	(PARAM, L53, VETERINARIO:ZOOLOGICO:CUIDAR)
-58:	(PARAM, 50UI, MEDICINA:ZOOLOGICO:CUIDAR)
-59:	(CALL, CUIDAR:ZOOLOGICO, _)
-60:	(PRINT, &Probando chequeos runtime (operaciones validas):&, _)
-61:	(+, VARLEON:ZOOLOGICO, 1UI)
-62:	(:=, VARLEON:ZOOLOGICO, [61])
-63:	(>, VARLEON:ZOOLOGICO, 0UI)
-64:	(BF, [63], [67])
-65:	(-, VARLEON:ZOOLOGICO, 1UI)
-66:	(:=, VARLEON:ZOOLOGICO, [65])
-67:	(*, AGUILA:ZOOLOGICO, HALCON:ZOOLOGICO)
-68:	(:=, AGUILA:ZOOLOGICO, [67])
-69:	(PRINT, AGUILA:ZOOLOGICO, _)
-70:	(PRINT, &=== FIN TEST ZOOLOGICO ===&, _)
+0:	(:=, CONTADOR:PROGRAMAEXITOSO, 3UI)
+1:	(:=, VARD:PROGRAMAEXITOSO, 0UI)
+2:	(BI, _, [7])
+3:	(FUNC_LABEL, FUNCSOLOESCRITURA:PROGRAMAEXITOSO, _)
+4:	(PRINT, &  [FUNC] Ejecutando FUNCSOLOESCRITURA...&, _)
+5:	(:=, SALIDA:PROGRAMAEXITOSO:FUNCSOLOESCRITURA, 100UI)
+6:	(RETURN, 1UI, 0/1)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| ZOOLOGICO                           | VARLEON:ZOOLOGICO                             | false        | variable           | uint       |
-| ZOOLOGICO                           | @aux3:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | ALIMENTAR:ZOOLOGICO                           | false        | funcion            | multiple   |
-| ZOOLOGICO                           | @aux57:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux19:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux46:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux20:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux38:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux7:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | KOALA:ZOOLOGICO                               | false        | variable           | uint       |
-| ZOOLOGICO                           | @aux34:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux61:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | AGUILA:ZOOLOGICO                              | false        | variable           | float      |
-| ZOOLOGICO                           | @aux42:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux15:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux23:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux68:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux2:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | HALCON:ZOOLOGICO                              | false        | variable           | float      |
-| ZOOLOGICO                           | @aux4:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux18:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | JIRAFA:ZOOLOGICO                              | false        | variable           | uint       |
-| ZOOLOGICO                           | @aux37:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux69:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux43:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux8:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | PACIENTE:ZOOLOGICO                            | false        | variable           | uint       |
-| ZOOLOGICO                           | @aux62:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | OSO:ZOOLOGICO                                 | false        | variable           | uint       |
-| ZOOLOGICO                           | @aux63:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux59:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux1:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux14:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux44:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux33:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux5:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux52:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux40:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux36:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | ELEFANTE:ZOOLOGICO                            | false        | variable           | uint       |
-| ZOOLOGICO                           | @aux21:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux17:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | CUIDAR:ZOOLOGICO                              | false        | funcion            | uint       |
-| ZOOLOGICO                           | @aux47:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux9:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux39:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux64:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux60:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux6:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux32:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | ZOOLOGICO:ZOOLOGICO                           | false        | null               | null       |
-| ZOOLOGICO                           | @aux0:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux13:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux45:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux58:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | TIGRE:ZOOLOGICO                               | false        | variable           | uint       |
-| ZOOLOGICO                           | @aux35:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux16:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux67:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux22:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | PINGUINO:ZOOLOGICO                            | false        | variable           | uint       |
-| ZOOLOGICO                           | @aux41:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
-| ZOOLOGICO                           | @aux70:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| PROGRAMAEXITOSO                     | VARD:PROGRAMAEXITOSO                          | false        | variable           | uint       |
+| PROGRAMAEXITOSO                     | @aux0:PROGRAMAEXITOSO                         | false        | variable_auxiliar  | null       |
+| PROGRAMAEXITOSO                     | PROGRAMAEXITOSO:PROGRAMAEXITOSO               | false        | null               | null       |
+| PROGRAMAEXITOSO                     | @aux2:PROGRAMAEXITOSO                         | false        | variable_auxiliar  | null       |
+| PROGRAMAEXITOSO                     | @aux3:PROGRAMAEXITOSO                         | false        | variable_auxiliar  | null       |
+| PROGRAMAEXITOSO                     | CONTADOR:PROGRAMAEXITOSO                      | false        | variable           | uint       |
+| PROGRAMAEXITOSO                     | FUNCSOLOESCRITURA:PROGRAMAEXITOSO             | false        | funcion            | uint       |
+| PROGRAMAEXITOSO                     | @aux1:PROGRAMAEXITOSO                         | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| ZOOLOGICO:bloque_10                 | @aux11:ZOOLOGICO:bloque_10                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:bloque_10                 | @aux10:ZOOLOGICO:bloque_10                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:bloque_10                 | @aux12:ZOOLOGICO:bloque_10                    | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| ZOOLOGICO:ALIMENTAR                 | AGUA:ZOOLOGICO:ALIMENTAR                      | false        | parametro          | uint       |
-| ZOOLOGICO:ALIMENTAR                 | @aux24:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:ALIMENTAR                 | @aux28:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:ALIMENTAR                 | @aux31:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:ALIMENTAR                 | @aux26:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:ALIMENTAR                 | COMIDA:ZOOLOGICO:ALIMENTAR                    | false        | parametro          | uint       |
-| ZOOLOGICO:ALIMENTAR                 | @aux25:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:ALIMENTAR                 | @aux29:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:ALIMENTAR                 | @aux27:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:ALIMENTAR                 | @aux30:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| ZOOLOGICO:CUIDAR                    | @aux50:ZOOLOGICO:CUIDAR                       | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:CUIDAR                    | @aux51:ZOOLOGICO:CUIDAR                       | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:CUIDAR                    | @aux49:ZOOLOGICO:CUIDAR                       | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:CUIDAR                    | MEDICINA:ZOOLOGICO:CUIDAR                     | false        | parametro          | uint       |
-| ZOOLOGICO:CUIDAR                    | @aux48:ZOOLOGICO:CUIDAR                       | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:CUIDAR                    | VETERINARIO:ZOOLOGICO:CUIDAR                  | false        | parametro          | lambda     |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| ZOOLOGICO:lambda_53                 | PACIENTE:ZOOLOGICO:lambda_53                  | false        | parametro_lambda   | uint       |
-| ZOOLOGICO:lambda_53                 | @aux53:ZOOLOGICO:lambda_53                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:lambda_53                 | @aux56:ZOOLOGICO:lambda_53                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:lambda_53                 | @aux54:ZOOLOGICO:lambda_53                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:lambda_53                 | @aux55:ZOOLOGICO:lambda_53                    | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| ZOOLOGICO:bloque_65                 | @aux65:ZOOLOGICO:bloque_65                    | false        | variable_auxiliar  | null       |
-| ZOOLOGICO:bloque_65                 | @aux66:ZOOLOGICO:bloque_65                    | false        | variable_auxiliar  | null       |
+| PROGRAMAEXITOSO:FUNCSOLOESCRITURA   | @aux4:PROGRAMAEXITOSO:FUNCSOLOESCRITURA       | false        | variable_auxiliar  | null       |
+| PROGRAMAEXITOSO:FUNCSOLOESCRITURA   | @aux6:PROGRAMAEXITOSO:FUNCSOLOESCRITURA       | false        | variable_auxiliar  | null       |
+| PROGRAMAEXITOSO:FUNCSOLOESCRITURA   | SALIDA:PROGRAMAEXITOSO:FUNCSOLOESCRITURA      | false        | parametro          | uint       |
+| PROGRAMAEXITOSO:FUNCSOLOESCRITURA   | @aux5:PROGRAMAEXITOSO:FUNCSOLOESCRITURA       | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================
