@@ -64,7 +64,7 @@ public class GeneradorAssembler {
             Terceto t = generador.getTerceto(i);
             if (t != null) {
                 String op = t.getOperador();
-                if (op.equals("FUNC_LABEL") || op.equals("CALL")) continue;
+                if (op.equals("FUNC_LABEL") || op.equals("CALL") || op.equals("NOP")) continue;
 
                 checkAndAddVariable(t.getOperando1(), variablesDeclaradas);
                 checkAndAddVariable(t.getOperando2(), variablesDeclaradas);
@@ -111,20 +111,25 @@ public class GeneradorAssembler {
         Terceto tercetoActual;
 
         while ((tercetoActual = generador.getTerceto(numTerceto)) != null) {
+            // Ignorar DUMMY (usados para rellenar saltos)
             if (tercetoActual.getOperador().equals("DUMMY")) {
                 numTerceto++;
                 continue;
             }
 
+            // 1. Imprimir la etiqueta SIEMPRE (incluso para NOP)
             codigo.append("Label").append(numTerceto).append(":\n");
 
             String op = tercetoActual.getOperador();
 
+            // 2. CRÍTICO: Detectar NOP aquí y saltar ANTES de procesar operandos
+            // Esto evita que getTipo("_") lance una excepción
             if (op.equals("NOP")) {
                 numTerceto++;
                 continue;
             }
 
+            // 3. Procesar operandos solo si no es NOP
             String rawOp1 = tercetoActual.getOperando1();
             String rawOp2 = tercetoActual.getOperando2();
             String op1 = resolveOperand(rawOp1);
@@ -134,6 +139,7 @@ public class GeneradorAssembler {
 
             boolean isFloatOp = tipoTerceto.equals("float");
             if (!isFloatOp && rawOp1 != null) {
+                // Ahora es seguro llamar a getTipo porque sabemos que rawOp1 no es "_" de un NOP
                 String t1 = generador.getTipo(rawOp1);
                 if (t1.equals("float")) isFloatOp = true;
             }
