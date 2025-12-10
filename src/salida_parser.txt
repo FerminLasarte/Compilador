@@ -7,9 +7,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 41: Error de sintaxis. Verifique la estructura del codigo.
-Linea 69: Error de sintaxis. Verifique la estructura del codigo.
-Linea 137: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -19,511 +17,189 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 2: Error Semantico: Variable 'A' no fue declarada (Regla de alcance).
-Linea 4: Error Semantico: Redeclaracion de variable 'A' en el mismo ambito (Tema 9).
-Linea 61: Error Semantico: Variable 'CONTADOR' no fue declarada (Regla de alcance).
-Linea 61: Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.
-Linea 70: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (1) y a la derecha (2).
-Linea 71: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (2) y a la derecha (1).
-Linea 98: Error Semantico: Variable 'J' no existe en el ambito 'MAIN' o el ambito no es visible (Tema 23).
-Linea 106: Error Semantico: Variable 'P' no existe en el ambito 'FUNCZ' o el ambito no es visible (Tema 23).
-Linea 128: Error Semantico: Invocacion a 'FUNCZ': no existe el parametro formal '->VARIABLEZ'.
-Linea 136: Error Semantico: Redeclaracion de variable 'A' en el mismo ambito (Tema 9).
-Linea 158: Error Semantico: Variable 'GCONTADOR' no fue declarada (Regla de alcance).
-Linea 161: Error Semantico: Invocacion a 'FUNCIONX': no existe el parametro formal '->BB'.
-Linea 208: Error Semantico (Tema 21): Asignacion multiple a funcion 'FUNCION:MAIN'. Insuficientes valores de retorno. Esperados: 3, Retornados: 2.
-Linea 209: Error Semantico: Invocacion a 'FUNCION': no existe el parametro formal '->P2'.
-Linea 209: Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (2) y a la derecha (1).
+No se encontraron errores semanticos.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 207 - Columna: 26 - Linea 207: Warning (Tema 21): Funcion 'FUNCION:MAIN' retorna 2 valores, pero solo se asignan 1. Se descartan los sobrantes.
+No se encontraron warnings.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:MAIN, 0UI)
-1:	(PRINT, &A:&, _)
-2:	(PRINT, A:MAIN, _)
-3:	(:=, B:MAIN, 1UI)
-4:	(PRINT, &B:&, _)
-5:	(PRINT, B:MAIN, _)
-6:	(PRINT, &cadena @Numero de linea: 11
-    multilinea&, _)
-7:	(:=, F1:MAIN, 1.5F+2)
-8:	(PRINT, &F1:&, _)
-9:	(PRINT, F1:MAIN, _)
-10:	(:=, F2:MAIN, .5F-1)
-11:	(PRINT, &F2:&, _)
-12:	(PRINT, F2:MAIN, _)
-13:	(:=, F3:MAIN, 10.F+0)
-14:	(PRINT, &F3:&, _)
-15:	(PRINT, F3:MAIN, _)
-16:	(:=, X:MAIN, 10UI)
-17:	(PRINT, &X:&, _)
-18:	(PRINT, X:MAIN, _)
-19:	(:=, XX:MAIN, 1000UI)
-20:	(PRINT, &XX:&, _)
-21:	(PRINT, XX:MAIN, _)
-22:	(:=, Y:MAIN, 2.5F+1)
-23:	(PRINT, &Y:&, _)
-24:	(PRINT, Y:MAIN, _)
-25:	(:=, Z:MAIN, Y:MAIN)
-26:	(PRINT, &Z:&, _)
-27:	(PRINT, Z:MAIN, _)
-28:	(TOUI, Y:MAIN, _)
-29:	(:=, X:MAIN, [28])
-30:	(PRINT, &Z:&, _)
-31:	(PRINT, Z:MAIN, _)
-32:	(PRINT, &X CON CONVERSION EXPLICITA:&, _)
-33:	(PRINT, X:MAIN, _)
-34:	(TOUI, 2.5F+1, _)
-35:	(+, 10UI, [34])
-36:	(:=, E:MAIN, [35])
-37:	(PRINT, &E:&, _)
-38:	(PRINT, E:MAIN, _)
-39:	(:=, CONT:MAIN, 0UI)
-40:	(+, CONT:MAIN, 1UI)
-41:	(:=, CONT:MAIN, [40])
-42:	(PRINT, &CONT:&, _)
-43:	(PRINT, CONT:MAIN, _)
-44:	(<, CONT:MAIN, 5UI)
-45:	(BT, [44], [40])
-46:	(+, CONT:MAIN, 1UI)
-47:	(:=, CONT:MAIN, [46])
-48:	(PRINT, &CONT:&, _)
-49:	(PRINT, CONT:MAIN, _)
-50:	(PRINT, &#ASIGNACION MULTIPLE IGUAL DE LADOS#&, _)
-51:	(:=, B:MAIN, 20UI)
-52:	(:=, A:MAIN, 10UI)
-53:	(PRINT, &A:&, _)
-54:	(PRINT, A:MAIN, _)
-55:	(PRINT, &B:&, _)
-56:	(PRINT, B:MAIN, _)
-57:	(PRINT, &IMPRIME AAAAA:&, _)
-58:	(PRINT, A:MAIN, _)
-59:	(BI, _, [111])
-60:	(FUNC_LABEL, FUNCZ:MAIN, _)
-61:	(PRINT, &A DENTRO DE FUNCZ&, _)
-62:	(PRINT, A:MAIN, _)
-63:	(:=, W:MAIN:FUNCZ, 2UI)
-64:	(PRINT, &W DE FUNCZ:&, _)
-65:	(PRINT, W:MAIN:FUNCZ, _)
-66:	(:=, J:MAIN:FUNCZ, 3UI)
-67:	(PRINT, &J DE FUNCZ:&, _)
-68:	(PRINT, J:MAIN:FUNCZ, _)
-69:	(:=, A:MAIN:FUNCZ, 4UI)
-70:	(PRINT, &A DE FUNCZ:&, _)
-71:	(PRINT, A:MAIN:FUNCZ, _)
-72:	(:=, W:MAIN:FUNCZ, A:MAIN:FUNCZ)
-73:	(PRINT, &W DE FUNCZ TOMA VALOR DE A DE FUNCZ:&, _)
-74:	(PRINT, W:MAIN:FUNCZ, _)
-75:	(:=, W:MAIN:FUNCZ, A:MAIN)
-76:	(PRINT, &W DE FUNCZ TOMA VALOR DE MAIN.A:&, _)
-77:	(PRINT, W:MAIN:FUNCZ, _)
-78:	(:=, A:MAIN, A:MAIN:FUNCZ)
-79:	(PRINT, &MAIN.A TOMA VALOR DE A:&, _)
-80:	(PRINT, A:MAIN, _)
-81:	(PRINT, &IMPRIMO A DE FUNCZ:&, _)
-82:	(PRINT, A:MAIN:FUNCZ, _)
-83:	(PRINT, error_tipo, _)
-84:	(BI, _, [103])
-85:	(FUNC_LABEL, FUNCJ:MAIN:FUNCZ, _)
-86:	(:=, W:MAIN:FUNCZ:FUNCJ, 22UI)
-87:	(PRINT, &W DE FUNCJ:&, _)
-88:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
-89:	(:=, P:MAIN:FUNCZ:FUNCJ, 33UI)
-90:	(PRINT, &P DE FUNCJ:&, _)
-91:	(PRINT, P:MAIN:FUNCZ:FUNCJ, _)
-92:	(PRINT, error_tipo, _)
-93:	(:=, A:MAIN:FUNCZ:FUNCJ, 44UI)
-94:	(PRINT, &A DE FUNCJ:&, _)
-95:	(PRINT, A:MAIN:FUNCZ:FUNCJ, _)
-96:	(:=, W:MAIN:FUNCZ:FUNCJ, A:MAIN)
-97:	(PRINT, &W DE FUNCJ TOMA VALOR DE MAIN.A:&, _)
-98:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
-99:	(:=, A:MAIN:FUNCZ, W:MAIN:FUNCZ:FUNCJ)
-100:	(PRINT, &FUNCZ.A TOMA VALOR DE W DE FUNCJ:&, _)
-101:	(PRINT, W:MAIN:FUNCZ:FUNCJ, _)
-102:	(RETURN, 55UI, 0/1)
-103:	(:=, VARIABLEOTRA:MAIN:FUNCZ, 0UI)
-104:	(PARAM, VARIABLEOTRA:MAIN:FUNCZ, J:MAIN:FUNCZ:FUNCJ)
-105:	(CALL, FUNCJ:MAIN:FUNCZ, _)
-106:	(:=, VARIABLEOTRA:MAIN:FUNCZ, [105])
-107:	(PRINT, &por entrar&, _)
-108:	(PRINT, VARIABLEOTRA:MAIN:FUNCZ, _)
-109:	(PRINT, &entro&, _)
-110:	(RETURN, 5UI, 0/1)
-111:	(:=, VARIABLEZ:MAIN, 0UI)
-112:	(PARAM, VARIABLEZ:MAIN, Z:MAIN:FUNCZ)
-113:	(CALL, FUNCZ:MAIN, _)
-114:	(:=, VARIABLEZ:MAIN, [113])
-115:	(PRINT, &por entrar dos&, _)
-116:	(PRINT, VARIABLEZ:MAIN, _)
-117:	(PRINT, &entro&, _)
-118:	(BI, _, [142])
-119:	(FUNC_LABEL, FUNCIONX:MAIN, _)
-120:	(:=, AA:MAIN:FUNCIONX, 3UI)
-121:	(:=, A:MAIN:FUNCIONX, 3UI)
-122:	(:=, GCONTADOR:MAIN:FUNCIONX, 0UI)
-123:	(PRINT, &PRINT GCONTADOR &, _)
-124:	(PRINT, GCONTADOR:MAIN:FUNCIONX, _)
-125:	(+, GCONTADOR:MAIN:FUNCIONX, 1UI)
-126:	(:=, GCONTADOR:MAIN:FUNCIONX, [125])
-127:	(<, GCONTADOR:MAIN:FUNCIONX, 3UI)
-128:	(BT, [127], [123])
-129:	(<, AA:MAIN:FUNCIONX, 5UI)
-130:	(BF, [129], [134])
-131:	(PRINT, &PRINT AA &, _)
-132:	(PRINT, AA:MAIN:FUNCIONX, _)
-133:	(BI, _, [135])
-134:	(PRINT, 100UI, _)
-135:	(>, A:MAIN:FUNCIONX, 5UI)
-136:	(BF, [135], [140])
-137:	(PRINT, &PRINT A &, _)
-138:	(PRINT, A:MAIN:FUNCIONX, _)
-139:	(BI, _, [141])
-140:	(PRINT, 100UI, _)
-141:	(RETURN, 1000UI, 0/1)
-142:	(PRINT, error_tipo, _)
-143:	(:=, VARIABLEXX:MAIN, 0UI)
-144:	(PARAM, VARIABLEXX:MAIN, AA:MAIN:FUNCIONX)
-145:	(CALL, FUNCIONX:MAIN, _)
-146:	(:=, VARIABLEXX:MAIN, [145])
-147:	(PRINT, &por entrar FUNCION IF&, _)
-148:	(PRINT, VARIABLEXX:MAIN, _)
-149:	(PRINT, &ENTRO FUNCION IF&, _)
-150:	(:=, VALOR:MAIN, 10UI)
-151:	(BI, _, [157])
-152:	(FUNC_LABEL, PROCESAR:MAIN, _)
-153:	(:=, OUT:MAIN:PROCESAR, 99UI)
-154:	(+, INOUT:MAIN:PROCESAR, 1UI)
-155:	(:=, INOUT:MAIN:PROCESAR, [154])
-156:	(RETURN, 1UI, 0/1)
-157:	(:=, BASURA:MAIN, 0UI)
-158:	(PRINT, &IMPRIME BASURA 1&, _)
-159:	(PRINT, BASURA:MAIN, _)
-160:	(PARAM, BASURA:MAIN, OUT:MAIN:PROCESAR)
-161:	(PARAM, VALOR:MAIN, INOUT:MAIN:PROCESAR)
-162:	(CALL, PROCESAR:MAIN, _)
-163:	(:=, BASURA:MAIN, OUT:MAIN:PROCESAR)
-164:	(:=, VALOR:MAIN, INOUT:MAIN:PROCESAR)
-165:	(PRINT, &IMPRIME BASURA 2&, _)
-166:	(PRINT, BASURA:MAIN, _)
-167:	(PRINT, &IMPRIME VALOR&, _)
-168:	(PRINT, VALOR:MAIN, _)
-169:	(:=, GLOBAL:MAIN, 100UI)
-170:	(PRINT, &GLOBAL:&, _)
-171:	(PRINT, GLOBAL:MAIN, _)
-172:	(BI, _, [188])
-173:	(FUNC_LABEL, FUNCION:MAIN, _)
-174:	(:=, VARLOCAL:MAIN:FUNCION, 200UI)
-175:	(+, GLOBAL:MAIN, 1UI)
-176:	(:=, GLOBAL:MAIN, [175])
-177:	(PRINT, &MAIN.GLOBAL:&, _)
-178:	(PRINT, GLOBAL:MAIN, _)
-179:	(:=, VARLOCAL:MAIN:FUNCION, GLOBAL:MAIN)
-180:	(PRINT, &VARLOCAL:&, _)
-181:	(PRINT, VARLOCAL:MAIN:FUNCION, _)
-182:	(+, VARLOCAL:MAIN:FUNCION, 3UI)
-183:	(:=, GLOBAL:MAIN, [182])
-184:	(PRINT, &MAIN.GLOBAL:&, _)
-185:	(PRINT, GLOBAL:MAIN, _)
-186:	(RETURN, 12UI, 0/2)
-187:	(RETURN, 12UI, 1/2)
-188:	(:=, R1:MAIN, 0UI)
-189:	(:=, R2:MAIN, 0UI)
-190:	(:=, R3:MAIN, 0UI)
-191:	(PARAM, 50UI, P1:MAIN:FUNCION)
-192:	(CALL, FUNCION:MAIN, _)
-193:	(GET_RET, [192], 0)
-194:	(:=, R1:MAIN, [193])
-195:	(PARAM, 50UI, P1:MAIN:FUNCION)
-196:	(CALL, FUNCION:MAIN, _)
-197:	(PARAM, 50UI, P1:MAIN:FUNCION)
-198:	(CALL, FUNCION:MAIN, _)
-199:	(GET_RET, [198], 0)
-200:	(:=, R1:MAIN, [199])
-201:	(GET_RET, [198], 1)
-202:	(:=, R2:MAIN, [201])
-203:	(PRINT, &R1:&, _)
-204:	(PRINT, R1:MAIN, _)
-205:	(PRINT, &R2:&, _)
-206:	(PRINT, R2:MAIN, _)
-207:	(PRINT, &GLOBAL:&, _)
-208:	(PRINT, GLOBAL:MAIN, _)
-209:	(:=, VARPARALAMBDA:MAIN, 5UI)
+0:	(PRINT, & @Numero de linea: 2
+    === INICIO TEST ZOOLOGICO === @Numero de linea: 3
+    &, _)
+1:	(:=, VARLEON:ZOOLOGICO, 10UI)
+2:	(:=, TIGRE:ZOOLOGICO, 20UI)
+3:	(:=, AGUILA:ZOOLOGICO, 5.5F+0)
+4:	(:=, HALCON:ZOOLOGICO, 2.0F+0)
+5:	(TOUI, AGUILA:ZOOLOGICO, _)
+6:	(:=, PINGUINO:ZOOLOGICO, [5])
+7:	(PRINT, &Conversion toui (PINGUINO):&, _)
+8:	(PRINT, PINGUINO:ZOOLOGICO, _)
+9:	(PRINT, &Do-While (VARLEON):&, _)
+10:	(PRINT, VARLEON:ZOOLOGICO, _)
+11:	(+, VARLEON:ZOOLOGICO, 1UI)
+12:	(:=, VARLEON:ZOOLOGICO, [11])
+13:	(<, VARLEON:ZOOLOGICO, 13UI)
+14:	(BT, [13], [10])
+15:	(:=, JIRAFA:ZOOLOGICO, 0UI)
+16:	(:=, ELEFANTE:ZOOLOGICO, 0UI)
+17:	(PRINT, &Asignacion Multiple (JIRAFA, ELEFANTE):&, _)
+18:	(:=, ELEFANTE:ZOOLOGICO, TIGRE:ZOOLOGICO)
+19:	(:=, JIRAFA:ZOOLOGICO, VARLEON:ZOOLOGICO)
+20:	(PRINT, JIRAFA:ZOOLOGICO, _)
+21:	(PRINT, ELEFANTE:ZOOLOGICO, _)
+22:	(BI, _, [32])
+23:	(FUNC_LABEL, ALIMENTAR:ZOOLOGICO, _)
+24:	(PRINT, &Dentro de ALIMENTAR&, _)
+25:	(PRINT, &Acceso explicito a ambito:&, _)
+26:	(PRINT, VARLEON:ZOOLOGICO, _)
+27:	(:=, COMIDA:ZOOLOGICO:ALIMENTAR, 100UI)
+28:	(+, AGUA:ZOOLOGICO:ALIMENTAR, 1UI)
+29:	(:=, AGUA:ZOOLOGICO:ALIMENTAR, [28])
+30:	(RETURN, COMIDA:ZOOLOGICO:ALIMENTAR, 0/2)
+31:	(RETURN, AGUA:ZOOLOGICO:ALIMENTAR, 1/2)
+32:	(:=, OSO:ZOOLOGICO, 0UI)
+33:	(:=, KOALA:ZOOLOGICO, 10UI)
+34:	(PRINT, &Llamada a funcion con retornos multiples y CR-SE/LE:&, _)
+35:	(PARAM, OSO:ZOOLOGICO, COMIDA:ZOOLOGICO:ALIMENTAR)
+36:	(PARAM, KOALA:ZOOLOGICO, AGUA:ZOOLOGICO:ALIMENTAR)
+37:	(CALL, ALIMENTAR:ZOOLOGICO, _)
+38:	(:=, OSO:ZOOLOGICO, COMIDA:ZOOLOGICO:ALIMENTAR)
+39:	(:=, KOALA:ZOOLOGICO, AGUA:ZOOLOGICO:ALIMENTAR)
+40:	(GET_RET, [37], 0)
+41:	(:=, OSO:ZOOLOGICO, [40])
+42:	(GET_RET, [37], 1)
+43:	(:=, KOALA:ZOOLOGICO, [42])
+44:	(PRINT, OSO:ZOOLOGICO, _)
+45:	(:=, PACIENTE:ZOOLOGICO, 65UI)
+46:	(BI, _, [52])
+47:	(FUNC_LABEL, CUIDAR:ZOOLOGICO, _)
+48:	(PRINT, &Ejecutando Lambda (VETERINARIO)...&, _)
+49:	(PARAM_LAMBDA, MEDICINA:ZOOLOGICO:CUIDAR, _)
+50:	(CALL_LAMBDA, VETERINARIO:ZOOLOGICO:CUIDAR, _)
+51:	(RETURN, 1UI, 0/1)
+52:	(BI, _, [57])
+53:	(DEF_PARAM, PACIENTE:ZOOLOGICO:lambda_53, _)
+54:	(PRINT, &Valor en Lambda (PACIENTE):&, _)
+55:	(PRINT, PACIENTE:ZOOLOGICO, _)
+56:	(RET_LAMBDA, _, _)
+57:	(PARAM, L53, VETERINARIO:ZOOLOGICO:CUIDAR)
+58:	(PARAM, 50UI, MEDICINA:ZOOLOGICO:CUIDAR)
+59:	(CALL, CUIDAR:ZOOLOGICO, _)
+60:	(PRINT, &Probando chequeos runtime (operaciones validas):&, _)
+61:	(+, VARLEON:ZOOLOGICO, 1UI)
+62:	(:=, VARLEON:ZOOLOGICO, [61])
+63:	(>, VARLEON:ZOOLOGICO, 0UI)
+64:	(BF, [63], [67])
+65:	(-, VARLEON:ZOOLOGICO, 1UI)
+66:	(:=, VARLEON:ZOOLOGICO, [65])
+67:	(*, AGUILA:ZOOLOGICO, HALCON:ZOOLOGICO)
+68:	(:=, AGUILA:ZOOLOGICO, [67])
+69:	(PRINT, AGUILA:ZOOLOGICO, _)
+70:	(PRINT, &=== FIN TEST ZOOLOGICO ===&, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN                                | @aux189:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux39:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux144:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | B:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | FUNCZ:MAIN                                    | false        | funcion            | uint       |
-| MAIN                                | @aux55:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux191:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | MAIN:MAIN                                     | false        | null               | null       |
-| MAIN                                | Y:MAIN                                        | false        | variable           | float      |
-| MAIN                                | @aux114:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux159:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | A:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | @aux10:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux11:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux56:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux192:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux161:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux0:MAIN                                    | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux145:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux200:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux25:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux57:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux193:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux115:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux112:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux24:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | Z:MAIN                                        | false        | variable           | float      |
-| MAIN                                | @aux27:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux160:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux163:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | F3:MAIN                                       | false        | variable           | float      |
-| MAIN                                | @aux188:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | CONT:MAIN                                     | false        | variable           | uint       |
-| MAIN                                | @aux8:MAIN                                    | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux38:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux158:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux208:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux54:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux190:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux147:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux36:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux2:MAIN                                    | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux30:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux13:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux58:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux45:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux195:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux142:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux52:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux207:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | XX:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | @aux3:MAIN                                    | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux164:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux14:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux148:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | F2:MAIN                                       | false        | variable           | float      |
-| MAIN                                | FUNCIONX:MAIN                                 | false        | funcion            | uint       |
-| MAIN                                | @aux23:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux151:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux9:MAIN                                    | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux173:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux170:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | R3:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | @aux201:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux26:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux29:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux157:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux204:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux20:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux113:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux116:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux33:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux205:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux119:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | R1:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | @aux5:MAIN                                    | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux50:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux152:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux16:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux167:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux197:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux198:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | PROCESAR:MAIN                                 | false        | funcion            | uint       |
-| MAIN                                | @aux118:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux6:MAIN                                    | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux17:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux51:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | VARPARALAMBDA:MAIN                            | false        | variable           | uint       |
-| MAIN                                | @aux196:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux32:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | VARIABLEZ:MAIN                                | false        | variable           | uint       |
-| MAIN                                | @aux199:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | BASURA:MAIN                                   | false        | variable           | uint       |
-| MAIN                                | @aux21:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | FUNCION:MAIN                                  | false        | funcion            | multiple   |
-| MAIN                                | @aux171:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux35:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | R2:MAIN                                       | false        | variable           | uint       |
-| MAIN                                | @aux19:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux169:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | VARIABLEXX:MAIN                               | false        | variable           | uint       |
-| MAIN                                | @aux166:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux202:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux44:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux172:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux194:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux53:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | F1:MAIN                                       | false        | variable           | float      |
-| MAIN                                | @aux117:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | GLOBAL:MAIN                                   | false        | variable           | uint       |
-| MAIN                                | @aux59:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux111:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux60:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux28:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux203:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux22:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux150:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | E:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | @aux15:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux168:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux165:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux18:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux12:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | X:MAIN                                        | false        | variable           | uint       |
-| MAIN                                | @aux143:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux206:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux209:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux37:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux146:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux34:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux149:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux162:MAIN                                  | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux7:MAIN                                    | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux4:MAIN                                    | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux1:MAIN                                    | false        | variable_auxiliar  | null       |
-| MAIN                                | @aux31:MAIN                                   | false        | variable_auxiliar  | null       |
-| MAIN                                | VALOR:MAIN                                    | false        | variable           | uint       |
+| ZOOLOGICO                           | VARLEON:ZOOLOGICO                             | false        | variable           | uint       |
+| ZOOLOGICO                           | @aux3:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | ALIMENTAR:ZOOLOGICO                           | false        | funcion            | multiple   |
+| ZOOLOGICO                           | @aux57:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux19:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux46:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux20:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux38:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux7:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | KOALA:ZOOLOGICO                               | false        | variable           | uint       |
+| ZOOLOGICO                           | @aux34:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux61:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | AGUILA:ZOOLOGICO                              | false        | variable           | float      |
+| ZOOLOGICO                           | @aux42:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux15:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux23:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux68:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux2:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | HALCON:ZOOLOGICO                              | false        | variable           | float      |
+| ZOOLOGICO                           | @aux4:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux18:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | JIRAFA:ZOOLOGICO                              | false        | variable           | uint       |
+| ZOOLOGICO                           | @aux37:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux69:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux43:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux8:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | PACIENTE:ZOOLOGICO                            | false        | variable           | uint       |
+| ZOOLOGICO                           | @aux62:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | OSO:ZOOLOGICO                                 | false        | variable           | uint       |
+| ZOOLOGICO                           | @aux63:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux59:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux1:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux14:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux44:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux33:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux5:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux52:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux40:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux36:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | ELEFANTE:ZOOLOGICO                            | false        | variable           | uint       |
+| ZOOLOGICO                           | @aux21:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux17:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | CUIDAR:ZOOLOGICO                              | false        | funcion            | uint       |
+| ZOOLOGICO                           | @aux47:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux9:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux39:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux64:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux60:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux6:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux32:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | ZOOLOGICO:ZOOLOGICO                           | false        | null               | null       |
+| ZOOLOGICO                           | @aux0:ZOOLOGICO                               | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux13:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux45:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux58:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | TIGRE:ZOOLOGICO                               | false        | variable           | uint       |
+| ZOOLOGICO                           | @aux35:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux16:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux67:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux22:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | PINGUINO:ZOOLOGICO                            | false        | variable           | uint       |
+| ZOOLOGICO                           | @aux41:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
+| ZOOLOGICO                           | @aux70:ZOOLOGICO                              | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:bloque_40                      | @aux42:MAIN:bloque_40                         | false        | variable_auxiliar  | null       |
-| MAIN:bloque_40                      | @aux40:MAIN:bloque_40                         | false        | variable_auxiliar  | null       |
-| MAIN:bloque_40                      | @aux43:MAIN:bloque_40                         | false        | variable_auxiliar  | null       |
-| MAIN:bloque_40                      | @aux41:MAIN:bloque_40                         | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:bloque_10                 | @aux11:ZOOLOGICO:bloque_10                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:bloque_10                 | @aux10:ZOOLOGICO:bloque_10                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:bloque_10                 | @aux12:ZOOLOGICO:bloque_10                    | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:bloque_46                      | @aux46:MAIN:bloque_46                         | false        | variable_auxiliar  | null       |
-| MAIN:bloque_46                      | @aux49:MAIN:bloque_46                         | false        | variable_auxiliar  | null       |
-| MAIN:bloque_46                      | @aux48:MAIN:bloque_46                         | false        | variable_auxiliar  | null       |
-| MAIN:bloque_46                      | @aux47:MAIN:bloque_46                         | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:ALIMENTAR                 | AGUA:ZOOLOGICO:ALIMENTAR                      | false        | parametro          | uint       |
+| ZOOLOGICO:ALIMENTAR                 | @aux24:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:ALIMENTAR                 | @aux28:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:ALIMENTAR                 | @aux31:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:ALIMENTAR                 | @aux26:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:ALIMENTAR                 | COMIDA:ZOOLOGICO:ALIMENTAR                    | false        | parametro          | uint       |
+| ZOOLOGICO:ALIMENTAR                 | @aux25:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:ALIMENTAR                 | @aux29:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:ALIMENTAR                 | @aux27:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:ALIMENTAR                 | @aux30:ZOOLOGICO:ALIMENTAR                    | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCZ                          | @aux77:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux80:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux106:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux73:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux110:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux61:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux67:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux63:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux68:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux109:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux78:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux83:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | A:MAIN:FUNCZ                                  | false        | variable           | uint       |
-| MAIN:FUNCZ                          | @aux84:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux105:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | FUNCJ:MAIN:FUNCZ                              | false        | funcion            | uint       |
-| MAIN:FUNCZ                          | @aux74:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux70:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux64:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux62:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux69:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux72:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux108:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux79:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux82:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux85:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | Z:MAIN:FUNCZ                                  | false        | parametro          | uint       |
-| MAIN:FUNCZ                          | W:MAIN:FUNCZ                                  | false        | variable           | uint       |
-| MAIN:FUNCZ                          | @aux65:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux75:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux104:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux71:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux81:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | VARIABLEOTRA:MAIN:FUNCZ                       | false        | variable           | uint       |
-| MAIN:FUNCZ                          | @aux107:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux76:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | J:MAIN:FUNCZ                                  | false        | variable           | uint       |
-| MAIN:FUNCZ                          | @aux66:MAIN:FUNCZ                             | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ                          | @aux103:MAIN:FUNCZ                            | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:CUIDAR                    | @aux50:ZOOLOGICO:CUIDAR                       | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:CUIDAR                    | @aux51:ZOOLOGICO:CUIDAR                       | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:CUIDAR                    | @aux49:ZOOLOGICO:CUIDAR                       | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:CUIDAR                    | MEDICINA:ZOOLOGICO:CUIDAR                     | false        | parametro          | uint       |
+| ZOOLOGICO:CUIDAR                    | @aux48:ZOOLOGICO:CUIDAR                       | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:CUIDAR                    | VETERINARIO:ZOOLOGICO:CUIDAR                  | false        | parametro          | lambda     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCZ:FUNCJ                    | @aux97:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux86:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux89:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux99:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux102:MAIN:FUNCZ:FUNCJ                      | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | W:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
-| MAIN:FUNCZ:FUNCJ                    | @aux95:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux100:MAIN:FUNCZ:FUNCJ                      | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux93:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux91:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux96:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux98:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | J:MAIN:FUNCZ:FUNCJ                            | false        | parametro          | uint       |
-| MAIN:FUNCZ:FUNCJ                    | @aux88:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux87:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux94:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | P:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
-| MAIN:FUNCZ:FUNCJ                    | @aux101:MAIN:FUNCZ:FUNCJ                      | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | @aux90:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
-| MAIN:FUNCZ:FUNCJ                    | A:MAIN:FUNCZ:FUNCJ                            | false        | variable           | uint       |
-| MAIN:FUNCZ:FUNCJ                    | @aux92:MAIN:FUNCZ:FUNCJ                       | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:lambda_53                 | PACIENTE:ZOOLOGICO:lambda_53                  | false        | parametro_lambda   | uint       |
+| ZOOLOGICO:lambda_53                 | @aux53:ZOOLOGICO:lambda_53                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:lambda_53                 | @aux56:ZOOLOGICO:lambda_53                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:lambda_53                 | @aux54:ZOOLOGICO:lambda_53                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:lambda_53                 | @aux55:ZOOLOGICO:lambda_53                    | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX                       | @aux139:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | @aux141:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | @aux120:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | @aux127:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | @aux133:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | @aux122:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | @aux128:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | @aux136:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | GCONTADOR:MAIN:FUNCIONX                       | false        | variable           | uint       |
-| MAIN:FUNCIONX                       | @aux130:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | @aux135:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | AA:MAIN:FUNCIONX                              | false        | parametro          | uint       |
-| MAIN:FUNCIONX                       | @aux129:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | @aux121:MAIN:FUNCIONX                         | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX                       | A:MAIN:FUNCIONX                               | false        | variable           | uint       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:bloque_123            | @aux124:MAIN:FUNCIONX:bloque_123              | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX:bloque_123            | @aux126:MAIN:FUNCIONX:bloque_123              | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX:bloque_123            | @aux123:MAIN:FUNCIONX:bloque_123              | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX:bloque_123            | @aux125:MAIN:FUNCIONX:bloque_123              | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:bloque_131            | @aux131:MAIN:FUNCIONX:bloque_131              | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX:bloque_131            | @aux132:MAIN:FUNCIONX:bloque_131              | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:bloque_134            | @aux134:MAIN:FUNCIONX:bloque_134              | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:bloque_137            | @aux137:MAIN:FUNCIONX:bloque_137              | false        | variable_auxiliar  | null       |
-| MAIN:FUNCIONX:bloque_137            | @aux138:MAIN:FUNCIONX:bloque_137              | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCIONX:bloque_140            | @aux140:MAIN:FUNCIONX:bloque_140              | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:PROCESAR                       | @aux153:MAIN:PROCESAR                         | false        | variable_auxiliar  | null       |
-| MAIN:PROCESAR                       | @aux155:MAIN:PROCESAR                         | false        | variable_auxiliar  | null       |
-| MAIN:PROCESAR                       | @aux154:MAIN:PROCESAR                         | false        | variable_auxiliar  | null       |
-| MAIN:PROCESAR                       | OUT:MAIN:PROCESAR                             | false        | parametro          | uint       |
-| MAIN:PROCESAR                       | @aux156:MAIN:PROCESAR                         | false        | variable_auxiliar  | null       |
-| MAIN:PROCESAR                       | INOUT:MAIN:PROCESAR                           | false        | parametro          | uint       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| MAIN:FUNCION                        | @aux177:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux182:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux178:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux183:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux176:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux180:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux185:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux174:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux179:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux175:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux184:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux181:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | P1:MAIN:FUNCION                               | false        | parametro          | uint       |
-| MAIN:FUNCION                        | VARLOCAL:MAIN:FUNCION                         | false        | variable           | uint       |
-| MAIN:FUNCION                        | @aux187:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
-| MAIN:FUNCION                        | @aux186:MAIN:FUNCION                          | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:bloque_65                 | @aux65:ZOOLOGICO:bloque_65                    | false        | variable_auxiliar  | null       |
+| ZOOLOGICO:bloque_65                 | @aux66:ZOOLOGICO:bloque_65                    | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================

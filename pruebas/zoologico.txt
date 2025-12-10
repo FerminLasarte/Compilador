@@ -1,8 +1,6 @@
 ZOOLOGICO { @Numero de linea: 1
     print(& @Numero de linea: 2
     === INICIO TEST ZOOLOGICO === @Numero de linea: 3
-    Temas: 2,5,8,9,14,19,21,23,25,28,31,32 @Numero de linea: 4
-    Checks Runtime: b, e, f @Numero de linea: 5
     &); @Numero de linea: 6
     var VARLEON := 10UI; @Numero de linea: 7
     var TIGRE := 20UI; @Numero de linea: 8

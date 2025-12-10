@@ -2,7 +2,7 @@ PRUEBA5 { @Numero de linea: 1
     @ TEMA 8: Cadenas Multilinea @Numero de linea: 2
     print(& @Numero de linea: 3
     ******************************** @Numero de linea: 4
-    * INICIO TEST INTEGRAL GRUPO 10 * @Numero de linea: 5
+    * GRUPO 10 * @Numero de linea: 5
     ******************************** @Numero de linea: 6
     &); @Numero de linea: 7
  @Numero de linea: 8

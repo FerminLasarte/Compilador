@@ -39,4 +39,5 @@ PRUEBA2 { @Numero de linea: 1
     print(&Valor de EXTERNA tras Copia-Resultado (Debe ser 99):&); @Numero de linea: 36
     @ TEMA 23: Uso explicito de ambito @Numero de linea: 37
     print(PRUEBA2.EXTERNA); @Numero de linea: 38
-} @Numero de linea: 39
+    print(&Fin Test 2 sin errores fatales&); @Numero de linea: 39
+} @Numero de linea: 40

@@ -36,6 +36,6 @@ PRUEBA1 { @Numero de linea: 1
     @ ERROR TIPO (e): Overflow en producto de flotantes @Numero de linea: 36
     @ var OFFLOAT := 1.0F+30; @Numero de linea: 37
     @ OFFLOAT := OFFLOAT * 1.0F+10; @Numero de linea: 38
-     @Numero de linea: 39
-    @print(&Fin Test 1 sin errores fatales&); @Numero de linea: 40
+ @Numero de linea: 39
+    print(&Fin Test 1 sin errores fatales&); @Numero de linea: 40
 } @Numero de linea: 41

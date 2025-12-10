@@ -58,7 +58,7 @@ MAIN { @Numero de linea: 1
         CONT := CONT + 1UI; @Numero de linea: 58
         print(&CONT:&); @Numero de linea: 59
         print(CONT); @Numero de linea: 60
-    } while (CONTADOR < 5UI); @Numero de linea: 61
+    } while (CONTADOR > 5UI); @Numero de linea: 61
  @Numero de linea: 62
     print(&#ASIGNACION MULTIPLE IGUAL DE LADOS#&); @Numero de linea: 63
     A, B = 10UI, 20UI; @Numero de linea: 64
