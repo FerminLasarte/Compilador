@@ -1,41 +1,88 @@
-PRUEBA1 { @Numero de linea: 1
-    @ TEMA 32: Comentarios de una linea con @ @Numero de linea: 2
-    print(&Inicio Test 1: Tipos y Errores Runtime&); @Numero de linea: 3
- @Numero de linea: 4
-    @ TEMA 9: Inferencia de tipos (VAR) @Numero de linea: 5
-    @ TEMA 2: Enteros sin signo (UI) @Numero de linea: 6
-    var A := 100UI; @Numero de linea: 7
-    var B := 50UI; @Numero de linea: 8
- @Numero de linea: 9
-    @ TEMA 5: Punto flotante (F) @Numero de linea: 10
-    var F1 := 12.5F+0; @Numero de linea: 11
-    var F2 := 2.0F+0; @Numero de linea: 12
- @Numero de linea: 13
-    @ TEMA 31: Conversion explicita (toui) @Numero de linea: 14
-    var CONV := 0UI; @Numero de linea: 15
-    CONV := toui(F1); @Numero de linea: 16
-    print(&Valor convertido 12.5F a UI:&); @Numero de linea: 17
-    print(CONV); @Numero de linea: 18
- @Numero de linea: 19
-    @ Operaciones validas @Numero de linea: 20
-    A := A + B; @Numero de linea: 21
-    print(&Suma A+B (150):&); @Numero de linea: 22
-    print(A); @Numero de linea: 23
- @Numero de linea: 24
-    @ --- SECCION DE ERRORES DE RUNTIME (Descomentar para probar) --- @Numero de linea: 25
- @Numero de linea: 26
-    @ ERROR TIPO (f): Resta negativa de enteros sin signo @Numero de linea: 27
-    @ El siguiente codigo debe lanzar: "Error: Resultado negativo en resta..." @Numero de linea: 28
-    @ var NEG := 10UI; @Numero de linea: 29
-    @ NEG := NEG - 20UI; @Numero de linea: 30
- @Numero de linea: 31
-    @ ERROR TIPO (b): Overflow en suma de enteros (Max 65535) @Numero de linea: 32
-    @ var OFINT := 65530UI; @Numero de linea: 33
-    @ OFINT := OFINT + 10UI; @Numero de linea: 34
- @Numero de linea: 35
-    @ ERROR TIPO (e): Overflow en producto de flotantes @Numero de linea: 36
-    @ var OFFLOAT := 1.0F+30; @Numero de linea: 37
-    @ OFFLOAT := OFFLOAT * 1.0F+10; @Numero de linea: 38
- @Numero de linea: 39
-    print(&Fin Test 1 sin errores fatales&); @Numero de linea: 40
-} @Numero de linea: 41
+PRUEBA1 {
+    print(&=== TEST AL LIMITE: STRESS TEST ===&);
+
+    @ TEMA 9 y 2: Variables Globales
+    var GLOBALU := 10UI;
+    var GLOBALF := 25.5F+0;
+    var ACUMULADOR := 0UI;
+
+    @ TEMA 25 y 21: Funcion con CR LE y Retorno Multiple
+    uint, float PROCESARCOMPLEJO(cr le uint PVAL, lambda PLAMBDA) {
+        print(&[FUNC] Entrando a funcion compleja...&);
+
+        var VARLOCALI := 0UI;
+
+        @ TEMA 14: Do-While anidado con logica
+        do {
+            @ Invocacion de Lambda pasada por parametro
+            PLAMBDA(VARLOCALI);
+
+            @ Modificacion de parametro CR LE (Efecto colateral esperado afuera)
+            PVAL := PVAL + 10UI;
+
+            VARLOCALI := VARLOCALI + 1UI;
+        } while (VARLOCALI < 3UI);
+
+        @ Retorno multiple de tipos distintos
+        return (PVAL, 99.9F+0);
+    }
+
+    @ --- BLOQUE PRINCIPAL ---
+
+    print(&1. Probando Scope y Lambdas anidadas:&);
+
+    var RESF := 0.0F+0;
+
+    @ TEMA 19 y 28: Asignacion multiple recibiendo de funcion con Lambda inline
+    @ La lambda accede a una global explicita (PRUEBA1.GLOBALF) y usa toui en una expresion
+    GLOBALU, RESF = PROCESARCOMPLEJO( GLOBALU -> PVAL,
+        (uint ITERACION) {
+            print(&  [LAMBDA] Iteracion:&);
+            print(ITERACION);
+
+            @ TEMA 31 y 5: toui en expresion compleja + acceso a global
+            var CALC := toui(PRUEBA1.GLOBALF) + ITERACION;
+
+            if (CALC > 25UI) {
+                print(&  [LAMBDA] Calculo > 25 (Correcto)&);
+            } else {
+                print(&  [LAMBDA] Calculo <= 25 (Error logico)&);
+            } endif;
+        } -> PLAMBDA
+    );
+
+    print(&2. Verificando efecto colateral CR LE (Esperado: 10 + 30 = 40):&);
+    print(GLOBALU);
+
+    print(&3. Stress Aritmetico y Bordes:&);
+    @ Operacion compleja: Suma + Multiplicacion + Conversion + Precedencia
+    var VARLIMITE := 100UI;
+    var COMPLEJO := toui(2.5F+1) + GLOBALU * 2UI;
+
+    if (COMPLEJO < 65535UI) {
+        print(&Calculo dentro de rango 16 bits OK:&);
+        print(COMPLEJO);
+    } endif;
+
+    @ --- SECCION DE ERRORES DE RUNTIME (Descomentar uno por uno) ---
+
+    @ ERROR TIPO (f): Resta negativa
+    @ var NEG := 5UI;
+    @ do {
+    @    NEG := NEG - 2UI;
+    @    print(NEG);
+    @ } while (NEG > 0UI); @ Fallara en la 3era iteracion (1 - 2)
+
+    @ ERROR TIPO (b): Overflow acumulativo
+    @ var MAX := 65500UI;
+    @ var I := 0UI;
+    @ do {
+    @    MAX := MAX + 10UI;
+    @    I := I + 1UI;
+    @ } while (I < 10UI);
+
+    @ ERROR TIPO (g): Perdida de informacion en conversion (Si aplica a tu grupo)
+    @ var P := toui(2.5F+0); @ Si tu grupo valida que no se pierda parte decimal, esto falla.
+
+    print(&=== FIN TEST LIMITE EXITOSO ===&);
+}
