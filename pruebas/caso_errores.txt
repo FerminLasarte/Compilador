@@ -1,121 +1,115 @@
-CASOERRORES {
-    @ ---------------------------------------------------------
-    @ 1. ERRORES LEXICOS
-    @ ---------------------------------------------------------
-
-    @ Error: Suma de uint con cadena
-    var HOLA :=
-    var SUMA := 1UI + HOLA;
-
-    @ Error: Identificador comienza con minúscula (Solo mayúsculas permitidas)
-    var variable := 10UI;
-
-    @ TEMA 2: Error Constante UI fuera de rango (> 65535)
-    var ENTEROBIG := 70000UI;
-
-    @ TEMA 5: Error Constante Float fuera de rango (32 bits)
-    var FLOATBIG := 4.0F+39;
-
-    @ TEMA 8: Cadena mal formada (sin cierre o multilinea con comillas simples)
-    print("Cadena que salta de linea
-    ilegalmente");
-
-    @ ---------------------------------------------------------
-    @ 2. ERRORES SINTACTICOS
-    @ ---------------------------------------------------------
-
-    @ Error: Sentencia mal formada (var requiere :=)
-    var A = 20UI;
-
-    @ Error: Falta punto y coma
-    var B := 10UI
-
-    @ TEMA 14: Error en estructura DO-WHILE (Falta parentesis en condicion)
-    @ Error de alcance en variable A
-    do {
-        print(A);
-    } while A > 0UI;
-
-    do {
-        var A := 1UI;
-        print(A);
-    } while A > 0UI;
-
-    @ ---------------------------------------------------------
-    @ 3. ERRORES SEMANTICOS: DECLARACIONES Y TIPOS
-    @ ---------------------------------------------------------
-
-    @ Error: Variable redeclarada en el mismo ambito (TEMA 9)
-    var A := 50UI;
-
-    @ Error: Variable no declarada
-    NODECLARADA := 10UI;
-
-    var F1 := 2.5F+1;
-    var U1 := 100UI;
-
-    @ Error: Incompatibilidad de tipos en asignacion (Float a Uint sin toui - TEMA 31)
-    U1 := F1;
-
-    @ Error: 'toui' aplicado a un tipo que no es float (TEMA 31)
-    var ERRORCONV := toui(U1);
-
-    @ Error: Operacion entre tipos incompatibles (Uint + Float implícito prohibido)
-    var SUMABAD := U1 + F1;
-
-    @ ---------------------------------------------------------
-    @ 4. ERRORES SEMANTICOS: FUNCIONES Y PARAMETROS (TEMAS 21, 25, 28)
-    @ ---------------------------------------------------------
-
-    @ Declaracion de funcion para pruebas
-    @ TEMA 25: Parametro 'cr se' (Solo Escritura) y 'cr le' (Lectura Escritura)
-    uint, uint TESTFUNC(cr se uint POUT, cr le uint PINOUT) {
-
-        @ Error: Lectura de parametro 'cr se' (Solo Escritura)
-        print(POUT);
-
-        @ Correcto: Escritura en 'cr se'
-        POUT := 10UI;
-
-        @ TEMA 21: Error en RETURN (Cantidad incorrecta, espera 2 devuelve 1)
-        return(1UI);
-    }
-
-    @ TEMA 28: Funcion que espera Lambda
-    uint CALLLAMBDA(lambda VARL, uint VAL) {
-        VARL(VAL);
-        return(1UI);
-    }
-
-    var R1 := 0UI;
-    var R2 := 0UI;
-
-    @ Error: Invocacion con parametros incorrectos (Nombre del parametro formal incorrecto)
-    R1, R2 = TESTFUNC(R1 -> PBAD, R2 -> PINOUT);
-
-    @ Error: Invocacion con tipo incorrecto (Pasa Float a Uint)
-    R1, R2 = TESTFUNC(R1 -> POUT, F1 -> PINOUT);
-
-    @ TEMA 21: Error Asignacion Multiple (Lado izq > Retornos funcion)
-    @ Supongamos que TESTFUNC retorna 2, aqui pedimos 3
-    var R3 := 0UI;
-    R1, R2, R3 = TESTFUNC(R1 -> POUT, R2 -> PINOUT);
-
-    @ TEMA 19: Error Asignacion Multiple (Cantidad distinta de lados)
-    R1, R2 = 10UI;
-
-    @ TEMA 28: Error pasando variable comun donde se espera Lambda
-    CALLLAMBDA(R1 -> VAR L, 10UI -> VAL);
-
-    @ TEMA 28: Error pasando Lambda donde se espera variable comun
-    TESTFUNC((uint X){ print(X); } -> POUT, R1 -> PINOUT);
-
-    @ ---------------------------------------------------------
-    @ 5. CHEQUEOS DE ALCANCE (TEMA 23)
-    @ ---------------------------------------------------------
-
-    @ Error: Acceso a ambito inexistente o variable privada
-    print(AMBITOFAKE.VAR);
-
-    print(&Fin de Pruebas de Errores&);
-}
+CASOERRORES { @Numero de linea: 1
+    @ --------------------------------------------------------- @Numero de linea: 2
+    @ 1. ERRORES LEXICOS @Numero de linea: 3
+    @ --------------------------------------------------------- @Numero de linea: 4
+ @Numero de linea: 5
+    @ Error: Identificador comienza con minúscula (Solo mayúsculas permitidas) @Numero de linea: 6
+    var variable := 10UI; @Numero de linea: 7
+ @Numero de linea: 8
+    @ TEMA 2: Error Constante UI fuera de rango (> 65535) @Numero de linea: 9
+    var ENTEROBIG := 70000UI; @Numero de linea: 10
+ @Numero de linea: 11
+    @ TEMA 5: Error Constante Float fuera de rango (32 bits) @Numero de linea: 12
+    var FLOATBIG := 4.0F+39; @Numero de linea: 13
+ @Numero de linea: 14
+    @ TEMA 8: Cadena mal formada (sin cierre o multilinea con comillas simples) @Numero de linea: 15
+    print("Cadena que salta de linea @Numero de linea: 16
+    ilegalmente"); @Numero de linea: 17
+ @Numero de linea: 18
+    @ --------------------------------------------------------- @Numero de linea: 19
+    @ 2. ERRORES SINTACTICOS @Numero de linea: 20
+    @ --------------------------------------------------------- @Numero de linea: 21
+ @Numero de linea: 22
+    @ Error: Sentencia mal formada (var requiere :=) @Numero de linea: 23
+    var A = 20UI; @Numero de linea: 24
+ @Numero de linea: 25
+ @Numero de linea: 26
+    @ TEMA 14: Error en estructura DO-WHILE (Falta parentesis en condicion) @Numero de linea: 27
+    @ Error de alcance en variable A @Numero de linea: 28
+    do { @Numero de linea: 29
+        print(A); @Numero de linea: 30
+    } while A > 0UI; @Numero de linea: 31
+ @Numero de linea: 32
+    do { @Numero de linea: 33
+        var A := 1UI; @Numero de linea: 34
+        print(A); @Numero de linea: 35
+    } while A > 0UI; @Numero de linea: 36
+ @Numero de linea: 37
+    @ --------------------------------------------------------- @Numero de linea: 38
+    @ 3. ERRORES SEMANTICOS: DECLARACIONES Y TIPOS @Numero de linea: 39
+    @ --------------------------------------------------------- @Numero de linea: 40
+ @Numero de linea: 41
+    @ Error: Variable redeclarada en el mismo ambito (TEMA 9) @Numero de linea: 42
+    var A := 50UI; @Numero de linea: 43
+ @Numero de linea: 44
+    @ Error: Variable no declarada @Numero de linea: 45
+    NODECLARADA := 10UI; @Numero de linea: 46
+ @Numero de linea: 47
+    var F1 := 2.5F+1; @Numero de linea: 48
+    var U1 := 100UI; @Numero de linea: 49
+ @Numero de linea: 50
+    @ Error: Incompatibilidad de tipos en asignacion (Float a Uint sin toui - TEMA 31) @Numero de linea: 51
+    U1 := F1; @Numero de linea: 52
+ @Numero de linea: 53
+    @ Error: 'toui' aplicado a un tipo que no es float (TEMA 31) @Numero de linea: 54
+    var ERRORCONV := toui(U1); @Numero de linea: 55
+ @Numero de linea: 56
+    @ Error: Operacion entre tipos incompatibles (Uint + Float implícito prohibido) @Numero de linea: 57
+    var SUMABAD := U1 + F1; @Numero de linea: 58
+ @Numero de linea: 59
+    @ --------------------------------------------------------- @Numero de linea: 60
+    @ 4. ERRORES SEMANTICOS: FUNCIONES Y PARAMETROS (TEMAS 21, 25, 28) @Numero de linea: 61
+    @ --------------------------------------------------------- @Numero de linea: 62
+ @Numero de linea: 63
+    @ Declaracion de funcion para pruebas @Numero de linea: 64
+    @ TEMA 25: Parametro 'cr se' (Solo Escritura) y 'cr le' (Lectura Escritura) @Numero de linea: 65
+    uint, uint TESTFUNC(cr se uint POUT, cr le uint PINOUT) { @Numero de linea: 66
+ @Numero de linea: 67
+        @ Error: Lectura de parametro 'cr se' (Solo Escritura) @Numero de linea: 68
+        print(POUT); @Numero de linea: 69
+ @Numero de linea: 70
+        @ Correcto: Escritura en 'cr se' @Numero de linea: 71
+        POUT := 10UI; @Numero de linea: 72
+ @Numero de linea: 73
+        @ TEMA 21: Error en RETURN (Cantidad incorrecta, espera 2 devuelve 1) @Numero de linea: 74
+        return(1UI); @Numero de linea: 75
+    } @Numero de linea: 76
+ @Numero de linea: 77
+    @ TEMA 28: Funcion que espera Lambda @Numero de linea: 78
+    uint CALLLAMBDA(lambda VARL, uint VAL) { @Numero de linea: 79
+        VARL(VAL); @Numero de linea: 80
+        return(1UI); @Numero de linea: 81
+    } @Numero de linea: 82
+ @Numero de linea: 83
+    var R1 := 0UI; @Numero de linea: 84
+    var R2 := 0UI; @Numero de linea: 85
+ @Numero de linea: 86
+    @ Error: Invocacion con parametros incorrectos (Nombre del parametro formal incorrecto) @Numero de linea: 87
+    R1, R2 = TESTFUNC(R1 -> PBAD, R2 -> PINOUT); @Numero de linea: 88
+ @Numero de linea: 89
+    @ Error: Invocacion con tipo incorrecto (Pasa Float a Uint) @Numero de linea: 90
+    R1, R2 = TESTFUNC(R1 -> POUT, F1 -> PINOUT); @Numero de linea: 91
+ @Numero de linea: 92
+    @ TEMA 21: Error Asignacion Multiple (Lado izq > Retornos funcion) @Numero de linea: 93
+    @ Supongamos que TESTFUNC retorna 2, aqui pedimos 3 @Numero de linea: 94
+    var R3 := 0UI; @Numero de linea: 95
+    R1, R2, R3 = TESTFUNC(R1 -> POUT, R2 -> PINOUT); @Numero de linea: 96
+ @Numero de linea: 97
+    @ TEMA 19: Error Asignacion Multiple (Cantidad distinta de lados) @Numero de linea: 98
+    R1, R2 = 10UI; @Numero de linea: 99
+ @Numero de linea: 100
+    @ TEMA 28: Error pasando variable comun donde se espera Lambda @Numero de linea: 101
+    CALLLAMBDA(R1 -> VAR L, 10UI -> VAL); @Numero de linea: 102
+ @Numero de linea: 103
+    @ TEMA 28: Error pasando Lambda donde se espera variable comun @Numero de linea: 104
+    TESTFUNC((uint X){ print(X); } -> POUT, R1 -> PINOUT); @Numero de linea: 105
+ @Numero de linea: 106
+    @ --------------------------------------------------------- @Numero de linea: 107
+    @ 5. CHEQUEOS DE ALCANCE (TEMA 23) @Numero de linea: 108
+    @ --------------------------------------------------------- @Numero de linea: 109
+ @Numero de linea: 110
+    @ Error: Acceso a ambito inexistente o variable privada @Numero de linea: 111
+    print(AMBITOFAKE.VAR); @Numero de linea: 112
+ @Numero de linea: 113
+    print(&Fin de Pruebas de Errores&); @Numero de linea: 114
+} @Numero de linea: 115

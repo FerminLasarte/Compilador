@@ -95,7 +95,7 @@ No se encontraron warnings.
 65:	(PARAM, L61, FUNCL:CASOSINERRORES:EJECUTORLAMBDA)
 66:	(PARAM, 777UI, VALOR:CASOSINERRORES:EJECUTORLAMBDA)
 67:	(CALL, EJECUTORLAMBDA:CASOSINERRORES, _)
-68:	(PRINT, &=== FIN DEL PROGRAMA ===
+68:	(PRINT, &=== FIN DEL PROGRAMA === @Numero de linea: 113
            Ejecucion Exitosa&, _)
 
 =======================================================

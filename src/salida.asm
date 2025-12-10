@@ -123,7 +123,7 @@ str_51 db "--- Prueba 4: Bucle DO-WHILE ---", 0
 str_52 db "Iteracion numero:", 0
 str_58 db "--- Prueba 5: Lambdas ---", 0
 str_62 db "    [LAMBDA] Recibi:", 0
-str_68 db "=== FIN DEL PROGRAMA ===", 13, 10, "           Ejecucion Exitosa", 0
+str_68 db "=== FIN DEL PROGRAMA === @Numero de linea: 113", 13, 10, "           Ejecucion Exitosa", 0
 .code
 start:
 Label0:
