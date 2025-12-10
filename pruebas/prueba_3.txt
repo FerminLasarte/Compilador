@@ -24,7 +24,7 @@ PRUEBA3 { @Numero de linea: 1
     EJECUTARLAMBDA((uint X) { @Numero de linea: 24
         print(&Valor recibido en Lambda:&); @Numero de linea: 25
         print(PRUEBA3.X); @Numero de linea: 26
-        @Numero de linea: 27
+         @Numero de linea: 27
         if (PRUEBA3.X > 2UI) { @Numero de linea: 28
             print(&Condicion Lambda Cumplida (X > 2)&); @Numero de linea: 29
         } else { @Numero de linea: 30
