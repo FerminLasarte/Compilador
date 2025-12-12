@@ -18,6 +18,8 @@ MensajePrintFloat db "Salida: %f", 10, 0
 MaxFloatValue dd 2139095039
 @aux0 dd 0
 @aux1 dd 0
+@aux2 dd 0
+@aux3 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -30,6 +32,7 @@ _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
 _A_PROGRAMA dd 0
 _B_PROGRAMA dd 0
+_error_tipo dd 0
 .code
 start:
 Label0:
@@ -41,6 +44,18 @@ PUSH EAX
 FLD DWORD PTR [ESP]
 ADD ESP, 4
 FSTP _B_PROGRAMA
+Label2:
+MOV EAX, _A_PROGRAMA
+ADD EAX, _error_tipo
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux2, EAX
+Label3:
+MOV EAX, _A_PROGRAMA
+ADD EAX, _error_tipo
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux3, EAX
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

@@ -7,7 +7,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 3: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -17,7 +17,10 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores semanticos.
+Linea 6: Error Semantico: 'toui' solo puede aplicarse a expresiones 'float', se obtuvo 'uint'.
+Linea 6: Error Semantico: No se puede inferir el tipo de 'C' desde una expresion invalida (Tema 9).
+Linea 7: Error Semantico: 'toui' solo puede aplicarse a expresiones 'float', se obtuvo 'uint'.
+Linea 7: Error Semantico: No se puede inferir el tipo de 'D' desde una expresion invalida (Tema 9).
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -29,14 +32,18 @@ No se encontraron warnings.
 =======================================================
 0:	(:=, A:PROGRAMA, 5UI)
 1:	(:=, B:PROGRAMA, 5.0F+0)
+2:	(+, A:PROGRAMA, error_tipo)
+3:	(+, A:PROGRAMA, error_tipo)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       |
+| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
 | PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | float      |

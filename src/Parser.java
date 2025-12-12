@@ -542,9 +542,6 @@ int yylex() {
 
 public void yyerror(String e) {
    int lineaError = al.getFilaToken();
-   if (valptr >= 0) {
-       lineaError = val_peek(0).ival;
-   }
    erroresSintacticos.add("Linea " + lineaError + ": Error de sintaxis. Verifique la estructura del codigo.");
 }
 
@@ -598,7 +595,7 @@ public static void main(String args[]){
         System.out.println("Error: Se requiere la ruta del archivo fuente como unico parametro.");
     }
 }
-//#line 530 "Parser.java"
+//#line 527 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -1747,7 +1744,7 @@ case 98:
                   yyval.obj = lista;
               }
 break;
-//#line 1674 "Parser.java"
+//#line 1671 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

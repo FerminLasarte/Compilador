@@ -997,9 +997,6 @@ int yylex() {
 
 public void yyerror(String e) {
    int lineaError = al.getFilaToken();
-   if (valptr >= 0) {
-       lineaError = val_peek(0).ival;
-   }
    erroresSintacticos.add("Linea " + lineaError + ": Error de sintaxis. Verifique la estructura del codigo.");
 }
 
