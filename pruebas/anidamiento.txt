@@ -18,8 +18,10 @@ PROGRAMA {
                     B := B + 1UI;
                 } while (B <= 5UI);
             } endif;
-            print(&A no llego a 3UI&);
+            print(&A no llego a 5UI&);
         } endif;
         A := A - 1UI;
     } while (A >= 3UI);
+
+    print(&Programa finalizado exitosamente&);
 }

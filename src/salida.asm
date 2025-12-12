@@ -35,11 +35,6 @@ MaxFloatValue dd 2139095039
 @aux16 dd 0
 @aux17 dd 0
 @aux18 dd 0
-@aux19 dd 0
-@aux20 dd 0
-@aux21 dd 0
-@aux22 dd 0
-@aux23 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -52,96 +47,68 @@ _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
 _A_PROGRAMA dd 0
 _B_PROGRAMA dd 0
-_A_PROGRAMA_PRIMERA dd 0
-_B_PROGRAMA_PRIMERA dd 0
-_C_PROGRAMA_PRIMERA dd 0
-_E_PROGRAMA_PRIMERA_SEGUNDA dd 0
-_D_PROGRAMA_PRIMERA_SEGUNDA dd 0
-str_8 db "C = 5UI", 0
-str_12 db "C = 25UI", 0
-str_17 db "PROGRAMA.A = 5UI", 0
-str_21 db "D = 25UI", 0
+_C_PROGRAMA dd 0
+_X_PROGRAMA_FUNCION dd 0
 .code
 start:
 Label0:
-MOV EAX, 1
+MOV EAX, 0
 MOV _A_PROGRAMA, EAX
 Label1:
-MOV EAX, 4
+MOV EAX, 0
 MOV _B_PROGRAMA, EAX
 Label2:
-JMP Label24
+MOV EAX, 0
+MOV _C_PROGRAMA, EAX
 Label3:
-__PRIMERA_PROGRAMA:
+JMP Label9
 Label4:
-MOV EAX, 10
-MOV _A_PROGRAMA_PRIMERA, EAX
+__FUNCION_PROGRAMA:
 Label5:
-MOV EAX, 15
-MOV _B_PROGRAMA_PRIMERA, EAX
-Label6:
-MOV EAX, _A_PROGRAMA
-ADD EAX, _B_PROGRAMA
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux6, EAX
-Label7:
-MOV EAX, @aux6
-MOV _C_PROGRAMA_PRIMERA, EAX
-Label8:
-invoke crt_printf, addr MensajePrint, addr str_8
-Label9:
-invoke crt_printf, addr MensajePrintNum, _C_PROGRAMA_PRIMERA
-Label10:
-MOV EAX, _A_PROGRAMA_PRIMERA
-ADD EAX, _B_PROGRAMA_PRIMERA
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux10, EAX
-Label11:
-MOV EAX, @aux10
-MOV _C_PROGRAMA_PRIMERA, EAX
-Label12:
-invoke crt_printf, addr MensajePrint, addr str_12
-Label13:
-JMP Label23
-Label14:
-__SEGUNDA_PROGRAMA_PRIMERA:
-Label15:
-MOV EAX, 1
-MOV _E_PROGRAMA_PRIMERA_SEGUNDA, EAX
-Label16:
 MOV EAX, 5
+MUL 2
+CMP EDX, 0
+JNE ErrorOverflow
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux5, EAX
+Label6:
+MOV EAX, @aux5
+MOV _X_PROGRAMA_FUNCION, EAX
+Label7:
+invoke crt_printf, addr MensajePrintNum, _X_PROGRAMA_FUNCION
+Label8:
+; -- RETURN --
+MOV EAX, _X_PROGRAMA_FUNCION
+MOV _RET_VAL_0, EAX
+RET
+Label9:
+MOV EAX, 3
+MOV _C_PROGRAMA, EAX
+Label10:
+MOV EAX, 2
+MOV _B_PROGRAMA, EAX
+Label11:
+MOV EAX, 1
 MOV _A_PROGRAMA, EAX
+Label12:
+invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
+Label13:
+invoke crt_printf, addr MensajePrintNum, _B_PROGRAMA
+Label14:
+invoke crt_printf, addr MensajePrintNum, _C_PROGRAMA
+Label15:
+MOV EAX, _B_PROGRAMA
+MOV _X_PROGRAMA_FUNCION, EAX
+Label16:
+CALL __FUNCION_PROGRAMA
+MOV @aux16, EAX
 Label17:
-invoke crt_printf, addr MensajePrint, addr str_17
+MOV EAX, @aux16
+MOV _B_PROGRAMA, EAX
 Label18:
-MOV EAX, _A_PROGRAMA
-ADD EAX, _B_PROGRAMA_PRIMERA
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux18, EAX
-Label19:
-MOV EAX, @aux18
-ADD EAX, _E_PROGRAMA_PRIMERA_SEGUNDA
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux19, EAX
-Label20:
-MOV EAX, @aux19
-MOV _D_PROGRAMA_PRIMERA_SEGUNDA, EAX
-Label21:
-invoke crt_printf, addr MensajePrint, addr str_21
-Label22:
-; -- RETURN --
-MOV EAX, _D_PROGRAMA_PRIMERA_SEGUNDA
-MOV _RET_VAL_0, EAX
-RET
-Label23:
-; -- RETURN --
-MOV EAX, _C_PROGRAMA_PRIMERA
-MOV _RET_VAL_0, EAX
-RET
+MOV EAX, 8
+MOV _A_PROGRAMA, EAX
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

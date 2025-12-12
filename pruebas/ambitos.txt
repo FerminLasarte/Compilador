@@ -12,22 +12,26 @@ PROGRAMA {
         print(C);
 
         C := A + B;
-        print(&C = 25UI&)
+        print(&C = 25UI&);
         print(C);
 
         uint SEGUNDA(uint D) {
             var E := 1UI;
 
             PROGRAMA.A := 5UI;
-            print(&PROGRAMA.A = 5UI&)
+            print(&PROGRAMA.A = 5UI&);
             print(PROGRAMA.A);
 
             D := PROGRAMA.A + PRIMERA.B + E;
-            print(&D = 25UI&)
+            print(&D = 21UI&);
             print(D);
 
             return(D);
         }
+
+        A := SEGUNDA(0UI->D);
         return(C);
     }
+
+    A := PRIMERA(0UI->C);
 }
