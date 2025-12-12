@@ -756,9 +756,16 @@ cuerpo_lambda : sentencias_ejecutables_lista
               ;
 
 sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
-                             |
-                             sentencia_ejecutable
+                             | sentencia_ejecutable
+                             | sentencias_ejecutables_lista declaracion_ilegal
+                             | declaracion_ilegal
                              ;
+
+declaracion_ilegal : VAR
+                   {
+                        erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: No se permiten declaraciones en bloques ejecutables.");
+                   } error ';'
+                   ;
 
 constante : CTE
             {
@@ -989,7 +996,7 @@ int yylex() {
 }
 
 public void yyerror(String e) {
-   int lineaError = al.getContadorFila() + 1;
+   int lineaError = al.getFilaToken();
    if (valptr >= 0) {
        lineaError = val_peek(0).ival;
    }

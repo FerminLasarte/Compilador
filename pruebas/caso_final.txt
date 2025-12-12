@@ -39,7 +39,7 @@ MAIN { @Numero de linea: 1
     print(Z); @Numero de linea: 38
     @ X := 2.5F+1; DA ERROR POR FALTA DE CONVERSION EXPLICITA @Numero de linea: 39
     @ X := Y; @Numero de linea: 40
-    DA ERROR POR FALTA DE CONVERSION EXPLICITA @Numero de linea: 41
+    @ DA ERROR POR FALTA DE CONVERSION EXPLICITA @Numero de linea: 41
     X := toui(2.5F+1); @Numero de linea: 42
     print(&X CON CONVERSION EXPLICITA:&); @Numero de linea: 43
     print(X); @Numero de linea: 44
