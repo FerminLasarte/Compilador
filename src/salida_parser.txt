@@ -7,7 +7,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores sintacticos.
+Linea 3: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -17,7 +17,8 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores semanticos.
+Linea 5: Error Semantico: Variable 'A' no fue declarada (Regla de alcance).
+Linea 6: Error Semantico: Variable 'B' no fue declarada (Regla de alcance).
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -27,173 +28,17 @@ No se encontraron warnings.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, CONTADOR:CASOSINERRORES, 3UI)
-1:	(:=, NUMFLOAT:CASOSINERRORES, 2.5F+1)
-2:	(:=, RES:CASOSINERRORES, 0UI)
-3:	(:=, VARD:CASOSINERRORES, 0UI)
-4:	(BI, _, [9])
-5:	(FUNC_LABEL, FUNCSOLOESCRITURA:CASOSINERRORES, _)
-6:	(PRINT, &  [FUNC] Ejecutando FUNCSOLOESCRITURA...&, _)
-7:	(:=, SALIDA:CASOSINERRORES:FUNCSOLOESCRITURA, 100UI)
-8:	(RETURN, 1UI, 0/1)
-9:	(BI, _, [14])
-10:	(FUNC_LABEL, FUNCRETORNODOBLE:CASOSINERRORES, _)
-11:	(PRINT, &  [FUNC] Ejecutando FUNCRETORNODOBLE...&, _)
-12:	(RETURN, 50UI, 0/2)
-13:	(RETURN, 9.9F+1, 1/2)
-14:	(BI, _, [20])
-15:	(FUNC_LABEL, EJECUTORLAMBDA:CASOSINERRORES, _)
-16:	(PRINT, &  [FUNC] Dentro de EJECUTORLAMBDA. Invocando lambda...&, _)
-17:	(PARAM_LAMBDA, VALOR:CASOSINERRORES:EJECUTORLAMBDA, _)
-18:	(CALL_LAMBDA, FUNCL:CASOSINERRORES:EJECUTORLAMBDA, _)
-19:	(RETURN, 0UI, 0/1)
-20:	(PRINT, &=== INICIO DEL PROGRAMA DE PRUEBA ===&, _)
-21:	(PRINT, &--- Prueba 1: Parametros CR SE ---&, _)
-22:	(PARAM, VARD:CASOSINERRORES, SALIDA:CASOSINERRORES:FUNCSOLOESCRITURA)
-23:	(CALL, FUNCSOLOESCRITURA:CASOSINERRORES, _)
-24:	(:=, VARD:CASOSINERRORES, SALIDA:CASOSINERRORES:FUNCSOLOESCRITURA)
-25:	(:=, RES:CASOSINERRORES, [23])
-26:	(PRINT, &Valor de VARD despues de la funcion (Esperado: 100):&, _)
-27:	(PRINT, VARD:CASOSINERRORES, _)
-28:	(PRINT, &--- Prueba 2: Asignacion Multiple ---&, _)
-29:	(:=, A:CASOSINERRORES, 0UI)
-30:	(:=, B:CASOSINERRORES, 0.0F+1)
-31:	(PARAM, 2UI, X:CASOSINERRORES:FUNCRETORNODOBLE)
-32:	(CALL, FUNCRETORNODOBLE:CASOSINERRORES, _)
-33:	(GET_RET, [32], 0)
-34:	(:=, A:CASOSINERRORES, [33])
-35:	(GET_RET, [32], 1)
-36:	(:=, B:CASOSINERRORES, [35])
-37:	(PRINT, &Valores recibidos de funcion (Esperado: 50, 9.99):&, _)
-38:	(PRINT, A:CASOSINERRORES, _)
-39:	(PRINT, B:CASOSINERRORES, _)
-40:	(:=, B:CASOSINERRORES, 20.5F+1)
-41:	(:=, A:CASOSINERRORES, 10UI)
-42:	(PRINT, &Valores asignados manualmente (Esperado: 10, 205.0):&, _)
-43:	(PRINT, A:CASOSINERRORES, _)
-44:	(PRINT, B:CASOSINERRORES, _)
-45:	(PRINT, &--- Prueba 3: Conversion TOUI ---&, _)
-46:	(:=, CONV:CASOSINERRORES, 0UI)
-47:	(TOUI, B:CASOSINERRORES, _)
-48:	(:=, CONV:CASOSINERRORES, [47])
-49:	(PRINT, &Resultado de toui(20.5):&, _)
-50:	(PRINT, CONV:CASOSINERRORES, _)
-51:	(PRINT, &--- Prueba 4: Bucle DO-WHILE ---&, _)
-52:	(PRINT, &Iteracion numero:&, _)
-53:	(PRINT, CONTADOR:CASOSINERRORES, _)
-54:	(-, CONTADOR:CASOSINERRORES, 1UI)
-55:	(:=, CONTADOR:CASOSINERRORES, [54])
-56:	(>, CONTADOR:CASOSINERRORES, 0UI)
-57:	(BT, [56], [52])
-58:	(PRINT, &--- Prueba 5: Lambdas ---&, _)
-59:	(:=, X:CASOSINERRORES, 987UI)
-60:	(BI, _, [65])
-61:	(DEF_PARAM, X:CASOSINERRORES:lambda_61, _)
-62:	(PRINT, &    [LAMBDA] Recibi:&, _)
-63:	(PRINT, X:CASOSINERRORES, _)
-64:	(RET_LAMBDA, _, _)
-65:	(PARAM, L61, FUNCL:CASOSINERRORES:EJECUTORLAMBDA)
-66:	(PARAM, 777UI, VALOR:CASOSINERRORES:EJECUTORLAMBDA)
-67:	(CALL, EJECUTORLAMBDA:CASOSINERRORES, _)
-68:	(PRINT, &=== FIN DEL PROGRAMA === @Numero de linea: 113
-           Ejecucion Exitosa&, _)
+0:	(PRINT, error_tipo, _)
+1:	(PRINT, error_tipo, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| CASOSINERRORES                      | @aux21:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux1:CASOSINERRORES                          | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux42:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux47:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux56:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux26:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux59:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux60:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux33:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | X:CASOSINERRORES                              | false        | variable           | uint       |
-| CASOSINERRORES                      | @aux4:CASOSINERRORES                          | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux30:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux29:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux38:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux51:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux68:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | VARD:CASOSINERRORES                           | false        | variable           | uint       |
-| CASOSINERRORES                      | @aux66:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux40:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux24:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux37:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux67:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | CASOSINERRORES:CASOSINERRORES                 | false        | null               | null       |
-| CASOSINERRORES                      | EJECUTORLAMBDA:CASOSINERRORES                 | false        | funcion            | uint       |
-| CASOSINERRORES                      | B:CASOSINERRORES                              | false        | variable           | float      |
-| CASOSINERRORES                      | @aux65:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux35:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux41:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux48:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux49:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux36:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | CONTADOR:CASOSINERRORES                       | false        | variable           | uint       |
-| CASOSINERRORES                      | @aux10:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | CONV:CASOSINERRORES                           | false        | variable           | uint       |
-| CASOSINERRORES                      | @aux23:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | A:CASOSINERRORES                              | false        | variable           | uint       |
-| CASOSINERRORES                      | @aux34:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | RES:CASOSINERRORES                            | false        | variable           | uint       |
-| CASOSINERRORES                      | @aux5:CASOSINERRORES                          | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux0:CASOSINERRORES                          | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux50:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux43:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux20:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | FUNCRETORNODOBLE:CASOSINERRORES               | false        | funcion            | multiple   |
-| CASOSINERRORES                      | @aux22:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux39:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | FUNCSOLOESCRITURA:CASOSINERRORES              | false        | funcion            | uint       |
-| CASOSINERRORES                      | @aux46:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux25:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | NUMFLOAT:CASOSINERRORES                       | false        | variable           | float      |
-| CASOSINERRORES                      | @aux58:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux28:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux45:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux32:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux3:CASOSINERRORES                          | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux15:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux31:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux9:CASOSINERRORES                          | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux27:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux14:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux2:CASOSINERRORES                          | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux44:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-| CASOSINERRORES                      | @aux57:CASOSINERRORES                         | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| CASOSINERRORES:FUNCSOLOESCRITURA    | SALIDA:CASOSINERRORES:FUNCSOLOESCRITURA       | false        | parametro          | uint       |
-| CASOSINERRORES:FUNCSOLOESCRITURA    | @aux8:CASOSINERRORES:FUNCSOLOESCRITURA        | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:FUNCSOLOESCRITURA    | @aux7:CASOSINERRORES:FUNCSOLOESCRITURA        | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:FUNCSOLOESCRITURA    | @aux6:CASOSINERRORES:FUNCSOLOESCRITURA        | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| CASOSINERRORES:FUNCRETORNODOBLE     | @aux11:CASOSINERRORES:FUNCRETORNODOBLE        | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:FUNCRETORNODOBLE     | @aux13:CASOSINERRORES:FUNCRETORNODOBLE        | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:FUNCRETORNODOBLE     | X:CASOSINERRORES:FUNCRETORNODOBLE             | false        | parametro          | uint       |
-| CASOSINERRORES:FUNCRETORNODOBLE     | @aux12:CASOSINERRORES:FUNCRETORNODOBLE        | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| CASOSINERRORES:EJECUTORLAMBDA       | @aux16:CASOSINERRORES:EJECUTORLAMBDA          | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:EJECUTORLAMBDA       | @aux18:CASOSINERRORES:EJECUTORLAMBDA          | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:EJECUTORLAMBDA       | FUNCL:CASOSINERRORES:EJECUTORLAMBDA           | false        | parametro          | lambda     |
-| CASOSINERRORES:EJECUTORLAMBDA       | @aux19:CASOSINERRORES:EJECUTORLAMBDA          | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:EJECUTORLAMBDA       | VALOR:CASOSINERRORES:EJECUTORLAMBDA           | false        | parametro          | uint       |
-| CASOSINERRORES:EJECUTORLAMBDA       | @aux17:CASOSINERRORES:EJECUTORLAMBDA          | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| CASOSINERRORES:bloque_52            | @aux54:CASOSINERRORES:bloque_52               | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:bloque_52            | @aux52:CASOSINERRORES:bloque_52               | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:bloque_52            | @aux55:CASOSINERRORES:bloque_52               | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:bloque_52            | @aux53:CASOSINERRORES:bloque_52               | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| CASOSINERRORES:lambda_61            | X:CASOSINERRORES:lambda_61                    | false        | parametro_lambda   | uint       |
-| CASOSINERRORES:lambda_61            | @aux62:CASOSINERRORES:lambda_61               | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:lambda_61            | @aux64:CASOSINERRORES:lambda_61               | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:lambda_61            | @aux61:CASOSINERRORES:lambda_61               | false        | variable_auxiliar  | null       |
-| CASOSINERRORES:lambda_61            | @aux63:CASOSINERRORES:lambda_61               | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux1:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | @aux0:MAIN                                    | false        | variable_auxiliar  | null       |
+| MAIN                                | MAIN:MAIN                                     | false        | null               | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================
