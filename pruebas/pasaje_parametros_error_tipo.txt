@@ -1,0 +1,10 @@
+@ Copia-Resultado
+PROGRAMA {
+
+    uint FUNCION(cr uint A, le se uint B, se cr C) {
+        A, B, C = 3UI, 5UI, 8UI;
+        A := B + C;
+
+        return(A);
+    }
+}

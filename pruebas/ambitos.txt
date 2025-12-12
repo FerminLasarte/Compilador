@@ -1,0 +1,33 @@
+@ Prueba de Ambitos con Name Mangling
+PROGRAMA {
+    var A := 1UI;
+    var B := 4UI;
+
+    uint PRIMERA(uint C) {
+        var A := 10UI;
+        var B := 15UI;
+
+        C := PROGRAMA.A + PROGRAMA.B;
+        print(&C = 5UI&);
+        print(C);
+
+        C := A + B;
+        print(&C = 25UI&)
+        print(C);
+
+        uint SEGUNDA(uint D) {
+            var E := 1UI;
+
+            PROGRAMA.A := 5UI;
+            print(&PROGRAMA.A = 5UI&)
+            print(PROGRAMA.A);
+
+            D := PROGRAMA.A + PRIMERA.B + E;
+            print(&D = 25UI&)
+            print(D);
+
+            return(D);
+        }
+        return(C);
+    }
+}

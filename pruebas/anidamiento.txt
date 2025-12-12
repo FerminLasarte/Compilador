@@ -1,0 +1,25 @@
+@ Anidamientos con do-while y if-else
+PROGRAMA {
+    var A := 8UI;
+    var B := 0UI;
+
+    do {
+        if (A == 3UI) {
+            print(&A llego a 3UI&);
+        } else {
+            if (A == 5UI) {
+                print(&A llego a 5UI&);
+                do {
+                    if (B == 5UI) {
+                        print(&B llego a 5UI&);
+                    } else {
+                        print(&B no llego a 5UI&);
+                    } endif;
+                    B := B + 1UI;
+                } while (B <= 5UI);
+            } endif;
+            print(&A no llego a 3UI&);
+        } endif;
+        A := A - 1UI;
+    } while (A >= 3UI);
+}

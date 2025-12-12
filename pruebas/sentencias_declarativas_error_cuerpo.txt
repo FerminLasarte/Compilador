@@ -1,0 +1,8 @@
+@ Sentencias declarativas
+PROGRAMA {
+    var A := 10UI;
+
+    uint FUNCION(uint B) {}
+
+    var C := FUNCION(B->A);
+}

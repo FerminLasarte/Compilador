@@ -1,0 +1,11 @@
+@ Conversiones explícitas de Punto Flotante a Entero
+PROGRAMA {
+    var A := 5UI;
+    var B := 5.0F+0;
+
+    var C := A + toui(B);
+    print(C);
+    C := toui(A + B);
+    print(C);
+    var D := A + toui(2.5F+0);
+}

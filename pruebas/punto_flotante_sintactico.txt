@@ -1,0 +1,5 @@
+@ Punto Flotante de 32 bits
+PROGRAMA {
+    var A := 4.0F38;
+    var B := -4.0+38;
+}

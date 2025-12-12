@@ -1,0 +1,11 @@
+@ Inferencia de Tipos
+PROGRAMA {
+    var A := 1UI;
+    var B := 4UI;
+
+    var C := 1.0F+0;
+    var D := 4.0F+0;
+
+    var E := A + B;
+    var G := C + D;
+}

@@ -1,0 +1,15 @@
+@ Expresiones Lambda en Pasaje de Parámetros
+PROGRAMA {
+    var A := 5UI;
+    uint FUNCION(lambda B, uint C) {
+        B(C);
+    }
+
+    FUNCION((uint A) {
+        if(A > 3UI) {
+            print(&Imprime Lambda Positivo&);
+        } elsif {
+            print(&Imprime Lambda Negativo&);
+        } endif;
+    }->B, 5UI->C);
+}

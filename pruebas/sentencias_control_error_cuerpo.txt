@@ -1,0 +1,5 @@
+@ Sentencias de Control
+PROGRAMA {
+    var A := 5UI;
+    do {} while (A > 0UI);
+}

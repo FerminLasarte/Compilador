@@ -1,0 +1,17 @@
+@ Sentencias declarativas
+PROGRAMA {
+    var A := 10UI;
+
+    var FUNCION(uint B) {
+
+        var C := 5UI;
+        B := A;
+        print(B);
+        print(A + B);
+        print(A + B * 2UI)
+
+        return(B);
+    }
+
+    var C := FUNCION(A->B);
+}

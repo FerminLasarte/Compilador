@@ -1,0 +1,8 @@
+@ Overflow por Suma de Enteros
+PROGRAMA {
+    var A := 5UI;
+    var B := 15UI;
+    var C := A + B;
+
+    var OVER := C + 70000;
+}

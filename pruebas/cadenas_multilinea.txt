@@ -1,0 +1,5 @@
+@ Cadenas multilínea
+PROGRAMA {
+    print(&Hola
+    Mundo&);
+}

@@ -1,0 +1,19 @@
+@ Asignaciones con igual número de elementos de ambos lados de la asignación
+PROGRAMA {
+    var A := 0UI;
+    var B := 0UI;
+    var C := 0UI;
+
+    uint FUNCION(uint X) {
+        X := 5UI * 2UI;
+        print(X);
+        return(X);
+    }
+
+    A, B, C = 1UI, 2UI, 3UI;
+    print(A);
+    print(B);
+    print(C);
+
+    A, B = 8UI, FUNCION(B->X);
+}

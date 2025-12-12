@@ -1,0 +1,8 @@
+@ Overflow en Productos de Datos de Punto Flotante
+PROGRAMA {
+    var A := 5.2F+0;
+    var B := 15.1F+0;
+    var C := A + B;
+
+    var OVER := C * 3.4F+40;
+}

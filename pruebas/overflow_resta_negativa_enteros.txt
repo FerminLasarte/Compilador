@@ -1,0 +1,8 @@
+@ Resultados Negativos en Restas de Enteros sin Signo
+PROGRAMA {
+    var A := 5UI;
+    var B := 15UI;
+    var C := A + B;
+
+    var OVER := C - 21UI;
+}

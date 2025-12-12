@@ -1,0 +1,16 @@
+@ Asignaciones con igual número de elementos de ambos lados de la asignación
+PROGRAMA {
+    var A := 0UI;
+    var B := 0UI;
+    var C := 0UI;
+
+    A, B, C = 1UI, 2UI;
+    print(A);
+    print(B);
+    print(C);
+
+    A, B = 1UI, 2UI, 3UI;
+    print(A);
+    print(B);
+    print(C);
+}
