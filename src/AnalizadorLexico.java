@@ -12,6 +12,7 @@ import java.util.Map;
 public class AnalizadorLexico {
     private int contadorFila;
     private int contadorColumna;
+    private int filaToken;
     private int ultimoEstado;
     private File archivo;
     private String lexema;
@@ -30,6 +31,7 @@ public class AnalizadorLexico {
     public AnalizadorLexico(String rutaArchivo) {
         contadorFila = 0;
         contadorColumna = 0;
+        this.filaToken = 0;
         palabrasReservadas = new HashMap<String, Integer>();
         tablaSimbolos = new Stack<Pair<String, HashMap<String, HashMap<String, Object>>>>();
         indiceAmbitoActual = -1;
@@ -261,6 +263,11 @@ public class AnalizadorLexico {
 
     public void inicializarLexema() {
         this.lexema = "";
+        this.filaToken = this.contadorFila;
+    }
+
+    public int getFilaToken() {
+        return this.filaToken + 1;
     }
 
     public void setLexema(String lexema) {

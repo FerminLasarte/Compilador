@@ -1,6 +1,7 @@
 MAIN { @Numero de linea: 1
     A := 0UI; @Numero de linea: 2
-    var A := 0UI; @Numero de linea: 3
+    var A := 0UI @Numero de linea: 3
+    var A := 0UI; @Numero de linea: 4
     var A := 0UI; @Numero de linea: 4
     print(&A:&); @Numero de linea: 5
     print(A); @Numero de linea: 6
@@ -49,6 +50,7 @@ MAIN { @Numero de linea: 1
  @Numero de linea: 49
     var CONT := 0UI; @Numero de linea: 50
     do { @Numero de linea: 51
+        var AA := 0UI;
         CONT := CONT + 1UI; @Numero de linea: 52
         print(&CONT:&); @Numero de linea: 53
         print(CONT); @Numero de linea: 54

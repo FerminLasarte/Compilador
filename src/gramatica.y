@@ -977,7 +977,7 @@ static Stack<Integer> pilaSaltosFunciones = new Stack<Integer>();
 int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();
-    int linea = al.getContadorFila() + 1;
+    int linea = al.getFilaToken();
     if (token == ID || token == CTE || token == CADENA_MULTILINEA) {
         yylval = new ParserVal(lexema);
         yylval.ival = linea;
