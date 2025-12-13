@@ -2,8 +2,6 @@
 PROGRAMA {
     var A := 5UI;
     do {
-        var B := 10UI;
-        print(B);
         print(A);
         A := A - 1UI;
     } while A > 0UI;

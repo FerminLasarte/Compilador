@@ -1,0 +1,12 @@
+LISTADO DE COMPILACION: asignaciones_multiples_error_operando.txt
+----------------------------------------
+   1: PROGRAMA {
+   2:     var A := 0UI;
+   3:     var B := 0UI;
+   4:     var C := 0UI;
+   5: 
+   6:     A, B, C := 1UI, 2UI, 3UI;
+   7:     print(A);
+   8:     print(B);
+   9:     print(C);
+  10: }

@@ -1,0 +1,11 @@
+LISTADO DE COMPILACION: funcion_lambda_cuerpo_vacio.txt
+----------------------------------------
+   1: @ Expresiones Lambda en Pasaje de Parámetros
+   2: PROGRAMA {
+   3:     var A := 5UI;
+   4:     uint FUNCION(lambda B, uint C) {
+   5:         B(C);
+   6:     }
+   7: 
+   8:     FUNCION((uint A) {}->B, 5UI->C);
+   9: }

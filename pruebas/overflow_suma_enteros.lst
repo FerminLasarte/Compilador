@@ -1,0 +1,10 @@
+LISTADO DE COMPILACION: overflow_suma_enteros.txt
+----------------------------------------
+   1: @ Overflow por Suma de Enteros
+   2: PROGRAMA {
+   3:     var A := 5UI;
+   4:     var B := 15UI;
+   5:     var C := A + B;
+   6: 
+   7:     var OVER := C + 70000UI;
+   8: }

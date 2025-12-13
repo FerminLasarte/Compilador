@@ -1,0 +1,10 @@
+LISTADO DE COMPILACION: conversiones_error_tipo.txt
+----------------------------------------
+   1: @ Conversiones explícitas de Punto Flotante a Entero
+   2: PROGRAMA {
+   3:     var A := 5UI;
+   4:     var B := 5.0F+0;
+   5: 
+   6:     var C := A + toui(A);
+   7:     var D := A + toui(2UI);
+   8: }

@@ -1,0 +1,10 @@
+LISTADO DE COMPILACION: sentencias_declarativas_error_cuerpo.txt
+----------------------------------------
+   1: @ Sentencias declarativas
+   2: PROGRAMA {
+   3:     var A := 10UI;
+   4: 
+   5:     uint FUNCION(uint B) {}
+   6: 
+   7:     var C := FUNCION(B->A);
+   8: }

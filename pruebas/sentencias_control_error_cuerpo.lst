@@ -1,0 +1,7 @@
+LISTADO DE COMPILACION: sentencias_control_error_cuerpo.txt
+----------------------------------------
+   1: @ Sentencias de Control
+   2: PROGRAMA {
+   3:     var A := 5UI;
+   4:     do {} while (A > 0UI);
+   5: }

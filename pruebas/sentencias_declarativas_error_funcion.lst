@@ -1,0 +1,19 @@
+LISTADO DE COMPILACION: sentencias_declarativas_error_funcion.txt
+----------------------------------------
+   1: @ Sentencias declarativas
+   2: PROGRAMA {
+   3:     var A := 10UI;
+   4: 
+   5:     var FUNCION(uint B) {
+   6: 
+   7:         var C := 5UI;
+   8:         B := A;
+   9:         print(B);
+  10:         print(A + B);
+  11:         print(A + B * 2UI);
+  12: 
+  13:         return(B);
+  14:     }
+  15: 
+  16:     var C := FUNCION(A->B);
+  17: }

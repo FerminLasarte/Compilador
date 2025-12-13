@@ -1,0 +1,6 @@
+LISTADO DE COMPILACION: palabra_reservada_var_semantico.txt
+----------------------------------------
+   1: @ Palabra Reservada var
+   2: PROGRAMA {
+   3:     A := 0UI;
+   4: }

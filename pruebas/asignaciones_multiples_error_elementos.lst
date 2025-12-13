@@ -1,0 +1,18 @@
+LISTADO DE COMPILACION: asignaciones_multiples_error_elementos.txt
+----------------------------------------
+   1: @ Asignaciones con igual número de elementos de ambos lados de la asignación
+   2: PROGRAMA {
+   3:     var A := 0UI;
+   4:     var B := 0UI;
+   5:     var C := 0UI;
+   6: 
+   7:     A, B, C = 1UI, 2UI;
+   8:     print(A);
+   9:     print(B);
+  10:     print(C);
+  11: 
+  12:     A, B = 1UI, 2UI, 3UI;
+  13:     print(A);
+  14:     print(B);
+  15:     print(C);
+  16: }

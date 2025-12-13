@@ -1,5 +1,4 @@
-Error al generar archivo listing: ..\pruebas\inferencia_tipos.txt (The system cannot find the file specified)
-El archivo no existe. Verifique la ruta proporcionada.
+>> Archivo de listado generado: ..\pruebas\palabra_reservada_var_sintactico.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -9,8 +8,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 1: Error de sintaxis. Verifique la estructura del codigo.
-Linea 1: Error de sintaxis. Verifique la estructura del codigo.
+Linea 3: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -35,5 +33,9 @@ No se genero codigo intermedio.
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
-La tabla de simbolos esta vacia.
+| Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+=======================================================
 =======================================================

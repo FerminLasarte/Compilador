@@ -1,0 +1,10 @@
+LISTADO DE COMPILACION: overflow_producto_punto_flotante.txt
+----------------------------------------
+   1: @ Overflow en Productos de Datos de Punto Flotante
+   2: PROGRAMA {
+   3:     var A := 5.2F+0;
+   4:     var B := 15.1F+0;
+   5:     var C := A + B;
+   6: 
+   7:     var OVER := C * 3.4F+40;
+   8: }

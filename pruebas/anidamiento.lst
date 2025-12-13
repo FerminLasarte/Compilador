@@ -1,0 +1,29 @@
+LISTADO DE COMPILACION: anidamiento.txt
+----------------------------------------
+   1: @ Anidamientos con do-while y if-else
+   2: PROGRAMA {
+   3:     var A := 8UI;
+   4:     var B := 0UI;
+   5: 
+   6:     do {
+   7:         if (A == 3UI) {
+   8:             print(&A llego a 3UI&);
+   9:         } else {
+  10:             if (A == 5UI) {
+  11:                 print(&A llego a 5UI&);
+  12:                 do {
+  13:                     if (B == 5UI) {
+  14:                         print(&B llego a 5UI&);
+  15:                     } else {
+  16:                         print(&B no llego a 5UI&);
+  17:                     } endif;
+  18:                     B := B + 1UI;
+  19:                 } while (B <= 5UI);
+  20:             } endif;
+  21:             print(&A no llego a 5UI&);
+  22:         } endif;
+  23:         A := A - 1UI;
+  24:     } while (A >= 3UI);
+  25: 
+  26:     print(&Programa finalizado exitosamente&);
+  27: }

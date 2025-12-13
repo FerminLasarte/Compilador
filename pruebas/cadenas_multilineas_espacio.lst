@@ -1,0 +1,9 @@
+LISTADO DE COMPILACION: cadenas_multilineas_espacio.txt
+----------------------------------------
+   1: @ Cadenas multilínea
+   2: PROGRAMA {
+   3:     print(&Hola
+   4: 
+   5: 
+   6:     Mundo&);
+   7: }

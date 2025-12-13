@@ -1,0 +1,39 @@
+LISTADO DE COMPILACION: ambitos.txt
+----------------------------------------
+   1: @ Prueba de Ambitos con Name Mangling
+   2: PROGRAMA {
+   3:     var A := 1UI;
+   4:     var B := 4UI;
+   5: 
+   6:     uint PRIMERA(uint C) {
+   7:         var A := 10UI;
+   8:         var B := 15UI;
+   9: 
+  10:         C := PROGRAMA.A + PROGRAMA.B;
+  11:         print(&C = 5UI&);
+  12:         print(C);
+  13: 
+  14:         C := A + B;
+  15:         print(&C = 25UI&);
+  16:         print(C);
+  17: 
+  18:         uint SEGUNDA(uint D) {
+  19:             var E := 1UI;
+  20: 
+  21:             PROGRAMA.A := 5UI;
+  22:             print(&PROGRAMA.A = 5UI&);
+  23:             print(PROGRAMA.A);
+  24: 
+  25:             D := PROGRAMA.A + PRIMERA.B + E;
+  26:             print(&D = 21UI&);
+  27:             print(D);
+  28: 
+  29:             return(D);
+  30:         }
+  31: 
+  32:         A := SEGUNDA(0UI->D);
+  33:         return(C);
+  34:     }
+  35: 
+  36:     A := PRIMERA(0UI->C);
+  37: }

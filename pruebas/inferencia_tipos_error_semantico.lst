@@ -1,0 +1,14 @@
+LISTADO DE COMPILACION: inferencia_tipos_error_semantico.txt
+----------------------------------------
+   1: @ Inferencia de Tipos
+   2: PROGRAMA {
+   3:     var A := 1UI;
+   4:     var B := 4UI;
+   5:     A := B;
+   6: 
+   7:     var C := 1.0F+0;
+   8:     var D := 2.0F+0;
+   9: 
+  10:     var E := B + D;
+  11:     var F := A + C;
+  12: }

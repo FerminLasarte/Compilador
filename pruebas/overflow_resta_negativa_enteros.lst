@@ -1,0 +1,10 @@
+LISTADO DE COMPILACION: overflow_resta_negativa_enteros.txt
+----------------------------------------
+   1: @ Resultados Negativos en Restas de Enteros sin Signo
+   2: PROGRAMA {
+   3:     var A := 5UI;
+   4:     var B := 15UI;
+   5:     var C := A + B;
+   6: 
+   7:     var OVER := C - 21UI;
+   8: }

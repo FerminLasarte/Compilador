@@ -1,0 +1,17 @@
+LISTADO DE COMPILACION: retornos_multiples_error_tipos.txt
+----------------------------------------
+   1: @ Se permiten más retornos que el número de lados izquierdos
+   2: PROGRAMA {
+   3:     var A := 1UI;
+   4:     var E := 1.0F+0;
+   5:     var F := 5UI;
+   6: 
+   7:     uint, float FUNCION(uint B) {
+   8:         var C := A + B;
+   9:         var D := 5.0F+0;
+  10: 
+  11:         return(C, D);
+  12:     }
+  13: 
+  14:     A, F = FUNCION(4UI->B);
+  15: }

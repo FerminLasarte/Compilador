@@ -1,0 +1,7 @@
+LISTADO DE COMPILACION: enteros_sin_signo_sintactico.txt
+----------------------------------------
+   1: @ Enteros sin signo (16 bits)
+   2: PROGRAMA {
+   3:     var A := 1000I;
+   4:     var A := 1000U;
+   5: }
