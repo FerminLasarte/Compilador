@@ -1,7 +1,0 @@
-MAIN {
-    var A := 10UI
-    var B := 5UI;
-
-    print(A);
-    print(B);
-}

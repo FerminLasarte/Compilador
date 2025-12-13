@@ -186,7 +186,12 @@ public class GeneradorAssembler {
                         codigo.append("FSTP ").append(res).append("\n");
                     } else {
                         codigo.append("MOV EAX, ").append(op1).append("\n");
-                        codigo.append("MUL ").append(op2).append("\n");
+                        if (isNumeric(op2)) {
+                            codigo.append("MOV EBX, ").append(op2).append("\n");
+                            codigo.append("MUL EBX\n");
+                        } else {
+                            codigo.append("MUL ").append(op2).append("\n");
+                        }
                         codigo.append("CMP EDX, 0\n");
                         codigo.append("JNE ErrorOverflow\n");
                         codigo.append("CMP EAX, 65535\n");
@@ -202,7 +207,6 @@ public class GeneradorAssembler {
                         codigo.append("SAHF\n");
                         codigo.append("JE Error_DivCero\n");
                         codigo.append("FSTP ST(0)\n");
-
                         loadToFPU(op1);
                         loadToFPU(op2);
                         codigo.append("FDIV\n");
@@ -216,9 +220,16 @@ public class GeneradorAssembler {
                     } else {
                         codigo.append("MOV EAX, ").append(op1).append("\n");
                         codigo.append("XOR EDX, EDX\n");
-                        codigo.append("CMP ").append(op2).append(", 0\n");
-                        codigo.append("JE Error_DivCero\n");
-                        codigo.append("DIV ").append(op2).append("\n");
+                        if (isNumeric(op2)) {
+                            codigo.append("MOV EBX, ").append(op2).append("\n");
+                            codigo.append("CMP EBX, 0\n");
+                            codigo.append("JE Error_DivCero\n");
+                            codigo.append("DIV EBX\n");
+                        } else {
+                            codigo.append("CMP ").append(op2).append(", 0\n");
+                            codigo.append("JE Error_DivCero\n");
+                            codigo.append("DIV ").append(op2).append("\n");
+                        }
                         codigo.append("MOV ").append(res).append(", EAX\n");
                     }
                     break;
