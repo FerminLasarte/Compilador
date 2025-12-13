@@ -4,5 +4,5 @@ PROGRAMA {
     var B := 15UI;
     var C := A + B;
 
-    var OVER := C + 70000;
+    var OVER := C + 70000UI;
 }

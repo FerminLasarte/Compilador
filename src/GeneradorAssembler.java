@@ -426,6 +426,8 @@ public class GeneradorAssembler {
             numTerceto++;
         }
 
+        codigo.append("Label").append(numTerceto).append(":\n");
+
         codigo.append("invoke ExitProcess, 0\n");
         generarErrores();
         codigo.append("end start\n");

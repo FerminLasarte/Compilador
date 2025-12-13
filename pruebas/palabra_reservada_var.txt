@@ -1,4 +1,0 @@
-@ Palabra Reservada var
-PROGRAMA {
-    var A := 0UI;
-}

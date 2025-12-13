@@ -1,4 +1,4 @@
 @ Palabra Reservada var
 PROGRAMA {
-    int A := 0UI;
+    A := 0UI;
 }
