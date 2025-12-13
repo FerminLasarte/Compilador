@@ -7,4 +7,8 @@ PROGRAMA {
 
         return(A);
     }
+
+    var AUX := 0UI;
+
+    var PASAJE := FUNCION(AUX->A, AUX->B, 0UI->C);
 }
