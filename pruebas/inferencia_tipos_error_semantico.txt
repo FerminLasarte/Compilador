@@ -2,10 +2,10 @@
 PROGRAMA {
     var A := 1UI;
     var B := 4UI;
-    var A := B;
+    A := B;
 
     var C := 1.0F+0;
-    var D := 4.0F+0;
+    var D := 2.0F+0;
 
     var E := B + D;
     var F := A + C;

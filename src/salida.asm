@@ -20,6 +20,15 @@ MaxFloatValue dd 2139095039
 @aux1 dd 0
 @aux2 dd 0
 @aux3 dd 0
+@aux4 dd 0
+@aux5 dd 0
+@aux6 dd 0
+@aux7 dd 0
+@aux8 dd 0
+@aux9 dd 0
+@aux10 dd 0
+@aux11 dd 0
+@aux12 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -31,31 +40,46 @@ _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
 _A_PROGRAMA dd 0
-_B_PROGRAMA dd 0
-_error_tipo dd 0
+_C_PROGRAMA_FUNCION dd 0
+_B_PROGRAMA_FUNCION dd 0
+_A_PROGRAMA_lambda_6 dd 0
+str_9 db "Imprime Lambda Positivo", 0
+str_11 db "Imprime Lambda Negativo", 0
 .code
 start:
 Label0:
 MOV EAX, 5
 MOV _A_PROGRAMA, EAX
 Label1:
-MOV EAX, 1084227584
-PUSH EAX
-FLD DWORD PTR [ESP]
-ADD ESP, 4
-FSTP _B_PROGRAMA
+JMP Label5
 Label2:
-MOV EAX, _A_PROGRAMA
-ADD EAX, _error_tipo
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux2, EAX
+__FUNCION_PROGRAMA:
 Label3:
-MOV EAX, _A_PROGRAMA
-ADD EAX, _error_tipo
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux3, EAX
+Label4:
+MOV EAX, _B_PROGRAMA_FUNCION
+CALL EAX
+Label5:
+JMP Label13
+Label6:
+Label7:
+MOV EAX, _A_PROGRAMA_lambda_6
+CMP EAX, 3
+SETA AL
+MOVZX EAX, AL
+MOV @aux7, EAX
+Label8:
+MOV EAX, @aux7
+CMP EAX, 0
+JE Label11
+Label9:
+invoke crt_printf, addr MensajePrint, addr str_9
+Label10:
+JMP Label12
+Label11:
+invoke crt_printf, addr MensajePrint, addr str_11
+Label12:
+; -- RETURN --
+RET
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

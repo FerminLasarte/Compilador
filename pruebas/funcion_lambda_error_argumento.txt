@@ -8,7 +8,7 @@ PROGRAMA {
     FUNCION((uint A) {
         if(A > 3UI) {
             print(&Imprime Lambda Positivo&);
-        } elsif {
+        } else {
             print(&Imprime Lambda Negativo&);
         } endif;
     }->B);

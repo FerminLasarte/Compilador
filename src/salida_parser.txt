@@ -17,10 +17,7 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 6: Error Semantico: 'toui' solo puede aplicarse a expresiones 'float', se obtuvo 'uint'.
-Linea 6: Error Semantico: No se puede inferir el tipo de 'C' desde una expresion invalida (Tema 9).
-Linea 7: Error Semantico: 'toui' solo puede aplicarse a expresiones 'float', se obtuvo 'uint'.
-Linea 7: Error Semantico: No se puede inferir el tipo de 'D' desde una expresion invalida (Tema 9).
+Linea 8: Error Semantico: Invocacion a 'FUNCION' con numero incorrecto de parametros. Esperados: 2, Obtenidos: 1.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -31,22 +28,47 @@ No se encontraron warnings.
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
 0:	(:=, A:PROGRAMA, 5UI)
-1:	(:=, B:PROGRAMA, 5.0F+0)
-2:	(+, A:PROGRAMA, error_tipo)
-3:	(+, A:PROGRAMA, error_tipo)
+1:	(BI, _, [5])
+2:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
+3:	(PARAM_LAMBDA, C:PROGRAMA:FUNCION, _)
+4:	(CALL_LAMBDA, B:PROGRAMA:FUNCION, _)
+5:	(BI, _, [13])
+6:	(DEF_PARAM, A:PROGRAMA:lambda_6, _)
+7:	(>, A:PROGRAMA:lambda_6, 3UI)
+8:	(BF, [7], [11])
+9:	(PRINT, &Imprime Lambda Positivo&, _)
+10:	(BI, _, [12])
+11:	(PRINT, &Imprime Lambda Negativo&, _)
+12:	(RET_LAMBDA, _, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       |
 | PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
-| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | float      |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | parametro          | uint       |
+| PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | lambda     |
+| PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA:lambda_6                   | @aux10:PROGRAMA:lambda_6                      | false        | variable_auxiliar  | null       |
+| PROGRAMA:lambda_6                   | @aux8:PROGRAMA:lambda_6                       | false        | variable_auxiliar  | null       |
+| PROGRAMA:lambda_6                   | A:PROGRAMA:lambda_6                           | false        | parametro_lambda   | uint       |
+| PROGRAMA:lambda_6                   | @aux6:PROGRAMA:lambda_6                       | false        | variable_auxiliar  | null       |
+| PROGRAMA:lambda_6                   | @aux7:PROGRAMA:lambda_6                       | false        | variable_auxiliar  | null       |
+| PROGRAMA:lambda_6                   | @aux12:PROGRAMA:lambda_6                      | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA:lambda_6:bloque_9          | @aux9:PROGRAMA:lambda_6:bloque_9              | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA:lambda_6:bloque_11         | @aux11:PROGRAMA:lambda_6:bloque_11            | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================
