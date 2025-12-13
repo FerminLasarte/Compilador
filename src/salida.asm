@@ -19,7 +19,6 @@ MaxFloatValue dd 2139095039
 @aux0 dd 0
 @aux1 dd 0
 @aux2 dd 0
-@aux3 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -37,18 +36,16 @@ Label0:
 MOV EAX, 5
 MOV _A_PROGRAMA, EAX
 Label1:
-invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
-Label2:
 MOV EAX, _A_PROGRAMA
 CMP EAX, 0
 SETA AL
 MOVZX EAX, AL
-MOV @aux2, EAX
-Label3:
-MOV EAX, @aux2
+MOV @aux1, EAX
+Label2:
+MOV EAX, @aux1
 CMP EAX, 1
 JE Label1
-Label4:
+Label3:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
