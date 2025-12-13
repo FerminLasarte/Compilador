@@ -16,18 +16,6 @@ MensajePrint db "Salida: %s", 10, 0
 MensajePrintNum db "Salida: %d", 10, 0
 MensajePrintFloat db "Salida: %f", 10, 0
 MaxFloatValue dd 2139095039
-@aux0 dd 0
-@aux1 dd 0
-@aux2 dd 0
-@aux3 dd 0
-@aux4 dd 0
-@aux5 dd 0
-@aux6 dd 0
-@aux7 dd 0
-@aux8 dd 0
-@aux9 dd 0
-@aux10 dd 0
-@aux11 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -38,57 +26,9 @@ _RET_VAL_6 dd 0
 _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
-_A_PROGRAMA dd 0
-_C_PROGRAMA_FUNCION dd 0
-_B_PROGRAMA_FUNCION dd 0
 .code
 start:
 Label0:
-MOV EAX, 10
-MOV _A_PROGRAMA, EAX
-Label1:
-JMP Label12
-Label2:
-__FUNCION_PROGRAMA:
-Label3:
-MOV EAX, 5
-MOV _C_PROGRAMA_FUNCION, EAX
-Label4:
-MOV EAX, _A_PROGRAMA
-MOV _B_PROGRAMA_FUNCION, EAX
-Label5:
-invoke crt_printf, addr MensajePrintNum, _B_PROGRAMA_FUNCION
-Label6:
-MOV EAX, _A_PROGRAMA
-ADD EAX, _B_PROGRAMA_FUNCION
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux6, EAX
-Label7:
-invoke crt_printf, addr MensajePrintNum, @aux6
-Label8:
-MOV EAX, _B_PROGRAMA_FUNCION
-MOV EBX, 2
-MUL EBX
-CMP EDX, 0
-JNE ErrorOverflow
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux8, EAX
-Label9:
-MOV EAX, _A_PROGRAMA
-ADD EAX, @aux8
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux9, EAX
-Label10:
-invoke crt_printf, addr MensajePrintNum, @aux9
-Label11:
-; -- RETURN --
-MOV EAX, _B_PROGRAMA_FUNCION
-MOV _RET_VAL_0, EAX
-RET
-Label12:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

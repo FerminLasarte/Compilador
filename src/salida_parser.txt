@@ -1,3 +1,5 @@
+Error al generar archivo listing: ..\pruebas\inferencia_tipos.txt (The system cannot find the file specified)
+El archivo no existe. Verifique la ruta proporcionada.
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -7,7 +9,8 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores sintacticos.
+Linea 1: Error de sintaxis. Verifique la estructura del codigo.
+Linea 1: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -17,9 +20,7 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 16: Error Semantico: Variable 'B' no fue declarada (Regla de alcance).
-Linea 16: Error Semantico: Invocacion a 'FUNCION': no existe el parametro formal '->A'.
-Linea 16: Error Semantico: No se puede inferir el tipo de 'C' desde una expresion invalida (Tema 9).
+No se encontraron errores semanticos.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -29,42 +30,10 @@ No se encontraron warnings.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 10UI)
-1:	(BI, _, [12])
-2:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
-3:	(:=, C:PROGRAMA:FUNCION, 5UI)
-4:	(:=, B:PROGRAMA:FUNCION, A:PROGRAMA)
-5:	(PRINT, B:PROGRAMA:FUNCION, _)
-6:	(+, A:PROGRAMA, B:PROGRAMA:FUNCION)
-7:	(PRINT, [6], _)
-8:	(*, B:PROGRAMA:FUNCION, 2UI)
-9:	(+, A:PROGRAMA, [8])
-10:	(PRINT, [9], _)
-11:	(RETURN, B:PROGRAMA:FUNCION, 0/1)
+No se genero codigo intermedio.
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
-| Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       |
-| PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       |
-| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | variable           | uint       |
-| PROGRAMA:FUNCION                    | @aux10:PROGRAMA:FUNCION                       | false        | variable_auxiliar  | null       |
-| PROGRAMA:FUNCION                    | @aux6:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
-| PROGRAMA:FUNCION                    | @aux11:PROGRAMA:FUNCION                       | false        | variable_auxiliar  | null       |
-| PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | uint       |
-| PROGRAMA:FUNCION                    | @aux9:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
-| PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
-| PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
-| PROGRAMA:FUNCION                    | @aux5:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
-| PROGRAMA:FUNCION                    | @aux7:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
-| PROGRAMA:FUNCION                    | @aux8:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-=======================================================
+La tabla de simbolos esta vacia.
 =======================================================
