@@ -7,7 +7,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 4: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -27,20 +27,47 @@ No se encontraron warnings.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 5UI)
-1:	(>, A:PROGRAMA, 0UI)
-2:	(BT, [1], [1])
+0:	(:=, A:PROGRAMA, 10UI)
+1:	(BI, _, [11])
+2:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
+3:	(:=, C:PROGRAMA:FUNCION, 5UI)
+4:	(:=, B:PROGRAMA:FUNCION, A:PROGRAMA)
+5:	(PRINT, B:PROGRAMA:FUNCION, _)
+6:	(+, A:PROGRAMA, B:PROGRAMA:FUNCION)
+7:	(PRINT, [6], _)
+8:	(+, A:PROGRAMA, B:PROGRAMA:FUNCION)
+9:	(PRINT, [8], _)
+10:	(RETURN, B:PROGRAMA:FUNCION, 0/1)
+11:	(PARAM, A:PROGRAMA, B:PROGRAMA:FUNCION)
+12:	(CALL, FUNCION:PROGRAMA, _)
+13:	(:=, C:PROGRAMA, [12])
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | uint       |
+| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       |
+| PROGRAMA                            | @aux12:PROGRAMA                               | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
+| PROGRAMA                            | @aux11:PROGRAMA                               | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | @aux13:PROGRAMA                               | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | variable           | uint       |
+| PROGRAMA:FUNCION                    | @aux10:PROGRAMA:FUNCION                       | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | @aux6:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | uint       |
+| PROGRAMA:FUNCION                    | @aux9:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | @aux5:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | @aux7:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | @aux8:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================
