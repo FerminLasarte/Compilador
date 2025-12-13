@@ -510,7 +510,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 969 "gramatica.y"
+//#line 974 "gramatica.y"
 
 static AnalizadorLexico al;
 static Generador g;
@@ -1688,44 +1688,49 @@ case 96:
 //#line 910 "gramatica.y"
 {
                 enSentenciaReturn = false;
-                ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
-                ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
-                ArrayList<String> expresiones = new ArrayList<String>();
-                for (Object o : rawList) {
-                    expresiones.add((String) o);
-                }
 
-                boolean error = false;
-                if (tiposEsperados.size() != expresiones.size()) {
-                    al.agregarErrorSemantico("Linea " + val_peek(5).ival + ": Error de Tipos: Cantidad de valores de retorno incorrecta. Esperado: " + tiposEsperados.size() + ", Encontrado: " + expresiones.size());
-                    error = true;
+                if (pilaTiposRetorno.isEmpty()) {
+                    al.agregarErrorSemantico("Linea " + val_peek(5).ival + ": Error Semantico: 'return' encontrado fuera de una funcion valida (o la declaracion de la funcion fallo por error sintactico previo).");
                 } else {
-                    for (int i = 0; i < tiposEsperados.size(); i++) {
-                        String tipoEsp = tiposEsperados.get(i);
-                        String op = expresiones.get(i);
-                        String tipoEnc = g.getTipo(op);
+                    ArrayList<String> tiposEsperados = pilaTiposRetorno.peek();
+                    ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
+                    ArrayList<String> expresiones = new ArrayList<String>();
+                    for (Object o : rawList) {
+                        expresiones.add((String) o);
+                    }
 
-                        if (!tipoEnc.equals(tipoEsp) && !tipoEnc.equals("error_tipo")) {
-                             al.agregarErrorSemantico("Linea " + val_peek(5).ival + ": Error de Tipos: Tipo de retorno incorrecto en la posicion " + (i+1) + ". Esperado: " + tipoEsp + ", Encontrado: " + tipoEnc);
-                             error = true;
+                    boolean error = false;
+                    if (tiposEsperados.size() != expresiones.size()) {
+                        al.agregarErrorSemantico("Linea " + val_peek(5).ival + ": Error de Tipos: Cantidad de valores de retorno incorrecta. Esperado: " + tiposEsperados.size() + ", Encontrado: " + expresiones.size());
+                        error = true;
+                    } else {
+                        for (int i = 0; i < tiposEsperados.size(); i++) {
+                            String tipoEsp = tiposEsperados.get(i);
+                            String op = expresiones.get(i);
+                            String tipoEnc = g.getTipo(op);
+
+                            if (!tipoEnc.equals(tipoEsp) && !tipoEnc.equals("error_tipo")) {
+                                 al.agregarErrorSemantico("Linea " + val_peek(5).ival + ": Error de Tipos: Tipo de retorno incorrecto en la posicion " + (i+1) + ". Esperado: " + tipoEsp + ", Encontrado: " + tipoEnc);
+                                 error = true;
+                            }
                         }
                     }
-                }
 
-                if (error) {
-                    pilaErrorEnFuncion.pop();
-                    pilaErrorEnFuncion.push(true);
-                } else {
-                    salida.add("Linea " + val_peek(5).ival + ": Sentencia RETURN.");
-                    int total = expresiones.size();
-                    for (int i = 0; i < total; i++) {
-                        g.addTerceto("RETURN", expresiones.get(i), i + "/" + total);
+                    if (error) {
+                        pilaErrorEnFuncion.pop();
+                        pilaErrorEnFuncion.push(true);
+                    } else {
+                        salida.add("Linea " + val_peek(5).ival + ": Sentencia RETURN.");
+                        int total = expresiones.size();
+                        for (int i = 0; i < total; i++) {
+                            g.addTerceto("RETURN", expresiones.get(i), i + "/" + total);
+                        }
                     }
                 }
             }
 break;
 case 97:
-//#line 950 "gramatica.y"
+//#line 955 "gramatica.y"
 {
                   ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
                   ArrayList<String> lista = new ArrayList<String>();
@@ -1737,14 +1742,14 @@ case 97:
               }
 break;
 case 98:
-//#line 961 "gramatica.y"
+//#line 966 "gramatica.y"
 {
                   ArrayList<String> lista = new ArrayList<String>();
                   lista.add(g.desapilarOperando());
                   yyval.obj = lista;
               }
 break;
-//#line 1671 "Parser.java"
+//#line 1676 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

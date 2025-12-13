@@ -1,4 +1,49 @@
-java.util.EmptyStackException
-	at java.base/java.util.Stack.peek(Stack.java:103)
-	at Parser.yyparse(Parser.java:1691)
-	at Main.main(Main.java:25)
+
+=======================================================
+## GENERACION DE ASSEMBLER ##
+=======================================================
+Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores logicos si hubo errores de compilacion).
+
+=======================================================
+## ERRORES SINTACTICOS DETECTADOS ##
+=======================================================
+Linea 6: Error de sintaxis. Verifique la estructura del codigo.
+
+=======================================================
+## ERRORES LEXICOS DETECTADOS ##
+=======================================================
+No se encontraron errores lexicos.
+
+=======================================================
+## ERRORES SEMANTICOS DETECTADOS ##
+=======================================================
+No se encontraron errores semanticos.
+
+=======================================================
+## WARNINGS DETECTADOS ##
+=======================================================
+No se encontraron warnings.
+
+=======================================================
+## CODIGO INTERMEDIO (TERCETOS) ##
+=======================================================
+0:	(:=, A:PROGRAMA, 5UI)
+1:	(PRINT, A:PROGRAMA, _)
+2:	(>, A:PROGRAMA, 0UI)
+3:	(BT, [2], [1])
+
+=======================================================
+## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
+=======================================================
+| Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       |
+| PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA:bloque_1                   | @aux1:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       |
+| PROGRAMA:bloque_1                   | @aux2:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       |
+| PROGRAMA:bloque_1                   | @aux3:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+=======================================================
+=======================================================

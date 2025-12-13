@@ -20,17 +20,6 @@ MaxFloatValue dd 2139095039
 @aux1 dd 0
 @aux2 dd 0
 @aux3 dd 0
-@aux4 dd 0
-@aux5 dd 0
-@aux6 dd 0
-@aux7 dd 0
-@aux8 dd 0
-@aux9 dd 0
-@aux10 dd 0
-@aux11 dd 0
-@aux12 dd 0
-@aux13 dd 0
-@aux14 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -41,63 +30,25 @@ _RET_VAL_6 dd 0
 _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
-_C_PROGRAMA_FUNCION dd 0
-_B_PROGRAMA_FUNCION dd 0
-_A_PROGRAMA_FUNCION dd 0
-_error_tipo dd 0
-_AUX_PROGRAMA dd 0
-_PASAJE_PROGRAMA dd 0
+_A_PROGRAMA dd 0
 .code
 start:
 Label0:
-JMP Label7
-Label1:
-__FUNCION_PROGRAMA:
-Label2:
-MOV EAX, 8
-MOV _C_PROGRAMA_FUNCION, EAX
-Label3:
 MOV EAX, 5
-MOV _B_PROGRAMA_FUNCION, EAX
+MOV _A_PROGRAMA, EAX
+Label1:
+invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
+Label2:
+MOV EAX, _A_PROGRAMA
+CMP EAX, 0
+SETA AL
+MOVZX EAX, AL
+MOV @aux2, EAX
+Label3:
+MOV EAX, @aux2
+CMP EAX, 1
+JE Label1
 Label4:
-MOV EAX, 3
-MOV _A_PROGRAMA_FUNCION, EAX
-Label5:
-MOV EAX, _error_tipo
-ADD EAX, _C_PROGRAMA_FUNCION
-CMP EAX, 65535
-JA ErrorOverflow
-MOV @aux5, EAX
-Label6:
-; -- RETURN --
-MOV EAX, _A_PROGRAMA_FUNCION
-MOV _RET_VAL_0, EAX
-RET
-Label7:
-MOV EAX, 0
-MOV _AUX_PROGRAMA, EAX
-Label8:
-MOV EAX, _AUX_PROGRAMA
-MOV _A_PROGRAMA_FUNCION, EAX
-Label9:
-MOV EAX, _AUX_PROGRAMA
-MOV _B_PROGRAMA_FUNCION, EAX
-Label10:
-MOV EAX, 0
-MOV _C_PROGRAMA_FUNCION, EAX
-Label11:
-CALL __FUNCION_PROGRAMA
-MOV @aux11, EAX
-Label12:
-MOV EAX, _A_PROGRAMA_FUNCION
-MOV _AUX_PROGRAMA, EAX
-Label13:
-MOV EAX, _B_PROGRAMA_FUNCION
-MOV _AUX_PROGRAMA, EAX
-Label14:
-MOV EAX, @aux11
-MOV _PASAJE_PROGRAMA, EAX
-Label15:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

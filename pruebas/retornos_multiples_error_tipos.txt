@@ -11,5 +11,5 @@ PROGRAMA {
         return(C, D);
     }
 
-    A, F, E = FUNCION(4UI->B);
+    A, F = FUNCION(4UI->B);
 }

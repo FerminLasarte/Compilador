@@ -1,4 +1,0 @@
-@ Punto Flotante de 32 bits
-PROGRAMA {
-    var F1 := 1.5F+2;
-}

@@ -3,6 +3,6 @@ PROGRAMA {
     var A := 5UI;
     do {
         print(A)
-        A := A - 1UI;
+        A := (A - 1UI);
     } while (A > 0UI);
 }
