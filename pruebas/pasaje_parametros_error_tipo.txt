@@ -1,14 +1,11 @@
 @ Copia-Resultado
 PROGRAMA {
 
-    uint FUNCION(cr uint A, le se uint B, se cr C) {
+    uint FUNCION(cr se uint A, cr le uint B, cr se C) {
         A, B, C = 3UI, 5UI, 8UI;
         A := B + C;
-
         return(A);
     }
-
     var AUX := 0UI;
-
     var PASAJE := FUNCION(AUX->A, AUX->B, 0UI->C);
 }

@@ -2,6 +2,6 @@ LISTADO DE COMPILACION: cadenas_multilinea_arroba.txt
 ----------------------------------------
    1: @ Cadenas multilínea
    2: PROGRAMA {
-   3:     print(@Hola
-   4:     Mundo@);
+   3:     print(&@Hola
+   4:     Mundo@&);
    5: }

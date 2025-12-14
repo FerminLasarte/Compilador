@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\cadenas_multilinea.lst
+>> Archivo de listado generado: ..\pruebas\pasaje_parametros.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -28,16 +28,52 @@ No se encontraron warnings.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(PRINT, &Hola
-    Mundo&, _)
+0:	(BI, _, [8])
+1:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
+2:	(:=, A:PROGRAMA:FUNCION, 3UI)
+3:	(:=, B:PROGRAMA:FUNCION, 5UI)
+4:	(:=, C:PROGRAMA:FUNCION, 8UI)
+5:	(+, B:PROGRAMA:FUNCION, C:PROGRAMA:FUNCION)
+6:	(:=, A:PROGRAMA:FUNCION, [5])
+7:	(RETURN, A:PROGRAMA:FUNCION, 0/1)
+8:	(:=, AUX:PROGRAMA, 0UI)
+9:	(PARAM, AUX:PROGRAMA, A:PROGRAMA:FUNCION)
+10:	(PARAM, AUX:PROGRAMA, B:PROGRAMA:FUNCION)
+11:	(PARAM, 0UI, C:PROGRAMA:FUNCION)
+12:	(CALL, FUNCION:PROGRAMA, _)
+13:	(:=, AUX:PROGRAMA, A:PROGRAMA:FUNCION)
+14:	(:=, AUX:PROGRAMA, B:PROGRAMA:FUNCION)
+15:	(:=, PASAJE:PROGRAMA, [12])
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
-| Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       | -          |
+| PROGRAMA                            | @aux10:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | PASAJE:PROGRAMA                               | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux14:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux8:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux15:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux11:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux9:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | AUX:PROGRAMA                                  | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux12:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
+| PROGRAMA                            | @aux13:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | parametro          | uint       | default_cv |
+| PROGRAMA:FUNCION                    | @aux6:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | uint       | cr_le      |
+| PROGRAMA:FUNCION                    | @aux2:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | A:PROGRAMA:FUNCION                            | false        | parametro          | uint       | cr_se      |
+| PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | @aux5:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | @aux7:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

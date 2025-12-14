@@ -525,10 +525,15 @@ public class AnalizadorLexico {
             System.out.println("La tabla de simbolos esta vacia.");
             return;
         }
-        String formatString = "| %-35s | %-45s | %-12s | %-18s | %-10s |%n";
-        System.out.printf(formatString, "Ambito (Completo)", "Lexema (Mangled)", "Reservada", "Uso", "Tipo");
-        String separator = "|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|";
+
+        // 1. Modificamos el formato para incluir una columna extra al final (Pasaje)
+        String formatString = "| %-35s | %-45s | %-12s | %-18s | %-10s | %-10s |%n";
+        System.out.printf(formatString, "Ambito (Completo)", "Lexema (Mangled)", "Reservada", "Uso", "Tipo", "Pasaje");
+
+        // 2. Ajustamos el separador visual
+        String separator = "|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|";
         System.out.println(separator);
+
         Iterator<Pair<String, HashMap<String, HashMap<String, Object>>>> iter = tablaSimbolos.iterator();
         while (iter.hasNext()) {
             Pair<String, HashMap<String, HashMap<String, Object>>> par = iter.next();
@@ -537,16 +542,21 @@ public class AnalizadorLexico {
             for (Map.Entry<String, HashMap<String, Object>> entry : par.getValue().entrySet()) {
                 String lexemaMangled = entry.getKey();
                 if (lexemaMangled.equals("__METADATA__")) continue;
+
                 HashMap<String, Object> atributos = entry.getValue();
                 Object reservada = atributos.get("Reservada");
                 Object uso = atributos.get("Uso");
                 Object tipo = atributos.get("Tipo");
+                Object pasaje = atributos.get("Pasaje"); // 3. Recuperamos el atributo "Pasaje"
+
+                // 4. Imprimimos usando el nuevo formato
                 System.out.printf(formatString,
                         ambitoNombre,
                         lexemaMangled,
                         (reservada != null) ? reservada.toString() : "null",
                         (uso != null) ? uso.toString() : "null",
-                        (tipo != null) ? tipo.toString() : "null"
+                        (tipo != null) ? tipo.toString() : "null",
+                        (pasaje != null) ? pasaje.toString() : "-" // Mostramos el pasaje o un guion si es nulo
                 );
             }
             if (par.getValue().size() > (par.getValue().containsKey("__METADATA__") ? 1 : 0)) {
