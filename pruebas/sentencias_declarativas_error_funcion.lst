@@ -15,5 +15,5 @@ LISTADO DE COMPILACION: sentencias_declarativas_error_funcion.txt
   13:         return(B);
   14:     }
   15: 
-  16:     var C := FUNCION(A->B);
+  16:     var C := FUNCION(5UI->B);
   17: }

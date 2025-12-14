@@ -23,17 +23,6 @@ MaxFloatValue dd 2139095039
 @aux4 dd 0
 @aux5 dd 0
 @aux6 dd 0
-@aux7 dd 0
-@aux8 dd 0
-@aux9 dd 0
-@aux10 dd 0
-@aux11 dd 0
-@aux12 dd 0
-@aux13 dd 0
-@aux14 dd 0
-@aux15 dd 0
-@aux16 dd 0
-@aux17 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -44,69 +33,23 @@ _RET_VAL_6 dd 0
 _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
-_A_PROGRAMA_FUNCION dd 0
-_B_PROGRAMA_FUNCION dd 0
-_C_PROGRAMA_FUNCION dd 0
+_A_PROGRAMA dd 0
 _error_tipo dd 0
-_AUX_PROGRAMA dd 0
-_AUX1_PROGRAMA dd 0
-_AUX2_PROGRAMA dd 0
-_PASAJE_PROGRAMA dd 0
 .code
 start:
 Label0:
-JMP Label7
+MOV EAX, 10
+MOV _A_PROGRAMA, EAX
 Label1:
-__FUNCION_PROGRAMA:
-Label2:
-MOV EAX, 3
-MOV _A_PROGRAMA_FUNCION, EAX
+invoke crt_printf, addr MensajePrintNum, _error_tipo
+; Terceto 2 omitido por error semantico
 Label3:
-MOV EAX, 5
-MOV _B_PROGRAMA_FUNCION, EAX
-Label4:
-MOV EAX, 8
-MOV _C_PROGRAMA_FUNCION, EAX
+invoke crt_printf, addr MensajePrintNum, @aux2
+; Terceto 4 omitido por error semantico
 ; Terceto 5 omitido por error semantico
 Label6:
-; -- RETURN --
-MOV EAX, _A_PROGRAMA_FUNCION
-MOV _RET_VAL_0, EAX
-RET
+invoke crt_printf, addr MensajePrintNum, @aux5
 Label7:
-MOV EAX, 7
-MOV _AUX_PROGRAMA, EAX
-Label8:
-MOV EAX, 8
-MOV _AUX1_PROGRAMA, EAX
-Label9:
-MOV EAX, 20
-MOV _AUX2_PROGRAMA, EAX
-Label10:
-MOV EAX, _AUX_PROGRAMA
-MOV _A_PROGRAMA_FUNCION, EAX
-Label11:
-MOV EAX, _AUX1_PROGRAMA
-MOV _B_PROGRAMA_FUNCION, EAX
-Label12:
-MOV EAX, _AUX2_PROGRAMA
-MOV _C_PROGRAMA_FUNCION, EAX
-Label13:
-CALL __FUNCION_PROGRAMA
-MOV @aux13, EAX
-Label14:
-MOV EAX, _A_PROGRAMA_FUNCION
-MOV _AUX_PROGRAMA, EAX
-Label15:
-MOV EAX, _B_PROGRAMA_FUNCION
-MOV _AUX1_PROGRAMA, EAX
-Label16:
-MOV EAX, _C_PROGRAMA_FUNCION
-MOV _AUX2_PROGRAMA, EAX
-Label17:
-MOV EAX, @aux13
-MOV _PASAJE_PROGRAMA, EAX
-Label18:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
