@@ -69,12 +69,13 @@ public abstract class AccionSemantica{
                 if (bd.compareTo(BigDecimal.ZERO) >= 0 && bd.compareTo(limiteSuperior) < 0) {
                     return "CTE";
                 } else {
-                    al.agregarError("Constante uint fuera del rango permitido (0 a 65535). Valor encontrado: " + soloEnteros);
-                    return "CTE"; // <<< MODIFICACIÓN (Devolver CTE)
+                    al.agregarWarning("Constante uint fuera del rango permitido (0 a 65535). El valor " + soloEnteros + " fue truncado a 65535.");
+                    al.setLexema("65535UI"); // Truncamos al valor máximo representable de 16 bits sin signo
+                    return "CTE";
                 }
             } catch (NumberFormatException e) {
                 al.agregarError("Formato de número inválido para constante uint: " + soloEnteros);
-                return "CTE"; // <<< MODIFICACIÓN (Devolver CTE)
+                return "CTE";
             }
         }
     }
