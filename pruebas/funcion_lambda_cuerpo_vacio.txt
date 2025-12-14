@@ -3,6 +3,7 @@ PROGRAMA {
     var A := 5UI;
     uint FUNCION(lambda B, uint C) {
         B(C);
+        print(C);
         return(C);
     }
 

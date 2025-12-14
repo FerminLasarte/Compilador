@@ -4,17 +4,15 @@ LISTADO DE COMPILACION: funcion_lambda.txt
    2: PROGRAMA {
    3:     uint FUNCION(lambda B, uint C) {
    4:         B(C);
-   5:         print(C);
-   6:         return(C);
-   7:     }
-   8: 
-   9:     FUNCION((uint A) {
-  10:         print(A);
-  11:         if(A > 3UI) {
-  12:             print(&Imprime Lambda Positivo&);
-  13:         } else {
-  14:             print(&Imprime Lambda Negativo&);
-  15:             A := A - 1UI;
-  16:         } endif;
-  17:     }->B, 5UI->C);
-  18: }
+   5:         return(C);
+   6:     }
+   7: 
+   8:     FUNCION((uint A) {
+   9:         print(A);
+  10:         if(A > 3UI) {
+  11:             print(&Imprime Lambda Positivo&);
+  12:         } else {
+  13:             print(&Imprime Lambda Negativo&);
+  14:         } endif;
+  15:     }->B, 5UI->C);
+  16: }
