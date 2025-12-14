@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\sentencias_declarativas_error_funcion.lst
+>> Archivo de listado generado: ..\pruebas\sentencias_control_do_while_error_declaracion.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -9,8 +9,6 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
 Linea 5: Error de sintaxis. Verifique la estructura del codigo.
-Linea 16: Error de sintaxis. Verifique la estructura del codigo.
-Linea 16: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -20,13 +18,7 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 8: Error Semantico: Variable 'B' no fue declarada (Regla de alcance).
-Linea 9: Error Semantico: Variable 'B' no fue declarada (Regla de alcance).
-Linea 10: Error Semantico: Variable 'B' no fue declarada (Regla de alcance).
-Linea 11: Error Semantico: Variable 'B' no fue declarada (Regla de alcance).
-Linea 11: Error de Tipos: Operacion (+) entre tipos incompatibles: uint y error_tipo
-Linea 13: Error Semantico: Variable 'B' no fue declarada (Regla de alcance).
-Linea 13: Error Semantico: 'return' encontrado fuera de una funcion valida (o la declaracion de la funcion fallo por error sintactico previo).
+No se encontraron errores semanticos.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -36,28 +28,21 @@ No se encontraron warnings.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 10UI)
-1:	(PRINT, error_tipo, _)
-2:	(+, A:PROGRAMA, error_tipo)
-3:	(PRINT, [2], _)
-4:	(*, error_tipo, 2UI)
-5:	(+, A:PROGRAMA, [4])
-6:	(PRINT, [5], _)
+0:	(:=, A:PROGRAMA, 5UI)
+1:	(>, A:PROGRAMA, 0UI)
+2:	(BT, [1], [1])
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | @aux6:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_1                   | @aux1:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_1                   | @aux2:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================
