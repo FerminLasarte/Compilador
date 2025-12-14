@@ -5,14 +5,15 @@ LISTADO DE COMPILACION: funcion_lambda.txt
    3:     var A := 5UI;
    4:     uint FUNCION(lambda B, uint C) {
    5:         B(C);
-   6:     }
-   7: 
-   8:     FUNCION((uint A) {
-   9:         if(PROGRAMA.A > 3UI) {
-  10:             print(&Imprime Lambda Positivo&);
-  11:         } else {
-  12:             print(&Imprime Lambda Negativo&);
-  13:             PROGRAMA.A := PROGRAMA.A - 1UI;
-  14:         } endif;
-  15:     }->B, 5UI->C);
-  16: }
+   6:         return(C);
+   7:     }
+   8: 
+   9:     FUNCION((uint A) {
+  10:         if(A > 3UI) {
+  11:             print(&Imprime Lambda Positivo&);
+  12:         } else {
+  13:             print(&Imprime Lambda Negativo&);
+  14:             A := A - 1UI;
+  15:         } endif;
+  16:     }->B, 5UI->C);
+  17: }
