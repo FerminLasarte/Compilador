@@ -9,5 +9,5 @@ LISTADO DE COMPILACION: pasaje_parametros_error_tipo.txt
    7:         return(A);
    8:     }
    9:     var AUX := 0UI;
-  10:     var PASAJE := FUNCION(18UI->A, AUX->B, AUX->C);
+  10:     var PASAJE := FUNCION(AUX->A, AUX->B, 0UI->C);
   11: }

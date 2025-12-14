@@ -8,7 +8,9 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores sintacticos.
+Linea 4: Error de sintaxis. Verifique la estructura del codigo.
+Linea 9: Error de sintaxis. Verifique la estructura del codigo.
+Linea 9: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -18,63 +20,29 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 6: Error Semantico: El parametro 'C' es de solo escritura (se) y no puede ser leido.
-Linea 6: Error de Tipos: Asignacion incompatible. No se puede asignar 'error_tipo' a 'uint'.
+Linea 6: Error Semantico: Variable 'B' no fue declarada (Regla de alcance).
+Linea 6: Error Semantico: Variable 'C' no fue declarada (Regla de alcance).
+Linea 6: Error Semantico: Variable 'A' no fue declarada (Regla de alcance).
+Linea 7: Error Semantico: Variable 'A' no fue declarada (Regla de alcance).
+Linea 7: Error Semantico: 'return' encontrado fuera de una funcion valida (o la declaracion de la funcion fallo por error sintactico previo).
 
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 4 - Columna: 51 - Linea 4: Warning: Falta el tipo del parametro 'C'. Se asume 'uint' por defecto y se continua.
+No se encontraron warnings.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(BI, _, [7])
-1:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
-2:	(:=, A:PROGRAMA:FUNCION, 3UI)
-3:	(:=, B:PROGRAMA:FUNCION, 5UI)
-4:	(:=, C:PROGRAMA:FUNCION, 8UI)
-5:	(+, B:PROGRAMA:FUNCION, error_tipo)
-6:	(RETURN, A:PROGRAMA:FUNCION, 0/1)
-7:	(:=, AUX:PROGRAMA, 0UI)
-8:	(PARAM, 18UI, A:PROGRAMA:FUNCION)
-9:	(PARAM, AUX:PROGRAMA, B:PROGRAMA:FUNCION)
-10:	(PARAM, AUX:PROGRAMA, C:PROGRAMA:FUNCION)
-11:	(CALL, FUNCION:PROGRAMA, _)
-12:	(:=, 18UI, A:PROGRAMA:FUNCION)
-13:	(:=, AUX:PROGRAMA, B:PROGRAMA:FUNCION)
-14:	(:=, AUX:PROGRAMA, C:PROGRAMA:FUNCION)
-15:	(:=, PASAJE:PROGRAMA, [11])
+0:	(+, error_tipo, error_tipo)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       | -          |
-| PROGRAMA                            | @aux10:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | PASAJE:PROGRAMA                               | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux14:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux8:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux15:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux11:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux9:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | AUX:PROGRAMA                                  | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux12:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux7:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-| PROGRAMA                            | @aux13:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | parametro          | uint       | cr_se      |
-| PROGRAMA:FUNCION                    | @aux6:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | uint       | cr_le      |
-| PROGRAMA:FUNCION                    | @aux2:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | A:PROGRAMA:FUNCION                            | false        | parametro          | uint       | cr_se      |
-| PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | @aux5:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

@@ -103,7 +103,7 @@ public class GeneradorAssembler {
         }
     }
 
-    private void generarCodigo() {
+        private void generarCodigo() {
         codigo.append(".code\n");
         codigo.append("start:\n");
 
@@ -112,12 +112,6 @@ public class GeneradorAssembler {
 
         while ((tercetoActual = generador.getTerceto(numTerceto)) != null) {
             if (tercetoActual.getOperador().equals("DUMMY")) {
-                numTerceto++;
-                continue;
-            }
-
-            if (tercetoActual.getTipo().equals("error_tipo")) {
-                codigo.append("; Terceto ").append(numTerceto).append(" omitido por error semantico\n");
                 numTerceto++;
                 continue;
             }
