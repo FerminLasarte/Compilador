@@ -7,7 +7,7 @@ LISTADO DE COMPILACION: funcion_lambda_sin_return.txt
    5:         print(C);
    6:     }
    7: 
-   8:     FUNCION(() {
+   8:     FUNCION((uint A) {
    9:         if(A > 3UI) {
   10:             print(&Imprime Lambda Positivo&);
   11:         } else {

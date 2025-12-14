@@ -8,8 +8,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 8: Error de sintaxis. Verifique la estructura del codigo.
-Linea 11: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -34,6 +33,17 @@ No se encontraron warnings.
 2:	(PARAM_LAMBDA, C:PROGRAMA:FUNCION, _)
 3:	(CALL_LAMBDA, B:PROGRAMA:FUNCION, _)
 4:	(PRINT, C:PROGRAMA:FUNCION, _)
+5:	(BI, _, [13])
+6:	(DEF_PARAM, A:PROGRAMA:lambda_6, _)
+7:	(>, A:PROGRAMA:lambda_6, 3UI)
+8:	(BF, [7], [11])
+9:	(PRINT, &Imprime Lambda Positivo&, _)
+10:	(BI, _, [12])
+11:	(PRINT, &Imprime Lambda Negativo&, _)
+12:	(RET_LAMBDA, _, _)
+13:	(PARAM, L6, B:PROGRAMA:FUNCION)
+14:	(PARAM, 5UI, C:PROGRAMA:FUNCION)
+15:	(CALL, FUNCION:PROGRAMA, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -42,14 +52,29 @@ No se encontraron warnings.
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 | PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | @aux14:PROGRAMA                               | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | @aux15:PROGRAMA                               | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
+| PROGRAMA                            | @aux13:PROGRAMA                               | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 | PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | parametro          | uint       |
 | PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | lambda     |
 | PROGRAMA:FUNCION                    | @aux2:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
 | PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
 | PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA:lambda_6                   | @aux10:PROGRAMA:lambda_6                      | false        | variable_auxiliar  | null       |
+| PROGRAMA:lambda_6                   | @aux8:PROGRAMA:lambda_6                       | false        | variable_auxiliar  | null       |
+| PROGRAMA:lambda_6                   | A:PROGRAMA:lambda_6                           | false        | parametro_lambda   | uint       |
+| PROGRAMA:lambda_6                   | @aux6:PROGRAMA:lambda_6                       | false        | variable_auxiliar  | null       |
+| PROGRAMA:lambda_6                   | @aux7:PROGRAMA:lambda_6                       | false        | variable_auxiliar  | null       |
+| PROGRAMA:lambda_6                   | @aux12:PROGRAMA:lambda_6                      | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA:lambda_6:bloque_9          | @aux9:PROGRAMA:lambda_6:bloque_9              | false        | variable_auxiliar  | null       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA:lambda_6:bloque_11         | @aux11:PROGRAMA:lambda_6:bloque_11            | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================
