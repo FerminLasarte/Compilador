@@ -7,5 +7,5 @@ PROGRAMA {
         return(A);
     }
     var AUX := 0UI;
-    var PASAJE := FUNCION(AUX->A, AUX->B, 0UI->C);
+    var PASAJE := FUNCION(18UI->A, AUX->B, AUX->C);
 }

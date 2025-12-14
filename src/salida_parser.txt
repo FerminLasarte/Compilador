@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\pasaje_parametros.lst
+>> Archivo de listado generado: ..\pruebas\pasaje_parametros_error_tipo.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -18,32 +18,33 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores semanticos.
+Linea 6: Error Semantico: El parametro 'C' es de solo escritura (se) y no puede ser leido.
+Linea 6: Error de Tipos: Asignacion incompatible. No se puede asignar 'error_tipo' a 'uint'.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-No se encontraron warnings.
+Linea: 4 - Columna: 51 - Linea 4: Warning: Falta el tipo del parametro 'C'. Se asume 'uint' por defecto y se continua.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(BI, _, [8])
+0:	(BI, _, [7])
 1:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
 2:	(:=, A:PROGRAMA:FUNCION, 3UI)
 3:	(:=, B:PROGRAMA:FUNCION, 5UI)
 4:	(:=, C:PROGRAMA:FUNCION, 8UI)
-5:	(+, B:PROGRAMA:FUNCION, C:PROGRAMA:FUNCION)
-6:	(:=, A:PROGRAMA:FUNCION, [5])
-7:	(RETURN, A:PROGRAMA:FUNCION, 0/1)
-8:	(:=, AUX:PROGRAMA, 0UI)
-9:	(PARAM, AUX:PROGRAMA, A:PROGRAMA:FUNCION)
-10:	(PARAM, AUX:PROGRAMA, B:PROGRAMA:FUNCION)
-11:	(PARAM, 0UI, C:PROGRAMA:FUNCION)
-12:	(CALL, FUNCION:PROGRAMA, _)
-13:	(:=, AUX:PROGRAMA, A:PROGRAMA:FUNCION)
-14:	(:=, AUX:PROGRAMA, B:PROGRAMA:FUNCION)
-15:	(:=, PASAJE:PROGRAMA, [12])
+5:	(+, B:PROGRAMA:FUNCION, error_tipo)
+6:	(RETURN, A:PROGRAMA:FUNCION, 0/1)
+7:	(:=, AUX:PROGRAMA, 0UI)
+8:	(PARAM, 18UI, A:PROGRAMA:FUNCION)
+9:	(PARAM, AUX:PROGRAMA, B:PROGRAMA:FUNCION)
+10:	(PARAM, AUX:PROGRAMA, C:PROGRAMA:FUNCION)
+11:	(CALL, FUNCION:PROGRAMA, _)
+12:	(:=, 18UI, A:PROGRAMA:FUNCION)
+13:	(:=, AUX:PROGRAMA, B:PROGRAMA:FUNCION)
+14:	(:=, AUX:PROGRAMA, C:PROGRAMA:FUNCION)
+15:	(:=, PASAJE:PROGRAMA, [11])
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -62,10 +63,11 @@ No se encontraron warnings.
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | AUX:PROGRAMA                                  | false        | variable           | uint       | -          |
 | PROGRAMA                            | @aux12:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux7:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
 | PROGRAMA                            | @aux13:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | parametro          | uint       | default_cv |
+| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | parametro          | uint       | cr_se      |
 | PROGRAMA:FUNCION                    | @aux6:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | uint       | cr_le      |
 | PROGRAMA:FUNCION                    | @aux2:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
@@ -73,7 +75,6 @@ No se encontraron warnings.
 | PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA:FUNCION                    | @aux5:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | @aux7:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

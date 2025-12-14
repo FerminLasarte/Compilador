@@ -272,6 +272,16 @@ parametro_formal : sem_pasaje tipo ID
                  String pasajeDefault = "default_cv";
                  g.apilarParametro(new ParametroInfo($2.sval, $1.sval, pasajeDefault));
              }
+             |
+             /* NUEVA REGLA PARA RECUPERACION DE ERROR: FALTÓ EL TIPO */
+             sem_pasaje ID
+             {
+                 /* Generamos un warning en lugar de error sintactico */
+                 al.agregarWarning("Linea " + $2.ival + ": Warning: Falta el tipo del parametro '" + $2.sval + "'. Se asume 'uint' por defecto y se continua.");
+
+                 /* Asumimos 'uint' para poder continuar la compilacion y evitar errores de variable no declarada */
+                 g.apilarParametro(new ParametroInfo($2.sval, "uint", $1.sval));
+             }
              ;
 
 sem_pasaje : CR SE { $$.sval = "cr_se"; }
