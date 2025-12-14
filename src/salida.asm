@@ -18,6 +18,11 @@ MensajePrintFloat db "Salida: %f", 10, 0
 MaxFloatValue dd 2139095039
 @aux0 dd 0
 @aux1 dd 0
+@aux2 dd 0
+@aux3 dd 0
+@aux4 dd 0
+@aux5 dd 0
+@aux6 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -30,15 +35,44 @@ _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
 _A_PROGRAMA dd 0
 _B_PROGRAMA dd 0
+_C_PROGRAMA dd 0
+_D_PROGRAMA dd 0
 .code
 start:
 Label0:
-MOV EAX, 65535
+MOV EAX, 1
 MOV _A_PROGRAMA, EAX
 Label1:
-MOV EAX, -65535
+MOV EAX, 4
 MOV _B_PROGRAMA, EAX
 Label2:
+MOV EAX, _B_PROGRAMA
+MOV _A_PROGRAMA, EAX
+Label3:
+MOV EAX, 1065353216
+PUSH EAX
+FLD DWORD PTR [ESP]
+ADD ESP, 4
+FSTP _C_PROGRAMA
+Label4:
+MOV EAX, 1073741824
+PUSH EAX
+FLD DWORD PTR [ESP]
+ADD ESP, 4
+FSTP _D_PROGRAMA
+Label5:
+MOV EAX, _B_PROGRAMA
+ADD EAX, _D_PROGRAMA
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux5, EAX
+Label6:
+MOV EAX, _A_PROGRAMA
+ADD EAX, _C_PROGRAMA
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux6, EAX
+Label7:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
