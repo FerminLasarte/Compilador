@@ -1,0 +1,14 @@
+PROGRAMA {
+    uint FUNCIONB((uint A) {
+        print(A);
+        A := A - 1UI;
+        return(A);
+    }
+    uint FUNCION(uint C) {
+        C := FUNCIONB(C->A);
+        return(C);
+    }
+
+    var J:= FUNCION(3UI->C);
+    print(J);
+}
