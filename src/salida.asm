@@ -25,6 +25,10 @@ MaxFloatValue dd 2139095039
 @aux6 dd 0
 @aux7 dd 0
 @aux8 dd 0
+@aux9 dd 0
+@aux10 dd 0
+@aux11 dd 0
+@aux12 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -50,18 +54,30 @@ Label2:
 MOV EAX, 0
 MOV _C_PROGRAMA, EAX
 Label3:
-invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
+MOV EAX, 1
+MOV _A_PROGRAMA, EAX
 Label4:
-invoke crt_printf, addr MensajePrintNum, _B_PROGRAMA
+MOV EAX, 2
+MOV _B_PROGRAMA, EAX
 Label5:
-invoke crt_printf, addr MensajePrintNum, _C_PROGRAMA
-Label6:
 invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
-Label7:
+Label6:
 invoke crt_printf, addr MensajePrintNum, _B_PROGRAMA
-Label8:
+Label7:
 invoke crt_printf, addr MensajePrintNum, _C_PROGRAMA
+Label8:
+MOV EAX, 5
+MOV _A_PROGRAMA, EAX
 Label9:
+MOV EAX, 6
+MOV _B_PROGRAMA, EAX
+Label10:
+invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
+Label11:
+invoke crt_printf, addr MensajePrintNum, _B_PROGRAMA
+Label12:
+invoke crt_printf, addr MensajePrintNum, _C_PROGRAMA
+Label13:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

@@ -75,7 +75,8 @@ declaracion_var : VAR variable ASIG expresion
                 ;
 
 tipo : UINT { $$.sval = "uint"; }
-     | FLOAT { $$.sval = "float"; }
+     | FLOAT { $$.sval = "float";
+     }
      | LAMBDA { $$.sval = "lambda"; }
      ;
 
@@ -326,8 +327,7 @@ asignacion : variable ASIG expresion
                            }
 
                            if (tiposRetorno.isEmpty()) {
-                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName +
-                               "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
+                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName + "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
                            } else {
                                String tipoPrimerRetorno = tiposRetorno.get(0);
                                if (g.chequearAsignacion(tipoVar, tipoPrimerRetorno, linea)) {
@@ -341,8 +341,6 @@ asignacion : variable ASIG expresion
                                }
                            }
                        }
-
-
                    }
                } else {
                    if (g.chequearAsignacion(tipoVar, tipoExpr, linea)) {
@@ -360,6 +358,7 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
     Stack<String> derechos = g.getPilaLadoDerecho();
 
     boolean esFuncion = false;
+    // Detectar si el lado derecho es una llamada a función única
     if (cantDerecha == 1) {
         String op = derechos.peek();
         if (op.startsWith("[")) {
@@ -377,9 +376,12 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
     if (esFuncion) {
         String funcTerceto = derechos.pop();
         if (funcTerceto.equals("ERROR_CALL") || funcTerceto.equals("ERROR_CALL_PARAMS") || funcTerceto.equals("ERROR_CALL_LAMBDA")) {
+            // Si ya venía con error, no hacemos nada extra
         } else {
             String funcName = g.getTerceto(Integer.parseInt(funcTerceto.substring(1, funcTerceto.length()-1))).getOperando1();
             Object retMultiple = al.getAtributoMangled(funcName, "RetornoMultiple");
+
+            // Caso: Asignación a función sin retorno múltiple
             if (retMultiple == null || !(Boolean)retMultiple) {
                 if (cantIzquierda == 1) {
                     String var = listaVariables.get(0);
@@ -389,9 +391,11 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                         g.addTerceto(":=", var, funcTerceto);
                     }
                 } else {
+                    // Aquí mantenemos el error porque conceptualmente no se puede desestructurar un escalar
                     al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple a funcion '" + funcName + "' que no tiene retorno multiple.");
                 }
             } else {
+                // Caso: Función con retorno múltiple
                 Object rawObj = al.getAtributoMangled(funcName, "TiposRetorno");
                 ArrayList<String> tiposRetorno = new ArrayList<String>();
                 if (rawObj instanceof ArrayList) {
@@ -400,42 +404,53 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
                     }
                 }
                 int cantRetornos = tiposRetorno.size();
-                if (cantRetornos < cantIzquierda) {
-                    al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 21): Asignacion multiple a funcion '" + funcName + "'. Insuficientes valores de retorno. Esperados: " + cantIzquierda + ", Retornados: " + cantRetornos + ".");
-                } else {
-                    if (cantRetornos > cantIzquierda) {
-                        al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero solo se asignan " + cantIzquierda + ". Se descartan los sobrantes.");
-                    }
-                    for (int i = 0; i < cantIzquierda; i++) {
-                        String var = listaVariables.get(i);
-                        String tipoVar = g.getTipo(var);
-                        String tipoRet = tiposRetorno.get(i);
-                        if (g.chequearAsignacion(tipoVar, tipoRet, Integer.parseInt(lineaActual))) {
-                            String retTerceto = g.addTerceto("GET_RET", funcTerceto, String.valueOf(i));
-                            g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoRet);
-                            g.addTerceto(":=", var, retTerceto);
-                        }
-                    }
-                    salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') reconocida.");
+
+                // --- CAMBIO: Manejo de Warnings para retorno de funciones ---
+                if (cantRetornos != cantIzquierda) {
+                     al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero se esperan " + cantIzquierda + ". Se asignaran los " + Math.min(cantRetornos, cantIzquierda) + " posibles.");
                 }
+
+                // Iteramos hasta el mínimo disponible
+                int minAsignaciones = Math.min(cantIzquierda, cantRetornos);
+
+                for (int i = 0; i < minAsignaciones; i++) {
+                    String var = listaVariables.get(i);
+                    String tipoVar = g.getTipo(var);
+                    String tipoRet = tiposRetorno.get(i);
+                    if (g.chequearAsignacion(tipoVar, tipoRet, Integer.parseInt(lineaActual))) {
+                        String retTerceto = g.addTerceto("GET_RET", funcTerceto, String.valueOf(i));
+                        g.getTerceto(Integer.parseInt(retTerceto.substring(1, retTerceto.length()-1))).setTipo(tipoRet);
+                        g.addTerceto(":=", var, retTerceto);
+                    }
+                }
+                salida.add("Linea " + lineaActual + ": Asignacion multiple (funcion '" + funcName + "') procesada.");
             }
         }
     } else {
+        // Caso: Asignación de listas (A, B = 1, 2)
+
+        // --- CAMBIO: Manejo de Warnings para listas ---
         if (cantIzquierda != cantDerecha) {
-            al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): La asignacion multiple debe tener el mismo numero de elementos a la izquierda (" + cantIzquierda + ") y a la derecha (" + cantDerecha + ").");
-        } else {
-            for (int i = cantIzquierda - 1; i >= 0; i--) {
-                String var = listaVariables.get(i);
-                String expr = derechos.pop();
-                String tipoVar = g.getTipo(var);
-                String tipoExpr = g.getTipo(expr);
-                if (g.chequearAsignacion(tipoVar, tipoExpr, Integer.parseInt(lineaActual))) {
-                    g.addTerceto(":=", var, expr);
-                }
-            }
-            salida.add("Linea " + lineaActual + ": Asignacion multiple (lista) reconocida.");
+            al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 19): Discrepancia en asignacion multiple. Izquierda: " + cantIzquierda + ", Derecha: " + cantDerecha + ". Se realizan " + Math.min(cantIzquierda, cantDerecha) + " asignaciones.");
         }
+
+        // Iteramos hasta el mínimo de elementos, emparejando por posición (0 con 0, 1 con 1...)
+        // Usamos derechos.get(i) porque es un Stack (Vector) y mantiene el orden de inserción.
+        int minAsignaciones = Math.min(cantIzquierda, cantDerecha);
+
+        for (int i = 0; i < minAsignaciones; i++) {
+            String var = listaVariables.get(i);
+            String expr = derechos.get(i); // Acceso directo en lugar de pop() inverso
+            String tipoVar = g.getTipo(var);
+            String tipoExpr = g.getTipo(expr);
+            if (g.chequearAsignacion(tipoVar, tipoExpr, Integer.parseInt(lineaActual))) {
+                g.addTerceto(":=", var, expr);
+            }
+        }
+        salida.add("Linea " + lineaActual + ": Asignacion multiple (lista) procesada.");
     }
+
+    // Limpieza
     contadorLadoDerecho = 0;
     listaVariables.clear();
     g.clearLadoDerecho();
@@ -443,7 +458,7 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
 ;
 
 lado_derecho_multiple : { g.clearLadoDerecho();
-                        } factor
+                          } factor
                           {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho = 1;
@@ -461,8 +476,7 @@ lado_derecho_multiple : { g.clearLadoDerecho();
 
 variable : ID PUNTO ID
             {
-                $$.sval = $1.sval + "."
-                + $3.sval;
+                $$.sval = $1.sval + "." + $3.sval;
                 $$.ival = $1.ival;
             }
             |
@@ -671,15 +685,13 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                    }
                                }
                                if (!errorEnParametros) {
-
                                   String terceto = g.addTerceto("CALL", funcName);
                                   g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(al.getAtributo(funcName, "Tipo").toString());
                                   $$.sval = terceto;
 
                                   for (ParametroRealInfo real : reales) {
                                       if (real.nombreFormal != null) {
-                                          ParametroInfo formal = formales.stream().filter(f ->
-                                          f.nombre.equals(real.nombreFormal)).findFirst().orElse(null);
+                                          ParametroInfo formal = formales.stream().filter(f -> f.nombre.equals(real.nombreFormal)).findFirst().orElse(null);
                                           if (formal != null && (formal.pasaje.equals("cr_se") || formal.pasaje.equals("cr_le"))) {
                                               String mangledFunc = al.getNombreMangled(funcName);
                                               String nombreParametro = formal.nombre;
@@ -694,16 +706,12 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                           }
                                       }
                                   }
-
-
-                                   } else {
+                               } else {
                                    $$.sval = "ERROR_CALL_PARAMS";
-                                   }
+                               }
                            }
                        }
                        else {
-
-
                           al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
                           $$.sval = "ERROR_CALL";
                        }
@@ -1028,6 +1036,7 @@ static Stack<Boolean> pilaErrorEnFuncion = new Stack<Boolean>();
 static Stack<Integer> pilaInicioFuncion = new Stack<Integer>();
 static Stack<Integer> pilaSaltosFunciones = new Stack<Integer>();
 static Stack<Boolean> pilaHuboRetorno = new Stack<Boolean>();
+
 int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();
