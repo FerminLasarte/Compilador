@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\asignaciones_multiples_error_elementos.lst
+>> Archivo de listado generado: ..\pruebas\cadenas_multilinea.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -23,48 +23,21 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 7 - Columna: 22 - Linea 7: Warning (Tema 19): Discrepancia en asignacion multiple. Izquierda: 3, Derecha: 2. Se realizan 2 asignaciones.
-Linea: 12 - Columna: 24 - Linea 12: Warning (Tema 19): Discrepancia en asignacion multiple. Izquierda: 2, Derecha: 3. Se realizan 2 asignaciones.
+No se encontraron warnings.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 0UI)
-1:	(:=, B:PROGRAMA, 0UI)
-2:	(:=, C:PROGRAMA, 0UI)
-3:	(:=, A:PROGRAMA, 1UI)
-4:	(:=, B:PROGRAMA, 2UI)
-5:	(PRINT, A:PROGRAMA, _)
-6:	(PRINT, B:PROGRAMA, _)
-7:	(PRINT, C:PROGRAMA, _)
-8:	(:=, A:PROGRAMA, 5UI)
-9:	(:=, B:PROGRAMA, 6UI)
-10:	(PRINT, A:PROGRAMA, _)
-11:	(PRINT, B:PROGRAMA, _)
-12:	(PRINT, C:PROGRAMA, _)
+0:	(PRINT, &Hola
+    Mundo&, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | uint       |
-| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux10:PROGRAMA                               | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux8:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux11:PROGRAMA                               | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux6:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux9:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       |
-| PROGRAMA                            | @aux12:PROGRAMA                               | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux7:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
-| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================

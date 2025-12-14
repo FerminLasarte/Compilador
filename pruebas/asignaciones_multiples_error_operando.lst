@@ -5,7 +5,7 @@ LISTADO DE COMPILACION: asignaciones_multiples_error_operando.txt
    3:     var B := 0UI;
    4:     var C := 0UI;
    5: 
-   6:     A, B, C := 1UI, 2UI, 3UI;
+   6:     A, B, C := 1UI, 5UI, 3UI;
    7:     print(A);
    8:     print(B);
    9:     print(C);

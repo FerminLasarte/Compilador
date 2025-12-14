@@ -17,18 +17,6 @@ MensajePrintNum db "Salida: %d", 10, 0
 MensajePrintFloat db "Salida: %f", 10, 0
 MaxFloatValue dd 2139095039
 @aux0 dd 0
-@aux1 dd 0
-@aux2 dd 0
-@aux3 dd 0
-@aux4 dd 0
-@aux5 dd 0
-@aux6 dd 0
-@aux7 dd 0
-@aux8 dd 0
-@aux9 dd 0
-@aux10 dd 0
-@aux11 dd 0
-@aux12 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -39,45 +27,12 @@ _RET_VAL_6 dd 0
 _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
-_A_PROGRAMA dd 0
-_B_PROGRAMA dd 0
-_C_PROGRAMA dd 0
+str_0 db "Hola", 13, 10, "    Mundo", 0
 .code
 start:
 Label0:
-MOV EAX, 0
-MOV _A_PROGRAMA, EAX
+invoke crt_printf, addr MensajePrint, addr str_0
 Label1:
-MOV EAX, 0
-MOV _B_PROGRAMA, EAX
-Label2:
-MOV EAX, 0
-MOV _C_PROGRAMA, EAX
-Label3:
-MOV EAX, 1
-MOV _A_PROGRAMA, EAX
-Label4:
-MOV EAX, 2
-MOV _B_PROGRAMA, EAX
-Label5:
-invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
-Label6:
-invoke crt_printf, addr MensajePrintNum, _B_PROGRAMA
-Label7:
-invoke crt_printf, addr MensajePrintNum, _C_PROGRAMA
-Label8:
-MOV EAX, 5
-MOV _A_PROGRAMA, EAX
-Label9:
-MOV EAX, 6
-MOV _B_PROGRAMA, EAX
-Label10:
-invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
-Label11:
-invoke crt_printf, addr MensajePrintNum, _B_PROGRAMA
-Label12:
-invoke crt_printf, addr MensajePrintNum, _C_PROGRAMA
-Label13:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
