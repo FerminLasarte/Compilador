@@ -116,6 +116,12 @@ public class GeneradorAssembler {
                 continue;
             }
 
+            if (tercetoActual.getTipo().equals("error_tipo")) {
+                codigo.append("; Terceto ").append(numTerceto).append(" omitido por error semantico\n");
+                numTerceto++;
+                continue;
+            }
+
             codigo.append("Label").append(numTerceto).append(":\n");
 
             String op = tercetoActual.getOperador();

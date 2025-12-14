@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\pasaje_parametros_error_tipo.lst
+>> Archivo de listado generado: ..\pruebas\inferencia_tipos_error_semantico.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -8,9 +8,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 4: Error de sintaxis. Verifique la estructura del codigo.
-Linea 9: Error de sintaxis. Verifique la estructura del codigo.
-Linea 9: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -20,11 +18,10 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 6: Error Semantico: Variable 'B' no fue declarada (Regla de alcance).
-Linea 6: Error Semantico: Variable 'C' no fue declarada (Regla de alcance).
-Linea 6: Error Semantico: Variable 'A' no fue declarada (Regla de alcance).
-Linea 7: Error Semantico: Variable 'A' no fue declarada (Regla de alcance).
-Linea 7: Error Semantico: 'return' encontrado fuera de una funcion valida (o la declaracion de la funcion fallo por error sintactico previo).
+Linea 10: Error de Tipos: No se puede operar (+) entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).
+Linea 10: Error Semantico: No se puede inferir el tipo de 'E' desde una expresion invalida (Tema 9).
+Linea 11: Error de Tipos: No se puede operar (+) entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).
+Linea 11: Error Semantico: No se puede inferir el tipo de 'F' desde una expresion invalida (Tema 9).
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -34,15 +31,31 @@ No se encontraron warnings.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(+, error_tipo, error_tipo)
+0:	(:=, A:PROGRAMA, 1UI)
+1:	(:=, B:PROGRAMA, 4UI)
+2:	(:=, A:PROGRAMA, B:PROGRAMA)
+3:	(:=, C:PROGRAMA, 1.0F+0)
+4:	(:=, D:PROGRAMA, 2.0F+0)
+5:	(+, B:PROGRAMA, D:PROGRAMA)
+6:	(+, A:PROGRAMA, C:PROGRAMA)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | float      | -          |
+| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | D:PROGRAMA                                    | false        | variable           | float      | -          |
+| PROGRAMA                            | @aux6:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
+| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================
