@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\funcion_sin_retorno.lst
+>> Archivo de listado generado: ..\pruebas\enteros_sin_signo_overflow.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -18,42 +18,30 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 5: Error Semantico: La funcion 'FUNCIONB' debe retornar un valor de tipo uint.
-Linea 7: Error Semantico: Invocacion a 'FUNCIONB' que no es una funcion, variable lambda, o no fue declarada.
+No se encontraron errores semanticos.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-No se encontraron warnings.
+Linea: 3 - Columna: 13 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
+Linea: 4 - Columna: 14 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(BI, _, [3])
-1:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
-2:	(RETURN, C:PROGRAMA:FUNCION, 0/1)
-3:	(PARAM, 3UI, C:PROGRAMA:FUNCION)
-4:	(CALL, FUNCION:PROGRAMA, _)
-5:	(:=, J:PROGRAMA, [4])
-6:	(PRINT, J:PROGRAMA, _)
+0:	(:=, A:PROGRAMA, 65535UI)
+1:	(:=, B:PROGRAMA, -65535UI)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA                            | @aux6:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       |
-| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | J:PROGRAMA                                    | false        | variable           | uint       |
+| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | parametro          | uint       |
-| PROGRAMA:FUNCION                    | @aux2:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================

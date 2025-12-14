@@ -18,11 +18,6 @@ MensajePrintFloat db "Salida: %f", 10, 0
 MaxFloatValue dd 2139095039
 @aux0 dd 0
 @aux1 dd 0
-@aux2 dd 0
-@aux3 dd 0
-@aux4 dd 0
-@aux5 dd 0
-@aux6 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -33,31 +28,17 @@ _RET_VAL_6 dd 0
 _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
-_C_PROGRAMA_FUNCION dd 0
-_J_PROGRAMA dd 0
+_A_PROGRAMA dd 0
+_B_PROGRAMA dd 0
 .code
 start:
 Label0:
-JMP Label3
+MOV EAX, 65535
+MOV _A_PROGRAMA, EAX
 Label1:
-__FUNCION_PROGRAMA:
+MOV EAX, -65535
+MOV _B_PROGRAMA, EAX
 Label2:
-; -- RETURN --
-MOV EAX, _C_PROGRAMA_FUNCION
-MOV _RET_VAL_0, EAX
-RET
-Label3:
-MOV EAX, 3
-MOV _C_PROGRAMA_FUNCION, EAX
-Label4:
-CALL __FUNCION_PROGRAMA
-MOV @aux4, EAX
-Label5:
-MOV EAX, @aux4
-MOV _J_PROGRAMA, EAX
-Label6:
-invoke crt_printf, addr MensajePrintNum, _J_PROGRAMA
-Label7:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
