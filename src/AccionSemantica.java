@@ -108,9 +108,7 @@ public abstract class AccionSemantica{
 
             } catch (NumberFormatException e) {
                 al.agregarError("Formato inválido de constante flotante: " + lexemaActual);
-                // --- INICIO DE MODIFICACIÓN ---
-                return "ERROR"; // Cambiar "ERROR" por "CTE"
-                // --- FIN DE MODIFICACIÓN ---
+                return "ERROR";
             }
         }
     }
