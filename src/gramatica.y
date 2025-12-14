@@ -106,7 +106,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             pilaTiposRetorno.push(tiposEsperados);
             pilaErrorEnFuncion.push(false);
             pilaHuboRetorno.push(false);
-
             if (g.existeEnAmbitoActual(nombreFuncion)) {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
                 g.setGeneracionHabilitada(false);
@@ -142,9 +141,9 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             boolean huboReturn = pilaHuboRetorno.pop();
             int inicioFunc = pilaInicioFuncion.pop();
             int jumpIdx = pilaSaltosFunciones.pop();
-
             if (!huboReturn) {
-                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: La funcion '" + $2.sval + "' debe retornar un valor de tipo " + $1.sval + ".");
+                 /* CORRECCION APLICADA: Usar $9.ival (linea de '}') en lugar de $2.ival */
+                 al.agregarErrorSemantico("Linea " + $9.ival + ": Error Semantico: La funcion '" + $2.sval + "' debe retornar un valor de tipo " + $1.sval + ".");
                  huboError = true;
             }
 
@@ -212,9 +211,9 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             boolean huboReturn = pilaHuboRetorno.pop();
             int inicioFunc = pilaInicioFuncion.pop();
             int jumpIdx = pilaSaltosFunciones.pop();
-
             if (!huboReturn) {
-                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: La funcion '" + $2.sval + "' tiene retorno multiple y debe retornar valores.");
+                 /* CORRECCION APLICADA: Usar $9.ival (linea de '}') en lugar de $2.ival */
+                 al.agregarErrorSemantico("Linea " + $9.ival + ": Error Semantico: La funcion '" + $2.sval + "' tiene retorno multiple y debe retornar valores.");
                  huboError = true;
             }
 
@@ -327,7 +326,8 @@ asignacion : variable ASIG expresion
                            }
 
                            if (tiposRetorno.isEmpty()) {
-                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName + "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
+                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName +
+                               "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
                            } else {
                                String tipoPrimerRetorno = tiposRetorno.get(0);
                                if (g.chequearAsignacion(tipoVar, tipoPrimerRetorno, linea)) {
@@ -341,6 +341,7 @@ asignacion : variable ASIG expresion
                                }
                            }
                        }
+
 
                    }
                } else {
@@ -442,7 +443,7 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
 ;
 
 lado_derecho_multiple : { g.clearLadoDerecho();
-                          } factor
+                        } factor
                           {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho = 1;
@@ -460,7 +461,8 @@ lado_derecho_multiple : { g.clearLadoDerecho();
 
 variable : ID PUNTO ID
             {
-                $$.sval = $1.sval + "." + $3.sval;
+                $$.sval = $1.sval + "."
+                + $3.sval;
                 $$.ival = $1.ival;
             }
             |
@@ -493,7 +495,8 @@ expresion : expresion '+' termino
                 $$.ival = $1.ival;
             }
           |
-          termino { $$.ival = $1.ival; }
+          termino { $$.ival = $1.ival;
+          }
           ;
 
 termino : termino '*' factor
@@ -517,7 +520,8 @@ termino : termino '*' factor
                 g.apilarOperando(terceto);
                 $$.ival = $1.ival;
             }
-        | factor { $$.ival = $1.ival; }
+        | factor { $$.ival = $1.ival;
+        }
         ;
 
 factor : factor_no_funcion
@@ -563,7 +567,8 @@ factor_no_funcion : variable
                   }
                   |
                   conversion_explicita
-                  { $$.ival = $1.ival; }
+                  { $$.ival = $1.ival;
+                  }
                   ;
 
 conversion_explicita : TOUI '(' expresion ')'
@@ -599,7 +604,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                        String tipo = g.getTipo(funcName);
                        if (uso != null && (uso.toString().equals("parametro") || uso.toString().equals("parametro_lambda") || uso.toString().equals("variable")) && tipo.equals("lambda")) {
                            if (reales.size() != 1) {
-                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico (Tema 28): Invocacion de lambda '" + funcName + "' con numero incorrecto de parametros. Esperado: 1, Obtenido: " + reales.size() + ".");
+                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico (Tema 28): Invocacion de lambda '" + funcName + "' con numero incorrecto de \n parametros. Esperado: 1, Obtenido: " + reales.size() + ".");
                                $$.sval = "ERROR_CALL_LAMBDA";
                            } else {
                                g.addTerceto("PARAM_LAMBDA", reales.get(0).operando, "_");
@@ -618,7 +623,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                }
                            }
                            if (formales == null) {
-                                al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: No se pudo recuperar la firma de la funcion '" + funcName + "'.");
+                                al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: No se \n pudo recuperar la firma de la funcion '" + funcName + "'.");
                                 $$.sval = "ERROR_CALL";
                            } else if (formales.size() != reales.size()) {
                                al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' con numero incorrecto de parametros. Esperados: " + formales.size() + ", Obtenidos: " + reales.size() + ".");
@@ -642,7 +647,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                             errorEnParametros = true;
                                        } else if (tipoFormal.equals("lambda") && tipoReal.equals("lambda_expr")) {
                                        } else if (!tipoFormal.equals("lambda") && tipoReal.equals("lambda_expr")) {
-                                           al.agregarErrorSemantico("Linea " + linea + ": Error Semantico (Tema 28): Se paso una expresion lambda al parametro '->" + real.nombreFormal + "'.");
+                                           al.agregarErrorSemantico("Linea " + linea + ": \n Error Semantico (Tema 28): Se paso una expresion lambda al parametro '->" + real.nombreFormal + "'.");
                                            errorEnParametros = true;
                                        } else if (tipoFormal.equals("lambda") && !tipoReal.equals("lambda_expr")) {
                                            al.agregarErrorSemantico("Linea " + linea + ": Error Semantico (Tema 28): El parametro '->" + real.nombreFormal + "' espera una expresion 'lambda'.");
@@ -666,13 +671,15 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                    }
                                }
                                if (!errorEnParametros) {
+
                                   String terceto = g.addTerceto("CALL", funcName);
                                   g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(al.getAtributo(funcName, "Tipo").toString());
                                   $$.sval = terceto;
 
                                   for (ParametroRealInfo real : reales) {
                                       if (real.nombreFormal != null) {
-                                          ParametroInfo formal = formales.stream().filter(f -> f.nombre.equals(real.nombreFormal)).findFirst().orElse(null);
+                                          ParametroInfo formal = formales.stream().filter(f ->
+                                          f.nombre.equals(real.nombreFormal)).findFirst().orElse(null);
                                           if (formal != null && (formal.pasaje.equals("cr_se") || formal.pasaje.equals("cr_le"))) {
                                               String mangledFunc = al.getNombreMangled(funcName);
                                               String nombreParametro = formal.nombre;
@@ -688,15 +695,17 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                       }
                                   }
 
-                               } else {
+
+                                   } else {
                                    $$.sval = "ERROR_CALL_PARAMS";
-                               }
+                                   }
                            }
                        }
                        else {
 
-                            al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
-                            $$.sval = "ERROR_CALL";
+
+                          al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
+                          $$.sval = "ERROR_CALL";
                        }
                        $$.ival = $1.ival;
                    }
@@ -1019,7 +1028,6 @@ static Stack<Boolean> pilaErrorEnFuncion = new Stack<Boolean>();
 static Stack<Integer> pilaInicioFuncion = new Stack<Integer>();
 static Stack<Integer> pilaSaltosFunciones = new Stack<Integer>();
 static Stack<Boolean> pilaHuboRetorno = new Stack<Boolean>();
-
 int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();

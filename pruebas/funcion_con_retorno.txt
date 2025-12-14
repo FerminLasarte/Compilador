@@ -6,8 +6,8 @@ PROGRAMA {
     }
     uint FUNCION(uint C) {
         C := FUNCIONB(C->A);
+        return(C);
     }
-
     var J:= FUNCION(3UI->C);
     print(J);
 }
