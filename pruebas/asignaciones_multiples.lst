@@ -18,4 +18,7 @@ LISTADO DE COMPILACION: asignaciones_multiples.txt
   16:     print(C);
   17: 
   18:     A, B = 8UI, FUNCION(0UI->X);
-  19: }
+  19:     print(A);
+  20:     print(B);
+  21:     print(C);
+  22: }

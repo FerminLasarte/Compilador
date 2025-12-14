@@ -9,7 +9,7 @@ PROGRAMA {
     print(B);
     print(C);
 
-    A, B = 1UI, 2UI, 3UI;
+    A, B = 5UI, 6UI, 3UI;
     print(A);
     print(B);
     print(C);

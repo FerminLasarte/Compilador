@@ -16,4 +16,7 @@ PROGRAMA {
     print(C);
 
     A, B = 8UI, FUNCION(0UI->X);
+    print(A);
+    print(B);
+    print(C);
 }

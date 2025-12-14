@@ -22,6 +22,9 @@ MaxFloatValue dd 2139095039
 @aux3 dd 0
 @aux4 dd 0
 @aux5 dd 0
+@aux6 dd 0
+@aux7 dd 0
+@aux8 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -33,29 +36,32 @@ _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
 _A_PROGRAMA dd 0
-_C_PROGRAMA_FUNCION dd 0
-_B_PROGRAMA_FUNCION dd 0
+_B_PROGRAMA dd 0
+_C_PROGRAMA dd 0
 .code
 start:
 Label0:
-MOV EAX, 5
+MOV EAX, 0
 MOV _A_PROGRAMA, EAX
 Label1:
-JMP Label6
+MOV EAX, 0
+MOV _B_PROGRAMA, EAX
 Label2:
-__FUNCION_PROGRAMA:
+MOV EAX, 0
+MOV _C_PROGRAMA, EAX
 Label3:
-MOV EAX, _C_PROGRAMA_FUNCION
-MOV ECX, EAX
+invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
 Label4:
-MOV EAX, _B_PROGRAMA_FUNCION
-CALL EAX
+invoke crt_printf, addr MensajePrintNum, _B_PROGRAMA
 Label5:
-; -- RETURN --
-MOV EAX, _C_PROGRAMA_FUNCION
-MOV _RET_VAL_0, EAX
-RET
+invoke crt_printf, addr MensajePrintNum, _C_PROGRAMA
 Label6:
+invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
+Label7:
+invoke crt_printf, addr MensajePrintNum, _B_PROGRAMA
+Label8:
+invoke crt_printf, addr MensajePrintNum, _C_PROGRAMA
+Label9:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

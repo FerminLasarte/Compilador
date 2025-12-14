@@ -11,7 +11,7 @@ LISTADO DE COMPILACION: asignaciones_multiples_error_elementos.txt
    9:     print(B);
   10:     print(C);
   11: 
-  12:     A, B = 1UI, 2UI, 3UI;
+  12:     A, B = 5UI, 6UI, 3UI;
   13:     print(A);
   14:     print(B);
   15:     print(C);
