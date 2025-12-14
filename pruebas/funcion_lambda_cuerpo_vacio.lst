@@ -5,7 +5,8 @@ LISTADO DE COMPILACION: funcion_lambda_cuerpo_vacio.txt
    3:     var A := 5UI;
    4:     uint FUNCION(lambda B, uint C) {
    5:         B(C);
-   6:     }
-   7: 
-   8:     FUNCION((uint A) {}->B, 5UI->C);
-   9: }
+   6:         return(C);
+   7:     }
+   8: 
+   9:     FUNCION((uint A) {}->B, 5UI->C);
+  10: }

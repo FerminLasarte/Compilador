@@ -103,7 +103,7 @@ public class GeneradorAssembler {
         }
     }
 
-    private void generarCodigo() {
+        private void generarCodigo() {
         codigo.append(".code\n");
         codigo.append("start:\n");
 
@@ -431,6 +431,24 @@ public class GeneradorAssembler {
                     } else {
                         codigo.append("MOV EAX, _RET_VAL_").append(retIdx).append("\n");
                         codigo.append("MOV ").append(res).append(", EAX\n");
+                    }
+                    break;
+                case "PARAM_LAMBDA":
+                    if (tercetoActual.getTipo().equals("float")) {
+                        loadToFPU(op1);
+                        codigo.append("FSTP _LAMBDA_ARG_FLOAT\n");
+                    } else {
+                        codigo.append("MOV EAX, ").append(op1).append("\n");
+                        codigo.append("MOV ECX, EAX\n");
+                    }
+                    break;
+
+                case "DEF_PARAM":
+                    if (tercetoActual.getTipo().equals("float")) {
+                        codigo.append("FLD _LAMBDA_ARG_FLOAT\n");
+                        codigo.append("FSTP ").append(op1).append("\n");
+                    } else {
+                        codigo.append("MOV ").append(op1).append(", ECX\n");
                     }
                     break;
             }

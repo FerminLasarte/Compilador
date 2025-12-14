@@ -1,17 +1,16 @@
 @ Expresiones Lambda en Pasaje de Parámetros
 PROGRAMA {
-    var A := 5UI;
     uint FUNCION(lambda B, uint C) {
         B(C);
         return(C);
     }
 
     FUNCION((uint A) {
+        print(A);
         if(A > 3UI) {
             print(&Imprime Lambda Positivo&);
         } else {
             print(&Imprime Lambda Negativo&);
-            A := A - 1UI;
         } endif;
     }->B, 5UI->C);
 }

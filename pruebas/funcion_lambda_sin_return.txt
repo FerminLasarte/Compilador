@@ -1,9 +1,8 @@
 @ Expresiones Lambda en Pasaje de Parámetros
 PROGRAMA {
-    var A := 5UI;
     uint FUNCION(lambda B, uint C) {
         B(C);
-        return(C);
+        print(C);
     }
 
     FUNCION(() {

@@ -753,6 +753,7 @@ lambda_expresion : '(' tipo ID ')' '{'
                  ;
 
 cuerpo_lambda : sentencias_ejecutables_lista
+              |
               ;
 
 sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
@@ -887,8 +888,9 @@ simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
                     '<' { g.apilarOperando("<"); }
                     ;
 
-bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito();
-                  }
+bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito();}
+                  |
+                  '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } '}' { g.cerrarAmbito(); }
                   |
                   '{' error '}'
                   ;
