@@ -6,6 +6,8 @@ PROGRAMA {
         A := B + C;
         return(A);
     }
-    var AUX := 0UI;
-    var PASAJE := FUNCION(AUX->A, AUX->B, 0UI->C);
+    var AUX := 7UI;
+    var AUX1 := 8UI;
+    var AUX2 := 20UI;
+    var PASAJE := FUNCION(AUX->A, AUX1->B, AUX2->C);
 }

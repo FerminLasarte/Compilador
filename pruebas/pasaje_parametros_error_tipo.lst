@@ -8,6 +8,8 @@ LISTADO DE COMPILACION: pasaje_parametros_error_tipo.txt
    6:         A := B + C;
    7:         return(A);
    8:     }
-   9:     var AUX := 0UI;
-  10:     var PASAJE := FUNCION(AUX->A, AUX->B, 0UI->C);
-  11: }
+   9:     var AUX := 7UI;
+  10:     var AUX1 := 8UI;
+  11:     var AUX2 := 20UI;
+  12:     var PASAJE := FUNCION(AUX->A, AUX1->B, AUX2->C);
+  13: }
