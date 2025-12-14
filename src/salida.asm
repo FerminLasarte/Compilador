@@ -19,6 +19,10 @@ MaxFloatValue dd 2139095039
 @aux0 dd 0
 @aux1 dd 0
 @aux2 dd 0
+@aux3 dd 0
+@aux4 dd 0
+@aux5 dd 0
+@aux6 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -30,22 +34,35 @@ _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
 _A_PROGRAMA dd 0
+str_6 db "hola", 0
 .code
 start:
 Label0:
 MOV EAX, 5
 MOV _A_PROGRAMA, EAX
 Label1:
+invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA
+Label2:
+MOV EAX, _A_PROGRAMA
+SUB EAX, 1
+JC ErrorRestaNegativa
+MOV @aux2, EAX
+Label3:
+MOV EAX, @aux2
+MOV _A_PROGRAMA, EAX
+Label4:
 MOV EAX, _A_PROGRAMA
 CMP EAX, 0
 SETA AL
 MOVZX EAX, AL
-MOV @aux1, EAX
-Label2:
-MOV EAX, @aux1
+MOV @aux4, EAX
+Label5:
+MOV EAX, @aux4
 CMP EAX, 1
 JE Label1
-Label3:
+Label6:
+invoke crt_printf, addr MensajePrint, addr str_6
+Label7:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

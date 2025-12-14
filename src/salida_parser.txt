@@ -8,7 +8,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 5: Error de sintaxis. Verifique la estructura del codigo.
+Linea 7: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -29,8 +29,12 @@ No se encontraron warnings.
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
 0:	(:=, A:PROGRAMA, 5UI)
-1:	(>, A:PROGRAMA, 0UI)
-2:	(BT, [1], [1])
+1:	(PRINT, A:PROGRAMA, _)
+2:	(-, A:PROGRAMA, 1UI)
+3:	(:=, A:PROGRAMA, [2])
+4:	(>, A:PROGRAMA, 0UI)
+5:	(BT, [4], [1])
+6:	(PRINT, &hola&, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -41,8 +45,12 @@ No se encontraron warnings.
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_1                   | @aux5:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA:bloque_1                   | @aux1:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_1                   | @aux4:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA:bloque_1                   | @aux2:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_1                   | @aux3:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_1                   | @aux6:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

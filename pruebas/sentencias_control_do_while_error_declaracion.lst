@@ -4,9 +4,10 @@ LISTADO DE COMPILACION: sentencias_control_do_while_error_declaracion.txt
    2: PROGRAMA {
    3:     var A := 5UI;
    4:     do {
-   5:         var B := 10UI;
-   6:         print(B);
-   7:         print(A);
-   8:         A := A - 1UI;
+   5:         print(A);
+   6:         A := A - 1UI;
+   7:         var B := 10UI;
+   8:         print(B);
    9:     } while (A > 0UI);
-  10: }
+  10:     print(&hola&);
+  11: }
