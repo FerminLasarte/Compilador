@@ -4,10 +4,10 @@ LISTADO DE COMPILACION: funcion_sin_retorno.txt
    2:     uint FUNCIONB(uint A) {
    3:         print(A);
    4:         A := A - 1UI;
-   5:         return(A);
-   6:     }
-   7:     uint FUNCION(uint C) {
-   8:         C := FUNCIONB(C->A);
+   5:     }
+   6:     uint FUNCION(uint C) {
+   7:         C := FUNCIONB(C->A);
+   8:         return(C);
    9:     }
   10: 
   11:     var J:= FUNCION(3UI->C);

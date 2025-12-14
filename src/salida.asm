@@ -23,7 +23,6 @@ MaxFloatValue dd 2139095039
 @aux4 dd 0
 @aux5 dd 0
 @aux6 dd 0
-@aux7 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -34,35 +33,31 @@ _RET_VAL_6 dd 0
 _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
-_A_PROGRAMA_lambda_1 dd 0
-str_4 db "Imprime Lambda Positivo", 0
-str_6 db "Imprime Lambda Negativo", 0
+_C_PROGRAMA_FUNCION dd 0
+_J_PROGRAMA dd 0
 .code
 start:
 Label0:
-JMP Label8
+JMP Label3
 Label1:
-MOV _A_PROGRAMA_lambda_1, ECX
+__FUNCION_PROGRAMA:
 Label2:
-MOV EAX, _A_PROGRAMA_lambda_1
-CMP EAX, 3
-SETA AL
-MOVZX EAX, AL
-MOV @aux2, EAX
-Label3:
-MOV EAX, @aux2
-CMP EAX, 0
-JE Label6
-Label4:
-invoke crt_printf, addr MensajePrint, addr str_4
-Label5:
-JMP Label7
-Label6:
-invoke crt_printf, addr MensajePrint, addr str_6
-Label7:
 ; -- RETURN --
+MOV EAX, _C_PROGRAMA_FUNCION
+MOV _RET_VAL_0, EAX
 RET
-Label8:
+Label3:
+MOV EAX, 3
+MOV _C_PROGRAMA_FUNCION, EAX
+Label4:
+CALL __FUNCION_PROGRAMA
+MOV @aux4, EAX
+Label5:
+MOV EAX, @aux4
+MOV _J_PROGRAMA, EAX
+Label6:
+invoke crt_printf, addr MensajePrintNum, _J_PROGRAMA
+Label7:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

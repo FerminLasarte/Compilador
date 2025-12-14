@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\funcion_lambda_sin_return.lst
+>> Archivo de listado generado: ..\pruebas\funcion_sin_retorno.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -18,9 +18,8 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 6: Error Semantico: La funcion 'FUNCION' debe retornar un valor de tipo uint.
-Linea 8: Error Semantico: La funcion lambda finaliza sin una sentencia de retorno valida.
-Linea 8: Error Semantico: Invocacion a 'FUNCION' que no es una funcion, variable lambda, o no fue declarada.
+Linea 5: Error Semantico: La funcion 'FUNCIONB' debe retornar un valor de tipo uint.
+Linea 7: Error Semantico: Invocacion a 'FUNCIONB' que no es una funcion, variable lambda, o no fue declarada.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -30,34 +29,31 @@ No se encontraron warnings.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(BI, _, [8])
-1:	(DEF_PARAM, A:PROGRAMA:lambda_1, _)
-2:	(>, A:PROGRAMA:lambda_1, 3UI)
-3:	(BF, [2], [6])
-4:	(PRINT, &Imprime Lambda Positivo&, _)
-5:	(BI, _, [7])
-6:	(PRINT, &Imprime Lambda Negativo&, _)
-7:	(RET_LAMBDA, _, _)
+0:	(BI, _, [3])
+1:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
+2:	(RETURN, C:PROGRAMA:FUNCION, 0/1)
+3:	(PARAM, 3UI, C:PROGRAMA:FUNCION)
+4:	(CALL, FUNCION:PROGRAMA, _)
+5:	(:=, J:PROGRAMA, [4])
+6:	(PRINT, J:PROGRAMA, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA                            | @aux6:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       |
+| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | J:PROGRAMA                                    | false        | variable           | uint       |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA:lambda_1                   | @aux1:PROGRAMA:lambda_1                       | false        | variable_auxiliar  | null       |
-| PROGRAMA:lambda_1                   | @aux3:PROGRAMA:lambda_1                       | false        | variable_auxiliar  | null       |
-| PROGRAMA:lambda_1                   | @aux7:PROGRAMA:lambda_1                       | false        | variable_auxiliar  | null       |
-| PROGRAMA:lambda_1                   | A:PROGRAMA:lambda_1                           | false        | parametro_lambda   | uint       |
-| PROGRAMA:lambda_1                   | @aux5:PROGRAMA:lambda_1                       | false        | variable_auxiliar  | null       |
-| PROGRAMA:lambda_1                   | @aux2:PROGRAMA:lambda_1                       | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA:lambda_1:bloque_4          | @aux4:PROGRAMA:lambda_1:bloque_4              | false        | variable_auxiliar  | null       |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA:lambda_1:bloque_6          | @aux6:PROGRAMA:lambda_1:bloque_6              | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | parametro          | uint       |
+| PROGRAMA:FUNCION                    | @aux2:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================
