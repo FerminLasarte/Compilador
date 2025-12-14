@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\inferencia_tipos_error_semantico.lst
+>> Archivo de listado generado: ..\pruebas\funcion_lambda_parametro_vacio.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -8,7 +8,8 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores sintacticos.
+Linea 9: Error de sintaxis. Verifique la estructura del codigo.
+Linea 12: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -18,10 +19,7 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 10: Error de Tipos: No se puede operar (+) entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).
-Linea 10: Error Semantico: No se puede inferir el tipo de 'E' desde una expresion invalida (Tema 9).
-Linea 11: Error de Tipos: No se puede operar (+) entre 'uint' y 'float' sin conversion explicita 'toui' (Tema 31).
-Linea 11: Error Semantico: No se puede inferir el tipo de 'F' desde una expresion invalida (Tema 9).
+No se encontraron errores semanticos.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
@@ -31,31 +29,30 @@ No se encontraron warnings.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 1UI)
-1:	(:=, B:PROGRAMA, 4UI)
-2:	(:=, A:PROGRAMA, B:PROGRAMA)
-3:	(:=, C:PROGRAMA, 1.0F+0)
-4:	(:=, D:PROGRAMA, 2.0F+0)
-5:	(+, B:PROGRAMA, D:PROGRAMA)
-6:	(+, A:PROGRAMA, C:PROGRAMA)
+0:	(:=, A:PROGRAMA, 5UI)
+1:	(BI, _, [6])
+2:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
+3:	(PARAM_LAMBDA, C:PROGRAMA:FUNCION, _)
+4:	(CALL_LAMBDA, B:PROGRAMA:FUNCION, _)
+5:	(RETURN, C:PROGRAMA:FUNCION, 0/1)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
-| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | float      |
-| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | D:PROGRAMA                                    | false        | variable           | float      |
-| PROGRAMA                            | @aux6:PROGRAMA                                | false        | variable_auxiliar  | null       |
-| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       |
 | PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       |
+| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       |
-| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
+| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | parametro          | uint       |
+| PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | lambda     |
+| PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
+| PROGRAMA:FUNCION                    | @aux5:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|
 =======================================================
 =======================================================

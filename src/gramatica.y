@@ -790,12 +790,10 @@ cuerpo_lambda : sentencias_ejecutables_lista
               ;
 
 sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
-                             |
-                             sentencia_ejecutable
-                             |
-                             sentencias_ejecutables_lista declaracion_ilegal
-                             |
-                             declaracion_ilegal
+                             | sentencia_ejecutable
+                             | sentencias_ejecutables_lista declaracion_ilegal
+                             | declaracion_ilegal
+                             | error ';'
                              ;
 
 declaracion_ilegal : VAR
