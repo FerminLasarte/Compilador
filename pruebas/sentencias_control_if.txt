@@ -1,0 +1,17 @@
+@ Sentencias de Control
+PROGRAMA {
+    var A := 3UI;
+    var B := 3UI;
+     if (A == 3UI) { print(&A llego a 3UI&); A:= A+2UI;} endif;
+     if (A == 5UI) { print(&A vale 5UI&);B:= B+2UI;} endif;
+     if (B == 5UI) {
+        print(&B llego a 5UI&);
+        B:= 7UI - 4UI;
+     }endif;
+     A:= 9UI - 4UI;
+     print(&A: &);
+     print(A);
+     print(&B: &);
+     print(B);
+     } endif;
+}

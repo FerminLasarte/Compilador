@@ -12,12 +12,12 @@ PROGRAMA {
                         } else {
                             print(&B no vale 5UI&);
                             B:= 7UI - 4UI;
-                        } endif;
+                        } @endif;
                     A:= 9UI - 4UI;
                 } endif;
                 print(&A: &);
                 print(A);
                 print(&B: &);
                 print(B);
-            } endif;
+            }endif;
 }

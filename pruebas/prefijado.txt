@@ -1,1 +1,29 @@
 @ Prefijado Opcional
+MAIN {
+    var X:= 1UI;
+    uint FUNCION(uint X){
+        print(&X: &);
+        print(X);
+        print(&MAIN.X: &);
+        print(MAIN.X);
+        X:= X + MAIN.X;
+        return(X);
+    }
+
+    var Y := FUNCION(5UI->X);
+    print(&Y: &);
+    print(Y);
+
+    var AUXSINPREFIJO:= 100UI;
+    uint FUNCIONAUXSINPREFIJO(uint J){
+            print(&J: &);
+            print(J);
+            print(&AUXSINPREFIJO: &);
+            print(AUXSINPREFIJO);
+            J:= J + AUXSINPREFIJO;
+            return( J);
+        }
+    var ROB := FUNCIONAUXSINPREFIJO(500UI->J);
+    print(&ROB: &);
+    print(ROB);
+}

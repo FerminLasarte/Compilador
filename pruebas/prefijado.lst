@@ -1,0 +1,31 @@
+LISTADO DE COMPILACION: prefijado.txt
+----------------------------------------
+   1: @ Prefijado Opcional
+   2: MAIN {
+   3:     var X:= 1UI;
+   4:     uint FUNCION(uint X){
+   5:         print(&X: &);
+   6:         print(X);
+   7:         print(&MAIN.X: &);
+   8:         print(MAIN.X);
+   9:         X:= X + MAIN.X;
+  10:         return(X);
+  11:     }
+  12: 
+  13:     var Y := FUNCION(5UI->X);
+  14:     print(&Y: &);
+  15:     print(Y);
+  16: 
+  17:     var AUXSINPREFIJO:= 100UI;
+  18:     uint FUNCIONAUXSINPREFIJO(uint J){
+  19:             print(&J: &);
+  20:             print(J);
+  21:             print(&AUXSINPREFIJO: &);
+  22:             print(AUXSINPREFIJO);
+  23:             J:= J + AUXSINPREFIJO;
+  24:             return( J);
+  25:         }
+  26:     var ROB := FUNCIONAUXSINPREFIJO(500UI->J);
+  27:     print(&ROB: &);
+  28:     print(ROB);
+  29: }

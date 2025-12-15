@@ -1,0 +1,19 @@
+LISTADO DE COMPILACION: sentencias_control_if_error_sin_endif.txt
+----------------------------------------
+   1: @ Sentencias de Control
+   2: PROGRAMA {
+   3:     var A := 3UI;
+   4:     var B := 3UI;
+   5:      if (A == 3UI) { print(&A llego a 3UI&); A:= A+2UI;} endif;
+   6:      if (A == 5UI) { print(&A vale 5UI&);B:= B+2UI;} endif;
+   7:      if (B == 5UI) {
+   8:         print(&B llego a 5UI&);
+   9:         B:= 7UI - 4UI;
+  10:      }@endif;
+  11:      A:= 9UI - 4UI;
+  12:      print(&A: &);
+  13:      print(A);
+  14:      print(&B: &);
+  15:      print(B);
+  16:      }
+  17: }
