@@ -36,7 +36,7 @@ programa : ID '{' {
      '{' { g.abrirAmbito("MAIN"); } sentencias '}' { }
          {
              erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");
-     }
+         }
      ;
 
 /* NUEVA REGLA PARA INSERCION DE PUNTO Y COMA */
@@ -90,11 +90,12 @@ declaracion_var : VAR variable ASIG expresion
                     erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error Sintactico: Operador de asignacion incorrecto. Se encontro ':' pero se esperaba ':='.");
                 }
                 ;
+
 tipo : UINT { $$.sval = "uint"; }
-     | FLOAT { $$.sval = "float";
-     }
+     | FLOAT { $$.sval = "float"; }
      | LAMBDA { $$.sval = "lambda"; }
      ;
+
 /* REFACTORIZACION PARA DETECTAR LISTAS MULTIPLES */
 lista_variables : variable
                 {
@@ -104,6 +105,7 @@ lista_variables : variable
                 |
                 lista_strict_multiple
                 ;
+
 lista_strict_multiple : lista_strict_multiple ',' variable
                       {
                           listaVariables.add($3.sval);
@@ -116,6 +118,7 @@ lista_strict_multiple : lista_strict_multiple ',' variable
                           listaVariables.add($3.sval);
                       }
                       ;
+
 funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             g.setGeneracionHabilitada(true);
             String nombreFuncion = $2.sval;
@@ -131,6 +134,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             pilaTiposRetorno.push(tiposEsperados);
             pilaErrorEnFuncion.push(false);
             pilaHuboRetorno.push(false);
+
             if (g.existeEnAmbitoActual(nombreFuncion)) {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
                 g.setGeneracionHabilitada(false);
@@ -166,6 +170,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             boolean huboReturn = pilaHuboRetorno.pop();
             int inicioFunc = pilaInicioFuncion.pop();
             int jumpIdx = pilaSaltosFunciones.pop();
+
             if (!huboReturn) {
                  al.agregarErrorSemantico("Linea " + $9.ival + ": Error Semantico: La funcion '" + $2.sval + "' debe retornar un valor de tipo " + $1.sval + ".");
                  huboError = true;
@@ -234,6 +239,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             boolean huboReturn = pilaHuboRetorno.pop();
             int inicioFunc = pilaInicioFuncion.pop();
             int jumpIdx = pilaSaltosFunciones.pop();
+
             if (!huboReturn) {
                  al.agregarErrorSemantico("Linea " + $9.ival + ": Error Semantico: La funcion '" + $2.sval + "' tiene retorno multiple y debe retornar valores.");
                  huboError = true;
@@ -249,6 +255,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             }
         }
       ;
+
 lista_tipos_retorno_multiple : tipo ',' tipo
                              {
                                  ArrayList<String> lista = new ArrayList<String>();
@@ -268,10 +275,12 @@ lista_tipos_retorno_multiple : tipo ',' tipo
                                  $$.obj = lista;
                              }
                           ;
+
 lista_parametros_formales : lista_parametros_formales ',' parametro_formal
                           |
                           parametro_formal
                           ;
+
 parametro_formal : sem_pasaje tipo ID
              {
                  g.apilarParametro(new ParametroInfo($3.sval, $2.sval, $1.sval));
@@ -293,6 +302,7 @@ parametro_formal : sem_pasaje tipo ID
                  g.apilarParametro(new ParametroInfo($2.sval, "uint", $1.sval));
              }
              ;
+
 sem_pasaje : CR SE { $$.sval = "cr_se"; }
            |
            CR LE { $$.sval = "cr_le"; }
@@ -300,15 +310,18 @@ sem_pasaje : CR SE { $$.sval = "cr_se"; }
 
 /* SE APLICA fin_sentencia */
 sentencia_ejecutable : asignacion fin_sentencia
-                     | asignacion_multiple fin_sentencia
-                     | asignacion_multiple_warning fin_sentencia
+                     |
+                     asignacion_multiple fin_sentencia
+                     |
+                     asignacion_multiple_warning fin_sentencia
                      |
                      condicional_if
                      |
                      condicional_do_while
                      |
                      salida_pantalla fin_sentencia
-                     | retorno_funcion
+                     |
+                     retorno_funcion
                      |
                      invocacion_funcion fin_sentencia
                      ;
@@ -321,6 +334,7 @@ asignacion : variable ASIG expresion
                String tipoVar = g.getTipo(op1_var);
                String tipoExpr = g.getTipo(op2_terceto);
                int linea = $1.ival;
+
                if (tipoVar.equals("indefinido")) {
                    if (op1_var.contains(".")) {
                        String[] parts = op1_var.split("\\.", 2);
@@ -371,6 +385,7 @@ asignacion : variable ASIG expresion
                            }
                        }
 
+
                    }
                } else {
                    if (g.chequearAsignacion(tipoVar, tipoExpr, linea)) {
@@ -379,6 +394,7 @@ asignacion : variable ASIG expresion
                }
            }
            ;
+
 asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
 {
     procesarAsignacionMultiple($2.ival);
@@ -410,6 +426,7 @@ lado_derecho_multiple : { g.clearLadoDerecho();
                               $$.ival = 0;
                           }
                           ;
+
 variable : ID PUNTO ID
             {
                 $$.sval = $1.sval + "." + $3.sval;
@@ -422,6 +439,7 @@ variable : ID PUNTO ID
                 $$.ival = $1.ival;
             }
             ;
+
 expresion : expresion '+' termino
             {
                 String op2 = g.desapilarOperando();
@@ -433,7 +451,7 @@ expresion : expresion '+' termino
                 $$.ival = $1.ival;
             }
           |
-          expresion '-' termino
+            expresion '-' termino
             {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -444,9 +462,9 @@ expresion : expresion '+' termino
                 $$.ival = $1.ival;
             }
           |
-          termino { $$.ival = $1.ival;
-          }
+          termino { $$.ival = $1.ival; }
           ;
+
 termino : termino '*' factor
             {
                 String op2 = g.desapilarOperando();
@@ -458,7 +476,7 @@ termino : termino '*' factor
                 $$.ival = $1.ival;
             }
         |
-        termino '/' factor
+            termino '/' factor
             {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -468,8 +486,7 @@ termino : termino '*' factor
                 g.apilarOperando(terceto);
                 $$.ival = $1.ival;
             }
-        | factor { $$.ival = $1.ival;
-        }
+        | factor { $$.ival = $1.ival; }
         ;
 
 factor : factor_no_funcion
@@ -483,6 +500,7 @@ factor : factor_no_funcion
            g.apilarOperando($1.sval);
        }
        ;
+
 factor_no_funcion : variable
                   {
                       String varNombre = $1.sval;
@@ -514,9 +532,9 @@ factor_no_funcion : variable
                   }
                   |
                   conversion_explicita
-                  { $$.ival = $1.ival;
-                  }
+                  { $$.ival = $1.ival; }
                   ;
+
 conversion_explicita : TOUI '(' expresion ')'
                 {
                     salida.add("Linea " + $1.ival + ": Conversion explicita (toui).");
@@ -536,8 +554,10 @@ conversion_explicita : TOUI '(' expresion ')'
                     $$.ival = $1.ival;
                 }
                 ;
+
 pre_invocacion : { g.clearParametrosReales(); }
                ;
+
 invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                    {
                        String funcName = $1.sval;
@@ -574,7 +594,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                $$.sval = "ERROR_CALL";
                            } else {
                                 boolean errorEnParametros = false;
-                                for (ParametroRealInfo real : reales) {
+                               for (ParametroRealInfo real : reales) {
                                    if (real.nombreFormal == null) {
                                        al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Se requiere asignacion explicita de parametro (-> ID).");
                                        errorEnParametros = true;
@@ -616,6 +636,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                }
                                if (!errorEnParametros) {
 
+
                                   String terceto = g.addTerceto("CALL", funcName);
                                   g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(al.getAtributo(funcName, "Tipo").toString());
                                   $$.sval = terceto;
@@ -637,6 +658,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                           }
                                       }
                                   }
+
                                } else {
                                    $$.sval = "ERROR_CALL_PARAMS";
                                }
@@ -644,12 +666,14 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                        }
                        else {
 
-                           al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
-                           $$.sval = "ERROR_CALL";
+
+                         al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
+                         $$.sval = "ERROR_CALL";
                        }
                        $$.ival = $1.ival;
                    }
                    ;
+
 lista_parametros_reales : lista_parametros_reales ',' parametro_real
                         {
                             $$.ival = $1.ival + 1;
@@ -660,6 +684,7 @@ lista_parametros_reales : lista_parametros_reales ',' parametro_real
                             $$.ival = 1;
                         }
                         ;
+
 parametro_real : parametro_simple FLECHA variable
                {
                    String op1 = $1.sval;
@@ -678,6 +703,7 @@ parametro_real : parametro_simple FLECHA variable
                    $$.ival = $1.ival;
                }
                ;
+
 parametro_simple : expresion
                  {
                      $$.sval = g.desapilarOperando();
@@ -690,6 +716,7 @@ parametro_simple : expresion
                      $$.ival = $1.ival;
                  }
                  ;
+
 lambda_expresion : '(' tipo ID ')' '{'
                  {
                     pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
@@ -720,9 +747,11 @@ lambda_expresion : '(' tipo ID ')' '{'
                     $$.ival = $1.ival;
                  }
                  ;
+
 cuerpo_lambda : sentencias_ejecutables_lista
               |
               ;
+
 sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
                              |
                              sentencia_ejecutable
@@ -731,6 +760,7 @@ sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
                              |
                              declaracion_ilegal
                              ;
+
 declaracion_ilegal : VAR
                    {
                         erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: No se permiten declaraciones en bloques ejecutables.");
@@ -821,7 +851,6 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
 
                    /* 2. Agregamos el Warning personalizado */
                    al.agregarWarning("Linea " + al.getFilaToken() + ": Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.");
-
                    /* 3. Autocompletamos la logica de tercetos (cerramos el salto) */
                    try {
                        int bfIdx = g.desapilarControl();
@@ -833,6 +862,7 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                        /* Si la pila esta vacia, ignoramos */
                    }
                }
+
                ;
 
 condicional_do_while: DO
@@ -852,6 +882,7 @@ condicional_do_while: DO
                         }
                     }
                     ;
+
 condicion : expresion simbolo_comparacion expresion
           {
                 String op2 = g.desapilarOperando();
@@ -867,6 +898,7 @@ condicion : expresion simbolo_comparacion expresion
                 }
           }
           ;
+
 simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
                     |
                     MENOR_IGUAL { g.apilarOperando("<="); }
@@ -884,12 +916,14 @@ simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
                         g.apilarOperando("==");
                     }
                     ;
+
 bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito();}
                   |
                   '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } '}' { g.cerrarAmbito(); }
                   |
                   '{' error '}'
                   ;
+
 /* SE APLICA fin_sentencia */
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 {
@@ -903,6 +937,7 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
                 ;
+
 /* SE APLICA fin_sentencia */
 retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')' fin_sentencia
             {
@@ -929,7 +964,7 @@ retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')'
 
                             if (!tipoEnc.equals(tipoEsp) && !tipoEnc.equals("error_tipo")) {
                                  al.agregarErrorSemantico("Linea " + $1.ival + ": Error de Tipos: Tipo de retorno incorrecto en la posicion " + (i+1) + ". Esperado: " + tipoEsp + ", Encontrado: " + tipoEnc);
-                                error = true;
+                                 error = true;
                             }
                         }
                     }
@@ -952,6 +987,7 @@ retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')'
                 }
             }
             ;
+
 lista_expresiones : lista_expresiones ',' expresion
               {
                   ArrayList<?> rawList = (ArrayList<?>) $1.obj;
@@ -970,6 +1006,7 @@ lista_expresiones : lista_expresiones ',' expresion
                   $$.obj = lista;
               }
               ;
+
 %%
 
 static AnalizadorLexico al;
@@ -986,6 +1023,7 @@ static Stack<Boolean> pilaErrorEnFuncion = new Stack<Boolean>();
 static Stack<Integer> pilaInicioFuncion = new Stack<Integer>();
 static Stack<Integer> pilaSaltosFunciones = new Stack<Integer>();
 static Stack<Boolean> pilaHuboRetorno = new Stack<Boolean>();
+
 int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();
@@ -1114,6 +1152,19 @@ public static void main(String args[]){
                 System.out.println(s);
             }
         }
+
+        // --- AGREGADO PARA IMPRIMIR ERRORES LEXICOS ---
+        System.out.println("\n=======================================================");
+        System.out.println("## ERRORES LEXICOS DETECTADOS ##");
+        System.out.println("=======================================================");
+        if (al.getErrores().isEmpty()) {
+            System.out.println("No se encontraron errores lexicos.");
+        } else {
+            for (String s : al.getErrores()) {
+                System.out.println(s);
+            }
+        }
+        // ----------------------------------------------
 
         System.out.println("\n=======================================================");
         System.out.println("## ERRORES SEMANTICOS DETECTADOS ##");

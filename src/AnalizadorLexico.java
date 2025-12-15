@@ -27,10 +27,10 @@ public class AnalizadorLexico {
     private AccionSemantica[][] matrizAccionesSemanticas;
     private HashMap<Character, Integer> columnaMatrices;
 
-    // --- NUEVAS VARIABLES PARA EL TRACKING DE LINEAS ---
-    private int lineaAnterior = 0; // Linea del token devuelto en la llamada ANTERIOR a yylex
-    private int lineaActual = 0;   // Linea del token devuelto en la llamada ACTUAL a yylex
-    // ---------------------------------------------------
+    // --- VARIABLES PARA EL TRACKING DE LINEAS ---
+    private int lineaAnterior = 0;
+    private int lineaActual = 0;
+    // --------------------------------------------
 
     public AnalizadorLexico(String rutaArchivo) {
         contadorFila = 0;
@@ -228,6 +228,11 @@ public class AnalizadorLexico {
         while (ultimoEstado != -1 && ultimoEstado != -2) {
             char proximoCaracter;
             if (contadorFila >= lineasArchivo.size()) {
+                // --- DETECCION DE ERROR DE CADENA MULTILINEA NO CERRADA AL EOF ---
+                if (ultimoEstado == 6) {
+                    errores.add("Linea " + (filaToken + 1) + ": Error Lexico: Cadena multilinea no cerrada. Se esperaba el delimitador de cierre '&'.");
+                }
+                // -----------------------------------------------------------------
                 return 0;
             }
             String currentLine = lineasArchivo.get(contadorFila);
@@ -270,12 +275,9 @@ public class AnalizadorLexico {
         return -1;
     }
 
-    // --- NUEVO METODO GETTER ---
     public int getLineaAnterior() {
-        // Si es la primera linea, fallback a la actual
         return (lineaAnterior == 0) ? lineaActual : lineaAnterior;
     }
-    // ---------------------------
 
     public void eliminarLexemaTS(String lexema) {
         if (indiceAmbitoActual != -1) {
