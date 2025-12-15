@@ -808,6 +808,24 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
 
                    salida.add("Linea " + $1.ival + ": Sentencia IF-ELSE reconocida.");
                }
+               /* REGLA DE RECUPERACION DE ERROR */
+               | if_encabezado bloque_ejecutable error
+               {
+                   erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.");
+
+                   /* Mantenemos la lógica para arreglar el salto del terceto y no romper la generación */
+                   try {
+                       int bfIdx = g.desapilarControl();
+                       if (bfIdx != -1) {
+                           int finIf = g.getProximoTerceto();
+                           g.modificarSaltoTerceto(bfIdx, "[" + finIf + "]");
+                       }
+                   } catch (Exception e) {
+                       /* Ignorar si la pila estaba vacía */
+                   }
+
+                   yyerrok;  /* <--- ESTO ES LA CLAVE: Resetea el estado de error del parser inmediatamente */
+               }
                ;
 
 condicional_do_while: DO

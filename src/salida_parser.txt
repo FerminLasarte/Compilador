@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\enteros_sin_signo_overflow.lst
+>> Archivo de listado generado: ..\pruebas\sentencias_control_if_error_sin_endif.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -8,7 +8,10 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores sintacticos.
+Linea 6: Error de sintaxis. Verifique la estructura del codigo.
+Linea 6: Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.
+Linea 17: Error de sintaxis. Verifique la estructura del codigo.
+Linea 17: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -23,27 +26,69 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 3 - Columna: 13 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
-Linea: 4 - Columna: 10 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
+No se encontraron warnings.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 65535UI)
-1:	(:=, A:PROGRAMA, -65535UI)
-2:	(:=, B:PROGRAMA, -1UI)
+0:	(:=, A:PROGRAMA, 3UI)
+1:	(:=, B:PROGRAMA, 3UI)
+2:	(==, A:PROGRAMA, 3UI)
+3:	(BF, [2], [7])
+4:	(PRINT, &A llego a 3UI&, _)
+5:	(+, A:PROGRAMA, 2UI)
+6:	(:=, A:PROGRAMA, [5])
+7:	(==, A:PROGRAMA, 5UI)
+8:	(BF, [7], [12])
+9:	(PRINT, &A vale 5UI&, _)
+10:	(+, B:PROGRAMA, 2UI)
+11:	(:=, B:PROGRAMA, [10])
+12:	(==, B:PROGRAMA, 5UI)
+13:	(BF, [12], [17])
+14:	(PRINT, &B llego a 5UI&, _)
+15:	(-, 7UI, 4UI)
+16:	(:=, B:PROGRAMA, [15])
+17:	(-, 9UI, 4UI)
+18:	(:=, A:PROGRAMA, [17])
+19:	(PRINT, &A: &, _)
+20:	(PRINT, A:PROGRAMA, _)
+21:	(PRINT, &B: &, _)
+22:	(PRINT, B:PROGRAMA, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA                            | @aux20:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux8:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux19:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux18:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux21:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux12:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux17:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux22:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux7:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
 | PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux13:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_4                   | @aux4:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_4                   | @aux5:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_4                   | @aux6:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_9                   | @aux11:PROGRAMA:bloque_9                      | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_9                   | @aux9:PROGRAMA:bloque_9                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_9                   | @aux10:PROGRAMA:bloque_9                      | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_14                  | @aux14:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_14                  | @aux16:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_14                  | @aux15:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================
