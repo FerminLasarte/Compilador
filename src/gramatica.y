@@ -55,16 +55,27 @@ sentencias : sentencias sentencia
            sentencia
            ;
 
+/* En gramatica.y, alrededor de la línea 2260 */
 sentencia : sentencia_declarativa
           |
           sentencia_ejecutable
           | error ';'
+          {
+              /* Esta regla atrapa cualquier basura seguida de punto y coma */
+              erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: Sentencia mal formada o no reconocida.");
+          }
+          |
+          error '}' {
+              /* Atrapa errores justo antes de cerrar un bloque */
+              erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: Sentencia invalida antes del cierre de bloque '}'.");
+          }
           ;
 
 /* SE APLICA fin_sentencia */
 sentencia_declarativa : funcion
-                      |
-                      declaracion_var fin_sentencia
+                      | declaracion_var fin_sentencia
+                      /* NUEVA REGLA: Atrapa declaraciones de función mal formadas con 'var' */
+                      | funcion_mal_declarada_var
                       ;
 
 declaracion_var : VAR variable ASIG expresion
@@ -254,6 +265,40 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
         }
       ;
 
+/* REGLA DE RECUPERACION DE ERROR PARA FUNCIONES MAL DECLARADAS CON VAR */
+funcion_mal_declarada_var : VAR variable '(' lista_parametros_formales ')' '{' {
+            /* 1. REPORTAR EL ERROR CLARO */
+            erroresSintacticos.add("Linea " + $1.ival + ": Error Sintactico: No se puede declarar una funcion con 'var'. Debe especificar el tipo de retorno explícito (ej: uint, float).");
+
+            /* 2. RECUPERACIÓN: Abrimos ámbito y registramos parámetros para evitar errores en cascada */
+            String nombreFuncion = $2.sval;
+            g.abrirAmbito("ERROR_FUNC_" + nombreFuncion); // Nombre dummy para el ámbito
+
+            /* Reutilizamos la lógica de registro de parámetros para que las variables existan */
+            ArrayList<ParametroInfo> parametros = g.getListaParametros();
+            for (ParametroInfo p : parametros) {
+                if (!g.existeEnAmbitoActual(p.nombre)) {
+                     al.agregarLexemaTS(p.nombre);
+                     al.agregarAtributoLexema(p.nombre, "Uso", "parametro");
+                     al.agregarAtributoLexema(p.nombre, "Tipo", p.tipo);
+                     // No nos importa el pasaje o código generado aquí, solo que exista.
+                }
+            }
+
+            /* Simulamos estar en una función para que 'return' no falle */
+            pilaTiposRetorno.push(new ArrayList<String>()); // Push dummy
+            pilaErrorEnFuncion.push(true); // Ya sabemos que hay error
+            pilaHuboRetorno.push(false);
+
+        } sentencias '}' {
+            /* 3. LIMPIEZA AL CERRAR EL BLOQUE */
+            g.cerrarAmbito();
+            pilaTiposRetorno.pop();
+            pilaErrorEnFuncion.pop();
+            pilaHuboRetorno.pop();
+        }
+        ;
+
 lista_tipos_retorno_multiple : tipo ',' tipo
                              {
                                  ArrayList<String> lista = new ArrayList<String>();
@@ -361,8 +406,7 @@ asignacion : variable ASIG expresion
                            }
 
                            if (tiposRetorno.isEmpty()) {
-                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName +
-                               "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
+                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName + "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
                            } else {
                                String tipoPrimerRetorno = tiposRetorno.get(0);
                                if (g.chequearAsignacion(tipoVar, tipoPrimerRetorno, linea)) {
@@ -376,7 +420,6 @@ asignacion : variable ASIG expresion
                                }
                            }
                        }
-
                    }
                } else {
                    if (g.chequearAsignacion(tipoVar, tipoExpr, linea)) {
@@ -406,8 +449,7 @@ asignacion_multiple_warning : lista_strict_multiple ASIG lado_derecho_multiple
 }
 ;
 
-lado_derecho_multiple : { g.clearLadoDerecho();
-                          } factor
+lado_derecho_multiple : { g.clearLadoDerecho(); } factor
                           {
                               g.apilarLadoDerecho(g.desapilarOperando());
                               contadorLadoDerecho = 1;
@@ -458,8 +500,7 @@ expresion : expresion '+' termino
                 $$.ival = $1.ival;
             }
           |
-          termino { $$.ival = $1.ival;
-          }
+          termino { $$.ival = $1.ival; }
           ;
 
 termino : termino '*' factor
@@ -483,8 +524,7 @@ termino : termino '*' factor
                 g.apilarOperando(terceto);
                 $$.ival = $1.ival;
             }
-        | factor { $$.ival = $1.ival;
-        }
+        | factor { $$.ival = $1.ival; }
         ;
 
 factor : factor_no_funcion
@@ -530,8 +570,7 @@ factor_no_funcion : variable
                   }
                   |
                   conversion_explicita
-                  { $$.ival = $1.ival;
-                  }
+                  { $$.ival = $1.ival; }
                   ;
 
 conversion_explicita : TOUI '(' expresion ')'
@@ -593,7 +632,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                $$.sval = "ERROR_CALL";
                            } else {
                                 boolean errorEnParametros = false;
-                               for (ParametroRealInfo real : reales) {
+                                for (ParametroRealInfo real : reales) {
                                    if (real.nombreFormal == null) {
                                        al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Se requiere asignacion explicita de parametro (-> ID).");
                                        errorEnParametros = true;
@@ -654,7 +693,6 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                           }
                                       }
                                   }
-
                                } else {
                                    $$.sval = "ERROR_CALL_PARAMS";
                                }
@@ -945,7 +983,6 @@ condicional_do_while: parte_do_while '(' condicion ')' fin_sentencia
                         /* CASO CORRECTO */
                         /* $4 es el parentesis de cierre ')', usamos su linea */
                         salida.add("Linea " + $4.ival + ": Sentencia DO-WHILE reconocida.");
-
                         String refCondicion = g.desapilarOperando();
                         int inicioBucle = g.desapilarControl();
 
@@ -992,12 +1029,18 @@ condicion : expresion simbolo_comparacion expresion
           ;
 
 simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
-                    | MENOR_IGUAL { g.apilarOperando("<="); }
-                    | DISTINTO { g.apilarOperando("=!"); }
-                    | IGUAL_IGUAL { g.apilarOperando("=="); }
-                    | '>' { g.apilarOperando(">"); }
-                    | '<' { g.apilarOperando("<"); }
-                    | ASIG {
+                    |
+                    MENOR_IGUAL { g.apilarOperando("<="); }
+                    |
+                    DISTINTO { g.apilarOperando("=!"); }
+                    |
+                    IGUAL_IGUAL { g.apilarOperando("=="); }
+                    |
+                    '>' { g.apilarOperando(">"); }
+                    |
+                    '<' { g.apilarOperando("<"); }
+                    |
+                    ASIG {
                         erroresSintacticos.add("Linea " + $1.ival + ": Error Sintactico: Se encontro una asignacion ':=' en la condicion. Debe utilizar un operador de comparacion (==, !=, <, >, <=, >=).");
                         g.apilarOperando("==");
                     }
@@ -1177,7 +1220,6 @@ private void procesarAsignacionMultiple(int linea) {
                     }
                 }
                 int cantRetornos = tiposRetorno.size();
-
                 /* MODIFICACION PARA MANEJAR ERROR vs WARNING */
                 if (cantIzquierda > cantRetornos) {
                     al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple invalida. La funcion retorna " + cantRetornos + " valores pero se intentan asignar a " + cantIzquierda + " variables.");

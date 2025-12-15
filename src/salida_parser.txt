@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\sentencias_declarativas.lst
+>> Archivo de listado generado: ..\pruebas\sentencias_control_if_error_sin_endif.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
@@ -18,7 +18,9 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-No se encontraron warnings.
+Linea 6: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
+Linea 7: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
+Linea 11: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -28,52 +30,72 @@ Archivo salida.asm generado exitosamente.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 10UI)
-1:	(BI, _, [12])
-2:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
-3:	(:=, C:PROGRAMA:FUNCION, 5UI)
-4:	(:=, B:PROGRAMA:FUNCION, A:PROGRAMA)
-5:	(PRINT, B:PROGRAMA:FUNCION, _)
-6:	(+, A:PROGRAMA, B:PROGRAMA:FUNCION)
-7:	(PRINT, [6], _)
-8:	(*, B:PROGRAMA:FUNCION, 2UI)
-9:	(+, A:PROGRAMA, [8])
-10:	(PRINT, [9], _)
-11:	(RETURN, B:PROGRAMA:FUNCION, 0/1)
-12:	(PARAM, A:PROGRAMA, B:PROGRAMA:FUNCION)
-13:	(CALL, FUNCION:PROGRAMA, _)
-14:	(:=, C:PROGRAMA, [13])
+0:	(:=, A:PROGRAMA, 3UI)
+1:	(:=, B:PROGRAMA, 3UI)
+2:	(==, A:PROGRAMA, 3UI)
+3:	(BF, [2], [7])
+4:	(PRINT, &A llego a 3UI&, _)
+5:	(+, A:PROGRAMA, 2UI)
+6:	(:=, A:PROGRAMA, [5])
+7:	(==, A:PROGRAMA, 5UI)
+8:	(BF, [7], [12])
+9:	(PRINT, &A vale 5UI&, _)
+10:	(+, B:PROGRAMA, 2UI)
+11:	(:=, B:PROGRAMA, [10])
+12:	(==, B:PROGRAMA, 5UI)
+13:	(BF, [12], [17])
+14:	(PRINT, &B llego a 5UI&, _)
+15:	(-, 7UI, 4UI)
+16:	(:=, B:PROGRAMA, [15])
+17:	(-, 9UI, 4UI)
+18:	(:=, A:PROGRAMA, [17])
+19:	(PRINT, &A: &, _)
+20:	(PRINT, A:PROGRAMA, _)
+21:	(PRINT, &B: &, _)
+22:	(PRINT, B:PROGRAMA, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       | -          |
+| PROGRAMA                            | 9UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | @aux20:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux8:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux19:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | 5UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | 3UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux18:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux21:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | @aux12:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux14:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | 10UI:PROGRAMA                                 | false        | null               | uint       | -          |
-| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux17:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux22:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux7:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | 4UI:PROGRAMA                                  | false        | null               | uint       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
+| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | @aux13:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:FUNCION                    | @aux11:PROGRAMA:FUNCION                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | uint       | default_cv |
-| PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | @aux8:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | variable           | uint       | -          |
-| PROGRAMA:FUNCION                    | @aux10:PROGRAMA:FUNCION                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | @aux6:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | 2UI:PROGRAMA:FUNCION                          | false        | null               | uint       | -          |
-| PROGRAMA:FUNCION                    | 5UI:PROGRAMA:FUNCION                          | false        | null               | uint       | -          |
-| PROGRAMA:FUNCION                    | @aux9:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | @aux5:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:FUNCION                    | @aux7:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_4                   | @aux4:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_4                   | @aux5:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_4                   | @aux6:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_4                   | 2UI:PROGRAMA:bloque_4                         | false        | null               | uint       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_9                   | @aux11:PROGRAMA:bloque_9                      | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_9                   | @aux9:PROGRAMA:bloque_9                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_9                   | 2UI:PROGRAMA:bloque_9                         | false        | null               | uint       | -          |
+| PROGRAMA:bloque_9                   | @aux10:PROGRAMA:bloque_9                      | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_14                  | @aux14:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_14                  | 7UI:PROGRAMA:bloque_14                        | false        | null               | uint       | -          |
+| PROGRAMA:bloque_14                  | 4UI:PROGRAMA:bloque_14                        | false        | null               | uint       | -          |
+| PROGRAMA:bloque_14                  | @aux16:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_14                  | @aux15:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================
