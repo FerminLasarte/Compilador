@@ -13,8 +13,7 @@ No se encontraron errores sintacticos.
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
 =======================================================
-Linea: 3 - Columna: 13 - Constante flotante fuera de rango.
-Linea: 4 - Columna: 14 - Constante flotante fuera de rango.
+No se encontraron errores lexicos.
 
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
@@ -24,13 +23,14 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-No se encontraron warnings.
+Linea: 3 - Columna: 13 - Constante flotante fuera de rango (overflow). El valor 4.0F+38 fue truncado a 3.40282347F+38
+Linea: 4 - Columna: 14 - Constante flotante fuera de rango (overflow). El valor 4.0F+38 fue truncado a 3.40282347F+38
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 4.0F+38)
-1:	(:=, B:PROGRAMA, -4.0F+38)
+0:	(:=, A:PROGRAMA, 3.40282347F+38)
+1:	(:=, B:PROGRAMA, -3.40282347F+38)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##

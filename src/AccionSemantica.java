@@ -91,19 +91,37 @@ public abstract class AccionSemantica{
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.disminuirContador();
             String lexemaActual = al.getLexema();
+            // Reemplazamos 'F' por 'E' para que BigDecimal pueda parsear el formato científico estándar
             String valor = lexemaActual.replace('F', 'E');
+
             try {
                 BigDecimal bd = new BigDecimal(valor);
                 BigDecimal limiteInferiorPositivo = new BigDecimal("1.17549435E-38");
                 BigDecimal limiteSuperiorPositivo = new BigDecimal("3.40282347E+38");
+                BigDecimal cero = BigDecimal.ZERO;
 
-                boolean enRangoPositivo = bd.compareTo(limiteInferiorPositivo) >= 0 && bd.compareTo(limiteSuperiorPositivo) <= 0;
-                boolean esCero = bd.compareTo(BigDecimal.ZERO) == 0;
-
-                if (enRangoPositivo || esCero) {
+                // Caso: El valor es 0.0, es válido.
+                if (bd.compareTo(cero) == 0) {
                     return "CTE";
                 }
-                al.agregarError("Constante flotante fuera de rango.");
+
+                // Caso: Overflow (Mayor al máximo positivo)
+                if (bd.compareTo(limiteSuperiorPositivo) > 0) {
+                    String nuevoLexema = "3.40282347F+38";
+                    al.agregarWarning("Constante flotante fuera de rango (overflow). El valor " + lexemaActual + " fue truncado a " + nuevoLexema);
+                    al.setLexema(nuevoLexema);
+                    return "CTE";
+                }
+
+                // Caso: Underflow (Menor al mínimo positivo normalizado, pero no es 0)
+                if (bd.compareTo(limiteInferiorPositivo) < 0) {
+                    String nuevoLexema = "1.17549435F-38";
+                    al.agregarWarning("Constante flotante fuera de rango (underflow). El valor " + lexemaActual + " fue truncado a " + nuevoLexema);
+                    al.setLexema(nuevoLexema);
+                    return "CTE";
+                }
+
+                // Si está en rango
                 return "CTE";
 
             } catch (NumberFormatException e) {
