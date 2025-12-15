@@ -1,5 +1,6 @@
 @ Enteros sin signo (16 bits)
 PROGRAMA {
     var A := 700000UI;
+    A := -700000UI;
     var B := -1UI;
 }

@@ -18,6 +18,7 @@ MensajePrintFloat db "Salida: %f", 10, 0
 MaxFloatValue dd 2139095039
 @aux0 dd 0
 @aux1 dd 0
+@aux2 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -36,9 +37,12 @@ Label0:
 MOV EAX, 65535
 MOV _A_PROGRAMA, EAX
 Label1:
+MOV EAX, -65535
+MOV _A_PROGRAMA, EAX
+Label2:
 MOV EAX, -1
 MOV _B_PROGRAMA, EAX
-Label2:
+Label3:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
