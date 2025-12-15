@@ -762,8 +762,7 @@ public static void main(String args[]){
         System.out.println("Error: Se requiere la ruta del archivo fuente como unico parametro.");
     }
 }
-}
-//#line 695 "Parser.java"
+//#line 694 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -1923,7 +1922,7 @@ case 112:
                   yyval.obj = lista;
               }
 break;
-//#line 1850 "Parser.java"
+//#line 1849 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

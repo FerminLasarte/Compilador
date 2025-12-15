@@ -3,10 +3,7 @@
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 4: Error de sintaxis. Verifique la estructura del codigo.
-Linea 6: Error de sintaxis. Verifique la estructura del codigo.
-Linea 8: Error de sintaxis. Verifique la estructura del codigo.
-Linea 10: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -21,21 +18,52 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-No se encontraron warnings.
+Linea: 4 - Columna: 4 - Linea 4: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
+Linea: 6 - Columna: 4 - Linea 6: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
+Linea: 8 - Columna: 4 - Linea 8: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
+Linea: 10 - Columna: 4 - Linea 10: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
+Linea: 11 - Columna: 0 - Linea 11: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
 
 =======================================================
-## RESULTADO DE LA COMPILACION: FALLIDO ##
+## GENERACION DE ASSEMBLER ##
 =======================================================
-La compilacion fallo. Se generara un assembler placeholder para evitar errores de linkeo.
->> Se genero 'salida.asm' (STUB) para notificar el error.
+Archivo salida.asm generado exitosamente.
+
+=======================================================
+## CODIGO INTERMEDIO (TERCETOS) ##
+=======================================================
+0:	(:=, A:PROGRAMA, 1UI)
+1:	(:=, B:PROGRAMA, 1UI)
+2:	(:=, C:PROGRAMA, 1UI)
+3:	(:=, D:PROGRAMA, 1UI)
+4:	(:=, E:PROGRAMA, 1UI)
+5:	(:=, F:PROGRAMA, 1UI)
+6:	(:=, G:PROGRAMA, 1UI)
+7:	(:=, H:PROGRAMA, 1UI)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
+| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | F:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | G:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | H:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | D:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | 1UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | @aux6:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | E:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux7:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
+| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================
