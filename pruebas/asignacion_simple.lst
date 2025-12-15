@@ -2,12 +2,21 @@ LISTADO DE COMPILACION: asignacion_simple.txt
 ----------------------------------------
    1: MAIN{
    2:     var A:= 4UI;
-   3:     var S: 4UI;
-   4:     var D:] 4UI;
-   5:     var F:) 4UI;
-   6:     var G:- 4UI;
-   7:     var H:+ 4UI;
-   8:     var J:== 4UI;
-   9:     var K:? 4UI;
-  10:     var L:" 4UI;
-  11: }
+   3:     print(A);
+   4:     var S: 4UI;
+   5:     print(S);
+   6:     var D:] 4UI;
+   7:     print(D);
+   8:     var F:) 4UI;
+   9:     print(F);
+  10:     var G:- 4UI;
+  11:     print(G);
+  12:     var H:+ 4UI;
+  13:     print(H);
+  14:     var J:== 4UI;
+  15:     print(J);
+  16:     var K:? 4UI;
+  17:     print(K);
+  18:     var I:" 4UI;
+  19:     print(I);
+  20: }

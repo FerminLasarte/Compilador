@@ -1,11 +1,20 @@
 MAIN{
     var A:= 4UI;
+    print(A);
     var S: 4UI;
+    print(S);
     var D:] 4UI;
+    print(D);
     var F:) 4UI;
+    print(F);
     var G:- 4UI;
+    print(G);
     var H:+ 4UI;
+    print(H);
     var J:== 4UI;
+    print(J);
     var K:? 4UI;
-    var L:" 4UI;
+    print(K);
+    var I:" 4UI;
+    print(I);
 }

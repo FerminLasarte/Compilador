@@ -18,14 +18,14 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 3 - Columna: 10 - Caracter invalido ' ' despues de ':'. Se asume ':=' y se continua.
-Linea: 4 - Columna: 10 - Caracter invalido ']' despues de ':'. Se asume ':=' y se continua.
-Linea: 5 - Columna: 10 - Caracter invalido ')' despues de ':'. Se asume ':=' y se continua.
-Linea: 6 - Columna: 10 - Caracter invalido '-' despues de ':'. Se asume ':=' y se continua.
-Linea: 7 - Columna: 10 - Caracter invalido '+' despues de ':'. Se asume ':=' y se continua.
-Linea: 8 - Columna: 10 - Caracter invalido '=' detectado en asignacion (posible ':=='). Se asume ':='.
-Linea: 9 - Columna: 10 - Caracter invalido '?' despues de ':'. Se asume ':=' y se continua.
-Linea: 10 - Columna: 10 - Caracter invalido '"' despues de ':'. Se asume ':=' y se continua.
+Linea: 4 - Columna: 10 - Caracter invalido ' ' despues de ':'. Se asume ':=' y se continua.
+Linea: 6 - Columna: 10 - Caracter invalido ']' despues de ':'. Se asume ':=' y se continua.
+Linea: 8 - Columna: 10 - Caracter invalido ')' despues de ':'. Se asume ':=' y se continua.
+Linea: 10 - Columna: 10 - Caracter invalido '-' despues de ':'. Se asume ':=' y se continua.
+Linea: 12 - Columna: 10 - Caracter invalido '+' despues de ':'. Se asume ':=' y se continua.
+Linea: 14 - Columna: 10 - Caracter invalido '=' detectado en asignacion (posible ':=='). Se asume ':='.
+Linea: 16 - Columna: 10 - Caracter invalido '?' despues de ':'. Se asume ':=' y se continua.
+Linea: 18 - Columna: 10 - Caracter invalido '"' despues de ':'. Se asume ':=' y se continua.
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -36,14 +36,23 @@ Archivo salida.asm generado exitosamente.
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
 0:	(:=, A:MAIN, 4UI)
-1:	(:=, S:MAIN, 4UI)
-2:	(:=, D:MAIN, 4UI)
-3:	(:=, F:MAIN, 4UI)
-4:	(:=, G:MAIN, 4UI)
-5:	(:=, H:MAIN, 4UI)
-6:	(:=, J:MAIN, 4UI)
-7:	(:=, K:MAIN, 4UI)
-8:	(:=, L:MAIN, 4UI)
+1:	(PRINT, A:MAIN, _)
+2:	(:=, S:MAIN, 4UI)
+3:	(PRINT, S:MAIN, _)
+4:	(:=, D:MAIN, 4UI)
+5:	(PRINT, D:MAIN, _)
+6:	(:=, F:MAIN, 4UI)
+7:	(PRINT, F:MAIN, _)
+8:	(:=, G:MAIN, 4UI)
+9:	(PRINT, G:MAIN, _)
+10:	(:=, H:MAIN, 4UI)
+11:	(PRINT, H:MAIN, _)
+12:	(:=, J:MAIN, 4UI)
+13:	(PRINT, J:MAIN, _)
+14:	(:=, K:MAIN, 4UI)
+15:	(PRINT, K:MAIN, _)
+16:	(:=, I:MAIN, 4UI)
+17:	(PRINT, I:MAIN, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -51,23 +60,32 @@ Archivo salida.asm generado exitosamente.
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 | MAIN                                | @aux2:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | L:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | F:MAIN                                        | false        | variable           | uint       | -          |
 | MAIN                                | @aux5:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux16:MAIN                                   | false        | variable_auxiliar  | null       | -          |
 | MAIN                                | MAIN:MAIN                                     | false        | null               | null       | -          |
-| MAIN                                | @aux7:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | D:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | G:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux13:MAIN                                   | false        | variable_auxiliar  | null       | -          |
 | MAIN                                | A:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | J:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | @aux4:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux1:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | S:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux10:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux11:MAIN                                   | false        | variable_auxiliar  | null       | -          |
 | MAIN                                | @aux3:MAIN                                    | false        | variable_auxiliar  | null       | -          |
 | MAIN                                | K:MAIN                                        | false        | variable           | uint       | -          |
 | MAIN                                | H:MAIN                                        | false        | variable           | uint       | -          |
 | MAIN                                | @aux0:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux14:MAIN                                   | false        | variable_auxiliar  | null       | -          |
 | MAIN                                | @aux6:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux17:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux15:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux12:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | F:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux9:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | I:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux7:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | D:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | G:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | J:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux4:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux1:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | S:MAIN                                        | false        | variable           | uint       | -          |
 | MAIN                                | @aux8:MAIN                                    | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================

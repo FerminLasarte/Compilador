@@ -25,6 +25,15 @@ MaxFloatValue dd 2139095039
 @aux6 dd 0
 @aux7 dd 0
 @aux8 dd 0
+@aux9 dd 0
+@aux10 dd 0
+@aux11 dd 0
+@aux12 dd 0
+@aux13 dd 0
+@aux14 dd 0
+@aux15 dd 0
+@aux16 dd 0
+@aux17 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -43,36 +52,55 @@ _G_MAIN dd 0
 _H_MAIN dd 0
 _J_MAIN dd 0
 _K_MAIN dd 0
+_I_MAIN dd 0
 .code
 start:
 Label0:
 MOV EAX, 4
 MOV _A_MAIN, EAX
 Label1:
-MOV EAX, 4
-MOV _S_MAIN, EAX
+invoke crt_printf, addr MensajePrintNum, _A_MAIN
 Label2:
 MOV EAX, 4
-MOV _D_MAIN, EAX
+MOV _S_MAIN, EAX
 Label3:
-MOV EAX, 4
-MOV _F_MAIN, EAX
+invoke crt_printf, addr MensajePrintNum, _S_MAIN
 Label4:
 MOV EAX, 4
-MOV _G_MAIN, EAX
+MOV _D_MAIN, EAX
 Label5:
-MOV EAX, 4
-MOV _H_MAIN, EAX
+invoke crt_printf, addr MensajePrintNum, _D_MAIN
 Label6:
 MOV EAX, 4
-MOV _J_MAIN, EAX
+MOV _F_MAIN, EAX
 Label7:
-MOV EAX, 4
-MOV _K_MAIN, EAX
+invoke crt_printf, addr MensajePrintNum, _F_MAIN
 Label8:
 MOV EAX, 4
-MOV _L_MAIN, EAX
+MOV _G_MAIN, EAX
 Label9:
+invoke crt_printf, addr MensajePrintNum, _G_MAIN
+Label10:
+MOV EAX, 4
+MOV _H_MAIN, EAX
+Label11:
+invoke crt_printf, addr MensajePrintNum, _H_MAIN
+Label12:
+MOV EAX, 4
+MOV _J_MAIN, EAX
+Label13:
+invoke crt_printf, addr MensajePrintNum, _J_MAIN
+Label14:
+MOV EAX, 4
+MOV _K_MAIN, EAX
+Label15:
+invoke crt_printf, addr MensajePrintNum, _K_MAIN
+Label16:
+MOV EAX, 4
+MOV _I_MAIN, EAX
+Label17:
+invoke crt_printf, addr MensajePrintNum, _I_MAIN
+Label18:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero
