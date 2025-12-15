@@ -39,18 +39,32 @@ programa : ID '{' {
      }
      ;
 
+/* NUEVA REGLA PARA INSERCION DE PUNTO Y COMA */
+fin_sentencia : ';'
+              {
+              }
+              |
+              {
+                  /* Usa getLineaAnterior() para reportar la linea donde falto el ; */
+                  al.agregarWarning("Linea " + al.getLineaAnterior() + ": Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.");
+              }
+              ;
+
 sentencias : sentencias sentencia
            |
            sentencia
            ;
+
 sentencia : sentencia_declarativa
           |
           sentencia_ejecutable
           | error ';'
           ;
+
+/* SE APLICA fin_sentencia */
 sentencia_declarativa : funcion
                       |
-                      declaracion_var ';'
+                      declaracion_var fin_sentencia
                       ;
 
 declaracion_var : VAR variable ASIG expresion
@@ -242,8 +256,8 @@ lista_tipos_retorno_multiple : tipo ',' tipo
                                  lista.add($3.sval);
                                  $$.obj = lista;
                              }
-                         |
-                         lista_tipos_retorno_multiple ',' tipo
+                          |
+                          lista_tipos_retorno_multiple ',' tipo
                              {
                                  ArrayList<?> rawList = (ArrayList<?>) $1.obj;
                                  ArrayList<String> lista = new ArrayList<String>();
@@ -253,7 +267,7 @@ lista_tipos_retorno_multiple : tipo ',' tipo
                                  lista.add($3.sval);
                                  $$.obj = lista;
                              }
-                         ;
+                          ;
 lista_parametros_formales : lista_parametros_formales ',' parametro_formal
                           |
                           parametro_formal
@@ -283,18 +297,20 @@ sem_pasaje : CR SE { $$.sval = "cr_se"; }
            |
            CR LE { $$.sval = "cr_le"; }
            ;
-sentencia_ejecutable : asignacion ';'
-                     | asignacion_multiple ';'
-                     | asignacion_multiple_warning ';'
+
+/* SE APLICA fin_sentencia */
+sentencia_ejecutable : asignacion fin_sentencia
+                     | asignacion_multiple fin_sentencia
+                     | asignacion_multiple_warning fin_sentencia
                      |
                      condicional_if
                      |
                      condicional_do_while
                      |
-                     salida_pantalla ';'
+                     salida_pantalla fin_sentencia
                      | retorno_funcion
                      |
-                     invocacion_funcion ';'
+                     invocacion_funcion fin_sentencia
                      ;
 
 asignacion : variable ASIG expresion
@@ -621,7 +637,6 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                           }
                                       }
                                   }
-
                                } else {
                                    $$.sval = "ERROR_CALL_PARAMS";
                                }
@@ -768,7 +783,8 @@ if_encabezado : IF '(' condicion ')' {
                }
                ;
 
-condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
+/* SE APLICA fin_sentencia */
+condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX fin_sentencia
                {
                    int bfIdx = g.desapilarControl();
                    if (bfIdx != -1) {
@@ -787,7 +803,7 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                        int inicioElse = g.getProximoTerceto();
                        g.modificarSaltoTerceto(bfIdx, "[" + inicioElse + "]");
                    }
-               } bloque_ejecutable ENDIF ';'
+               } bloque_ejecutable ENDIF fin_sentencia
                {
                    int biIdx = g.desapilarControl();
                    int finElse = g.getProximoTerceto();
@@ -812,11 +828,12 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                }
                ;
 
+/* SE APLICA fin_sentencia */
 condicional_do_while: DO
                     {
                         g.apilarControl(g.getProximoTerceto());
                     }
-                    bloque_ejecutable WHILE '(' condicion ')' ';'
+                    bloque_ejecutable WHILE '(' condicion ')' fin_sentencia
                     {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + $7.ival + ": Sentencia DO-WHILE reconocida.");
@@ -867,6 +884,7 @@ bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } se
                   |
                   '{' error '}'
                   ;
+/* SE APLICA fin_sentencia */
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 {
                     salida.add("Linea " + $1.ival + ": PRINT con cadena multilinea.");
@@ -879,7 +897,8 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
                 ;
-retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')' ';'
+/* SE APLICA fin_sentencia */
+retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')' fin_sentencia
             {
                 enSentenciaReturn = false;
                 if (pilaTiposRetorno.isEmpty()) {
@@ -904,7 +923,7 @@ retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')'
 
                             if (!tipoEnc.equals(tipoEsp) && !tipoEnc.equals("error_tipo")) {
                                  al.agregarErrorSemantico("Linea " + $1.ival + ": Error de Tipos: Tipo de retorno incorrecto en la posicion " + (i+1) + ". Esperado: " + tipoEsp + ", Encontrado: " + tipoEnc);
-                                 error = true;
+                                error = true;
                             }
                         }
                     }
