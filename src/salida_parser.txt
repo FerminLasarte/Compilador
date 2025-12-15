@@ -1,9 +1,9 @@
->> Archivo de listado generado: ..\pruebas\sentencias_control_do_while_error_condicion.lst
+>> Archivo de listado generado: ..\pruebas\sentencias_control_do_while_error_cuerpo.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 7: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -21,10 +21,16 @@ No se encontraron errores semanticos.
 No se encontraron warnings.
 
 =======================================================
-## RESULTADO DE LA COMPILACION: FALLIDO ##
+## GENERACION DE ASSEMBLER ##
 =======================================================
-La compilacion fallo. Se generara un assembler placeholder para evitar errores de linkeo.
->> Se genero 'salida.asm' (STUB) para notificar el error.
+Archivo salida.asm generado exitosamente.
+
+=======================================================
+## CODIGO INTERMEDIO (TERCETOS) ##
+=======================================================
+0:	(:=, A:PROGRAMA, 5UI)
+1:	(>, A:PROGRAMA, 0UI)
+2:	(BT, [1], [1])
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -34,13 +40,10 @@ La compilacion fallo. Se generara un assembler placeholder para evitar errores d
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | 0UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | 5UI:PROGRAMA                                  | false        | null               | uint       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:bloque_1                   | @aux1:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_1                   | 1UI:PROGRAMA:bloque_1                         | false        | null               | uint       | -          |
-| PROGRAMA:bloque_1                   | @aux2:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_1                   | @aux3:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

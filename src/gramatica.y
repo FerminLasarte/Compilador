@@ -290,10 +290,8 @@ parametro_formal : sem_pasaje tipo ID
                  g.apilarParametro(new ParametroInfo($2.sval, $1.sval, pasajeDefault));
              }
              |
-             /* NUEVA REGLA PARA RECUPERACION DE ERROR: FALTÓ EL TIPO */
              sem_pasaje ID
              {
-                 /* MODIFICADO: AHORA GENERA ERROR SINTACTICO EN LUGAR DE WARNING */
                  erroresSintacticos.add("Linea " + $2.ival + ": Error Sintactico: Falta el tipo del parametro '" + $2.sval + "'.");
              }
              ;
@@ -303,7 +301,6 @@ sem_pasaje : CR SE { $$.sval = "cr_se"; }
            CR LE { $$.sval = "cr_le"; }
            ;
 
-/* SE APLICA fin_sentencia */
 sentencia_ejecutable : asignacion fin_sentencia
                      |
                      asignacion_multiple fin_sentencia
@@ -935,21 +932,38 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                }
                ;
 
-condicional_do_while: DO
+parte_do_while : DO
+                 {
+                     g.apilarControl(g.getProximoTerceto());
+                 }
+                 bloque_ejecutable WHILE
+                 ;
+
+condicional_do_while: parte_do_while '(' condicion ')' fin_sentencia
                     {
-                        g.apilarControl(g.getProximoTerceto());
-                    }
-                    bloque_ejecutable WHILE '(' condicion ')' fin_sentencia
-                    {
-                        Object lineaObj = al.getAtributo("do", "Linea");
-                        salida.add("Linea " + $7.ival + ": Sentencia DO-WHILE reconocida.");
+                        /* NOTA: Se ajustaron los indices ($) porque ahora parte_do_while es $1 */
+                        /* $4 corresponde al parentesis de cierre ')', que tiene la linea correcta */
+
+                        salida.add("Linea " + $4.ival + ": Sentencia DO-WHILE reconocida.");
                         String refCondicion = g.desapilarOperando();
                         int inicioBucle = g.desapilarControl();
                         if (refCondicion.equals("ERROR_CONDICION")) {
-                             al.agregarErrorSemantico("Linea " + $7.ival + ": Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.");
+                             al.agregarErrorSemantico("Linea " + $4.ival + ": Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.");
                         } else {
                             String tercetoSalto = g.addTerceto("BT", refCondicion, "[" + inicioBucle + "]");
                         }
+                    }
+                    |
+                    parte_do_while condicion fin_sentencia
+                    {
+                        /* REGLA DE ERROR ESPECIFICA: Detecta falta de parentesis sin ambiguedad */
+                        /* $2 es la condicion, usamos su linea para reportar */
+
+                        erroresSintacticos.add("Linea " + $2.ival + ": Error sintactico: La condicion del DO-WHILE debe estar encerrada entre parentesis '()'.");
+
+                        /* Limpieza de pilas para evitar inconsistencias y permitir seguir compilando */
+                        g.desapilarOperando(); // Sacamos la condicion
+                        g.desapilarControl();  // Sacamos el inicio del bucle
                     }
                     ;
 
