@@ -2,22 +2,22 @@
 PROGRAMA {
     var A := 5UI;
     var B := 3UI;
-     if (A == 3UI) {
+    if (A == 3UI) {
          print(&A llego a 3UI&);
-            } else {
-                if (A == 5UI) {
-                    print(&A vale 5UI&);
-                    if (B == 5UI) {
-                        print(&B llego a 5UI&);
-                        } else {
-                            print(&B no vale 5UI&);
-                            B:= 7UI - 4UI;
-                        } endif;
-                    A:= 9UI - 4UI;
+    } else {
+        if (A == 5UI) {
+            print(&A vale 5UI&);
+                if (B == 5UI) {
+                    print(&B llego a 5UI&);
+                } else {
+                    print(&B no vale 5UI&);
+                    B:= 7UI - 4UI;
                 } endif;
-                print(&A: &);
-                print(A);
-                print(&B: &);
-                print(B);
-            } endif;
+            A:= 9UI - 4UI;
+        } endif;
+        print(&A: &);
+        print(A);
+        print(&B: &);
+        print(B);
+    } endif;
 }

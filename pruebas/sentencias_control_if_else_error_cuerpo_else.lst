@@ -1,0 +1,14 @@
+LISTADO DE COMPILACION: sentencias_control_if_else_error_cuerpo_else.txt
+----------------------------------------
+   1: @ Sentencias de Control
+   2: PROGRAMA {
+   3:     var A := 5UI;
+   4:     var B := 3UI;
+   5:     if (A == 3UI) {
+   6:          print(&A llego a 3UI&);
+   7:     } else {
+   8:         print(&A: &)
+   9:         print(A);
+  10:         var C := 1UI;
+  11:     }
+  12: }
