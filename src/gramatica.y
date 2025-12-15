@@ -39,12 +39,13 @@ programa : ID '{' {
          }
      ;
 
+/* MODIFICACION: Usar getLineaAnterior() para reportar la linea correcta */
 fin_sentencia : ';'
               {
               }
               |
               {
-                  al.agregarWarning("Linea " + al.getFilaToken() + ": Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.");
+                  al.agregarWarning("Linea " + al.getLineaAnterior() + ": Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.");
               }
               ;
 

@@ -18,11 +18,11 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 4 - Columna: 4 - Linea 4: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
-Linea: 6 - Columna: 4 - Linea 6: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
-Linea: 8 - Columna: 4 - Linea 8: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
-Linea: 10 - Columna: 4 - Linea 10: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
-Linea: 11 - Columna: 0 - Linea 11: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
+Linea 3: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
+Linea 5: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
+Linea 7: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
+Linea 9: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
+Linea 10: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##

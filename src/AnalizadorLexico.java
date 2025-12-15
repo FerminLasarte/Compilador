@@ -27,6 +27,11 @@ public class AnalizadorLexico {
     private AccionSemantica[][] matrizAccionesSemanticas;
     private HashMap<Character, Integer> columnaMatrices;
 
+    // --- NUEVAS VARIABLES PARA EL TRACKING DE LINEAS ---
+    private int lineaAnterior = 0; // Linea del token devuelto en la llamada ANTERIOR a yylex
+    private int lineaActual = 0;   // Linea del token devuelto en la llamada ACTUAL a yylex
+    // ---------------------------------------------------
+
     public AnalizadorLexico(String rutaArchivo) {
         contadorFila = 0;
         contadorColumna = 0;
@@ -160,7 +165,7 @@ public class AnalizadorLexico {
         matrizTransicionEstados = new int[][]{
                 {-1, 1, 3, 2, 3, 4, 5, 5, 6, 7, 16, 9, -2, -2, 0, 0, -1, 5, 5},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, 17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, // Estado 2 corregido: Todo va a -1 (correccion) excepto = que va a 17
+                {-1, -1, -1, -1, -1, 17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -2, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, -1, -1, 5, 5, -1, 5, -1, -1, -1, 5, -1, -1, -1, 5, 5},
@@ -175,7 +180,7 @@ public class AnalizadorLexico {
                 {-2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, -2, -2, -2, -2, -2, 15},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, // Estado 17
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
         };
         AccionSemantica as1 = new AccionSemantica.AccionSemantica1();
         AccionSemantica as2 = new AccionSemantica.AccionSemantica2();
@@ -187,7 +192,6 @@ public class AnalizadorLexico {
         AccionSemantica asE = new AccionSemantica.AccionSemanticaError();
         AccionSemantica asNull = new AccionSemantica.AccionSemanticaNull();
 
-        // Instancias de las nuevas acciones correccion
         AccionSemantica asC = new AccionSemantica.AccionSemanticaCorreccion();
         AccionSemantica asCE = new AccionSemantica.AccionSemanticaCorreccionExtra();
         AccionSemantica asF = new AccionSemantica.AccionSemanticaFinalizar();
@@ -195,7 +199,7 @@ public class AnalizadorLexico {
         matrizAccionesSemanticas = new AccionSemantica[][]{
                 {as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, asE, asE, asNull, asNull, as1, as1, as1},
                 {as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
-                {asC, asC, asC, asC, asC, as2, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC}, // Fila 2: asC para todo (correccion), as2 para =
+                {asC, asC, asC, asC, asC, as2, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC},
                 {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
                 {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5},
                 {as3, as3, as3, as3, as3, as3, as2, as2, as3, as2, as3, as3, as3, as2, as3, as3, as3, as2, as2},
@@ -210,11 +214,15 @@ public class AnalizadorLexico {
                 {asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, as2},
                 {as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4},
                 {as5, as5, as5, as5, as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5},
-                {asF, asF, asF, asF, asF, asCE, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF}, // Fila 17: Nueva fila para manejar el final de :=
+                {asF, asF, asF, asF, asF, asCE, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF},
         };
     }
 
     public int yylex() {
+        // --- GUARDAR LINEA ANTERIOR ---
+        lineaAnterior = lineaActual;
+        // ------------------------------
+
         ultimoEstado = 0;
         String tokenString = null;
         while (ultimoEstado != -1 && ultimoEstado != -2) {
@@ -246,16 +254,28 @@ public class AnalizadorLexico {
                 this.aumentarContadorFila();
             }
         }
+
+        // --- ACTUALIZAR LINEA ACTUAL ANTES DE RETORNAR ---
         if (tokenString != null) {
+            lineaActual = this.filaToken + 1;
             if (codigosTokens.containsKey(tokenString)) {
                 return codigosTokens.get(tokenString);
             }
         }
         if (lexema != null && !lexema.isEmpty() && codigosTokens.containsKey(lexema)) {
+            lineaActual = this.filaToken + 1;
             return codigosTokens.get(lexema);
         }
+        // -------------------------------------------------
         return -1;
     }
+
+    // --- NUEVO METODO GETTER ---
+    public int getLineaAnterior() {
+        // Si es la primera linea, fallback a la actual
+        return (lineaAnterior == 0) ? lineaActual : lineaAnterior;
+    }
+    // ---------------------------
 
     public void eliminarLexemaTS(String lexema) {
         if (indiceAmbitoActual != -1) {
@@ -319,7 +339,6 @@ public class AnalizadorLexico {
         return this.errores;
     }
 
-    // MODIFICADO: Agrega el prefijo "Error Lexico: "
     public void agregarError(String string) {
         errores.add("Linea: " + (contadorFila + 1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - Error Lexico: " + string);
     }
@@ -364,7 +383,7 @@ public class AnalizadorLexico {
     }
 
     public void agregarWarning(String string) {
-        warnings.add("Linea: " + (contadorFila + 1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
+        warnings.add(string);
     }
 
     public ArrayList<String> getWarnings() {
