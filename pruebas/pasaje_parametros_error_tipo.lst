@@ -3,7 +3,7 @@ LISTADO DE COMPILACION: pasaje_parametros_error_tipo.txt
    1: @ Copia-Resultado
    2: PROGRAMA {
    3: 
-   4:     uint FUNCION(cr se uint A, cr le uint B, cr se C) {
+   4:     uint FUNCION(cr se uint A, cr le uint B, cr le C) {
    5:         A, B, C = 3UI, 5UI, 8UI;
    6:         A := B + C;
    7:         return(A);

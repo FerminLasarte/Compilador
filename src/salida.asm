@@ -32,7 +32,6 @@ MaxFloatValue dd 2139095039
 @aux13 dd 0
 @aux14 dd 0
 @aux15 dd 0
-@aux16 dd 0
 _RET_VAL_0 dd 0
 _RET_VAL_1 dd 0
 _RET_VAL_2 dd 0
@@ -43,63 +42,73 @@ _RET_VAL_6 dd 0
 _RET_VAL_7 dd 0
 _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
-_C_PROGRAMA_FUNCION dd 0
+_A_PROGRAMA dd 0
+_E_PROGRAMA dd 0
+_F_PROGRAMA dd 0
 _B_PROGRAMA_FUNCION dd 0
-_A_PROGRAMA_lambda_6 dd 0
-str_10 db "Imprime Lambda Positivo", 0
-str_12 db "Imprime Lambda Negativo", 0
+_C_PROGRAMA_FUNCION dd 0
+_D_PROGRAMA_FUNCION dd 0
 .code
 start:
 Label0:
-JMP Label5
+MOV EAX, 1
+MOV _A_PROGRAMA, EAX
 Label1:
-__FUNCION_PROGRAMA:
+MOV EAX, 1065353216
+PUSH EAX
+FLD DWORD PTR [ESP]
+ADD ESP, 4
+FSTP _E_PROGRAMA
 Label2:
-MOV EAX, _C_PROGRAMA_FUNCION
-MOV ECX, EAX
+MOV EAX, 5
+MOV _F_PROGRAMA, EAX
 Label3:
-MOV EAX, _B_PROGRAMA_FUNCION
-CALL EAX
+JMP Label10
 Label4:
+__FUNCION_PROGRAMA:
+Label5:
+MOV EAX, _A_PROGRAMA
+ADD EAX, _B_PROGRAMA_FUNCION
+CMP EAX, 65535
+JA ErrorOverflow
+MOV @aux5, EAX
+Label6:
+MOV EAX, @aux5
+MOV _C_PROGRAMA_FUNCION, EAX
+Label7:
+MOV EAX, 1084227584
+PUSH EAX
+FLD DWORD PTR [ESP]
+ADD ESP, 4
+FSTP _D_PROGRAMA_FUNCION
+Label8:
 ; -- RETURN --
 MOV EAX, _C_PROGRAMA_FUNCION
 MOV _RET_VAL_0, EAX
-RET
-Label5:
-JMP Label14
-Label6:
-MOV _A_PROGRAMA_lambda_6, ECX
-Label7:
-invoke crt_printf, addr MensajePrintNum, _A_PROGRAMA_lambda_6
-Label8:
-MOV EAX, _A_PROGRAMA_lambda_6
-CMP EAX, 3
-SETA AL
-MOVZX EAX, AL
-MOV @aux8, EAX
 Label9:
-MOV EAX, @aux8
-CMP EAX, 0
-JE Label12
-Label10:
-invoke crt_printf, addr MensajePrint, addr str_10
-Label11:
-JMP Label13
-Label12:
-invoke crt_printf, addr MensajePrint, addr str_12
-Label13:
 ; -- RETURN --
+FLD _D_PROGRAMA_FUNCION
+FSTP _RET_VAL_1
 RET
-Label14:
-MOV EAX, Label6
+Label10:
+MOV EAX, 4
 MOV _B_PROGRAMA_FUNCION, EAX
-Label15:
-MOV EAX, 5
-MOV _C_PROGRAMA_FUNCION, EAX
-Label16:
+Label11:
 CALL __FUNCION_PROGRAMA
-MOV @aux16, EAX
-Label17:
+MOV @aux11, EAX
+Label12:
+MOV EAX, _RET_VAL_0
+MOV @aux12, EAX
+Label13:
+MOV EAX, @aux12
+MOV _A_PROGRAMA, EAX
+Label14:
+FLD _RET_VAL_1
+FSTP @aux14
+Label15:
+FLD @aux14
+FSTP _E_PROGRAMA
+Label16:
 invoke ExitProcess, 0
 Error_DivCero:
 invoke crt_printf, addr MsgErrorDivCero

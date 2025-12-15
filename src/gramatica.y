@@ -134,6 +134,7 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             pilaTiposRetorno.push(tiposEsperados);
             pilaErrorEnFuncion.push(false);
             pilaHuboRetorno.push(false);
+
             if (g.existeEnAmbitoActual(nombreFuncion)) {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
                 g.setGeneracionHabilitada(false);
@@ -292,11 +293,8 @@ parametro_formal : sem_pasaje tipo ID
              /* NUEVA REGLA PARA RECUPERACION DE ERROR: FALTÓ EL TIPO */
              sem_pasaje ID
              {
-                 /* Generamos un warning en lugar de error sintactico */
-                 al.agregarWarning("Linea " + $2.ival + ": Warning: Falta el tipo del parametro '" + $2.sval + "'. Se asume 'uint' por defecto y se continua.");
-
-                 /* Asumimos 'uint' para poder continuar la compilacion y evitar errores de variable no declarada */
-                 g.apilarParametro(new ParametroInfo($2.sval, "uint", $1.sval));
+                 /* MODIFICADO: AHORA GENERA ERROR SINTACTICO EN LUGAR DE WARNING */
+                 erroresSintacticos.add("Linea " + $2.ival + ": Error Sintactico: Falta el tipo del parametro '" + $2.sval + "'.");
              }
              ;
 
@@ -340,7 +338,6 @@ asignacion : variable ASIG expresion
                    }
                }
                else if (tipoExpr.equals("multiple")) {
-                   // ... (resto de tu lógica existente para asignación válida) ...
                    String funcName = "";
                    boolean esFuncionValida = true;
                    try {
@@ -382,6 +379,7 @@ asignacion : variable ASIG expresion
                                }
                            }
                        }
+
                    }
                } else {
                    if (g.chequearAsignacion(tipoVar, tipoExpr, linea)) {
@@ -389,7 +387,8 @@ asignacion : variable ASIG expresion
                    }
                }
            }
-           | conversion_explicita ASIG expresion
+           |
+           conversion_explicita ASIG expresion
            {
                /* REGLA AGREGADA PARA DETECTAR ERROR DE ASIGNACION A TOUI */
                erroresSintacticos.add("Linea " + $1.ival + ": Error de sintaxis: Intento de asignacion invalido. No se puede asignar un valor al resultado de una conversion 'toui'. Se espera una variable a la izquierda.");
@@ -402,8 +401,7 @@ asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
 }
 ;
 
-/* NUEVA REGLA: Admite ASIG (:=) pero lanza warning.
-   Solo para listas > 1 elemento */
+/* NUEVA REGLA: Admite ASIG (:=) pero lanza warning. Solo para listas > 1 elemento */
 asignacion_multiple_warning : lista_strict_multiple ASIG lado_derecho_multiple
 {
     al.agregarWarning("Linea " + $2.ival + ": Warning: El operador ':=' es para asignaciones simples. Para asignaciones multiples se espera '='.");
@@ -463,7 +461,8 @@ expresion : expresion '+' termino
                 $$.ival = $1.ival;
             }
           |
-          termino { $$.ival = $1.ival; }
+          termino { $$.ival = $1.ival;
+          }
           ;
 
 termino : termino '*' factor
@@ -487,7 +486,8 @@ termino : termino '*' factor
                 g.apilarOperando(terceto);
                 $$.ival = $1.ival;
             }
-        | factor { $$.ival = $1.ival; }
+        | factor { $$.ival = $1.ival;
+        }
         ;
 
 factor : factor_no_funcion
@@ -533,7 +533,8 @@ factor_no_funcion : variable
                   }
                   |
                   conversion_explicita
-                  { $$.ival = $1.ival; }
+                  { $$.ival = $1.ival;
+                  }
                   ;
 
 conversion_explicita : TOUI '(' expresion ')'
@@ -656,6 +657,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                           }
                                       }
                                   }
+
                                } else {
                                    $$.sval = "ERROR_CALL_PARAMS";
                                }
@@ -743,11 +745,11 @@ lambda_expresion : '(' tipo ID ')' '{'
                     $$.sval = $6.sval;
                     $$.ival = $1.ival;
                  }
-                 | '(' ')' '{'
+                 |
+                 '(' ')' '{'
                  {
                     /* REGLA DE ERROR: DETECCION DE LAMBDA VACIA */
                     erroresSintacticos.add("Linea " + $1.ival + ": Error sintactico: El parametro de la expresion lambda esta vacio. Se requiere definicion de tipo e identificador.");
-
                     /* RECUPERACION: Simulamos una lambda para que el parser continue analizando el cuerpo sin romperse */
                     pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
                     int inicioLambda = g.getProximoTerceto();
@@ -787,7 +789,8 @@ declaracion_ilegal : VAR variable ASIG expresion fin_sentencia
                    {
                         erroresSintacticos.add("Linea " + $2.ival + ": Error sintactico: No se permiten declaraciones en bloques ejecutables.");
                    }
-                   | VAR variable fin_sentencia
+                   |
+                   VAR variable fin_sentencia
                    {
                         erroresSintacticos.add("Linea " + $2.ival + ": Error sintactico: No se permiten declaraciones en bloques ejecutables.");
                    }
@@ -871,10 +874,10 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    salida.add("Linea " + $1.ival + ": Sentencia IF-ELSE reconocida.");
                }
                /* RECUPERACION: ENDIF presente pero falta punto y coma (IF simple) */
-               | if_encabezado bloque_ejecutable ENDIF error
+               |
+               if_encabezado bloque_ejecutable ENDIF error
                {
                    al.agregarWarning("Linea " + al.getFilaToken() + ": Warning: Falta punto y coma despues de 'endif'.");
-
                    /* Limpiar error generico si existe */
                    if (!erroresSintacticos.isEmpty()) {
                         String ultimoError = erroresSintacticos.get(erroresSintacticos.size() - 1);
@@ -892,10 +895,10 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    } catch (Exception e) { }
                }
                /* RECUPERACION: ENDIF presente pero falta punto y coma (IF-ELSE) */
-               | if_encabezado bloque_ejecutable inicio_else bloque_ejecutable ENDIF error
+               |
+               if_encabezado bloque_ejecutable inicio_else bloque_ejecutable ENDIF error
                {
                    al.agregarWarning("Linea " + al.getFilaToken() + ": Warning: Falta punto y coma despues de 'endif'.");
-
                    /* Limpiar error generico si existe */
                    if (!erroresSintacticos.isEmpty()) {
                         String ultimoError = erroresSintacticos.get(erroresSintacticos.size() - 1);
@@ -922,7 +925,6 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    }
 
                    al.agregarWarning("Linea " + al.getFilaToken() + ": Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.");
-
                    try {
                        int bfIdx = g.desapilarControl();
                        if (bfIdx != -1) {

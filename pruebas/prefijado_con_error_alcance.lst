@@ -1,0 +1,19 @@
+LISTADO DE COMPILACION: prefijado_con_error_alcance.txt
+----------------------------------------
+   1: @ Prefijado Opcional
+   2: MAIN {
+   3:     var AUXSINPREFIJO:= 100UI;
+   4:     uint FUNCIONAUXSINPREFIJO(uint J){
+   5:             print(&J: &);
+   6:             print(J);
+   7:             print(&AUXSINPREFIJO: &);
+   8:             print(AUXSINPREFIJO);
+   9:             J:= J + AUXSINPREFIJO;
+  10:             return( J);
+  11:         }
+  12:     var ROB := FUNCIONAUXSINPREFIJO(500UI->J);
+  13:     print(&ROB: &);
+  14:     print(ROB);
+  15:     print(J);
+  16:     print(MAIN.J);
+  17: }

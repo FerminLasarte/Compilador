@@ -4,7 +4,6 @@ PROGRAMA {
     uint FUNCION(cr se uint A, cr le uint B, uint C) {
         A, B, C = 3UI, 5UI, 8UI;
         A := A + C;
-
         return(A);
     }
 

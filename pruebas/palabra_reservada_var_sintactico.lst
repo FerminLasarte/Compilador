@@ -2,5 +2,5 @@ LISTADO DE COMPILACION: palabra_reservada_var_sintactico.txt
 ----------------------------------------
    1: @ Palabra Reservada var
    2: PROGRAMA {
-   3:     VAR A := 0UI;
+   3:     var VAR := 0UI;
    4: }

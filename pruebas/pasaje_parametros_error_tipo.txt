@@ -1,7 +1,7 @@
 @ Copia-Resultado
 PROGRAMA {
 
-    uint FUNCION(cr se uint A, cr le uint B, cr se C) {
+    uint FUNCION(cr se uint A, cr le uint B, cr le C) {
         A, B, C = 3UI, 5UI, 8UI;
         A := B + C;
         return(A);

@@ -1,0 +1,17 @@
+@ Prefijado Opcional
+MAIN {
+    var AUXSINPREFIJO:= 100UI;
+    uint FUNCIONAUXSINPREFIJO(uint J){
+            print(&J: &);
+            print(J);
+            print(&AUXSINPREFIJO: &);
+            print(AUXSINPREFIJO);
+            J:= J + AUXSINPREFIJO;
+            return( J);
+        }
+    var ROB := FUNCIONAUXSINPREFIJO(500UI->J);
+    print(&ROB: &);
+    print(ROB);
+    print(J);
+    print(MAIN.J);
+}

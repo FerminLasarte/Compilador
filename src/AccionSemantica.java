@@ -96,30 +96,30 @@ public abstract class AccionSemantica {
 
             try {
                 BigDecimal bd = new BigDecimal(valor);
+                // Rango aproximado de float IEEE 754 de 32 bits
                 BigDecimal limiteInferiorPositivo = new BigDecimal("1.17549435E-38");
                 BigDecimal limiteSuperiorPositivo = new BigDecimal("3.40282347E+38");
                 BigDecimal cero = BigDecimal.ZERO;
+
+                // El valor absoluto es lo que importa para los limites positivos en esta logica simple,
+                // asumiendo que el signo se maneja externamente o que la comparacion se hace con abs si fuera necesario.
+                // Sin embargo, tu gramatica parece manejar el signo '-' como un token separado (unario) en el parser,
+                // asi que aqui evaluamos la magnitud del numero positivo literal.
 
                 if (bd.compareTo(cero) == 0) {
                     return "CTE";
                 }
 
+                // CAMBIO APLICADO: Deteccion de Overflow como ERROR
                 if (bd.compareTo(limiteSuperiorPositivo) > 0) {
-                    String nuevoLexema = "3.40282347F+38";
-                    al.agregarWarning("Constante flotante fuera de rango (overflow). El valor " + lexemaActual + " fue truncado a " + nuevoLexema);
-                    al.setLexema(nuevoLexema);
-                    al.agregarLexemaTS(nuevoLexema);
-                    al.agregarAtributoLexema(nuevoLexema, "Tipo", "float");
-                    return "CTE";
+                    al.agregarError("Constante flotante fuera de rango (overflow): " + lexemaActual);
+                    return "ERROR";
                 }
 
+                // CAMBIO APLICADO: Deteccion de Underflow como ERROR (opcional, pero consistente con "fuera de rango")
                 if (bd.compareTo(limiteInferiorPositivo) < 0) {
-                    String nuevoLexema = "1.17549435F-38";
-                    al.agregarWarning("Constante flotante fuera de rango (underflow). El valor " + lexemaActual + " fue truncado a " + nuevoLexema);
-                    al.setLexema(nuevoLexema);
-                    al.agregarLexemaTS(nuevoLexema);
-                    al.agregarAtributoLexema(nuevoLexema, "Tipo", "float");
-                    return "CTE";
+                    al.agregarError("Constante flotante fuera de rango (underflow): " + lexemaActual);
+                    return "ERROR";
                 }
 
                 al.agregarLexemaTS(lexemaActual);
