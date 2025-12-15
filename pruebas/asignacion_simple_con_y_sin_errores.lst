@@ -19,6 +19,6 @@ LISTADO DE COMPILACION: asignacion_simple_con_y_sin_errores.txt
   17:     print(K);
   18:     var I:" 4UI;
   19:     print(I);
-  20:     @var U:U 4UI;
-  21:     @print(U);
+  20:     var I:= 4UI;
+  21:     print(I);
   22: }

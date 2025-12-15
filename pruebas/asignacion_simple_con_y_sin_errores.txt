@@ -17,6 +17,6 @@ MAIN{
     print(K);
     var I:" 4UI;
     print(I);
-    @var U:U 4UI;
-    @print(U);
+    var I:= 4UI;
+    print(I);
 }
