@@ -1,17 +1,17 @@
->> Archivo de listado generado: ..\pruebas\enteros_sin_signo_overflow.lst
+>> Archivo de listado generado: ..\pruebas\punto_y_coma_error.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 3: Error de sintaxis. Verifique la estructura del codigo.
 Linea 4: Error de sintaxis. Verifique la estructura del codigo.
+Linea 6: Error de sintaxis. Verifique la estructura del codigo.
+Linea 8: Error de sintaxis. Verifique la estructura del codigo.
+Linea 10: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
 =======================================================
-Linea: 3 - Columna: 13 - Error Lexico: Constante uint fuera del rango permitido (0 a 65535): 70000
-Linea: 4 - Columna: 14 - Error Lexico: Constante uint fuera del rango permitido (0 a 65535): 70000
-Linea: 6 - Columna: 4 - Error Lexico: El identificador 'vir' es invalido. Debe comenzar con mayuscula o ser una palabra reservada en minusculas.
+No se encontraron errores lexicos.
 
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##

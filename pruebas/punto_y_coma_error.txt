@@ -1,0 +1,11 @@
+@ Punto y Coma
+PROGRAMA {
+    var A := 1UI
+    var B := 1UI;
+    var C := 1UI
+    var D := 1UI;
+    var E := 1UI
+    var F := 1UI;
+    var G := 1UI
+    var H := 1UI
+}
