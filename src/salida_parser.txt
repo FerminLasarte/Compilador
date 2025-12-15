@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\punto_flotante_overflow.lst
+>> Archivo de listado generado: ..\pruebas\enteros_sin_signo_overflow.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -23,14 +23,13 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 3 - Columna: 13 - Constante flotante fuera de rango (overflow). El valor 4.0F+38 fue truncado a 3.40282347F+38
-Linea: 4 - Columna: 14 - Constante flotante fuera de rango (overflow). El valor 4.0F+38 fue truncado a 3.40282347F+38
+Linea: 3 - Columna: 13 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 3.40282347F+38)
-1:	(:=, B:PROGRAMA, -3.40282347F+38)
+0:	(:=, A:PROGRAMA, 65535UI)
+1:	(:=, B:PROGRAMA, -1UI)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
@@ -38,10 +37,10 @@ Linea: 4 - Columna: 14 - Constante flotante fuera de rango (overflow). El valor 
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | float      | -          |
+| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | float      | -          |
+| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================
