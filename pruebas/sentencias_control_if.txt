@@ -13,5 +13,4 @@ PROGRAMA {
      print(A);
      print(&B: &);
      print(B);
-     } endif;
 }

@@ -624,7 +624,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 1103 "gramatica.y"
+//#line 1097 "gramatica.y"
 
 static AnalizadorLexico al;
 static Generador g;
@@ -1970,68 +1970,68 @@ case 103:
 { g.apilarOperando(">="); }
 break;
 case 104:
-//#line 996 "gramatica.y"
+//#line 995 "gramatica.y"
 { g.apilarOperando("<="); }
 break;
 case 105:
-//#line 998 "gramatica.y"
+//#line 996 "gramatica.y"
 { g.apilarOperando("=!"); }
 break;
 case 106:
-//#line 1000 "gramatica.y"
+//#line 997 "gramatica.y"
 { g.apilarOperando("=="); }
 break;
 case 107:
-//#line 1002 "gramatica.y"
+//#line 998 "gramatica.y"
 { g.apilarOperando(">"); }
 break;
 case 108:
-//#line 1004 "gramatica.y"
+//#line 999 "gramatica.y"
 { g.apilarOperando("<"); }
 break;
 case 109:
-//#line 1006 "gramatica.y"
+//#line 1000 "gramatica.y"
 {
-                        al.agregarWarning("Linea " + val_peek(0).ival + ": Warning: Se utilizo ':=' en una condicion. Se asume comparacion '=='.");
+                        erroresSintacticos.add("Linea " + val_peek(0).ival + ": Error Sintactico: Se encontro una asignacion ':=' en la condicion. Debe utilizar un operador de comparacion (==, !=, <, >, <=, >=).");
                         g.apilarOperando("==");
                     }
 break;
 case 110:
-//#line 1012 "gramatica.y"
+//#line 1006 "gramatica.y"
 { g.abrirAmbito("bloque_" + g.getProximoTerceto()); }
 break;
 case 111:
-//#line 1012 "gramatica.y"
+//#line 1006 "gramatica.y"
 { g.cerrarAmbito();}
 break;
 case 112:
-//#line 1014 "gramatica.y"
+//#line 1008 "gramatica.y"
 { g.abrirAmbito("bloque_" + g.getProximoTerceto()); }
 break;
 case 113:
-//#line 1014 "gramatica.y"
+//#line 1008 "gramatica.y"
 { g.cerrarAmbito(); }
 break;
 case 115:
-//#line 1021 "gramatica.y"
+//#line 1015 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con cadena multilinea.");
                     g.addTerceto("PRINT", val_peek(1).sval);
                 }
 break;
 case 116:
-//#line 1027 "gramatica.y"
+//#line 1021 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con expresion.");
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
 break;
 case 117:
-//#line 1034 "gramatica.y"
+//#line 1028 "gramatica.y"
 { enSentenciaReturn = true; }
 break;
 case 118:
-//#line 1035 "gramatica.y"
+//#line 1029 "gramatica.y"
 {
                 enSentenciaReturn = false;
                 if (pilaTiposRetorno.isEmpty()) {
@@ -2080,7 +2080,7 @@ case 118:
             }
 break;
 case 119:
-//#line 1084 "gramatica.y"
+//#line 1078 "gramatica.y"
 {
                   ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
                   ArrayList<String> lista = new ArrayList<String>();
@@ -2092,7 +2092,7 @@ case 119:
               }
 break;
 case 120:
-//#line 1095 "gramatica.y"
+//#line 1089 "gramatica.y"
 {
                   ArrayList<String> lista = new ArrayList<String>();
                   lista.add(g.desapilarOperando());

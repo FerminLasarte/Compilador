@@ -1,11 +1,10 @@
 @ Sentencias de Control
 PROGRAMA {
-    var A := 5UI;
-    do {
-        print(A);
-        A := A - 1UI;
-        var B := 10UI;
-        print(B);
-    } while (A > 0UI);
-    print(&hola&);
+    var A := 3UI;
+     if (A := 3UI) {
+         print(&A llego a 3UI&);
+         A:= A+2UI;
+     } endif;
+     print(&A: &);
+     print(A);
 }

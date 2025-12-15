@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\sentencias_control_do_while_error_cuerpo.lst
+>> Archivo de listado generado: ..\pruebas\sentencias_declarativas.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
@@ -28,24 +28,52 @@ Archivo salida.asm generado exitosamente.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 3UI)
-1:	(>, A:PROGRAMA, 5UI)
-2:	(BT, [1], [1])
-3:	(PRINT, A:PROGRAMA, _)
+0:	(:=, A:PROGRAMA, 10UI)
+1:	(BI, _, [12])
+2:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
+3:	(:=, C:PROGRAMA:FUNCION, 5UI)
+4:	(:=, B:PROGRAMA:FUNCION, A:PROGRAMA)
+5:	(PRINT, B:PROGRAMA:FUNCION, _)
+6:	(+, A:PROGRAMA, B:PROGRAMA:FUNCION)
+7:	(PRINT, [6], _)
+8:	(*, B:PROGRAMA:FUNCION, 2UI)
+9:	(+, A:PROGRAMA, [8])
+10:	(PRINT, [9], _)
+11:	(RETURN, B:PROGRAMA:FUNCION, 0/1)
+12:	(PARAM, A:PROGRAMA, B:PROGRAMA:FUNCION)
+13:	(CALL, FUNCION:PROGRAMA, _)
+14:	(:=, C:PROGRAMA, [13])
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | 3UI:PROGRAMA                                  | false        | null               | uint       | -          |
-| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux12:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux14:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | 10UI:PROGRAMA                                 | false        | null               | uint       | -          |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | 5UI:PROGRAMA                                  | false        | null               | uint       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
+| PROGRAMA                            | @aux13:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:FUNCION                    | @aux11:PROGRAMA:FUNCION                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | uint       | default_cv |
+| PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | @aux8:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | variable           | uint       | -          |
+| PROGRAMA:FUNCION                    | @aux10:PROGRAMA:FUNCION                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | @aux6:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | 2UI:PROGRAMA:FUNCION                          | false        | null               | uint       | -          |
+| PROGRAMA:FUNCION                    | 5UI:PROGRAMA:FUNCION                          | false        | null               | uint       | -          |
+| PROGRAMA:FUNCION                    | @aux9:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | @aux5:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | @aux7:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

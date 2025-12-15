@@ -992,19 +992,13 @@ condicion : expresion simbolo_comparacion expresion
           ;
 
 simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
-                    |
-                    MENOR_IGUAL { g.apilarOperando("<="); }
-                    |
-                    DISTINTO { g.apilarOperando("=!"); }
-                    |
-                    IGUAL_IGUAL { g.apilarOperando("=="); }
-                    |
-                    '>' { g.apilarOperando(">"); }
-                    |
-                    '<' { g.apilarOperando("<"); }
-                    |
-                    ASIG {
-                        al.agregarWarning("Linea " + $1.ival + ": Warning: Se utilizo ':=' en una condicion. Se asume comparacion '=='.");
+                    | MENOR_IGUAL { g.apilarOperando("<="); }
+                    | DISTINTO { g.apilarOperando("=!"); }
+                    | IGUAL_IGUAL { g.apilarOperando("=="); }
+                    | '>' { g.apilarOperando(">"); }
+                    | '<' { g.apilarOperando("<"); }
+                    | ASIG {
+                        erroresSintacticos.add("Linea " + $1.ival + ": Error Sintactico: Se encontro una asignacion ':=' en la condicion. Debe utilizar un operador de comparacion (==, !=, <, >, <=, >=).");
                         g.apilarOperando("==");
                     }
                     ;
