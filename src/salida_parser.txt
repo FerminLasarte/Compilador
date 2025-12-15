@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\sentencias_control_do_while_error_declaracion.lst
+>> Archivo de listado generado: ..\pruebas\enteros_sin_signo_overflow.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -8,7 +8,7 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 7: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -23,34 +23,35 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-No se encontraron warnings.
+Linea: 3 - Columna: 13 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
+Linea: 4 - Columna: 14 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 5UI)
-1:	(PRINT, A:PROGRAMA, _)
-2:	(-, A:PROGRAMA, 1UI)
-3:	(:=, A:PROGRAMA, [2])
-4:	(>, A:PROGRAMA, 0UI)
-5:	(BT, [4], [1])
-6:	(PRINT, &hola&, _)
+0:	(:=, A:PROGRAMA, 65535UI)
+1:	(:=, B:PROGRAMA, -65535UI)
+2:	(+, 65534UI, 2UI)
+3:	(:=, C:PROGRAMA, [2])
+4:	(-, 65534UI, 2UI)
+5:	(:=, D:PROGRAMA, [4])
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | D:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:bloque_1                   | @aux5:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_1                   | @aux1:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_1                   | @aux4:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_1                   | @aux2:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_1                   | @aux3:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_1                   | @aux6:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================
