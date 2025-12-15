@@ -1,12 +1,14 @@
->> Archivo de listado generado: ..\pruebas\punto_y_coma_error.lst
+>> Archivo de listado generado: ..\pruebas\sentencias_control_if_error_sin_endif.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 4: Error de sintaxis. Verifique la estructura del codigo.
 Linea 6: Error de sintaxis. Verifique la estructura del codigo.
-Linea 8: Error de sintaxis. Verifique la estructura del codigo.
-Linea 10: Error de sintaxis. Verifique la estructura del codigo.
+Linea 6: Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.
+Linea 7: Error de sintaxis. Verifique la estructura del codigo.
+Linea 7: Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.
+Linea 11: Error de sintaxis. Verifique la estructura del codigo.
+Linea 11: Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -34,8 +36,43 @@ La compilacion fallo. Se generara un assembler placeholder para evitar errores d
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA                            | 9UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | @aux20:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux8:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux19:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | 5UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | 3UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux18:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux21:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux12:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux17:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux22:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux7:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | 4UI:PROGRAMA                                  | false        | null               | uint       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-| PROGRAMA                            | 1UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux13:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_4                   | @aux4:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_4                   | @aux5:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_4                   | @aux6:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_4                   | 2UI:PROGRAMA:bloque_4                         | false        | null               | uint       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_9                   | @aux11:PROGRAMA:bloque_9                      | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_9                   | @aux9:PROGRAMA:bloque_9                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_9                   | 2UI:PROGRAMA:bloque_9                         | false        | null               | uint       | -          |
+| PROGRAMA:bloque_9                   | @aux10:PROGRAMA:bloque_9                      | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_14                  | @aux14:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_14                  | 7UI:PROGRAMA:bloque_14                        | false        | null               | uint       | -          |
+| PROGRAMA:bloque_14                  | 4UI:PROGRAMA:bloque_14                        | false        | null               | uint       | -          |
+| PROGRAMA:bloque_14                  | @aux16:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_14                  | @aux15:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

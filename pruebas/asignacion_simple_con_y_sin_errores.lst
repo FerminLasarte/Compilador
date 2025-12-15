@@ -1,4 +1,4 @@
-LISTADO DE COMPILACION: asignacion_simple.txt
+LISTADO DE COMPILACION: asignacion_simple_con_y_sin_errores.txt
 ----------------------------------------
    1: MAIN{
    2:     var A:= 4UI;
@@ -19,4 +19,6 @@ LISTADO DE COMPILACION: asignacion_simple.txt
   17:     print(K);
   18:     var I:" 4UI;
   19:     print(I);
-  20: }
+  20:     var U:U 4UI;
+  21:     print(I);
+  22: }

@@ -767,6 +767,7 @@ if_encabezado : IF '(' condicion ')' {
                     $$.ival = $1.ival;
                }
                ;
+
 condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                {
                    int bfIdx = g.desapilarControl();
@@ -810,6 +811,7 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    }
                }
                ;
+
 condicional_do_while: DO
                     {
                         g.apilarControl(g.getProximoTerceto());
@@ -1046,9 +1048,9 @@ private void procesarAsignacionMultiple(int linea) {
             }
         }
     } else {
-        /* CORRECCION WARNINGS TEMA 19 */
+        /* AQUI ESTA EL CAMBIO: TEMA 19 AHORA ES ERROR */
         if (cantIzquierda != cantDerecha) {
-            al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 19): Discrepancia en asignacion multiple. Izquierda: " + cantIzquierda + ", Derecha: " + cantDerecha + ". Se realizan " + Math.min(cantIzquierda, cantDerecha) + " asignaciones.");
+            al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): Discrepancia en asignacion multiple. Izquierda: " + cantIzquierda + ", Derecha: " + cantDerecha + ".");
         }
 
         int minAsignaciones = Math.min(cantIzquierda, cantDerecha);

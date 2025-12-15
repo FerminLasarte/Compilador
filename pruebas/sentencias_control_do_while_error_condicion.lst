@@ -1,10 +1,2 @@
-LISTADO DE COMPILACION: sentencias_control_error_condicion.txt
+LISTADO DE COMPILACION: sentencias_control_do_while_error_condicion.lst
 ----------------------------------------
-   1: @ Sentencias de Control
-   2: PROGRAMA {
-   3:     var A := 5UI;
-   4:     do {
-   5:         print(A);
-   6:         A := A - 1UI;
-   7:     } while A > 0UI;
-   8: }

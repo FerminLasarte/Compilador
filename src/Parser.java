@@ -534,7 +534,7 @@ final static String yyrule[] = {
 "lista_expresiones : expresion",
 };
 
-//#line 947 "gramatica.y"
+//#line 949 "gramatica.y"
 
 static AnalizadorLexico al;
 static Generador g;
@@ -637,9 +637,9 @@ private void procesarAsignacionMultiple(int linea) {
             }
         }
     } else {
-        /* CORRECCION WARNINGS TEMA 19 */
+        /* AQUI ESTA EL CAMBIO: TEMA 19 AHORA ES ERROR */
         if (cantIzquierda != cantDerecha) {
-            al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 19): Discrepancia en asignacion multiple. Izquierda: " + cantIzquierda + ", Derecha: " + cantDerecha + ". Se realizan " + Math.min(cantIzquierda, cantDerecha) + " asignaciones.");
+            al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico (Tema 19): Discrepancia en asignacion multiple. Izquierda: " + cantIzquierda + ", Derecha: " + cantDerecha + ".");
         }
 
         int minAsignaciones = Math.min(cantIzquierda, cantDerecha);
@@ -1658,7 +1658,7 @@ case 85:
                }
 break;
 case 86:
-//#line 771 "gramatica.y"
+//#line 772 "gramatica.y"
 {
                    int bfIdx = g.desapilarControl();
                    if (bfIdx != -1) {
@@ -1669,7 +1669,7 @@ case 86:
                }
 break;
 case 87:
-//#line 780 "gramatica.y"
+//#line 781 "gramatica.y"
 {
                    int bfIdx = g.desapilarControl();
                    String bi = g.addTerceto("BI", "_", "_");
@@ -1682,7 +1682,7 @@ case 87:
                }
 break;
 case 88:
-//#line 790 "gramatica.y"
+//#line 791 "gramatica.y"
 {
                    int biIdx = g.desapilarControl();
                    int finElse = g.getProximoTerceto();
@@ -1692,7 +1692,7 @@ case 88:
                }
 break;
 case 89:
-//#line 800 "gramatica.y"
+//#line 801 "gramatica.y"
 {
                    erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.");
                    /* Mantenemos la lógica para arreglar el salto del terceto y no romper la generación */
@@ -1707,13 +1707,13 @@ case 89:
                }
 break;
 case 90:
-//#line 814 "gramatica.y"
+//#line 816 "gramatica.y"
 {
                         g.apilarControl(g.getProximoTerceto());
                     }
 break;
 case 91:
-//#line 818 "gramatica.y"
+//#line 820 "gramatica.y"
 {
                         Object lineaObj = al.getAtributo("do", "Linea");
                         salida.add("Linea " + val_peek(1).ival + ": Sentencia DO-WHILE reconocida.");
@@ -1727,7 +1727,7 @@ case 91:
                     }
 break;
 case 92:
-//#line 831 "gramatica.y"
+//#line 833 "gramatica.y"
 {
                 String op2 = g.desapilarOperando();
                 String op = g.desapilarOperando();
@@ -1743,72 +1743,72 @@ case 92:
           }
 break;
 case 93:
-//#line 845 "gramatica.y"
+//#line 847 "gramatica.y"
 { g.apilarOperando(">="); }
 break;
 case 94:
-//#line 847 "gramatica.y"
+//#line 849 "gramatica.y"
 { g.apilarOperando("<="); }
 break;
 case 95:
-//#line 849 "gramatica.y"
+//#line 851 "gramatica.y"
 { g.apilarOperando("=!"); }
 break;
 case 96:
-//#line 851 "gramatica.y"
+//#line 853 "gramatica.y"
 { g.apilarOperando("=="); }
 break;
 case 97:
-//#line 853 "gramatica.y"
+//#line 855 "gramatica.y"
 { g.apilarOperando(">"); }
 break;
 case 98:
-//#line 855 "gramatica.y"
+//#line 857 "gramatica.y"
 { g.apilarOperando("<"); }
 break;
 case 99:
-//#line 857 "gramatica.y"
+//#line 859 "gramatica.y"
 {
                         al.agregarWarning("Linea " + val_peek(0).ival + ": Warning: Se utilizo ':=' en una condicion. Se asume comparacion '=='.");
                         g.apilarOperando("==");
                     }
 break;
 case 100:
-//#line 862 "gramatica.y"
+//#line 864 "gramatica.y"
 { g.abrirAmbito("bloque_" + g.getProximoTerceto()); }
 break;
 case 101:
-//#line 862 "gramatica.y"
+//#line 864 "gramatica.y"
 { g.cerrarAmbito();}
 break;
 case 102:
-//#line 864 "gramatica.y"
+//#line 866 "gramatica.y"
 { g.abrirAmbito("bloque_" + g.getProximoTerceto()); }
 break;
 case 103:
-//#line 864 "gramatica.y"
+//#line 866 "gramatica.y"
 { g.cerrarAmbito(); }
 break;
 case 105:
-//#line 869 "gramatica.y"
+//#line 871 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con cadena multilinea.");
                     g.addTerceto("PRINT", val_peek(1).sval);
                 }
 break;
 case 106:
-//#line 875 "gramatica.y"
+//#line 877 "gramatica.y"
 {
                     salida.add("Linea " + val_peek(3).ival + ": PRINT con expresion.");
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
 break;
 case 107:
-//#line 880 "gramatica.y"
+//#line 882 "gramatica.y"
 { enSentenciaReturn = true; }
 break;
 case 108:
-//#line 881 "gramatica.y"
+//#line 883 "gramatica.y"
 {
                 enSentenciaReturn = false;
                 if (pilaTiposRetorno.isEmpty()) {
@@ -1857,7 +1857,7 @@ case 108:
             }
 break;
 case 109:
-//#line 929 "gramatica.y"
+//#line 931 "gramatica.y"
 {
                   ArrayList<?> rawList = (ArrayList<?>) val_peek(2).obj;
                   ArrayList<String> lista = new ArrayList<String>();
@@ -1869,7 +1869,7 @@ case 109:
               }
 break;
 case 110:
-//#line 940 "gramatica.y"
+//#line 942 "gramatica.y"
 {
                   ArrayList<String> lista = new ArrayList<String>();
                   lista.add(g.desapilarOperando());
