@@ -732,17 +732,13 @@ constante : CTE
             {
                 String lexemaPositivo = $2.sval;
                 String lexemaNegativo = "-" + lexemaPositivo;
+                String resultado = lexemaNegativo;
                 if (al.getAtributo(lexemaPositivo, "Tipo") != null) {
                     String tipo = (String) al.getAtributo(lexemaPositivo, "Tipo");
                     if (tipo != null) {
                         if (tipo.equals("uint")) {
-                            al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico. El tipo 'uint' no puede ser negativo. Valor: " + lexemaNegativo);
-                            int contador = (int) al.getAtributo(lexemaPositivo, "Contador");
-                            if (contador > 1) {
-                                al.agregarAtributoLexema(lexemaPositivo, "Contador", contador - 1);
-                            } else if (contador == 1) {
-                                al.eliminarLexemaTS(lexemaPositivo);
-                            }
+                            al.agregarWarning("Linea " + $2.ival + ": Warning. El tipo 'uint' no admite valores negativos. Se utilizara el valor absoluto: " + lexemaPositivo);
+                            resultado = lexemaPositivo;
                         } else if (tipo.equals("float")) {
                             al.reemplazarEnTS(lexemaPositivo, lexemaNegativo);
                         }
