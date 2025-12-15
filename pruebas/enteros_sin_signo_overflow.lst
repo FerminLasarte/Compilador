@@ -2,6 +2,8 @@ LISTADO DE COMPILACION: enteros_sin_signo_overflow.txt
 ----------------------------------------
    1: @ Enteros sin signo (16 bits)
    2: PROGRAMA {
-   3:     var A := 700000UI;
-   4:     var B := -700000UI;
-   5: }
+   3:     var A := 70000UI;
+   4:     var B := -70000UI;
+   5: 
+   6:     vir C := 1UI;
+   7: }
