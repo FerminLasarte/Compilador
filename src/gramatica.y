@@ -1161,9 +1161,12 @@ private void procesarAsignacionMultiple(int linea) {
                     }
                 }
                 int cantRetornos = tiposRetorno.size();
-                /* CORRECCION WARNIGNS TEMA 21 */
-                if (cantRetornos != cantIzquierda) {
-                     al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero se esperan " + cantIzquierda + ". Se asignaran los " + Math.min(cantRetornos, cantIzquierda) + " posibles.");
+
+                /* MODIFICACION PARA MANEJAR ERROR vs WARNING */
+                if (cantIzquierda > cantRetornos) {
+                    al.agregarErrorSemantico("Linea " + lineaActual + ": Error Semantico: Asignacion multiple invalida. La funcion retorna " + cantRetornos + " valores pero se intentan asignar a " + cantIzquierda + " variables.");
+                } else if (cantIzquierda < cantRetornos) {
+                     al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero se utilizan solo " + cantIzquierda + ". Los valores excedentes se descartan.");
                 }
 
                 int minAsignaciones = Math.min(cantIzquierda, cantRetornos);
