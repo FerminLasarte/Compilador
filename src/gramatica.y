@@ -134,7 +134,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             pilaTiposRetorno.push(tiposEsperados);
             pilaErrorEnFuncion.push(false);
             pilaHuboRetorno.push(false);
-
             if (g.existeEnAmbitoActual(nombreFuncion)) {
                 al.agregarErrorSemantico("Linea " + $2.ival + ": Error Semantico: Redeclaracion de funcion '" + nombreFuncion + "'.");
                 g.setGeneracionHabilitada(false);
@@ -170,7 +169,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             boolean huboReturn = pilaHuboRetorno.pop();
             int inicioFunc = pilaInicioFuncion.pop();
             int jumpIdx = pilaSaltosFunciones.pop();
-
             if (!huboReturn) {
                  al.agregarErrorSemantico("Linea " + $9.ival + ": Error Semantico: La funcion '" + $2.sval + "' debe retornar un valor de tipo " + $1.sval + ".");
                  huboError = true;
@@ -239,7 +237,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             boolean huboReturn = pilaHuboRetorno.pop();
             int inicioFunc = pilaInicioFuncion.pop();
             int jumpIdx = pilaSaltosFunciones.pop();
-
             if (!huboReturn) {
                  al.agregarErrorSemantico("Linea " + $9.ival + ": Error Semantico: La funcion '" + $2.sval + "' tiene retorno multiple y debe retornar valores.");
                  huboError = true;
@@ -334,7 +331,6 @@ asignacion : variable ASIG expresion
                String tipoVar = g.getTipo(op1_var);
                String tipoExpr = g.getTipo(op2_terceto);
                int linea = $1.ival;
-
                if (tipoVar.equals("indefinido")) {
                    if (op1_var.contains(".")) {
                        String[] parts = op1_var.split("\\.", 2);
@@ -384,8 +380,6 @@ asignacion : variable ASIG expresion
                                }
                            }
                        }
-
-
                    }
                } else {
                    if (g.chequearAsignacion(tipoVar, tipoExpr, linea)) {
@@ -451,7 +445,7 @@ expresion : expresion '+' termino
                 $$.ival = $1.ival;
             }
           |
-            expresion '-' termino
+          expresion '-' termino
             {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -476,7 +470,7 @@ termino : termino '*' factor
                 $$.ival = $1.ival;
             }
         |
-            termino '/' factor
+        termino '/' factor
             {
                 String op2 = g.desapilarOperando();
                 String op1 = g.desapilarOperando();
@@ -568,7 +562,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                        String tipo = g.getTipo(funcName);
                        if (uso != null && (uso.toString().equals("parametro") || uso.toString().equals("parametro_lambda") || uso.toString().equals("variable")) && tipo.equals("lambda")) {
                            if (reales.size() != 1) {
-                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico (Tema 28): Invocacion de lambda '" + funcName + "' con numero incorrecto de \n parametros. Esperado: 1, Obtenido: " + reales.size() + ".");
+                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico (Tema 28): Invocacion de lambda '" + funcName + "' con numero incorrecto de parametros. Esperado: 1, Obtenido: " + reales.size() + ".");
                                $$.sval = "ERROR_CALL_LAMBDA";
                            } else {
                                g.addTerceto("PARAM_LAMBDA", reales.get(0).operando, "_");
@@ -587,7 +581,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                }
                            }
                            if (formales == null) {
-                                al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: No se \n pudo recuperar la firma de la funcion '" + funcName + "'.");
+                                al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: No se pudo recuperar la firma de la funcion '" + funcName + "'.");
                                 $$.sval = "ERROR_CALL";
                            } else if (formales.size() != reales.size()) {
                                al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' con numero incorrecto de parametros. Esperados: " + formales.size() + ", Obtenidos: " + reales.size() + ".");
@@ -609,9 +603,8 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                        String tipoFormal = formal.tipo;
                                        if (tipoReal.equals("error_tipo")) {
                                             errorEnParametros = true;
-                                       } else if (tipoFormal.equals("lambda") && tipoReal.equals("lambda_expr")) {
                                        } else if (!tipoFormal.equals("lambda") && tipoReal.equals("lambda_expr")) {
-                                           al.agregarErrorSemantico("Linea " + linea + ": \n Error Semantico (Tema 28): Se paso una expresion lambda al parametro '->" + real.nombreFormal + "'.");
+                                           al.agregarErrorSemantico("Linea " + linea + ": Error Semantico (Tema 28): Se paso una expresion lambda al parametro '->" + real.nombreFormal + "'.");
                                            errorEnParametros = true;
                                        } else if (tipoFormal.equals("lambda") && !tipoReal.equals("lambda_expr")) {
                                            al.agregarErrorSemantico("Linea " + linea + ": Error Semantico (Tema 28): El parametro '->" + real.nombreFormal + "' espera una expresion 'lambda'.");
@@ -635,8 +628,6 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                    }
                                }
                                if (!errorEnParametros) {
-
-
                                   String terceto = g.addTerceto("CALL", funcName);
                                   g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(al.getAtributo(funcName, "Tipo").toString());
                                   $$.sval = terceto;
@@ -658,15 +649,12 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                           }
                                       }
                                   }
-
                                } else {
                                    $$.sval = "ERROR_CALL_PARAMS";
                                }
                            }
                        }
                        else {
-
-
                          al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
                          $$.sval = "ERROR_CALL";
                        }
@@ -761,14 +749,13 @@ sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
                              declaracion_ilegal
                              ;
 
+/* REGLA MODIFICADA: DETECCION EXPLICITA DE ERROR PARA EVITAR PANICO */
 declaracion_ilegal : VAR variable ASIG expresion fin_sentencia
                    {
-                        /* Reportamos el error explícitamente */
                         erroresSintacticos.add("Linea " + $2.ival + ": Error sintactico: No se permiten declaraciones en bloques ejecutables.");
                    }
                    | VAR variable fin_sentencia
                    {
-                        /* Capturamos tambien declaraciones sin asignacion explícita si tu lenguaje las permite o para robustez */
                         erroresSintacticos.add("Linea " + $2.ival + ": Error sintactico: No se permiten declaraciones en bloques ejecutables.");
                    }
                    ;
@@ -819,6 +806,19 @@ if_encabezado : IF '(' condicion ')' {
                }
                ;
 
+/* NUEVA REGLA AUXILIAR PARA EL ELSE */
+inicio_else : ELSE {
+                   int bfIdx = g.desapilarControl();
+                   String bi = g.addTerceto("BI", "_", "_");
+                   int biIdx = Integer.parseInt(bi.substring(1, bi.length()-1));
+                   g.apilarControl(biIdx);
+                   if (bfIdx != -1) {
+                       int inicioElse = g.getProximoTerceto();
+                       g.modificarSaltoTerceto(bfIdx, "[" + inicioElse + "]");
+                   }
+               }
+               ;
+
 condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                {
                    int bfIdx = g.desapilarControl();
@@ -829,16 +829,7 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    salida.add("Linea " + $1.ival + ": Sentencia IF reconocida.");
                }
                |
-               if_encabezado bloque_ejecutable ELSE {
-                   int bfIdx = g.desapilarControl();
-                   String bi = g.addTerceto("BI", "_", "_");
-                   int biIdx = Integer.parseInt(bi.substring(1, bi.length()-1));
-                   g.apilarControl(biIdx);
-                   if (bfIdx != -1) {
-                       int inicioElse = g.getProximoTerceto();
-                       g.modificarSaltoTerceto(bfIdx, "[" + inicioElse + "]");
-                   }
-               } bloque_ejecutable ENDIF ';'
+               if_encabezado bloque_ejecutable inicio_else bloque_ejecutable ENDIF ';'
                {
                    int biIdx = g.desapilarControl();
                    int finElse = g.getProximoTerceto();
@@ -846,31 +837,67 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
 
                    salida.add("Linea " + $1.ival + ": Sentencia IF-ELSE reconocida.");
                }
-               |
-               if_encabezado bloque_ejecutable error
+               /* RECUPERACION: ENDIF presente pero falta punto y coma (IF simple) */
+               | if_encabezado bloque_ejecutable ENDIF error
                {
-                   if (!erroresSintacticos.isEmpty()) {
-                           String ultimoError = erroresSintacticos.get(erroresSintacticos.size() - 1);
-                           /* Verificamos si es el mensaje estandar definido en tu metodo yyerror */
-                           if (ultimoError.contains("Error de sintaxis. Verifique la estructura")) {
-                               erroresSintacticos.remove(erroresSintacticos.size() - 1);
-                           }
-                       }
+                   al.agregarWarning("Linea " + al.getFilaToken() + ": Warning: Falta punto y coma despues de 'endif'.");
 
-                   /* 2. Agregamos el Warning personalizado */
-                   al.agregarWarning("Linea " + al.getFilaToken() + ": Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.");
-                   /* 3. Autocompletamos la logica de tercetos (cerramos el salto) */
+                   /* Limpiar error generico si existe */
+                   if (!erroresSintacticos.isEmpty()) {
+                        String ultimoError = erroresSintacticos.get(erroresSintacticos.size() - 1);
+                        if (ultimoError.contains("Error de sintaxis. Verifique la estructura")) {
+                            erroresSintacticos.remove(erroresSintacticos.size() - 1);
+                        }
+                   }
+
                    try {
                        int bfIdx = g.desapilarControl();
                        if (bfIdx != -1) {
                            int finIf = g.getProximoTerceto();
                            g.modificarSaltoTerceto(bfIdx, "[" + finIf + "]");
                        }
-                   } catch (Exception e) {
-                       /* Si la pila esta vacia, ignoramos */
-                   }
+                   } catch (Exception e) { }
                }
+               /* RECUPERACION: ENDIF presente pero falta punto y coma (IF-ELSE) */
+               | if_encabezado bloque_ejecutable inicio_else bloque_ejecutable ENDIF error
+               {
+                   al.agregarWarning("Linea " + al.getFilaToken() + ": Warning: Falta punto y coma despues de 'endif'.");
 
+                   /* Limpiar error generico si existe */
+                   if (!erroresSintacticos.isEmpty()) {
+                        String ultimoError = erroresSintacticos.get(erroresSintacticos.size() - 1);
+                        if (ultimoError.contains("Error de sintaxis. Verifique la estructura")) {
+                            erroresSintacticos.remove(erroresSintacticos.size() - 1);
+                        }
+                   }
+
+                   try {
+                       int biIdx = g.desapilarControl();
+                       int finElse = g.getProximoTerceto();
+                       g.modificarSaltoTerceto(biIdx, "[" + finElse + "]");
+                   } catch (Exception e) { }
+               }
+               /* RECUPERACION GENERICA: Falta ENDIF u otro error grave */
+               |
+               if_encabezado bloque_ejecutable error
+               {
+                   if (!erroresSintacticos.isEmpty()) {
+                       String ultimoError = erroresSintacticos.get(erroresSintacticos.size() - 1);
+                       if (ultimoError.contains("Error de sintaxis. Verifique la estructura")) {
+                           erroresSintacticos.remove(erroresSintacticos.size() - 1);
+                       }
+                   }
+
+                   al.agregarWarning("Linea " + al.getFilaToken() + ": Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.");
+
+                   try {
+                       int bfIdx = g.desapilarControl();
+                       if (bfIdx != -1) {
+                           int finIf = g.getProximoTerceto();
+                           g.modificarSaltoTerceto(bfIdx, "[" + finIf + "]");
+                       }
+                   } catch (Exception e) { }
+               }
                ;
 
 condicional_do_while: DO

@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\sentencias_control_if_else_error_cuerpo_else.lst
+>> Archivo de listado generado: ..\pruebas\sentencias_control_if_error_cuerpo_if.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
@@ -18,8 +18,7 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea 10: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
-Linea 13: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
+Linea 6: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
 
 =======================================================
 ## RESULTADO DE LA COMPILACION: FALLIDO ##
