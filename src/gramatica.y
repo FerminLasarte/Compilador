@@ -734,12 +734,38 @@ lambda_expresion : '(' tipo ID ')' '{'
                     g.cerrarAmbito();
 
                     boolean huboReturn = pilaHuboRetorno.pop();
-                    if (!huboReturn) {
+                    /* CORRECCION: Se comenta la validación para permitir lambdas void (procedimientos) */
+                    /* if (!huboReturn) {
                         al.agregarErrorSemantico("Linea " + $1.ival + ": Error Semantico: La funcion lambda finaliza sin una sentencia de retorno valida.");
                     }
+                    */
 
                     $$.sval = $6.sval;
                     $$.ival = $1.ival;
+                 }
+                 | '(' ')' '{'
+                 {
+                    /* REGLA DE ERROR: DETECCION DE LAMBDA VACIA */
+                    erroresSintacticos.add("Linea " + $1.ival + ": Error sintactico: El parametro de la expresion lambda esta vacio. Se requiere definicion de tipo e identificador.");
+
+                    /* RECUPERACION: Simulamos una lambda para que el parser continue analizando el cuerpo sin romperse */
+                    pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
+                    int inicioLambda = g.getProximoTerceto();
+                    g.abrirAmbito("lambda_error_" + inicioLambda);
+                    pilaHuboRetorno.push(false);
+                    $$.ival = $1.ival;
+                 }
+                 cuerpo_lambda '}'
+                 {
+                    /* CIERRE DE RECUPERACION */
+                    g.addTerceto("RET_LAMBDA", "_", "_");
+                    String saltoIncondicional = pilaSaltosLambda.pop();
+                    int tercetoFin = g.getProximoTerceto();
+                    g.modificarSaltoTerceto(Integer.parseInt(saltoIncondicional.substring(1, saltoIncondicional.length()-1)), "[" + tercetoFin + "]");
+                    g.cerrarAmbito();
+                    pilaHuboRetorno.pop();
+
+                    $$.sval = "ERROR_LAMBDA";
                  }
                  ;
 

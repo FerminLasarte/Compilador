@@ -245,6 +245,13 @@ public class Generador {
         if (tipoVar.equals(tipoExpr)) {
             return true;
         }
+
+        // --- INICIO CORRECCION: Permitir asignación de lambda_expr a lambda ---
+        if (tipoVar.equals("lambda") && tipoExpr.equals("lambda_expr")) {
+            return true;
+        }
+        // --- FIN CORRECCION ---
+
         if (tipoVar.equals("indefinido") || tipoExpr.equals("indefinido")) {
             return false;
         }

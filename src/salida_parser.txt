@@ -1,9 +1,9 @@
->> Archivo de listado generado: ..\pruebas\conversiones_error_lado.lst
+>> Archivo de listado generado: ..\pruebas\funcion_lambda.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 6: Error de sintaxis: Intento de asignacion invalido. No se puede asignar un valor al resultado de una conversion 'toui'. Se espera una variable a la izquierda.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -21,26 +21,64 @@ No se encontraron errores semanticos.
 No se encontraron warnings.
 
 =======================================================
-## RESULTADO DE LA COMPILACION: FALLIDO ##
+## GENERACION DE ASSEMBLER ##
 =======================================================
-La compilacion fallo. Se generara un assembler placeholder para evitar errores de linkeo.
->> Se genero 'salida.asm' (STUB) para notificar el error.
+Archivo salida.asm generado exitosamente.
+
+=======================================================
+## CODIGO INTERMEDIO (TERCETOS) ##
+=======================================================
+0:	(BI, _, [5])
+1:	(FUNC_LABEL, FUNCION:PROGRAMA, _)
+2:	(PARAM_LAMBDA, C:PROGRAMA:FUNCION, _)
+3:	(CALL_LAMBDA, B:PROGRAMA:FUNCION, _)
+4:	(RETURN, C:PROGRAMA:FUNCION, 0/1)
+5:	(BI, _, [14])
+6:	(DEF_PARAM, A:PROGRAMA:lambda_6, _)
+7:	(PRINT, A:PROGRAMA:lambda_6, _)
+8:	(>, A:PROGRAMA:lambda_6, 3UI)
+9:	(BF, [8], [12])
+10:	(PRINT, &Imprime Lambda Positivo&, _)
+11:	(BI, _, [13])
+12:	(PRINT, &Imprime Lambda Negativo&, _)
+13:	(RET_LAMBDA, _, _)
+14:	(PARAM, L6, B:PROGRAMA:FUNCION)
+15:	(PARAM, 5UI, C:PROGRAMA:FUNCION)
+16:	(CALL, FUNCION:PROGRAMA, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | 5.0F+0:PROGRAMA                               | false        | null               | float      | -          |
+| PROGRAMA                            | FUNCION:PROGRAMA                              | false        | funcion            | uint       | -          |
+| PROGRAMA                            | @aux16:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux14:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | 5UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | @aux15:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | float      | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:FUNCION                    | C:PROGRAMA:FUNCION                            | false        | parametro          | uint       | default_cv |
+| PROGRAMA:FUNCION                    | B:PROGRAMA:FUNCION                            | false        | parametro          | lambda     | default_cv |
+| PROGRAMA:FUNCION                    | @aux2:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | @aux3:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:FUNCION                    | @aux4:PROGRAMA:FUNCION                        | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:lambda_6                   | @aux13:PROGRAMA:lambda_6                      | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:lambda_6                   | @aux8:PROGRAMA:lambda_6                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:lambda_6                   | A:PROGRAMA:lambda_6                           | false        | parametro_lambda   | uint       | -          |
+| PROGRAMA:lambda_6                   | @aux9:PROGRAMA:lambda_6                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:lambda_6                   | 3UI:PROGRAMA:lambda_6                         | false        | null               | uint       | -          |
+| PROGRAMA:lambda_6                   | @aux11:PROGRAMA:lambda_6                      | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:lambda_6                   | @aux6:PROGRAMA:lambda_6                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:lambda_6                   | @aux7:PROGRAMA:lambda_6                       | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:lambda_6:bloque_10         | @aux10:PROGRAMA:lambda_6:bloque_10            | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:lambda_6:bloque_12         | @aux12:PROGRAMA:lambda_6:bloque_12            | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

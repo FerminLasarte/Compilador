@@ -1,0 +1,15 @@
+LISTADO DE COMPILACION: funcion_con_retorno.txt
+----------------------------------------
+   1: PROGRAMA {
+   2:     uint FUNCIONB(uint A) {
+   3:         print(A);
+   4:         A := A - 1UI;
+   5:         return(A);
+   6:     }
+   7:     uint FUNCION(uint C) {
+   8:         C := FUNCIONB(C->A);
+   9:         return(C);
+  10:     }
+  11:     var J:= FUNCION(3UI->C);
+  12:     print(J);
+  13: }

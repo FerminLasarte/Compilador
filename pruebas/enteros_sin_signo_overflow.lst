@@ -4,6 +4,4 @@ LISTADO DE COMPILACION: enteros_sin_signo_overflow.txt
    2: PROGRAMA {
    3:     var A := 70000UI;
    4:     var B := -70000UI;
-   5: 
-   6:     vir C := 1UI;
-   7: }
+   5: }
