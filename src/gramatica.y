@@ -737,7 +737,7 @@ constante : CTE
                     String tipo = (String) al.getAtributo(lexemaPositivo, "Tipo");
                     if (tipo != null) {
                         if (tipo.equals("uint")) {
-                            al.agregarErrorSemantico("Linea " + $2.ival + ": Error. El tipo 'uint' no admite valores negativos. Se utilizara el valor absoluto: " + lexemaPositivo);
+                            al.agregarWarning("Linea " + $2.ival + ": Warning. El tipo 'uint' no admite valores negativos. Se elimino el signo menos y se usa: " + lexemaPositivo);
                             resultado = lexemaPositivo;
                         } else if (tipo.equals("float")) {
                             al.reemplazarEnTS(lexemaPositivo, lexemaNegativo);
@@ -748,6 +748,7 @@ constante : CTE
                 $$.ival = $2.ival;
             }
           ;
+
 if_encabezado : IF '(' condicion ')' {
                    String cond = g.desapilarOperando();
                    if (cond.equals("ERROR_CONDICION")) {

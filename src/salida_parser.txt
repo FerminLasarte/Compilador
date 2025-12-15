@@ -1,14 +1,16 @@
->> Archivo de listado generado: ..\pruebas\enteros_sin_signo_error_negativo.lst
+>> Archivo de listado generado: ..\pruebas\enteros_sin_signo_overflow.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores sintacticos.
+Linea 3: Error de sintaxis. Verifique la estructura del codigo.
+Linea 4: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
 =======================================================
-No se encontraron errores lexicos.
+Linea: 3 - Columna: 13 - Error Lexico: Constante uint fuera del rango permitido (0 a 65535): 700000
+Linea: 4 - Columna: 14 - Error Lexico: Constante uint fuera del rango permitido (0 a 65535): 700000
 
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
@@ -21,29 +23,17 @@ No se encontraron errores semanticos.
 No se encontraron warnings.
 
 =======================================================
-## GENERACION DE ASSEMBLER ##
+## RESULTADO DE LA COMPILACION: FALLIDO ##
 =======================================================
-Archivo salida.asm generado exitosamente.
-
-=======================================================
-## CODIGO INTERMEDIO (TERCETOS) ##
-=======================================================
-0:	(:=, A:PROGRAMA, -1UI)
-1:	(:=, B:PROGRAMA, 11UI)
-2:	(:=, C:PROGRAMA, -20UI)
+La compilacion fallo. Se generara un assembler placeholder para evitar errores de linkeo.
+>> Se genero 'salida.asm' (STUB) para notificar el error.
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

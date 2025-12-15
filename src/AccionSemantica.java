@@ -67,6 +67,8 @@ public abstract class AccionSemantica {
                 BigDecimal limiteSuperior = new BigDecimal("65536"); // 2^16
 
                 if (bd.compareTo(BigDecimal.ZERO) >= 0 && bd.compareTo(limiteSuperior) < 0) {
+                    al.agregarLexemaTS(lexemaConSufijo);
+                    al.agregarAtributoLexema(lexemaConSufijo, "Tipo", "uint");
                     return "CTE";
                 } else {
                     al.agregarError("Constante uint fuera del rango permitido (0 a 65535): " + soloEnteros);
@@ -106,6 +108,8 @@ public abstract class AccionSemantica {
                     String nuevoLexema = "3.40282347F+38";
                     al.agregarWarning("Constante flotante fuera de rango (overflow). El valor " + lexemaActual + " fue truncado a " + nuevoLexema);
                     al.setLexema(nuevoLexema);
+                    al.agregarLexemaTS(nuevoLexema);
+                    al.agregarAtributoLexema(nuevoLexema, "Tipo", "float");
                     return "CTE";
                 }
 
@@ -113,8 +117,13 @@ public abstract class AccionSemantica {
                     String nuevoLexema = "1.17549435F-38";
                     al.agregarWarning("Constante flotante fuera de rango (underflow). El valor " + lexemaActual + " fue truncado a " + nuevoLexema);
                     al.setLexema(nuevoLexema);
+                    al.agregarLexemaTS(nuevoLexema);
+                    al.agregarAtributoLexema(nuevoLexema, "Tipo", "float");
                     return "CTE";
                 }
+
+                al.agregarLexemaTS(lexemaActual);
+                al.agregarAtributoLexema(lexemaActual, "Tipo", "float");
                 return "CTE";
 
             } catch (NumberFormatException e) {
