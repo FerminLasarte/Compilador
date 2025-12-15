@@ -101,22 +101,15 @@ public abstract class AccionSemantica {
                 BigDecimal limiteSuperiorPositivo = new BigDecimal("3.40282347E+38");
                 BigDecimal cero = BigDecimal.ZERO;
 
-                // El valor absoluto es lo que importa para los limites positivos en esta logica simple,
-                // asumiendo que el signo se maneja externamente o que la comparacion se hace con abs si fuera necesario.
-                // Sin embargo, tu gramatica parece manejar el signo '-' como un token separado (unario) en el parser,
-                // asi que aqui evaluamos la magnitud del numero positivo literal.
-
                 if (bd.compareTo(cero) == 0) {
                     return "CTE";
                 }
 
-                // CAMBIO APLICADO: Deteccion de Overflow como ERROR
                 if (bd.compareTo(limiteSuperiorPositivo) > 0) {
                     al.agregarError("Constante flotante fuera de rango (overflow): " + lexemaActual);
                     return "ERROR";
                 }
-
-                // CAMBIO APLICADO: Deteccion de Underflow como ERROR (opcional, pero consistente con "fuera de rango")
+                
                 if (bd.compareTo(limiteInferiorPositivo) < 0) {
                     al.agregarError("Constante flotante fuera de rango (underflow): " + lexemaActual);
                     return "ERROR";
