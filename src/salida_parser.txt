@@ -1,15 +1,9 @@
->> Archivo de listado generado: ..\pruebas\sentencias_control_if_error_falta_condicion.lst
-
-=======================================================
-## GENERACION DE ASSEMBLER ##
-=======================================================
-Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores logicos si hubo errores de compilacion).
+>> Archivo de listado generado: ..\pruebas\asignacion_simple.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 4: Error de sintaxis. Verifique la estructura del codigo.
-Linea 4: Error sintactico: Falta la condicion del IF o es invalida.
+Linea 2: Error de sintaxis. Verifique la estructura del codigo.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -24,30 +18,22 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-No se encontraron warnings.
+Linea: 2 - Columna: 9 - Caracter invalido ' ' despues de ':'. Se asume ':=' y se continua.
+Linea: 3 - Columna: 10 - Caracter invalido '=' detectado en asignacion (posible ':=='). Se asume ':='.
+Linea: 4 - Columna: 9 - Caracter invalido '+' despues de ':'. Se asume ':=' y se continua.
 
 =======================================================
-## CODIGO INTERMEDIO (TERCETOS) ##
+## RESULTADO DE LA COMPILACION: FALLIDO ##
 =======================================================
-0:	(:=, A:PROGRAMA, 5UI)
-1:	(PRINT, A:PROGRAMA, _)
-2:	(-, A:PROGRAMA, 1UI)
-3:	(:=, A:PROGRAMA, [2])
-4:	(PRINT, A:PROGRAMA, _)
+La compilacion fallo. Se generara un assembler placeholder para evitar errores de linkeo.
+>> Se genero 'salida.asm' (STUB) para notificar el error.
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:bloque_1                   | @aux1:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_1                   | @aux2:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_1                   | @aux3:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | MAIN:MAIN                                     | false        | null               | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

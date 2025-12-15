@@ -1,0 +1,6 @@
+MAIN{
+    VAR A: 1UI;
+    VAR B:== 2UI;
+    VAR C:+ 3UI;
+    VAR J:= 4UI;
+}

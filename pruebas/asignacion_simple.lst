@@ -1,0 +1,8 @@
+LISTADO DE COMPILACION: asignacion_simple.txt
+----------------------------------------
+   1: MAIN{
+   2:     VAR A: 1UI;
+   3:     VAR B:== 2UI;
+   4:     VAR C:+ 3UI;
+   5:     VAR J:= 4UI;
+   6: }

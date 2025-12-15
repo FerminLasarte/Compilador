@@ -1,9 +1,9 @@
 import java.math.BigDecimal;
 
-public abstract class AccionSemantica{
+public abstract class AccionSemantica {
     public abstract String aplicarAS(AnalizadorLexico al, char c);
 
-    public static class AccionSemantica1 extends AccionSemantica{
+    public static class AccionSemantica1 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.inicializarLexema();
             al.agregarCaracterLexema(c);
@@ -11,7 +11,7 @@ public abstract class AccionSemantica{
         }
     }
 
-    public static class AccionSemantica2 extends AccionSemantica{
+    public static class AccionSemantica2 extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.agregarCaracterLexema(c);
             return null;
@@ -59,7 +59,7 @@ public abstract class AccionSemantica{
             String lexemaConSufijo = al.getLexema();
             if (!lexemaConSufijo.endsWith("UI")) {
                 al.agregarError("Constante mal formada, se esperaba el sufijo 'UI': " + lexemaConSufijo);
-                return "ERROR"; // Esto está bien, es un error de token.
+                return "ERROR";
             }
             String soloEnteros = lexemaConSufijo.substring(0, lexemaConSufijo.length() - 2);
             try {
@@ -70,7 +70,7 @@ public abstract class AccionSemantica{
                     return "CTE";
                 } else {
                     al.agregarWarning("Constante uint fuera del rango permitido (0 a 65535). El valor " + soloEnteros + " fue truncado a 65535.");
-                    al.setLexema("65535UI"); // Truncamos al valor máximo representable de 16 bits sin signo
+                    al.setLexema("65535UI");
                     return "CTE";
                 }
             } catch (NumberFormatException e) {
@@ -91,7 +91,6 @@ public abstract class AccionSemantica{
         public String aplicarAS(AnalizadorLexico al, char c) {
             al.disminuirContador();
             String lexemaActual = al.getLexema();
-            // Reemplazamos 'F' por 'E' para que BigDecimal pueda parsear el formato científico estándar
             String valor = lexemaActual.replace('F', 'E');
 
             try {
@@ -100,12 +99,10 @@ public abstract class AccionSemantica{
                 BigDecimal limiteSuperiorPositivo = new BigDecimal("3.40282347E+38");
                 BigDecimal cero = BigDecimal.ZERO;
 
-                // Caso: El valor es 0.0, es válido.
                 if (bd.compareTo(cero) == 0) {
                     return "CTE";
                 }
 
-                // Caso: Overflow (Mayor al máximo positivo)
                 if (bd.compareTo(limiteSuperiorPositivo) > 0) {
                     String nuevoLexema = "3.40282347F+38";
                     al.agregarWarning("Constante flotante fuera de rango (overflow). El valor " + lexemaActual + " fue truncado a " + nuevoLexema);
@@ -113,15 +110,12 @@ public abstract class AccionSemantica{
                     return "CTE";
                 }
 
-                // Caso: Underflow (Menor al mínimo positivo normalizado, pero no es 0)
                 if (bd.compareTo(limiteInferiorPositivo) < 0) {
                     String nuevoLexema = "1.17549435F-38";
                     al.agregarWarning("Constante flotante fuera de rango (underflow). El valor " + lexemaActual + " fue truncado a " + nuevoLexema);
                     al.setLexema(nuevoLexema);
                     return "CTE";
                 }
-
-                // Si está en rango
                 return "CTE";
 
             } catch (NumberFormatException e) {
@@ -150,6 +144,36 @@ public abstract class AccionSemantica{
             al.reiniciarLexema();
             al.agregarError("Caracter " + c + " invalido ");
             return "ERROR";
+        }
+    }
+
+    // --- NUEVAS ACCIONES PARA CORRECCION DE ERRORES ---
+
+    // Maneja casos como ':+', ': ', reemplazando por ':=' y devolviendo el caracter leído
+    public static class AccionSemanticaCorreccion extends AccionSemantica {
+        public String aplicarAS(AnalizadorLexico al, char c) {
+            al.disminuirContador(); // "Devolvemos" el caracter (ej. espacio o +) para que sea procesado en la siguiente vuelta
+            al.agregarWarning("Caracter invalido '" + c + "' despues de ':'. Se asume ':=' y se continua.");
+            al.setLexema(":=");
+            return ":=";
+        }
+    }
+
+    // Maneja casos como ':==', consumiendo el extra '=' y reemplazando por ':='
+    public static class AccionSemanticaCorreccionExtra extends AccionSemantica {
+        public String aplicarAS(AnalizadorLexico al, char c) {
+            // Aquí NO disminuimos contador porque queremos "comer" el '=' extra
+            al.agregarWarning("Caracter invalido '" + c + "' detectado en asignacion (posible ':=='). Se asume ':='.");
+            al.setLexema(":=");
+            return ":=";
+        }
+    }
+
+    // Finaliza la asignacion normal ':=', devolviendo el puntero (lookahead)
+    public static class AccionSemanticaFinalizar extends AccionSemantica {
+        public String aplicarAS(AnalizadorLexico al, char c) {
+            al.disminuirContador(); // Devolvemos el caracter leido (ej. espacio o digito)
+            return ":=";
         }
     }
 }

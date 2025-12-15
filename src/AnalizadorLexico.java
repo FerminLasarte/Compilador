@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -160,7 +159,7 @@ public class AnalizadorLexico {
         matrizTransicionEstados = new int[][]{
                 {-1, 1, 3, 2, 3, 4, 5, 5, 6, 7, 16, 9, -2, -2, 0, 0, -1, 5, 5},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-2, -2, -2, -2, -2, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},
+                {-1, -1, -1, -1, -1, 17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, // Estado 2 corregido: Todo va a -1 (correccion) excepto = que va a 17
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -2, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, -1, -1, 5, 5, -1, 5, -1, -1, -1, 5, -1, -1, -1, 5, 5},
@@ -175,6 +174,7 @@ public class AnalizadorLexico {
                 {-2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, -2, -2, -2, -2, -2, 15},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, // Estado 17
         };
         AccionSemantica as1 = new AccionSemantica.AccionSemantica1();
         AccionSemantica as2 = new AccionSemantica.AccionSemantica2();
@@ -185,10 +185,16 @@ public class AnalizadorLexico {
         AccionSemantica as7 = new AccionSemantica.AccionSemantica7();
         AccionSemantica asE = new AccionSemantica.AccionSemanticaError();
         AccionSemantica asNull = new AccionSemantica.AccionSemanticaNull();
+
+        // Instancias de las nuevas acciones correccion
+        AccionSemantica asC = new AccionSemantica.AccionSemanticaCorreccion();
+        AccionSemantica asCE = new AccionSemantica.AccionSemanticaCorreccionExtra();
+        AccionSemantica asF = new AccionSemantica.AccionSemanticaFinalizar();
+
         matrizAccionesSemanticas = new AccionSemantica[][]{
                 {as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, as1, asE, asE, asNull, asNull, as1, as1, as1},
                 {as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
-                {asE, asE, asE, asE, asE, as2, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE},
+                {asC, asC, asC, asC, asC, as2, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC, asC}, // Fila 2: asC para todo (correccion), as2 para =
                 {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5, as5},
                 {as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5},
                 {as3, as3, as3, as3, as3, as3, as2, as2, as3, as2, as3, as3, as3, as2, as3, as3, as3, as2, as2},
@@ -203,6 +209,7 @@ public class AnalizadorLexico {
                 {asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, asE, as2},
                 {as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4, as4},
                 {as5, as5, as5, as5, as5, as5, as5, as5, as5, as2, as5, as5, as5, as5, as5, as5, as5, as5, as5},
+                {asF, asF, asF, asF, asF, asCE, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF, asF}, // Fila 17: Nueva fila para manejar el final de :=
         };
     }
 
@@ -526,11 +533,9 @@ public class AnalizadorLexico {
             return;
         }
 
-        // 1. Modificamos el formato para incluir una columna extra al final (Pasaje)
         String formatString = "| %-35s | %-45s | %-12s | %-18s | %-10s | %-10s |%n";
         System.out.printf(formatString, "Ambito (Completo)", "Lexema (Mangled)", "Reservada", "Uso", "Tipo", "Pasaje");
 
-        // 2. Ajustamos el separador visual
         String separator = "|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|";
         System.out.println(separator);
 
@@ -547,16 +552,15 @@ public class AnalizadorLexico {
                 Object reservada = atributos.get("Reservada");
                 Object uso = atributos.get("Uso");
                 Object tipo = atributos.get("Tipo");
-                Object pasaje = atributos.get("Pasaje"); // 3. Recuperamos el atributo "Pasaje"
+                Object pasaje = atributos.get("Pasaje");
 
-                // 4. Imprimimos usando el nuevo formato
                 System.out.printf(formatString,
                         ambitoNombre,
                         lexemaMangled,
                         (reservada != null) ? reservada.toString() : "null",
                         (uso != null) ? uso.toString() : "null",
                         (tipo != null) ? tipo.toString() : "null",
-                        (pasaje != null) ? pasaje.toString() : "-" // Mostramos el pasaje o un guion si es nulo
+                        (pasaje != null) ? pasaje.toString() : "-"
                 );
             }
             if (par.getValue().size() > (par.getValue().containsKey("__METADATA__") ? 1 : 0)) {
