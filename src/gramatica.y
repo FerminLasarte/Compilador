@@ -783,8 +783,7 @@ if_encabezado : IF '(' condicion ')' {
                }
                ;
 
-/* SE APLICA fin_sentencia */
-condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX fin_sentencia
+condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                {
                    int bfIdx = g.desapilarControl();
                    if (bfIdx != -1) {
@@ -803,7 +802,7 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX fin_sentencia
                        int inicioElse = g.getProximoTerceto();
                        g.modificarSaltoTerceto(bfIdx, "[" + inicioElse + "]");
                    }
-               } bloque_ejecutable ENDIF fin_sentencia
+               } bloque_ejecutable ENDIF ';'
                {
                    int biIdx = g.desapilarControl();
                    int finElse = g.getProximoTerceto();
@@ -811,12 +810,19 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX fin_sentencia
 
                    salida.add("Linea " + $1.ival + ": Sentencia IF-ELSE reconocida.");
                }
-               /* REGLA DE RECUPERACION DE ERROR */
+               /* REGLA DE RECUPERACION DE ERROR: FALTA ENDIF */
                |
                if_encabezado bloque_ejecutable error
                {
-                   erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.");
-                   /* Mantenemos la lógica para arreglar el salto del terceto y no romper la generación */
+                   /* 1. Eliminamos el error sintactico generico que agrego yyerror automaticamente */
+                   if (!erroresSintacticos.isEmpty()) {
+                       erroresSintacticos.remove(erroresSintacticos.size() - 1);
+                   }
+
+                   /* 2. Agregamos el Warning personalizado */
+                   al.agregarWarning("Linea " + al.getFilaToken() + ": Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.");
+
+                   /* 3. Autocompletamos la logica de tercetos (cerramos el salto) */
                    try {
                        int bfIdx = g.desapilarControl();
                        if (bfIdx != -1) {
@@ -824,11 +830,11 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX fin_sentencia
                            g.modificarSaltoTerceto(bfIdx, "[" + finIf + "]");
                        }
                    } catch (Exception e) {
+                       /* Si la pila esta vacia, ignoramos */
                    }
                }
                ;
 
-/* SE APLICA fin_sentencia */
 condicional_do_while: DO
                     {
                         g.apilarControl(g.getProximoTerceto());

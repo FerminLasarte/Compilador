@@ -134,11 +134,11 @@
   86  if_encabezado : IF '(' condicion ')'
   87                | IF '(' error ')'
 
-  88  condicional_if : if_encabezado bloque_ejecutable ENDIF fin_sentencia
+  88  condicional_if : if_encabezado bloque_ejecutable ENDIF ';'
 
   89  $$10 :
 
-  90  condicional_if : if_encabezado bloque_ejecutable ELSE $$10 bloque_ejecutable ENDIF fin_sentencia
+  90  condicional_if : if_encabezado bloque_ejecutable ELSE $$10 bloque_ejecutable ENDIF ';'
   91                 | if_encabezado bloque_ejecutable error
 
   92  $$11 :
@@ -641,8 +641,8 @@ state 35
 
 
 state 36
-	condicional_if : if_encabezado . bloque_ejecutable ENDIF fin_sentencia  (88)
-	condicional_if : if_encabezado . bloque_ejecutable ELSE $$10 bloque_ejecutable ENDIF fin_sentencia  (90)
+	condicional_if : if_encabezado . bloque_ejecutable ENDIF ';'  (88)
+	condicional_if : if_encabezado . bloque_ejecutable ELSE $$10 bloque_ejecutable ENDIF ';'  (90)
 	condicional_if : if_encabezado . bloque_ejecutable error  (91)
 
 	'{'  shift 65
@@ -962,8 +962,8 @@ state 65
 
 
 state 66
-	condicional_if : if_encabezado bloque_ejecutable . ENDIF fin_sentencia  (88)
-	condicional_if : if_encabezado bloque_ejecutable . ELSE $$10 bloque_ejecutable ENDIF fin_sentencia  (90)
+	condicional_if : if_encabezado bloque_ejecutable . ENDIF ';'  (88)
+	condicional_if : if_encabezado bloque_ejecutable . ELSE $$10 bloque_ejecutable ENDIF ';'  (90)
 	condicional_if : if_encabezado bloque_ejecutable . error  (91)
 
 	error  shift 103
@@ -1389,7 +1389,7 @@ state 103
 
 
 state 104
-	condicional_if : if_encabezado bloque_ejecutable ELSE . $$10 bloque_ejecutable ENDIF fin_sentencia  (90)
+	condicional_if : if_encabezado bloque_ejecutable ELSE . $$10 bloque_ejecutable ENDIF ';'  (90)
 	$$10 : .  (89)
 
 	.  reduce 89
@@ -1398,23 +1398,10 @@ state 104
 
 
 state 105
-	condicional_if : if_encabezado bloque_ejecutable ENDIF . fin_sentencia  (88)
-	fin_sentencia : .  (8)
+	condicional_if : if_encabezado bloque_ejecutable ENDIF . ';'  (88)
 
-	';'  shift 49
-	error  reduce 8
-	ID  reduce 8
-	IF  reduce 8
-	FLOAT  reduce 8
-	RETURN  reduce 8
-	PRINT  reduce 8
-	UINT  reduce 8
-	VAR  reduce 8
-	DO  reduce 8
-	LAMBDA  reduce 8
-	'}'  reduce 8
-
-	fin_sentencia  goto 151
+	';'  shift 151
+	.  error
 
 
 state 106
@@ -1850,7 +1837,7 @@ state 149
 
 
 state 150
-	condicional_if : if_encabezado bloque_ejecutable ELSE $$10 . bloque_ejecutable ENDIF fin_sentencia  (90)
+	condicional_if : if_encabezado bloque_ejecutable ELSE $$10 . bloque_ejecutable ENDIF ';'  (90)
 
 	'{'  shift 65
 	.  error
@@ -1859,7 +1846,7 @@ state 150
 
 
 state 151
-	condicional_if : if_encabezado bloque_ejecutable ENDIF fin_sentencia .  (88)
+	condicional_if : if_encabezado bloque_ejecutable ENDIF ';' .  (88)
 
 	.  reduce 88
 
@@ -2158,7 +2145,7 @@ state 177
 
 
 state 178
-	condicional_if : if_encabezado bloque_ejecutable ELSE $$10 bloque_ejecutable . ENDIF fin_sentencia  (90)
+	condicional_if : if_encabezado bloque_ejecutable ELSE $$10 bloque_ejecutable . ENDIF ';'  (90)
 
 	ENDIF  shift 191
 	.  error
@@ -2251,23 +2238,10 @@ state 190
 
 
 state 191
-	condicional_if : if_encabezado bloque_ejecutable ELSE $$10 bloque_ejecutable ENDIF . fin_sentencia  (90)
-	fin_sentencia : .  (8)
+	condicional_if : if_encabezado bloque_ejecutable ELSE $$10 bloque_ejecutable ENDIF . ';'  (90)
 
-	';'  shift 49
-	error  reduce 8
-	ID  reduce 8
-	IF  reduce 8
-	FLOAT  reduce 8
-	RETURN  reduce 8
-	PRINT  reduce 8
-	UINT  reduce 8
-	VAR  reduce 8
-	DO  reduce 8
-	LAMBDA  reduce 8
-	'}'  reduce 8
-
-	fin_sentencia  goto 197
+	';'  shift 197
+	.  error
 
 
 state 192
@@ -2378,7 +2352,7 @@ state 196
 
 
 state 197
-	condicional_if : if_encabezado bloque_ejecutable ELSE $$10 bloque_ejecutable ENDIF fin_sentencia .  (90)
+	condicional_if : if_encabezado bloque_ejecutable ELSE $$10 bloque_ejecutable ENDIF ';' .  (90)
 
 	.  reduce 90
 

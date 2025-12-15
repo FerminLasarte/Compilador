@@ -3,12 +3,7 @@
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 6: Error de sintaxis. Verifique la estructura del codigo.
-Linea 6: Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.
-Linea 7: Error de sintaxis. Verifique la estructura del codigo.
-Linea 7: Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.
-Linea 11: Error de sintaxis. Verifique la estructura del codigo.
-Linea 11: Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -23,13 +18,41 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-No se encontraron warnings.
+Linea 6: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
+Linea 7: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
+Linea 11: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
 
 =======================================================
-## RESULTADO DE LA COMPILACION: FALLIDO ##
+## GENERACION DE ASSEMBLER ##
 =======================================================
-La compilacion fallo. Se generara un assembler placeholder para evitar errores de linkeo.
->> Se genero 'salida.asm' (STUB) para notificar el error.
+Archivo salida.asm generado exitosamente.
+
+=======================================================
+## CODIGO INTERMEDIO (TERCETOS) ##
+=======================================================
+0:	(:=, A:PROGRAMA, 3UI)
+1:	(:=, B:PROGRAMA, 3UI)
+2:	(==, A:PROGRAMA, 3UI)
+3:	(BF, [2], [7])
+4:	(PRINT, &A llego a 3UI&, _)
+5:	(+, A:PROGRAMA, 2UI)
+6:	(:=, A:PROGRAMA, [5])
+7:	(==, A:PROGRAMA, 5UI)
+8:	(BF, [7], [12])
+9:	(PRINT, &A vale 5UI&, _)
+10:	(+, B:PROGRAMA, 2UI)
+11:	(:=, B:PROGRAMA, [10])
+12:	(==, B:PROGRAMA, 5UI)
+13:	(BF, [12], [17])
+14:	(PRINT, &B llego a 5UI&, _)
+15:	(-, 7UI, 4UI)
+16:	(:=, B:PROGRAMA, [15])
+17:	(-, 9UI, 4UI)
+18:	(:=, A:PROGRAMA, [17])
+19:	(PRINT, &A: &, _)
+20:	(PRINT, A:PROGRAMA, _)
+21:	(PRINT, &B: &, _)
+22:	(PRINT, B:PROGRAMA, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
