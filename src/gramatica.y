@@ -821,10 +821,7 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                            g.modificarSaltoTerceto(bfIdx, "[" + finIf + "]");
                        }
                    } catch (Exception e) {
-                       /* Ignorar si la pila estaba vacía */
                    }
-
-                   yyerrok;  /* <--- ESTO ES LA CLAVE: Resetea el estado de error del parser inmediatamente */
                }
                ;
 

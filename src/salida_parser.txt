@@ -10,8 +10,10 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 Linea 6: Error de sintaxis. Verifique la estructura del codigo.
 Linea 6: Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.
-Linea 17: Error de sintaxis. Verifique la estructura del codigo.
-Linea 17: Error de sintaxis. Verifique la estructura del codigo.
+Linea 7: Error de sintaxis. Verifique la estructura del codigo.
+Linea 7: Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.
+Linea 11: Error de sintaxis. Verifique la estructura del codigo.
+Linea 11: Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
