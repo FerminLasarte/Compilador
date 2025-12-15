@@ -932,6 +932,7 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                }
                ;
 
+/* Regla auxiliar para evitar conflictos y reutilizar la logica de DO..WHILE */
 parte_do_while : DO
                  {
                      g.apilarControl(g.getProximoTerceto());
@@ -941,12 +942,13 @@ parte_do_while : DO
 
 condicional_do_while: parte_do_while '(' condicion ')' fin_sentencia
                     {
-                        /* NOTA: Se ajustaron los indices ($) porque ahora parte_do_while es $1 */
-                        /* $4 corresponde al parentesis de cierre ')', que tiene la linea correcta */
-
+                        /* CASO CORRECTO */
+                        /* $4 es el parentesis de cierre ')', usamos su linea */
                         salida.add("Linea " + $4.ival + ": Sentencia DO-WHILE reconocida.");
+
                         String refCondicion = g.desapilarOperando();
                         int inicioBucle = g.desapilarControl();
+
                         if (refCondicion.equals("ERROR_CONDICION")) {
                              al.agregarErrorSemantico("Linea " + $4.ival + ": Error Semantico: No se genero el salto del DO-WHILE debido a una condicion invalida.");
                         } else {
@@ -956,14 +958,20 @@ condicional_do_while: parte_do_while '(' condicion ')' fin_sentencia
                     |
                     parte_do_while condicion fin_sentencia
                     {
-                        /* REGLA DE ERROR ESPECIFICA: Detecta falta de parentesis sin ambiguedad */
-                        /* $2 es la condicion, usamos su linea para reportar */
-
+                        /* ERROR 1: Falta de parentesis (detectado en el paso anterior) */
                         erroresSintacticos.add("Linea " + $2.ival + ": Error sintactico: La condicion del DO-WHILE debe estar encerrada entre parentesis '()'.");
+                        g.desapilarOperando();
+                        g.desapilarControl();
+                    }
+                    |
+                    parte_do_while '(' ')' fin_sentencia
+                    {
+                        /* ERROR 2: Parentesis vacios (NUEVO CASO) */
+                        /* $2 es el parentesis de apertura '(' */
+                        erroresSintacticos.add("Linea " + $2.ival + ": Error sintactico: Falta la condicion dentro de los parentesis del DO-WHILE.");
 
-                        /* Limpieza de pilas para evitar inconsistencias y permitir seguir compilando */
-                        g.desapilarOperando(); // Sacamos la condicion
-                        g.desapilarControl();  // Sacamos el inicio del bucle
+                        /* Limpiamos la pila de control (inicio del bucle) para no corromper el flujo */
+                        g.desapilarControl();
                     }
                     ;
 

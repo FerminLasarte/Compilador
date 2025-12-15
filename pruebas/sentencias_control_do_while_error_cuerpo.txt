@@ -1,5 +1,6 @@
 @ Sentencias de Control
 PROGRAMA {
-    var A := 5UI;
-    do {} while (A > 0UI);
+    var A := 3UI;
+    do {} while (A > 5UI);
+    print(A);
 }

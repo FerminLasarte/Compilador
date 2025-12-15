@@ -28,18 +28,20 @@ Archivo salida.asm generado exitosamente.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 5UI)
-1:	(>, A:PROGRAMA, 0UI)
+0:	(:=, A:PROGRAMA, 3UI)
+1:	(>, A:PROGRAMA, 5UI)
 2:	(BT, [1], [1])
+3:	(PRINT, A:PROGRAMA, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA                            | 3UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | 0UI:PROGRAMA                                  | false        | null               | uint       | -          |
 | PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | 5UI:PROGRAMA                                  | false        | null               | uint       | -          |
