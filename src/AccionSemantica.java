@@ -104,7 +104,7 @@ public abstract class AccionSemantica{
                     return "CTE";
                 }
                 al.agregarError("Constante flotante fuera de rango.");
-                return "CTE"; // Esto ya lo hicimos
+                return "CTE";
 
             } catch (NumberFormatException e) {
                 al.agregarError("Formato inválido de constante flotante: " + lexemaActual);

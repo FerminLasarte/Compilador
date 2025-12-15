@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\enteros_sin_signo_overflow.lst
+>> Archivo de listado generado: ..\pruebas\punto_flotante_overflow.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -13,7 +13,8 @@ No se encontraron errores sintacticos.
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
 =======================================================
-No se encontraron errores lexicos.
+Linea: 3 - Columna: 13 - Constante flotante fuera de rango.
+Linea: 4 - Columna: 14 - Constante flotante fuera de rango.
 
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
@@ -23,35 +24,24 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 3 - Columna: 13 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
-Linea: 4 - Columna: 14 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
+No se encontraron warnings.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 65535UI)
-1:	(:=, B:PROGRAMA, -65535UI)
-2:	(+, 65534UI, 2UI)
-3:	(:=, C:PROGRAMA, [2])
-4:	(-, 65534UI, 2UI)
-5:	(:=, D:PROGRAMA, [4])
+0:	(:=, A:PROGRAMA, 4.0F+38)
+1:	(:=, B:PROGRAMA, -4.0F+38)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | float      | -          |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | D:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | float      | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

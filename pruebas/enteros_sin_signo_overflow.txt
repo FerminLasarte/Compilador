@@ -2,7 +2,4 @@
 PROGRAMA {
     var A := 700000UI;
     var B := -700000UI;
-
-    var C := 65534UI + 2UI;
-    var D := 65534UI - 2UI;
 }
