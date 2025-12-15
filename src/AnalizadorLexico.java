@@ -62,6 +62,7 @@ public class AnalizadorLexico {
         codigosTokens.put("/", 47);
         codigosTokens.put(".", 282);
         codigosTokens.put("=", 271);
+        codigosTokens.put(":", 58); // Token ':' para manejo de errores
         codigosTokens.put("<", 60);
         codigosTokens.put(">", 62);
         codigosTokens.put("(", 40);
@@ -318,8 +319,9 @@ public class AnalizadorLexico {
         return this.errores;
     }
 
+    // MODIFICADO: Agrega el prefijo "Error Lexico: "
     public void agregarError(String string) {
-        errores.add("Linea: " + (contadorFila + 1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - " + string);
+        errores.add("Linea: " + (contadorFila + 1) + " - Columna: " + (this.contadorColumna - lexema.length()) + " - Error Lexico: " + string);
     }
 
     public void agregarErrorSemantico(String string) {

@@ -1,6 +1,11 @@
 MAIN{
-    VAR A: 1UI;
-    VAR B:== 2UI;
-    VAR C:+ 3UI;
-    VAR J:= 4UI;
+    var A:= 4UI;
+    var S: 4UI;
+    var D:] 4UI;
+    var F:) 4UI;
+    var G:- 4UI;
+    var H:+ 4UI;
+    var J:== 4UI;
+    var K:? 4UI;
+    var L:" 4UI;
 }

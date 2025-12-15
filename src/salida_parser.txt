@@ -3,7 +3,7 @@
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 2: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -18,22 +18,57 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 2 - Columna: 9 - Caracter invalido ' ' despues de ':'. Se asume ':=' y se continua.
-Linea: 3 - Columna: 10 - Caracter invalido '=' detectado en asignacion (posible ':=='). Se asume ':='.
-Linea: 4 - Columna: 9 - Caracter invalido '+' despues de ':'. Se asume ':=' y se continua.
+Linea: 3 - Columna: 10 - Caracter invalido ' ' despues de ':'. Se asume ':=' y se continua.
+Linea: 4 - Columna: 10 - Caracter invalido ']' despues de ':'. Se asume ':=' y se continua.
+Linea: 5 - Columna: 10 - Caracter invalido ')' despues de ':'. Se asume ':=' y se continua.
+Linea: 6 - Columna: 10 - Caracter invalido '-' despues de ':'. Se asume ':=' y se continua.
+Linea: 7 - Columna: 10 - Caracter invalido '+' despues de ':'. Se asume ':=' y se continua.
+Linea: 8 - Columna: 10 - Caracter invalido '=' detectado en asignacion (posible ':=='). Se asume ':='.
+Linea: 9 - Columna: 10 - Caracter invalido '?' despues de ':'. Se asume ':=' y se continua.
+Linea: 10 - Columna: 10 - Caracter invalido '"' despues de ':'. Se asume ':=' y se continua.
 
 =======================================================
-## RESULTADO DE LA COMPILACION: FALLIDO ##
+## GENERACION DE ASSEMBLER ##
 =======================================================
-La compilacion fallo. Se generara un assembler placeholder para evitar errores de linkeo.
->> Se genero 'salida.asm' (STUB) para notificar el error.
+Archivo salida.asm generado exitosamente.
+
+=======================================================
+## CODIGO INTERMEDIO (TERCETOS) ##
+=======================================================
+0:	(:=, A:MAIN, 4UI)
+1:	(:=, S:MAIN, 4UI)
+2:	(:=, D:MAIN, 4UI)
+3:	(:=, F:MAIN, 4UI)
+4:	(:=, G:MAIN, 4UI)
+5:	(:=, H:MAIN, 4UI)
+6:	(:=, J:MAIN, 4UI)
+7:	(:=, K:MAIN, 4UI)
+8:	(:=, L:MAIN, 4UI)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| MAIN                                | @aux2:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | L:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | F:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux5:MAIN                                    | false        | variable_auxiliar  | null       | -          |
 | MAIN                                | MAIN:MAIN                                     | false        | null               | null       | -          |
+| MAIN                                | @aux7:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | D:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | G:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | A:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | J:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux4:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux1:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | S:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux3:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | K:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | H:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux0:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux6:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux8:MAIN                                    | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

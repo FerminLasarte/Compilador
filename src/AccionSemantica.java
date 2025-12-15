@@ -149,10 +149,18 @@ public abstract class AccionSemantica {
 
     // --- NUEVAS ACCIONES PARA CORRECCION DE ERRORES ---
 
-    // Maneja casos como ':+', ': ', reemplazando por ':=' y devolviendo el caracter leído
+    // Maneja casos como ':+', ': ', reemplazando por ':='
     public static class AccionSemanticaCorreccion extends AccionSemantica {
         public String aplicarAS(AnalizadorLexico al, char c) {
-            al.disminuirContador(); // "Devolvemos" el caracter (ej. espacio o +) para que sea procesado en la siguiente vuelta
+            // Lógica corregida:
+            // 1. Si es letra o dígito, devolvemos el caracter (disminuirContador) y retornamos ':' normal.
+            if (Character.isLetterOrDigit(c)) {
+                al.disminuirContador();
+                return ":";
+            }
+
+            // 2. Si NO es letra o dígito, asumimos que es basura/error (ej: espacio, ')', '+').
+            //    NO disminuimos el contador -> CONSUMIMOS el caracter inválido.
             al.agregarWarning("Caracter invalido '" + c + "' despues de ':'. Se asume ':=' y se continua.");
             al.setLexema(":=");
             return ":=";

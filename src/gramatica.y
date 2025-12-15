@@ -36,20 +36,18 @@ programa : ID '{' {
      '{' { g.abrirAmbito("MAIN"); } sentencias '}' { }
          {
              erroresSintacticos.add("Linea " + (al.getContadorFila()+1) + ": Error sintactico: Falta el nombre del programa.");
-         }
+     }
      ;
 
 sentencias : sentencias sentencia
            |
            sentencia
            ;
-
 sentencia : sentencia_declarativa
           |
           sentencia_ejecutable
           | error ';'
           ;
-
 sentencia_declarativa : funcion
                       |
                       declaracion_var ';'
@@ -72,14 +70,17 @@ declaracion_var : VAR variable ASIG expresion
                         salida.add("Linea " + $1.ival + ": Declaracion por inferencia (var).");
                     }
                 }
+                |
+                VAR variable ':' error
+                {
+                    erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error Sintactico: Operador de asignacion incorrecto. Se encontro ':' pero se esperaba ':='.");
+                }
                 ;
-
 tipo : UINT { $$.sval = "uint"; }
      | FLOAT { $$.sval = "float";
      }
      | LAMBDA { $$.sval = "lambda"; }
      ;
-
 /* REFACTORIZACION PARA DETECTAR LISTAS MULTIPLES */
 lista_variables : variable
                 {
@@ -89,7 +90,6 @@ lista_variables : variable
                 |
                 lista_strict_multiple
                 ;
-
 lista_strict_multiple : lista_strict_multiple ',' variable
                       {
                           listaVariables.add($3.sval);
@@ -102,7 +102,6 @@ lista_strict_multiple : lista_strict_multiple ',' variable
                           listaVariables.add($3.sval);
                       }
                       ;
-
 funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             g.setGeneracionHabilitada(true);
             String nombreFuncion = $2.sval;
@@ -236,7 +235,6 @@ funcion : tipo ID '(' lista_parametros_formales ')' '{' {
             }
         }
       ;
-
 lista_tipos_retorno_multiple : tipo ',' tipo
                              {
                                  ArrayList<String> lista = new ArrayList<String>();
@@ -256,12 +254,10 @@ lista_tipos_retorno_multiple : tipo ',' tipo
                                  $$.obj = lista;
                              }
                          ;
-
 lista_parametros_formales : lista_parametros_formales ',' parametro_formal
                           |
                           parametro_formal
                           ;
-
 parametro_formal : sem_pasaje tipo ID
              {
                  g.apilarParametro(new ParametroInfo($3.sval, $2.sval, $1.sval));
@@ -283,16 +279,15 @@ parametro_formal : sem_pasaje tipo ID
                  g.apilarParametro(new ParametroInfo($2.sval, "uint", $1.sval));
              }
              ;
-
 sem_pasaje : CR SE { $$.sval = "cr_se"; }
            |
            CR LE { $$.sval = "cr_le"; }
            ;
-
 sentencia_ejecutable : asignacion ';'
                      | asignacion_multiple ';'
                      | asignacion_multiple_warning ';'
-                     | condicional_if
+                     |
+                     condicional_if
                      |
                      condicional_do_while
                      |
@@ -359,6 +354,7 @@ asignacion : variable ASIG expresion
                                }
                            }
                        }
+
                    }
                } else {
                    if (g.chequearAsignacion(tipoVar, tipoExpr, linea)) {
@@ -367,14 +363,14 @@ asignacion : variable ASIG expresion
                }
            }
            ;
-
 asignacion_multiple : lista_variables ASIG_MULTIPLE lado_derecho_multiple
 {
     procesarAsignacionMultiple($2.ival);
 }
 ;
 
-/* NUEVA REGLA: Admite ASIG (:=) pero lanza warning. Solo para listas > 1 elemento */
+/* NUEVA REGLA: Admite ASIG (:=) pero lanza warning.
+   Solo para listas > 1 elemento */
 asignacion_multiple_warning : lista_strict_multiple ASIG lado_derecho_multiple
 {
     al.agregarWarning("Linea " + $2.ival + ": Warning: El operador ':=' es para asignaciones simples. Para asignaciones multiples se espera '='.");
@@ -398,7 +394,6 @@ lado_derecho_multiple : { g.clearLadoDerecho();
                               $$.ival = 0;
                           }
                           ;
-
 variable : ID PUNTO ID
             {
                 $$.sval = $1.sval + "." + $3.sval;
@@ -411,7 +406,6 @@ variable : ID PUNTO ID
                 $$.ival = $1.ival;
             }
             ;
-
 expresion : expresion '+' termino
             {
                 String op2 = g.desapilarOperando();
@@ -437,7 +431,6 @@ expresion : expresion '+' termino
           termino { $$.ival = $1.ival;
           }
           ;
-
 termino : termino '*' factor
             {
                 String op2 = g.desapilarOperando();
@@ -474,7 +467,6 @@ factor : factor_no_funcion
            g.apilarOperando($1.sval);
        }
        ;
-
 factor_no_funcion : variable
                   {
                       String varNombre = $1.sval;
@@ -509,7 +501,6 @@ factor_no_funcion : variable
                   { $$.ival = $1.ival;
                   }
                   ;
-
 conversion_explicita : TOUI '(' expresion ')'
                 {
                     salida.add("Linea " + $1.ival + ": Conversion explicita (toui).");
@@ -529,10 +520,8 @@ conversion_explicita : TOUI '(' expresion ')'
                     $$.ival = $1.ival;
                 }
                 ;
-
 pre_invocacion : { g.clearParametrosReales(); }
                ;
-
 invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                    {
                        String funcName = $1.sval;
@@ -569,7 +558,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                $$.sval = "ERROR_CALL";
                            } else {
                                 boolean errorEnParametros = false;
-                               for (ParametroRealInfo real : reales) {
+                                for (ParametroRealInfo real : reales) {
                                    if (real.nombreFormal == null) {
                                        al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Se requiere asignacion explicita de parametro (-> ID).");
                                        errorEnParametros = true;
@@ -610,6 +599,7 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                    }
                                }
                                if (!errorEnParametros) {
+
                                   String terceto = g.addTerceto("CALL", funcName);
                                   g.getTerceto(Integer.parseInt(terceto.substring(1, terceto.length()-1))).setTipo(al.getAtributo(funcName, "Tipo").toString());
                                   $$.sval = terceto;
@@ -631,19 +621,20 @@ invocacion_funcion : ID pre_invocacion '(' lista_parametros_reales ')'
                                           }
                                       }
                                   }
+
                                } else {
                                    $$.sval = "ERROR_CALL_PARAMS";
                                }
                            }
                        }
                        else {
-                          al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
-                          $$.sval = "ERROR_CALL";
+
+                           al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Invocacion a '" + funcName + "' que no es una funcion, variable lambda, o no fue declarada.");
+                           $$.sval = "ERROR_CALL";
                        }
                        $$.ival = $1.ival;
                    }
                    ;
-
 lista_parametros_reales : lista_parametros_reales ',' parametro_real
                         {
                             $$.ival = $1.ival + 1;
@@ -654,7 +645,6 @@ lista_parametros_reales : lista_parametros_reales ',' parametro_real
                             $$.ival = 1;
                         }
                         ;
-
 parametro_real : parametro_simple FLECHA variable
                {
                    String op1 = $1.sval;
@@ -673,7 +663,6 @@ parametro_real : parametro_simple FLECHA variable
                    $$.ival = $1.ival;
                }
                ;
-
 parametro_simple : expresion
                  {
                      $$.sval = g.desapilarOperando();
@@ -686,7 +675,6 @@ parametro_simple : expresion
                      $$.ival = $1.ival;
                  }
                  ;
-
 lambda_expresion : '(' tipo ID ')' '{'
                  {
                     pilaSaltosLambda.push(g.addTerceto("BI", "_", "_"));
@@ -717,11 +705,9 @@ lambda_expresion : '(' tipo ID ')' '{'
                     $$.ival = $1.ival;
                  }
                  ;
-
 cuerpo_lambda : sentencias_ejecutables_lista
               |
               ;
-
 sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
                              |
                              sentencia_ejecutable
@@ -730,7 +716,6 @@ sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
                              |
                              declaracion_ilegal
                              ;
-
 declaracion_ilegal : VAR
                    {
                         erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: No se permiten declaraciones en bloques ejecutables.");
@@ -767,7 +752,6 @@ constante : CTE
                 $$.ival = $2.ival;
             }
           ;
-
 if_encabezado : IF '(' condicion ')' {
                    String cond = g.desapilarOperando();
                    if (cond.equals("ERROR_CONDICION")) {
@@ -779,13 +763,13 @@ if_encabezado : IF '(' condicion ')' {
                    }
                    $$.ival = $1.ival;
                }
-               | IF '(' error ')' {
+               |
+               IF '(' error ')' {
                     erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: Falta la condicion del IF o es invalida.");
                     g.apilarControl(-1);
                     $$.ival = $1.ival;
                }
                ;
-
 condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                {
                    int bfIdx = g.desapilarControl();
@@ -814,10 +798,10 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    salida.add("Linea " + $1.ival + ": Sentencia IF-ELSE reconocida.");
                }
                /* REGLA DE RECUPERACION DE ERROR */
-               | if_encabezado bloque_ejecutable error
+               |
+               if_encabezado bloque_ejecutable error
                {
                    erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: Falta la palabra reservada 'endif' al final del bloque if.");
-
                    /* Mantenemos la lógica para arreglar el salto del terceto y no romper la generación */
                    try {
                        int bfIdx = g.desapilarControl();
@@ -829,7 +813,6 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
                    }
                }
                ;
-
 condicional_do_while: DO
                     {
                         g.apilarControl(g.getProximoTerceto());
@@ -847,7 +830,6 @@ condicional_do_while: DO
                         }
                     }
                     ;
-
 condicion : expresion simbolo_comparacion expresion
           {
                 String op2 = g.desapilarOperando();
@@ -863,14 +845,19 @@ condicion : expresion simbolo_comparacion expresion
                 }
           }
           ;
-
 simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
-                    | MENOR_IGUAL { g.apilarOperando("<="); }
-                    | DISTINTO { g.apilarOperando("=!"); }
-                    | IGUAL_IGUAL { g.apilarOperando("=="); }
-                    | '>' { g.apilarOperando(">"); }
-                    | '<' { g.apilarOperando("<"); }
-                    | ASIG {
+                    |
+                    MENOR_IGUAL { g.apilarOperando("<="); }
+                    |
+                    DISTINTO { g.apilarOperando("=!"); }
+                    |
+                    IGUAL_IGUAL { g.apilarOperando("=="); }
+                    |
+                    '>' { g.apilarOperando(">"); }
+                    |
+                    '<' { g.apilarOperando("<"); }
+                    |
+                    ASIG {
                         al.agregarWarning("Linea " + $1.ival + ": Warning: Se utilizo ':=' en una condicion. Se asume comparacion '=='.");
                         g.apilarOperando("==");
                     }
@@ -881,7 +868,6 @@ bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } se
                   |
                   '{' error '}'
                   ;
-
 salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                 {
                     salida.add("Linea " + $1.ival + ": PRINT con cadena multilinea.");
@@ -894,7 +880,6 @@ salida_pantalla : PRINT '(' CADENA_MULTILINEA ')'
                     g.addTerceto("PRINT", g.desapilarOperando());
                 }
                 ;
-
 retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')' ';'
             {
                 enSentenciaReturn = false;
@@ -943,7 +928,6 @@ retorno_funcion : RETURN '(' { enSentenciaReturn = true; } lista_expresiones ')'
                 }
             }
             ;
-
 lista_expresiones : lista_expresiones ',' expresion
               {
                   ArrayList<?> rawList = (ArrayList<?>) $1.obj;
@@ -962,7 +946,6 @@ lista_expresiones : lista_expresiones ',' expresion
                   $$.obj = lista;
               }
               ;
-
 %%
 
 static AnalizadorLexico al;
@@ -979,7 +962,6 @@ static Stack<Boolean> pilaErrorEnFuncion = new Stack<Boolean>();
 static Stack<Integer> pilaInicioFuncion = new Stack<Integer>();
 static Stack<Integer> pilaSaltosFunciones = new Stack<Integer>();
 static Stack<Boolean> pilaHuboRetorno = new Stack<Boolean>();
-
 int yylex() {
     int token = al.yylex();
     String lexema = al.getLexema();
@@ -1047,7 +1029,6 @@ private void procesarAsignacionMultiple(int linea) {
                     }
                 }
                 int cantRetornos = tiposRetorno.size();
-
                 /* CORRECCION WARNIGNS TEMA 21 */
                 if (cantRetornos != cantIzquierda) {
                      al.agregarWarning("Linea " + lineaActual + ": Warning (Tema 21): Funcion '" + funcName + "' retorna " + cantRetornos + " valores, pero se esperan " + cantIzquierda + ". Se asignaran los " + Math.min(cantRetornos, cantIzquierda) + " posibles.");
