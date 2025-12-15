@@ -30,6 +30,7 @@ Para compilar el proyecto, generar el código ensamblador y crear el ejecutable 
 
 > **Nota:** Se debe tener instalado **Masm32** en la ruta `C:\masm32` para los pasos de ensamblado y linkeo.
 >> **Nota:** Se debe utilizar el JDK 25 correspondiente a Java.
+>> **Nota:** Asegurarse que se está accediendo a la ruta de `Compilador.jar` y no a `Compilador.xml`
 
 ### Generación y Compilación del Compilador para .jar
 
