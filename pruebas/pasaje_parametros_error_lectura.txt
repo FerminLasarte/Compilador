@@ -3,11 +3,15 @@ PROGRAMA {
 
     uint FUNCION(cr se uint A, cr le uint B, uint C) {
         A, B, C = 3UI, 5UI, 8UI;
-        A := A + C;
+        A := B + C;
+        print(A);
+        print(B);
+        print(C);
         return(A);
     }
 
     var AUX := 0UI;
 
     var PASAJE := FUNCION(AUX->A, AUX->B, 0UI->C);
+    print(PASAJE);
 }

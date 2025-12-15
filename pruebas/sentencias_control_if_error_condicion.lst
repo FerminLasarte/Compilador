@@ -1,0 +1,12 @@
+LISTADO DE COMPILACION: sentencias_control_if_error_condicion.txt
+----------------------------------------
+   1: @ Sentencias de Control
+   2: PROGRAMA {
+   3:     var A := 3UI;
+   4:      if (A := 3UI) {
+   5:          print(&A llego a 3UI&);
+   6:          A:= A+2UI;
+   7:      } endif;
+   8:      print(&A: &);
+   9:      print(A);
+  10: }

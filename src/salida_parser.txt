@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\sentencias_control_if_error_sin_endif.lst
+>> Archivo de listado generado: ..\pruebas\asignacion_simple_con_y_sin_errores.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
@@ -13,89 +13,61 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores semanticos.
+Linea 20: Error Semantico: Redeclaracion de variable 'I' en el mismo ambito (Tema 9).
 
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea 6: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
-Linea 7: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
-Linea 11: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
+Caracter invalido ' ' despues de ':'. Se asume ':=' y se continua.
+Caracter invalido ']' despues de ':'. Se asume ':=' y se continua.
+Caracter invalido ')' despues de ':'. Se asume ':=' y se continua.
+Caracter invalido '-' despues de ':'. Se asume ':=' y se continua.
+Caracter invalido '+' despues de ':'. Se asume ':=' y se continua.
+Caracter invalido '=' detectado en asignacion (posible ':=='). Se asume ':='.
+Caracter invalido '?' despues de ':'. Se asume ':=' y se continua.
+Caracter invalido '"' despues de ':'. Se asume ':=' y se continua.
 
 =======================================================
-## GENERACION DE ASSEMBLER ##
+## RESULTADO DE LA COMPILACION: FALLIDO ##
 =======================================================
-Archivo salida.asm generado exitosamente.
-
-=======================================================
-## CODIGO INTERMEDIO (TERCETOS) ##
-=======================================================
-0:	(:=, A:PROGRAMA, 3UI)
-1:	(:=, B:PROGRAMA, 3UI)
-2:	(==, A:PROGRAMA, 3UI)
-3:	(BF, [2], [7])
-4:	(PRINT, &A llego a 3UI&, _)
-5:	(+, A:PROGRAMA, 2UI)
-6:	(:=, A:PROGRAMA, [5])
-7:	(==, A:PROGRAMA, 5UI)
-8:	(BF, [7], [12])
-9:	(PRINT, &A vale 5UI&, _)
-10:	(+, B:PROGRAMA, 2UI)
-11:	(:=, B:PROGRAMA, [10])
-12:	(==, B:PROGRAMA, 5UI)
-13:	(BF, [12], [17])
-14:	(PRINT, &B llego a 5UI&, _)
-15:	(-, 7UI, 4UI)
-16:	(:=, B:PROGRAMA, [15])
-17:	(-, 9UI, 4UI)
-18:	(:=, A:PROGRAMA, [17])
-19:	(PRINT, &A: &, _)
-20:	(PRINT, A:PROGRAMA, _)
-21:	(PRINT, &B: &, _)
-22:	(PRINT, B:PROGRAMA, _)
+La compilacion fallo. Se generara un assembler placeholder para evitar errores de linkeo.
+>> Se genero 'salida.asm' (STUB) para notificar el error.
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | 9UI:PROGRAMA                                  | false        | null               | uint       | -          |
-| PROGRAMA                            | @aux20:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux8:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux19:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | 5UI:PROGRAMA                                  | false        | null               | uint       | -          |
-| PROGRAMA                            | 3UI:PROGRAMA                                  | false        | null               | uint       | -          |
-| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux18:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux21:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux12:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux17:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux22:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux7:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | 4UI:PROGRAMA                                  | false        | null               | uint       | -          |
-| PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux13:PROGRAMA                               | false        | variable_auxiliar  | null       | -          |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:bloque_4                   | @aux4:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_4                   | @aux5:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_4                   | @aux6:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_4                   | 2UI:PROGRAMA:bloque_4                         | false        | null               | uint       | -          |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:bloque_9                   | @aux11:PROGRAMA:bloque_9                      | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_9                   | @aux9:PROGRAMA:bloque_9                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_9                   | 2UI:PROGRAMA:bloque_9                         | false        | null               | uint       | -          |
-| PROGRAMA:bloque_9                   | @aux10:PROGRAMA:bloque_9                      | false        | variable_auxiliar  | null       | -          |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:bloque_14                  | @aux14:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_14                  | 7UI:PROGRAMA:bloque_14                        | false        | null               | uint       | -          |
-| PROGRAMA:bloque_14                  | 4UI:PROGRAMA:bloque_14                        | false        | null               | uint       | -          |
-| PROGRAMA:bloque_14                  | @aux16:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_14                  | @aux15:PROGRAMA:bloque_14                     | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux2:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux5:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux16:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | MAIN:MAIN                                     | false        | null               | null       | -          |
+| MAIN                                | @aux13:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | A:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux10:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux11:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux3:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | K:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | H:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux0:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux14:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux6:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux17:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux15:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux18:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux12:MAIN                                   | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | F:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux9:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | I:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux7:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | D:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | G:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | J:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux4:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | @aux1:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | S:MAIN                                        | false        | variable           | uint       | -          |
+| MAIN                                | @aux8:MAIN                                    | false        | variable_auxiliar  | null       | -          |
+| MAIN                                | 4UI:MAIN                                      | false        | null               | uint       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

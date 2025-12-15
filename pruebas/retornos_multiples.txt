@@ -9,5 +9,7 @@ PROGRAMA {
         return(B, D, C);
     }
 
-    A, B = FUNCION(4UI->B);
+        A, E = FUNCION(4UI->B);
+    print(A);
+    print(E);
 }

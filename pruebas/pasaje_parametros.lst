@@ -6,11 +6,13 @@ LISTADO DE COMPILACION: pasaje_parametros.txt
    4:     uint FUNCION(cr se uint A, cr le uint B, uint C) {
    5:         A, B, C = 3UI, 5UI, 8UI;
    6:         A := B + C;
-   7: 
-   8:         return(A);
-   9:     }
-  10: 
-  11:     var AUX := 0UI;
-  12: 
-  13:     var PASAJE := FUNCION(AUX->A, AUX->B, 0UI->C);
-  14: }
+   7:         print(B);
+   8:         print(C);
+   9:         return(A);
+  10:     }
+  11: 
+  12:     var AUX := 0UI;
+  13: 
+  14:     var PASAJE := FUNCION(AUX->A, AUX->B, 0UI->C);
+  15:     print(PASAJE);
+  16: }

@@ -28,6 +28,4 @@ LISTADO DE COMPILACION: prefijado.txt
   26:     var ROB := FUNCIONAUXSINPREFIJO(500UI->J);
   27:     print(&ROB: &);
   28:     print(ROB);
-  29:     print(J);
-  30:     print(MAIN.J);
-  31: }
+  29: }
