@@ -761,10 +761,16 @@ sentencias_ejecutables_lista : sentencias_ejecutables_lista sentencia_ejecutable
                              declaracion_ilegal
                              ;
 
-declaracion_ilegal : VAR
+declaracion_ilegal : VAR variable ASIG expresion fin_sentencia
                    {
-                        erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: No se permiten declaraciones en bloques ejecutables.");
-                   } error ';'
+                        /* Reportamos el error explícitamente */
+                        erroresSintacticos.add("Linea " + $2.ival + ": Error sintactico: No se permiten declaraciones en bloques ejecutables.");
+                   }
+                   | VAR variable fin_sentencia
+                   {
+                        /* Capturamos tambien declaraciones sin asignacion explícita si tu lenguaje las permite o para robustez */
+                        erroresSintacticos.add("Linea " + $2.ival + ": Error sintactico: No se permiten declaraciones en bloques ejecutables.");
+                   }
                    ;
 
 constante : CTE
@@ -840,14 +846,16 @@ condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
 
                    salida.add("Linea " + $1.ival + ": Sentencia IF-ELSE reconocida.");
                }
-               /* REGLA DE RECUPERACION DE ERROR: FALTA ENDIF */
                |
                if_encabezado bloque_ejecutable error
                {
-                   /* 1. Eliminamos el error sintactico generico que agrego yyerror automaticamente */
                    if (!erroresSintacticos.isEmpty()) {
-                       erroresSintacticos.remove(erroresSintacticos.size() - 1);
-                   }
+                           String ultimoError = erroresSintacticos.get(erroresSintacticos.size() - 1);
+                           /* Verificamos si es el mensaje estandar definido en tu metodo yyerror */
+                           if (ultimoError.contains("Error de sintaxis. Verifique la estructura")) {
+                               erroresSintacticos.remove(erroresSintacticos.size() - 1);
+                           }
+                       }
 
                    /* 2. Agregamos el Warning personalizado */
                    al.agregarWarning("Linea " + al.getFilaToken() + ": Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.");

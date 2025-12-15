@@ -4,9 +4,10 @@ PROGRAMA {
     var B := 3UI;
     if (A == 3UI) {
          print(&A llego a 3UI&);
+         @ var C := 1UI;
     } else {
         print(&A: &);
-        print(A);
-        var C := 1UI;
+        print(A)
+        @ var C := 1UI;
     } endif
 }
