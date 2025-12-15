@@ -69,9 +69,8 @@ public abstract class AccionSemantica {
                 if (bd.compareTo(BigDecimal.ZERO) >= 0 && bd.compareTo(limiteSuperior) < 0) {
                     return "CTE";
                 } else {
-                    al.agregarWarning("Constante uint fuera del rango permitido (0 a 65535). El valor " + soloEnteros + " fue truncado a 65535.");
-                    al.setLexema("65535UI");
-                    return "CTE";
+                    al.agregarError("Constante uint fuera del rango permitido (0 a 65535): " + soloEnteros);
+                    return "ERROR";
                 }
             } catch (NumberFormatException e) {
                 al.agregarError("Formato de número inválido para constante uint: " + soloEnteros);

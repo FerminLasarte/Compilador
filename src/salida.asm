@@ -31,17 +31,18 @@ _RET_VAL_8 dd 0
 _RET_VAL_9 dd 0
 _A_PROGRAMA dd 0
 _B_PROGRAMA dd 0
+_C_PROGRAMA dd 0
 .code
 start:
 Label0:
-MOV EAX, 65535
+MOV EAX, -1
 MOV _A_PROGRAMA, EAX
 Label1:
-MOV EAX, -65535
-MOV _A_PROGRAMA, EAX
-Label2:
-MOV EAX, -1
+MOV EAX, 11
 MOV _B_PROGRAMA, EAX
+Label2:
+MOV EAX, -20
+MOV _C_PROGRAMA, EAX
 Label3:
 invoke ExitProcess, 0
 Error_DivCero:

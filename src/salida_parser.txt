@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\enteros_sin_signo_overflow.lst
+>> Archivo de listado generado: ..\pruebas\enteros_sin_signo_error_negativo.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
@@ -18,8 +18,7 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 3 - Columna: 13 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
-Linea: 4 - Columna: 10 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
+No se encontraron warnings.
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -29,15 +28,16 @@ Archivo salida.asm generado exitosamente.
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 65535UI)
-1:	(:=, A:PROGRAMA, -65535UI)
-2:	(:=, B:PROGRAMA, -1UI)
+0:	(:=, A:PROGRAMA, -1UI)
+1:	(:=, B:PROGRAMA, 11UI)
+2:	(:=, C:PROGRAMA, -20UI)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA                            | C:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |

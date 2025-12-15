@@ -1,0 +1,8 @@
+LISTADO DE COMPILACION: enteros_sin_signo_error_negativo.txt
+----------------------------------------
+   1: @ Enteros sin signo (16 bits)
+   2: PROGRAMA {
+   3:     var A := -1UI;
+   4:     var B := 11UI;
+   5:     var C := -20UI;
+   6: }

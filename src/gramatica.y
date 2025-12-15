@@ -727,8 +727,8 @@ constante : CTE
                 $$.sval = $1.sval;
                 $$.ival = $1.ival;
             }
-          |
-          '-' CTE
+            |
+            '-' CTE
             {
                 String lexemaPositivo = $2.sval;
                 String lexemaNegativo = "-" + lexemaPositivo;
@@ -737,14 +737,14 @@ constante : CTE
                     String tipo = (String) al.getAtributo(lexemaPositivo, "Tipo");
                     if (tipo != null) {
                         if (tipo.equals("uint")) {
-                            al.agregarWarning("Linea " + $2.ival + ": Warning. El tipo 'uint' no admite valores negativos. Se utilizara el valor absoluto: " + lexemaPositivo);
+                            al.agregarErrorSemantico("Linea " + $2.ival + ": Error. El tipo 'uint' no admite valores negativos. Se utilizara el valor absoluto: " + lexemaPositivo);
                             resultado = lexemaPositivo;
                         } else if (tipo.equals("float")) {
                             al.reemplazarEnTS(lexemaPositivo, lexemaNegativo);
                         }
                     }
                 }
-                $$.sval = lexemaNegativo;
+                $$.sval = resultado;
                 $$.ival = $2.ival;
             }
           ;

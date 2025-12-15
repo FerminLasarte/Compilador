@@ -1624,14 +1624,14 @@ case 83:
                     String tipo = (String) al.getAtributo(lexemaPositivo, "Tipo");
                     if (tipo != null) {
                         if (tipo.equals("uint")) {
-                            al.agregarWarning("Linea " + val_peek(0).ival + ": Warning. El tipo 'uint' no admite valores negativos. Se utilizara el valor absoluto: " + lexemaPositivo);
+                            al.agregarErrorSemantico("Linea " + val_peek(0).ival + ": Error. El tipo 'uint' no admite valores negativos. Se utilizara el valor absoluto: " + lexemaPositivo);
                             resultado = lexemaPositivo;
                         } else if (tipo.equals("float")) {
                             al.reemplazarEnTS(lexemaPositivo, lexemaNegativo);
                         }
                     }
                 }
-                yyval.sval = lexemaNegativo;
+                yyval.sval = resultado;
                 yyval.ival = val_peek(0).ival;
             }
 break;
