@@ -1,14 +1,14 @@
->> Archivo de listado generado: ..\pruebas\cadenas_multilineas_sin_cierre.lst
+>> Archivo de listado generado: ..\pruebas\sentencias_control_if_else_error_cuerpo_else.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 3: Error de sintaxis. Verifique la estructura del codigo.
+No se encontraron errores sintacticos.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
 =======================================================
-Linea 3: Error Lexico: Cadena multilinea no cerrada. Se esperaba el delimitador de cierre '&'.
+No se encontraron errores lexicos.
 
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
@@ -18,20 +18,46 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-No se encontraron warnings.
+Linea 12: Warning: Falta la palabra reservada 'endif' al final del bloque if. Se asume cierre del bloque.
 
 =======================================================
-## RESULTADO DE LA COMPILACION: FALLIDO ##
+## GENERACION DE ASSEMBLER ##
 =======================================================
-La compilacion fallo. Se generara un assembler placeholder para evitar errores de linkeo.
->> Se genero 'salida.asm' (STUB) para notificar el error.
+Archivo salida.asm generado exitosamente.
+
+=======================================================
+## CODIGO INTERMEDIO (TERCETOS) ##
+=======================================================
+0:	(:=, A:PROGRAMA, 5UI)
+1:	(:=, B:PROGRAMA, 3UI)
+2:	(==, A:PROGRAMA, 3UI)
+3:	(BF, [2], [6])
+4:	(PRINT, &A llego a 3UI&, _)
+5:	(BI, _, [8])
+6:	(PRINT, &A: &, _)
+7:	(PRINT, A:PROGRAMA, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA                            | 3UI:PROGRAMA                                  | false        | null               | uint       | -          |
+| PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
+| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | 5UI:PROGRAMA                                  | false        | null               | uint       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
+| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_4                   | @aux4:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_6                   | @aux6:PROGRAMA:bloque_6                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_6                   | 1UI:PROGRAMA:bloque_6                         | false        | null               | uint       | -          |
+| PROGRAMA:bloque_6                   | @aux7:PROGRAMA:bloque_6                       | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

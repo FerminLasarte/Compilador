@@ -5,8 +5,8 @@ PROGRAMA {
     if (A == 3UI) {
          print(&A llego a 3UI&);
     } else {
-        print(&A: &)
+        print(&A: &);
         print(A);
         var C := 1UI;
-    }
+    } endif
 }

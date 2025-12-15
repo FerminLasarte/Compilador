@@ -7,8 +7,8 @@ LISTADO DE COMPILACION: sentencias_control_if_else_error_cuerpo_else.txt
    5:     if (A == 3UI) {
    6:          print(&A llego a 3UI&);
    7:     } else {
-   8:         print(&A: &)
+   8:         print(&A: &);
    9:         print(A);
   10:         var C := 1UI;
-  11:     }
+  11:     } endif
   12: }
