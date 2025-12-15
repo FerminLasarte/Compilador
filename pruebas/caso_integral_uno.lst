@@ -1,0 +1,109 @@
+LISTADO DE COMPILACION: caso_integral_uno.txt
+----------------------------------------
+   1: COMPLEJO {
+   2:     var A:= 10UI;
+   3:     var B := 20UI;
+   4:     var C := 30UI;
+   5:     var X := 70.F+1;
+   6:     var Y:= 2.5F+1;
+   7:     var Z := 3.5F+1;
+   8:     var INDICE := 0UI;
+   9: 
+  10:     uint, float PROCESADOR(uint V1, uint V2, float F1, lambda G) {
+  11:         var AUX1 := 0UI;
+  12:         var AUX2 := 0.0F+1;
+  13: 
+  14:         if (V1 > V2) {
+  15:             do {
+  16:                 V1 := V1 - 1UI;
+  17:                 G(V1);
+  18:                 if (F1 > 10.0F+1) {
+  19:                     do {
+  20:                         F1 := F1 - 1.0F+1;
+  21:                         if (F1 < 15.0F+1) {
+  22:                             AUX1 := AUX1 + 1UI;
+  23:                             if (AUX1 > 50UI) {
+  24:                                 AUX1 := 0UI;
+  25:                             } endif;
+  26:                         } else {
+  27:                             AUX2 := AUX2 + 2.0F+1;
+  28:                             if (AUX2 > 100.0F+1) {
+  29:                                 AUX2 := 1.0F+1;
+  30:                             } endif;
+  31:                         } endif;
+  32:                     } while (F1 > 5.0F+1);
+  33:                 } endif;
+  34:             } while (V1 > V2);
+  35:         } else {
+  36:             AUX1, AUX2 := 100UI, 99.9F+1;
+  37:         } endif;
+  38: 
+  39:         return(AUX1, AUX2);
+  40:     }
+  41: 
+  42:     do {
+  43:         if (A < 1000UI) {
+  44:             if (B > 5UI) {
+  45:                 do {
+  46:                     B := B - 1UI;
+  47:                     if (C < 500UI) {
+  48:                         do {
+  49:                             C := C + 5UI;
+  50:                             if (C > 100UI) {
+  51:                                 INDICE, X := PROCESADOR(C->V1, B->V2, Y->F1, (uint P){
+  52:                                     if (P == 150UI) {
+  53:                                         print(P);
+  54:                                         print(&Detectado&);
+  55:                                     } endif;
+  56:                                 }->G);
+  57: 
+  58:                                 if (INDICE > 10UI) {
+  59:                                     do {
+  60:                                         INDICE := INDICE - 1UI;
+  61:                                         Y, Z := 1.1F+1, 2.2F+1;
+  62:                                         if (Z > Y) {
+  63:                                             Z := Z - Y;
+  64:                                         } endif;
+  65:                                     } while (INDICE > 0UI);
+  66:                                 } endif;
+  67:                             } endif;
+  68:                         } while (C < 160UI);
+  69:                     } else {
+  70:                         A, B, C := 1UI, 1UI, 1UI;
+  71:                     } endif;
+  72:                 } while (B > 0UI);
+  73:             } endif;
+  74:         } endif;
+  75: 
+  76:         if (X < 100.0F+1) {
+  77:             do {
+  78:                 X := X + 5.0F+1;
+  79:                 if (X > 50.0F+1) {
+  80:                     A, Z := PROCESADOR(A->V1, C->V2, X->F1, (uint Q){
+  81:                          if (Q == 0UI) {
+  82:                              print(&Cero&);
+  83:                          } else {
+  84:                              if (Q > 5000UI) {
+  85:                                  print(&Alto&);
+  86:                              } endif;
+  87:                          } endif;
+  88:                     }->G);
+  89: 
+  90:                     do {
+  91:                        Z := Z - 0.1F+1;
+  92:                        if (Z < 0.0F+1) {
+  93:                            Z := 10.0F+1;
+  94:                        } endif;
+  95:                     } while (Z > 1.0F+1);
+  96:                 } endif;
+  97:             } while (X < 80.0F+1);
+  98:         } endif;
+  99: 
+ 100:         A := A + 20UI;
+ 101: 
+ 102:     } while (A < 60UI);
+ 103: 
+ 104:     print(A);
+ 105:     print(B);
+ 106:     print(X);
+ 107: }

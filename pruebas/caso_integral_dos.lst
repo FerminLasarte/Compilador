@@ -1,0 +1,29 @@
+LISTADO DE COMPILACION: caso_integral_dos.txt
+----------------------------------------
+   1: CASODOS {
+   2:     var A := -99UI;
+   3:     var B := 20UI;
+   4:     var IDENTIFICADORDEMASIADOLARGO := 1UI;
+   5: 
+   6:     if (B > 10UI) {
+   7:         print(B)
+   8:         print(&Warning punto y coma&);
+   9:     } endif;
+  10: 
+  11:     do {
+  12:         B := B - 1UI;
+  13:         print(B);
+  14:     } while (B > 15UI);
+  15: 
+  16:     uint FUNC(uint P) {
+  17:         return(P);
+  18:     }
+  19: 
+  20:     B := FUNC(10UI->P);
+  21: 
+  22:     print(IDENTIFICADORDEMASIADOLARGO);
+  23:     print(CASODOS.A);
+  24:     print(&Fin con warnings&);
+  25:     print(A);
+  26:     print(B);
+  27: }

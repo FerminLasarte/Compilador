@@ -1,0 +1,27 @@
+LISTADO DE COMPILACION: caso_integral_tres.txt
+----------------------------------------
+   1: CASOTRES {
+   2:     var A := 100UI;
+   3:     var B := 200UI;
+   4: 
+   5:     if (A < B) {
+   6:         print(&Bloque IF inicio&);
+   7:         A := A + 1UI;
+   8:     } endif;
+   9: 
+  10:     do {
+  11:         print(A);
+  12:         var ERROR := 1UI;
+  13:         A := A + ERROR;
+  14:     } while (A < 105UI);
+  15: 
+  16:     uint RESTA(uint X, uint Y) {
+  17:         return(X - Y);
+  18:     }
+  19: 
+  20:     B := RESTA(B->X, A->Y);
+  21: 
+  22:     print(&Error sintactico var&);
+  23:     print(A);
+  24:     print(B);
+  25: }

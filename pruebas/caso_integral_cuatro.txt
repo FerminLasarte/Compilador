@@ -1,0 +1,28 @@
+CASOCUATRO {
+    var A := 10UI;
+    var B := 5.5F+1;
+    var C := 0UI;
+
+    uint CONVERTIR(uint VAL) {
+        var RES := 0UI;
+        RES := VAL * 2UI;
+        return(RES);
+    }
+
+    if (A > 0UI) {
+        print(&Bloque validacion&);
+        C := CONVERTIR(A->VAL);
+        print(C);
+    } endif;
+
+    do {
+        C := C + 1UI;
+        print(C);
+    } while (C < 25UI);
+
+    C := CONVERTIR(B->VAL);
+
+    print(&Error semantico float&);
+    print(A);
+    print(B);
+}

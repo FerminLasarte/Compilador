@@ -1,0 +1,30 @@
+LISTADO DE COMPILACION: caso_integral_cuatro.txt
+----------------------------------------
+   1: CASOCUATRO {
+   2:     var A := 10UI;
+   3:     var B := 5.5F+1;
+   4:     var C := 0UI;
+   5: 
+   6:     uint CONVERTIR(uint VAL) {
+   7:         var RES := 0UI;
+   8:         RES := VAL * 2UI;
+   9:         return(RES);
+  10:     }
+  11: 
+  12:     if (A > 0UI) {
+  13:         print(&Bloque validacion&);
+  14:         C := CONVERTIR(A->VAL);
+  15:         print(C);
+  16:     } endif;
+  17: 
+  18:     do {
+  19:         C := C + 1UI;
+  20:         print(C);
+  21:     } while (C < 25UI);
+  22: 
+  23:     C := CONVERTIR(B->VAL);
+  24: 
+  25:     print(&Error semantico float&);
+  26:     print(A);
+  27:     print(B);
+  28: }

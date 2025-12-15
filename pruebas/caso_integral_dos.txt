@@ -1,0 +1,27 @@
+CASODOS {
+    var A := -99UI;
+    var B := 20UI;
+    var IDENTIFICADORDEMASIADOLARGO := 1UI;
+
+    if (B > 10UI) {
+        print(B)
+        print(&Warning punto y coma&);
+    } endif;
+
+    do {
+        B := B - 1UI;
+        print(B);
+    } while (B > 15UI);
+
+    uint FUNC(uint P) {
+        return(P);
+    }
+
+    B := FUNC(10UI->P);
+
+    print(IDENTIFICADORDEMASIADOLARGO);
+    print(CASODOS.A);
+    print(&Fin con warnings&);
+    print(A);
+    print(B);
+}

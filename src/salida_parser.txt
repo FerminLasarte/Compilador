@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\asignacion_simple_con_y_sin_errores.lst
+>> Archivo de listado generado: ..\pruebas\caso_integral_cuatro.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
@@ -13,19 +13,13 @@ No se encontraron errores lexicos.
 =======================================================
 ## ERRORES SEMANTICOS DETECTADOS ##
 =======================================================
-Linea 20: Error Semantico: Redeclaracion de variable 'I' en el mismo ambito (Tema 9).
+Linea 23: Error de Tipos: Asignacion incompatible. No se puede asignar 'float' a 'uint' sin 'toui' (Tema 31).
+Linea 23: Error Semantico: Invocacion a 'CONVERTIR': tipo incompatible para '->VAL'. Esperado: uint, Obtenido: float.
 
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Caracter invalido ' ' despues de ':'. Se asume ':=' y se continua.
-Caracter invalido ']' despues de ':'. Se asume ':=' y se continua.
-Caracter invalido ')' despues de ':'. Se asume ':=' y se continua.
-Caracter invalido '-' despues de ':'. Se asume ':=' y se continua.
-Caracter invalido '+' despues de ':'. Se asume ':=' y se continua.
-Caracter invalido '=' detectado en asignacion (posible ':=='). Se asume ':='.
-Caracter invalido '?' despues de ':'. Se asume ':=' y se continua.
-Caracter invalido '"' despues de ':'. Se asume ':=' y se continua.
+No se encontraron warnings.
 
 =======================================================
 ## RESULTADO DE LA COMPILACION: FALLIDO ##
@@ -38,36 +32,47 @@ La compilacion fallo. Se generara un assembler placeholder para evitar errores d
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| MAIN                                | @aux2:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux5:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux16:MAIN                                   | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | MAIN:MAIN                                     | false        | null               | null       | -          |
-| MAIN                                | @aux13:MAIN                                   | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | A:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | @aux10:MAIN                                   | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux11:MAIN                                   | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux3:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | K:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | H:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | @aux0:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux14:MAIN                                   | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux6:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux17:MAIN                                   | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux15:MAIN                                   | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux18:MAIN                                   | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux12:MAIN                                   | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | F:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | @aux9:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | I:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | @aux7:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | D:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | G:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | J:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | @aux4:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | @aux1:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | S:MAIN                                        | false        | variable           | uint       | -          |
-| MAIN                                | @aux8:MAIN                                    | false        | variable_auxiliar  | null       | -          |
-| MAIN                                | 4UI:MAIN                                      | false        | null               | uint       | -          |
+| CASOCUATRO                          | @aux0:CASOCUATRO                              | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | 0UI:CASOCUATRO                                | false        | null               | uint       | -          |
+| CASOCUATRO                          | C:CASOCUATRO                                  | false        | variable           | uint       | -          |
+| CASOCUATRO                          | @aux2:CASOCUATRO                              | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | @aux10:CASOCUATRO                             | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | A:CASOCUATRO                                  | false        | variable           | uint       | -          |
+| CASOCUATRO                          | 5.5F+1:CASOCUATRO                             | false        | null               | float      | -          |
+| CASOCUATRO                          | @aux9:CASOCUATRO                              | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | @aux20:CASOCUATRO                             | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | @aux22:CASOCUATRO                             | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | B:CASOCUATRO                                  | false        | variable           | float      | -          |
+| CASOCUATRO                          | CONVERTIR:CASOCUATRO                          | false        | funcion            | uint       | -          |
+| CASOCUATRO                          | 10UI:CASOCUATRO                               | false        | null               | uint       | -          |
+| CASOCUATRO                          | @aux1:CASOCUATRO                              | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | @aux4:CASOCUATRO                              | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | @aux3:CASOCUATRO                              | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | 25UI:CASOCUATRO                               | false        | null               | uint       | -          |
+| CASOCUATRO                          | @aux21:CASOCUATRO                             | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | CASOCUATRO:CASOCUATRO                         | false        | null               | null       | -          |
+| CASOCUATRO                          | @aux19:CASOCUATRO                             | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO                          | @aux23:CASOCUATRO                             | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| CASOCUATRO:CONVERTIR                | 0UI:CASOCUATRO:CONVERTIR                      | false        | null               | uint       | -          |
+| CASOCUATRO:CONVERTIR                | RES:CASOCUATRO:CONVERTIR                      | false        | variable           | uint       | -          |
+| CASOCUATRO:CONVERTIR                | VAL:CASOCUATRO:CONVERTIR                      | false        | parametro          | uint       | default_cv |
+| CASOCUATRO:CONVERTIR                | @aux7:CASOCUATRO:CONVERTIR                    | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO:CONVERTIR                | 2UI:CASOCUATRO:CONVERTIR                      | false        | null               | uint       | -          |
+| CASOCUATRO:CONVERTIR                | @aux6:CASOCUATRO:CONVERTIR                    | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO:CONVERTIR                | @aux8:CASOCUATRO:CONVERTIR                    | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO:CONVERTIR                | @aux5:CASOCUATRO:CONVERTIR                    | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| CASOCUATRO:bloque_11                | @aux11:CASOCUATRO:bloque_11                   | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO:bloque_11                | @aux14:CASOCUATRO:bloque_11                   | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO:bloque_11                | @aux15:CASOCUATRO:bloque_11                   | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO:bloque_11                | @aux12:CASOCUATRO:bloque_11                   | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO:bloque_11                | @aux13:CASOCUATRO:bloque_11                   | false        | variable_auxiliar  | null       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| CASOCUATRO:bloque_16                | @aux16:CASOCUATRO:bloque_16                   | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO:bloque_16                | @aux17:CASOCUATRO:bloque_16                   | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO:bloque_16                | @aux18:CASOCUATRO:bloque_16                   | false        | variable_auxiliar  | null       | -          |
+| CASOCUATRO:bloque_16                | 1UI:CASOCUATRO:bloque_16                      | false        | null               | uint       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

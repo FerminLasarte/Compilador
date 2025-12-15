@@ -1,0 +1,25 @@
+CASOTRES {
+    var A := 100UI;
+    var B := 200UI;
+
+    if (A < B) {
+        print(&Bloque IF inicio&);
+        A := A + 1UI;
+    } endif;
+
+    do {
+        print(A);
+        var ERROR := 1UI;
+        A := A + ERROR;
+    } while (A < 105UI);
+
+    uint RESTA(uint X, uint Y) {
+        return(X - Y);
+    }
+
+    B := RESTA(B->X, A->Y);
+
+    print(&Error sintactico var&);
+    print(A);
+    print(B);
+}

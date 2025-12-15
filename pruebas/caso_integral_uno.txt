@@ -1,0 +1,107 @@
+COMPLEJO {
+    var A:= 10UI;
+    var B := 20UI;
+    var C := 30UI;
+    var X := 70.F+1;
+    var Y:= 2.5F+1;
+    var Z := 3.5F+1;
+    var INDICE := 0UI;
+
+    uint, float PROCESADOR(uint V1, uint V2, float F1, lambda G) {
+        var AUX1 := 0UI;
+        var AUX2 := 0.0F+1;
+
+        if (V1 > V2) {
+            do {
+                V1 := V1 - 1UI;
+                G(V1);
+                if (F1 > 10.0F+1) {
+                    do {
+                        F1 := F1 - 1.0F+1;
+                        if (F1 < 15.0F+1) {
+                            AUX1 := AUX1 + 1UI;
+                            if (AUX1 > 50UI) {
+                                AUX1 := 0UI;
+                            } endif;
+                        } else {
+                            AUX2 := AUX2 + 2.0F+1;
+                            if (AUX2 > 100.0F+1) {
+                                AUX2 := 1.0F+1;
+                            } endif;
+                        } endif;
+                    } while (F1 > 5.0F+1);
+                } endif;
+            } while (V1 > V2);
+        } else {
+            AUX1, AUX2 := 100UI, 99.9F+1;
+        } endif;
+
+        return(AUX1, AUX2);
+    }
+
+    do {
+        if (A < 1000UI) {
+            if (B > 5UI) {
+                do {
+                    B := B - 1UI;
+                    if (C < 500UI) {
+                        do {
+                            C := C + 5UI;
+                            if (C > 100UI) {
+                                INDICE, X := PROCESADOR(C->V1, B->V2, Y->F1, (uint P){
+                                    if (P == 150UI) {
+                                        print(P);
+                                        print(&Detectado&);
+                                    } endif;
+                                }->G);
+
+                                if (INDICE > 10UI) {
+                                    do {
+                                        INDICE := INDICE - 1UI;
+                                        Y, Z := 1.1F+1, 2.2F+1;
+                                        if (Z > Y) {
+                                            Z := Z - Y;
+                                        } endif;
+                                    } while (INDICE > 0UI);
+                                } endif;
+                            } endif;
+                        } while (C < 160UI);
+                    } else {
+                        A, B, C := 1UI, 1UI, 1UI;
+                    } endif;
+                } while (B > 0UI);
+            } endif;
+        } endif;
+
+        if (X < 100.0F+1) {
+            do {
+                X := X + 5.0F+1;
+                if (X > 50.0F+1) {
+                    A, Z := PROCESADOR(A->V1, C->V2, X->F1, (uint Q){
+                         if (Q == 0UI) {
+                             print(&Cero&);
+                         } else {
+                             if (Q > 5000UI) {
+                                 print(&Alto&);
+                             } endif;
+                         } endif;
+                    }->G);
+
+                    do {
+                       Z := Z - 0.1F+1;
+                       if (Z < 0.0F+1) {
+                           Z := 10.0F+1;
+                       } endif;
+                    } while (Z > 1.0F+1);
+                } endif;
+            } while (X < 80.0F+1);
+        } endif;
+
+        A := A + 20UI;
+
+    } while (A < 60UI);
+
+    print(A);
+    print(B);
+    print(X);
+}

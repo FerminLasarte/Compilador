@@ -28,7 +28,7 @@ public class GeneradorAssembler {
     }
 
     private void generarHeader() {
-        encabezado.append(".386\n");
+        encabezado.append(".686\n");
         encabezado.append(".model flat, stdcall\n");
         encabezado.append("option casemap :none\n");
         encabezado.append("include \\masm32\\include\\windows.inc\n");
