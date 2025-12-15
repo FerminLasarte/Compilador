@@ -340,6 +340,7 @@ asignacion : variable ASIG expresion
                    }
                }
                else if (tipoExpr.equals("multiple")) {
+                   // ... (resto de tu lógica existente para asignación válida) ...
                    String funcName = "";
                    boolean esFuncionValida = true;
                    try {
@@ -366,7 +367,8 @@ asignacion : variable ASIG expresion
                            }
 
                            if (tiposRetorno.isEmpty()) {
-                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName + "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
+                               al.agregarErrorSemantico("Linea " + linea + ": Error Semantico: Funcion '" + funcName +
+                               "' marcada como 'multiple' pero no tiene lista de TiposRetorno.");
                            } else {
                                String tipoPrimerRetorno = tiposRetorno.get(0);
                                if (g.chequearAsignacion(tipoVar, tipoPrimerRetorno, linea)) {
@@ -386,6 +388,11 @@ asignacion : variable ASIG expresion
                        g.addTerceto(":=", op1_var, op2_terceto);
                    }
                }
+           }
+           | conversion_explicita ASIG expresion
+           {
+               /* REGLA AGREGADA PARA DETECTAR ERROR DE ASIGNACION A TOUI */
+               erroresSintacticos.add("Linea " + $1.ival + ": Error de sintaxis: Intento de asignacion invalido. No se puede asignar un valor al resultado de una conversion 'toui'. Se espera una variable a la izquierda.");
            }
            ;
 

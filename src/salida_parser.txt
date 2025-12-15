@@ -1,9 +1,9 @@
->> Archivo de listado generado: ..\pruebas\sentencias_control_if_error_cuerpo_if.lst
+>> Archivo de listado generado: ..\pruebas\conversiones_error_lado.lst
 
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-Linea 7: Error sintactico: No se permiten declaraciones en bloques ejecutables.
+Linea 6: Error de sintaxis: Intento de asignacion invalido. No se puede asignar un valor al resultado de una conversion 'toui'. Se espera una variable a la izquierda.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -18,7 +18,7 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea 6: Warning Sintactico: Falta punto y coma al final de la sentencia. Se asume ';' y se continua.
+No se encontraron warnings.
 
 =======================================================
 ## RESULTADO DE LA COMPILACION: FALLIDO ##
@@ -31,22 +31,16 @@ La compilacion fallo. Se generara un assembler placeholder para evitar errores d
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA                            | 3UI:PROGRAMA                                  | false        | null               | uint       | -          |
 | PROGRAMA                            | @aux3:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | 5.0F+0:PROGRAMA                               | false        | null               | float      | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
 | PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux5:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | 5UI:PROGRAMA                                  | false        | null               | uint       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:bloque_4                   | @aux4:PROGRAMA:bloque_4                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_4                   | 1UI:PROGRAMA:bloque_4                         | false        | null               | uint       | -          |
-|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
-| PROGRAMA:bloque_6                   | @aux6:PROGRAMA:bloque_6                       | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA:bloque_6                   | @aux7:PROGRAMA:bloque_6                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | float      | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================
