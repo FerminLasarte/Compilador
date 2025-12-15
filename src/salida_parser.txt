@@ -1,4 +1,4 @@
->> Archivo de listado generado: ..\pruebas\enteros_sin_signo_overflow.lst
+>> Archivo de listado generado: ..\pruebas\sentencias_control_if_error_falta_condicion.lst
 
 =======================================================
 ## GENERACION DE ASSEMBLER ##
@@ -8,7 +8,8 @@ Archivo salida.asm generado exitosamente (Advertencia: Puede contener errores lo
 =======================================================
 ## ERRORES SINTACTICOS DETECTADOS ##
 =======================================================
-No se encontraron errores sintacticos.
+Linea 4: Error de sintaxis. Verifique la estructura del codigo.
+Linea 4: Error sintactico: Falta la condicion del IF o es invalida.
 
 =======================================================
 ## ERRORES LEXICOS DETECTADOS ##
@@ -23,27 +24,30 @@ No se encontraron errores semanticos.
 =======================================================
 ## WARNINGS DETECTADOS ##
 =======================================================
-Linea: 3 - Columna: 13 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
-Linea: 4 - Columna: 10 - Constante uint fuera del rango permitido (0 a 65535). El valor 700000 fue truncado a 65535.
+No se encontraron warnings.
 
 =======================================================
 ## CODIGO INTERMEDIO (TERCETOS) ##
 =======================================================
-0:	(:=, A:PROGRAMA, 65535UI)
-1:	(:=, A:PROGRAMA, -65535UI)
-2:	(:=, B:PROGRAMA, -1UI)
+0:	(:=, A:PROGRAMA, 5UI)
+1:	(PRINT, A:PROGRAMA, _)
+2:	(-, A:PROGRAMA, 1UI)
+3:	(:=, A:PROGRAMA, [2])
+4:	(PRINT, A:PROGRAMA, _)
 
 =======================================================
 ## CONTENIDOS DE LA TABLA DE SIMBOLOS ##
 =======================================================
 | Ambito (Completo)                   | Lexema (Mangled)                              | Reservada    | Uso                | Tipo       | Pasaje     |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA                            | @aux4:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | @aux0:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | A:PROGRAMA                                    | false        | variable           | uint       | -          |
-| PROGRAMA                            | @aux2:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
-| PROGRAMA                            | @aux1:PROGRAMA                                | false        | variable_auxiliar  | null       | -          |
 | PROGRAMA                            | PROGRAMA:PROGRAMA                             | false        | null               | null       | -          |
-| PROGRAMA                            | B:PROGRAMA                                    | false        | variable           | uint       | -          |
+|-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
+| PROGRAMA:bloque_1                   | @aux1:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_1                   | @aux2:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
+| PROGRAMA:bloque_1                   | @aux3:PROGRAMA:bloque_1                       | false        | variable_auxiliar  | null       | -          |
 |-------------------------------------|-----------------------------------------------|--------------|--------------------|------------|------------|
 =======================================================
 =======================================================

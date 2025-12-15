@@ -779,6 +779,11 @@ if_encabezado : IF '(' condicion ')' {
                    }
                    $$.ival = $1.ival;
                }
+               | IF '(' error ')' {
+                    erroresSintacticos.add("Linea " + al.getFilaToken() + ": Error sintactico: Falta la condicion del IF o es invalida.");
+                    g.apilarControl(-1);
+                    $$.ival = $1.ival;
+               }
                ;
 
 condicional_if : if_encabezado bloque_ejecutable ENDIF %prec IFX ';'
@@ -860,18 +865,16 @@ condicion : expresion simbolo_comparacion expresion
           ;
 
 simbolo_comparacion : MAYOR_IGUAL { g.apilarOperando(">="); }
-                    |
-                    MENOR_IGUAL { g.apilarOperando("<="); }
-                    |
-                    DISTINTO { g.apilarOperando("=!"); }
-                    |
-                    IGUAL_IGUAL { g.apilarOperando("=="); }
-                    |
-                    '>' { g.apilarOperando(">"); }
-                    |
-                    '<' { g.apilarOperando("<"); }
+                    | MENOR_IGUAL { g.apilarOperando("<="); }
+                    | DISTINTO { g.apilarOperando("=!"); }
+                    | IGUAL_IGUAL { g.apilarOperando("=="); }
+                    | '>' { g.apilarOperando(">"); }
+                    | '<' { g.apilarOperando("<"); }
+                    | ASIG {
+                        al.agregarWarning("Linea " + $1.ival + ": Warning: Se utilizo ':=' en una condicion. Se asume comparacion '=='.");
+                        g.apilarOperando("==");
+                    }
                     ;
-
 bloque_ejecutable : '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } sentencias_ejecutables_lista '}' { g.cerrarAmbito();}
                   |
                   '{' { g.abrirAmbito("bloque_" + g.getProximoTerceto()); } '}' { g.cerrarAmbito(); }

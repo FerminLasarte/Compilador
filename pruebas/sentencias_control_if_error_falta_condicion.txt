@@ -1,0 +1,9 @@
+@ Sentencias de Control
+PROGRAMA {
+    var A := 5UI;
+    if(){
+        print(A);
+        A := A - 1UI;
+    } endif;
+    print(A);
+}

@@ -1,0 +1,11 @@
+@ Sentencias de Control
+PROGRAMA {
+    var A := 5UI;
+    do {
+        print(A);
+        A := A - 1UI;
+        var B := 10UI;
+        print(B);
+    } while (A > 0UI);
+    print(&hola&);
+}

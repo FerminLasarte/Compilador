@@ -1,0 +1,11 @@
+LISTADO DE COMPILACION: sentencias_control_if_error_falta_condicion.txt
+----------------------------------------
+   1: @ Sentencias de Control
+   2: PROGRAMA {
+   3:     var A := 5UI;
+   4:     if(){
+   5:         print(A);
+   6:         A := A - 1UI;
+   7:     } endif;
+   8:     print(A);
+   9: }
