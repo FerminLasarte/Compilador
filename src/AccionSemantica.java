@@ -109,7 +109,7 @@ public abstract class AccionSemantica {
                     al.agregarError("Constante flotante fuera de rango (overflow): " + lexemaActual);
                     return "ERROR";
                 }
-                
+
                 if (bd.compareTo(limiteInferiorPositivo) < 0) {
                     al.agregarError("Constante flotante fuera de rango (underflow): " + lexemaActual);
                     return "ERROR";
