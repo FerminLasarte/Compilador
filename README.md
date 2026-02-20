@@ -6,7 +6,6 @@ Este proyecto corresponde al **Trabajo de Diseño de Compiladores** de la Univer
 
 ## 👨‍💻 Integrantes
 
-* **de Cáseres, Gonzalo**
 * **Halty, Héctor Manuel**
 * **Lasarte, Fermin**
 
